@@ -410,20 +410,29 @@ bootstrapOrbitar().catch((err) => {
   console.error('Eroare la inițializarea planetariului Orbitar:', err);
 });
 
-// Înregistrăm și actualizăm Service Worker-ul pentru funcționare offline și instalare PWA
+// Înregistrăm Service Worker-ul în producție; în dev local (localhost/127.0.0.1) dezactivăm SW-urile vechi
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    if ('caches' in window) {
-      caches.keys().then((keys) => {
-        keys.forEach((key) => {
-          if (key === 'orbitar-pwa-v1.0.0') {
-            caches.delete(key);
-          }
+    const host = window.location.hostname;
+    const isLocalDev = host === 'localhost' || host === '127.0.0.1';
+    if (isLocalDev) {
+      navigator.serviceWorker.getRegistrations().then((regs) => {
+        regs.forEach((reg) => {
+          reg.unregister().catch(() => {});
         });
       });
+      if ('caches' in window) {
+        caches.keys().then((keys) => {
+          keys.forEach((key) => {
+            caches.delete(key);
+          });
+        });
+      }
+      return;
     }
+
     navigator.serviceWorker
-      .register('./sw.js')
+      .register('./sw.js', { updateViaCache: 'none' })
       .then((reg) => {
         reg.update().catch(() => {});
       })

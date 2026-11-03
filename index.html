@@ -9,6 +9,29 @@
     <link rel="icon" type="image/svg+xml" href="./icons/orbitar-icon.svg" />
     <link rel="apple-touch-icon" href="./icons/orbitar-icon.svg" />
     <title>Orbitar — Planetariu Didactic Interactiv</title>
+    <script>
+      (function () {
+        try {
+          if ("caches" in window) {
+            caches.keys().then(function (keys) {
+              for (var i = 0; i < keys.length; i++) {
+                if (keys[i] !== "orbitar-pwa-v2.2.0") {
+                  caches.delete(keys[i]);
+                }
+              }
+            });
+          }
+          var host = window.location.hostname;
+          if ((host === "localhost" || host === "127.0.0.1") && "serviceWorker" in navigator) {
+            navigator.serviceWorker.getRegistrations().then(function (regs) {
+              for (var j = 0; j < regs.length; j++) {
+                regs[j].unregister();
+              }
+            });
+          }
+        } catch (_e) {}
+      })();
+    </script>
     <link rel="stylesheet" href="/src/style.css" />
     <link rel="stylesheet" href="/src/styles/print.css" />
   </head>

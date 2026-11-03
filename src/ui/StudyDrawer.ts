@@ -285,7 +285,7 @@ export class StudyDrawer {
         list.push(bodyId);
         window.localStorage.setItem(STORAGE_KEY_BADGES, JSON.stringify(list));
       }
-    } catch {
+    } catch (_e) {
       // Ignorăm eventualele restricții LocalStorage
     }
   }

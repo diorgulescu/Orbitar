@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-const CACHE_NAME = 'orbitar-pwa-v2.1.0';
+const CACHE_NAME = 'orbitar-pwa-v2.2.0';
 const PRECACHE_ASSETS = [
   './',
   './index.html',
@@ -19,21 +19,30 @@ self.addEventListener('install', (event) => {
     caches
       .open(CACHE_NAME)
       .then((cache) => cache.addAll(PRECACHE_ASSETS))
+      .catch(() => {})
   );
 });
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches
-      .keys()
-      .then((keys) =>
-        Promise.all(
-          keys
-            .filter((key) => key !== CACHE_NAME)
-            .map((oldKey) => caches.delete(oldKey))
-        )
-      )
-      .then(() => self.clients.claim())
+    (async () => {
+      const keys = await caches.keys();
+      const oldKeys = keys.filter((key) => key !== CACHE_NAME);
+      await Promise.all(oldKeys.map((oldKey) => caches.delete(oldKey)));
+      await self.clients.claim();
+
+      // Dacă am înlocuit un cache vechi (ex: orbitar-pwa-v1.0.0), reîncărcăm automat tab-urile deschise
+      if (oldKeys.length > 0) {
+        const windowClients = await self.clients.matchAll({ type: 'window' });
+        for (const client of windowClients) {
+          try {
+            await client.navigate(client.url);
+          } catch (_e) {
+            // Ignorăm eventualele restricții de navigare
+          }
+        }
+      }
+    })()
   );
 });
 
@@ -44,12 +53,19 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
 
-  // Pentru documente HTML, scripturi și stiluri: Network-First cu fallback la Cache
-  // Astfel actualizările interfeței HUD (inclusiv #orbitar-quality-toggle) apar instantaneu
+  // În modul de dezvoltare Vite (/src/*, /@vite/*, /node_modules/*), nu interceptăm din cache
+  if (
+    url.pathname.startsWith('/src/') ||
+    url.pathname.startsWith('/@') ||
+    url.pathname.startsWith('/node_modules/')
+  ) {
+    return;
+  }
+
+  // Pentru HTML, JS și CSS: Network-First cu fallback la Cache pentru offline
   const isAppShellCode =
     req.mode === 'navigate' ||
     url.pathname.endsWith('.html') ||
-    url.pathname.endsWith('.ts') ||
     url.pathname.endsWith('.js') ||
     url.pathname.endsWith('.css') ||
     url.pathname === '/';
@@ -71,7 +87,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Pentru texturi, audio și date statice: Stale-While-Revalidate
+  // Pentru date statice, texturi și audio: Network-First / Cache fallback
   event.respondWith(
     caches.match(req).then((cachedResponse) => {
       const networkFetch = fetch(req)

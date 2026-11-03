@@ -37,7 +37,7 @@ export class ScaleManager {
       if (raw === 'didactic' || raw === 'real') {
         return raw;
       }
-    } catch {
+    } catch (_e) {
       // Ignorăm eventualele restricții de stocare locală
     }
     return null;
@@ -46,7 +46,7 @@ export class ScaleManager {
   private saveMode(mode: ScaleMode): void {
     try {
       window.localStorage.setItem(STORAGE_KEY_SCALE, mode);
-    } catch {
+    } catch (_e) {
       // Ignorăm eventualele restricții de stocare locală
     }
   }

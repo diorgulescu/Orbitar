@@ -55,7 +55,7 @@ export class QualityManager {
       if (saved === 'eco' || saved === 'hd') {
         return saved;
       }
-    } catch {
+    } catch (_e) {
       // Ignorăm eventualele restricții LocalStorage
     }
 
@@ -135,7 +135,7 @@ export class QualityManager {
 
     try {
       window.localStorage.setItem(STORAGE_KEY_QUALITY, newMode);
-    } catch {
+    } catch (_e) {
       // Ignorăm eventualele restricții LocalStorage
     }
 

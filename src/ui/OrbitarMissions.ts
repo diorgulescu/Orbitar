@@ -115,7 +115,7 @@ export class OrbitarMissions {
           return parsed.filter((x): x is string => typeof x === 'string');
         }
       }
-    } catch {
+    } catch (_e) {
       // Ignorăm eventualele restricții LocalStorage
     }
     return [];
@@ -127,7 +127,7 @@ export class OrbitarMissions {
         STORAGE_KEY_BADGES,
         JSON.stringify(Array.from(this.unlockedBadges))
       );
-    } catch {
+    } catch (_e) {
       // Ignorăm eventualele restricții LocalStorage
     }
   }

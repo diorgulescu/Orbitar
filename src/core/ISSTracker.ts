@@ -89,7 +89,7 @@ export class ISSTracker {
           this.compileSatRecs();
         }
       }
-    } catch {
+    } catch (_e) {
       // Folosim setul TLE încorporat dacă fetch-ul local eșuează
     }
   }
@@ -259,7 +259,7 @@ export class ISSTracker {
           };
         }
       }
-    } catch {
+    } catch (_e) {
       // Dacă nu există conexiune la internet, folosim calculul SGP4 offline
     }
 

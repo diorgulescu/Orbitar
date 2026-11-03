@@ -61,7 +61,7 @@ export class HeaderHud {
       if (saved === 'junior' || saved === 'cadet') {
         return saved;
       }
-    } catch {
+    } catch (_e) {
       // Ignorăm eventualele restricții LocalStorage
     }
     return 'junior';
@@ -70,7 +70,7 @@ export class HeaderHud {
   private saveTier(tier: AgeTier): void {
     try {
       window.localStorage.setItem(STORAGE_KEY_AGE_TIER, tier);
-    } catch {
+    } catch (_e) {
       // Ignorăm eventualele restricții LocalStorage
     }
   }

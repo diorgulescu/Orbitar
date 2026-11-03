@@ -166,7 +166,7 @@ export class OrbitarLab {
         .catch(() => {
           speakFallbackGreeting();
         });
-    } catch {
+    } catch (_e) {
       speakFallbackGreeting();
     }
   }

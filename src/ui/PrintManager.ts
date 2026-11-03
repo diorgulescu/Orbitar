@@ -44,7 +44,7 @@ export class PrintManager {
         try {
           const raw = window.localStorage.getItem('orbitar_badges');
           return raw ? (JSON.parse(raw) as string[]) : [];
-        } catch {
+        } catch (_e) {
           return [];
         }
       });
