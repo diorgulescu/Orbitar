@@ -1,0 +1,27 @@
+{
+  "name": "orbitar",
+  "version": "1.0.0",
+  "description": "Orbitar — Planetariu Didactic Interactiv în limba română (6–12 ani)",
+  "license": "GPL-3.0-or-later",
+  "author": "Dragoş Iorgulescu <32508790+diorgulescu@users.noreply.github.com>",
+  "contributors": [
+    "Dragoş Iorgulescu <32508790+diorgulescu@users.noreply.github.com>",
+    "Google Antigravity (Gemini) <176961590+gemini-code-assist[bot]@users.noreply.github.com>"
+  ],
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "astronomy-engine": "^2.1.19",
+    "satellite.js": "^5.0.0",
+    "three": "^0.170.0"
+  },
+  "devDependencies": {
+    "@types/three": "^0.170.0",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.11"
+  }
+}
