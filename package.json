@@ -12,7 +12,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "fetch:textures": "bash scripts/fetch-textures.sh"
   },
   "dependencies": {
     "astronomy-engine": "^2.1.19",

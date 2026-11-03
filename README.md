@@ -133,10 +133,11 @@ npm run preview
 
 ---
 
-## 👥 Contribuitori
+## 👥 Contribuitori & Atribuiri Resurse
 
 - **Dragoş Iorgulescu** (`@diorgulescu`) — Concept, arhitectură și coordonare proiect
 - **Google Antigravity (Gemini)** — Dezvoltare asistată în pereche (Pair Programming)
+- **Atribuire Hărți și Texturi Planetare 2K:** **Solar System Scope (CC-BY 4.0) & NASA Visible Earth (Public Domain)** (`npm run fetch:textures`)
 
 ---
 

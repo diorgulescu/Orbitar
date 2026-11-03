@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { PlanetMaterialFactory } from './PlanetMaterialFactory';
 
 export type FrameUpdateCallback = (deltaSeconds: number, elapsedSeconds: number) => void;
 
@@ -47,6 +48,7 @@ export class SceneManager {
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 1.15;
+    PlanetMaterialFactory.configureRenderer(this.renderer);
     this.container.appendChild(this.renderer.domElement);
 
     // 4. OrbitControls cu amortizare lină (smooth damping)
@@ -60,15 +62,15 @@ export class SceneManager {
     this.controls.maxDistance = 25000;
     this.controls.target.set(0, 0, 0);
 
-    // 5. Iluminare solară și ambientală
-    this.sunLight = new THREE.PointLight(0xfff6e5, 3.2, 0, 0);
+    // 5. Iluminare solară caldă (contrast clar zi/noapte la terminator) și ambientală subtilă
+    this.sunLight = new THREE.PointLight(0xfff4d6, 3.6, 0, 0);
     this.sunLight.position.set(0, 0, 0);
     this.scene.add(this.sunLight);
 
-    const ambientLight = new THREE.AmbientLight(0x28385e, 1.35);
+    const ambientLight = new THREE.AmbientLight(0x1e2c4a, 0.78);
     this.scene.add(ambientLight);
 
-    const hemiLight = new THREE.HemisphereLight(0x6088ff, 0x0b101e, 0.55);
+    const hemiLight = new THREE.HemisphereLight(0x5078e8, 0x090d18, 0.38);
     this.scene.add(hemiLight);
 
     // 6. Câmp stelar procedural (THREE.Points)
