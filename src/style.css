@@ -888,6 +888,181 @@ body {
   padding-top: 8px;
 }
 
+/* Pini interactivi de suprafață (Marte & Lună) */
+.surface-marker-pin {
+  position: absolute;
+  transform: translate(-50%, -130%);
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.92);
+  border: 1px solid var(--accent-amber);
+  color: var(--accent-amber);
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+  pointer-events: auto;
+  cursor: pointer;
+  z-index: 18;
+  box-shadow: 0 0 14px rgba(255, 183, 3, 0.35);
+  transition: transform 0.18s ease, background-color 0.18s ease;
+}
+
+.surface-marker-pin:hover {
+  transform: translate(-50%, -140%) scale(1.06);
+  background: rgba(255, 183, 3, 0.22);
+  color: #fff;
+}
+
+.pin-beacon {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  margin-right: 4px;
+}
+
+.surface-marker-modal {
+  position: fixed;
+  left: 12px;
+  top: 72px;
+  width: 350px;
+  max-width: calc(100vw - 24px);
+  z-index: 26;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  border-color: var(--accent-amber);
+}
+
+.marker-meta {
+  font-size: 0.73rem;
+  font-family: var(--font-mono);
+  color: var(--accent-cyan);
+}
+
+/* Telemetrie SGP4 ISS & Hubble */
+.iss-telemetry-card {
+  border-color: var(--accent-cyan);
+  background: radial-gradient(circle at top left, rgba(0, 240, 255, 0.14), rgba(5, 9, 20, 0.85));
+}
+
+.iss-telemetry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.76rem;
+  color: var(--accent-cyan);
+}
+
+.telemetry-tag {
+  font-size: 0.66rem;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(0, 240, 255, 0.16);
+  color: var(--accent-cyan);
+}
+
+/* Panoul Misiunile Orbitar & Jurnalul de Bord */
+.missions-floating-panel {
+  position: fixed;
+  left: 12px;
+  top: 72px;
+  width: 390px;
+  max-width: calc(100vw - 24px);
+  max-height: calc(100vh - 205px);
+  overflow-y: auto;
+  z-index: 24;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-color: var(--accent-amber);
+}
+
+.missions-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--accent-amber);
+}
+
+.mission-challenge-card {
+  background: rgba(5, 9, 20, 0.78);
+  border: 1px solid rgba(255, 183, 3, 0.25);
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mission-prompt {
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--text-main);
+}
+
+.mission-status {
+  font-size: 0.75rem;
+  color: var(--accent-cyan);
+}
+
+.mission-status.is-success {
+  color: #4ade80;
+  font-weight: 700;
+}
+
+.mission-hint {
+  font-size: 0.74rem;
+  color: #fde68a;
+  background: rgba(255, 183, 3, 0.1);
+  padding: 6px 8px;
+  border-radius: 7px;
+}
+
+.mission-nav-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.logbook-section {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 8px;
+}
+
+.logbook-badges-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.logbook-badge-card {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 9px;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+}
+
+.logbook-badge-card.is-unlocked {
+  background: rgba(255, 183, 3, 0.16);
+  border-color: var(--accent-amber);
+  color: var(--accent-amber);
+}
+
+.badge-icon {
+  font-size: 1.1rem;
+}
+
 @media (max-width: 960px) {
   .study-drawer {
     width: 340px;

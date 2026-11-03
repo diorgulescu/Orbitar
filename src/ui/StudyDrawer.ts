@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-import { CelestialBodyInstance } from '../core/OrbitalEngine';
+import { CelestialBodyInstance, OrbitalEngine } from '../core/OrbitalEngine';
 import { AgeTier } from '../types/celestial';
 import { OrbitarLab } from './OrbitarLab';
 
@@ -9,6 +9,7 @@ const STORAGE_KEY_BADGES = 'orbitar_badges';
  * StudyDrawer gestionează Panoul Lateral de Studiu (Bento Dark Mode):
  * - Se deschide la selectarea unui corp ceresc
  * - Buton "🔊 Citește-mi" (window.speechSynthesis în limba ro-RO)
+ * - Telemetrie SGP4 în timp real pentru ISS și Hubble (prin ISSTracker / satellite.js)
  * - Afișare adaptivă a datelor (junior vs cadet) + Quiz interactiv
  * - Secțiunea interactivă "Laboratorul Orbitar" (OrbitarLab)
  */
@@ -16,12 +17,21 @@ export class StudyDrawer {
   private currentBody: CelestialBodyInstance | null = null;
   private currentTier: AgeTier;
   private isSpeaking = false;
+  private readonly orbitalEngine: OrbitalEngine;
   private readonly lab: OrbitarLab;
   private readonly onResetOverview: () => void;
+  private readonly onBadgeUnlocked?: (bodyId: string) => void;
 
-  constructor(initialTier: AgeTier, onResetOverview: () => void) {
+  constructor(
+    orbitalEngine: OrbitalEngine,
+    initialTier: AgeTier,
+    onResetOverview: () => void,
+    onBadgeUnlocked?: (bodyId: string) => void
+  ) {
+    this.orbitalEngine = orbitalEngine;
     this.currentTier = initialTier;
     this.onResetOverview = onResetOverview;
+    this.onBadgeUnlocked = onBadgeUnlocked;
     this.lab = new OrbitarLab();
     this.bindEvents();
   }
@@ -31,6 +41,7 @@ export class StudyDrawer {
     const drawerEl = document.getElementById('hud-study-drawer');
     const btnResetCam = document.getElementById('btn-reset-camera');
     const btnSpeak = document.getElementById('btn-speak-ro');
+    const btnIssSync = document.getElementById('btn-iss-live-sync');
 
     btnClose?.addEventListener('click', () => {
       this.stopSpeech();
@@ -44,6 +55,29 @@ export class StudyDrawer {
 
     btnSpeak?.addEventListener('click', () => {
       this.toggleSpeechRo();
+    });
+
+    btnIssSync?.addEventListener('click', async () => {
+      const statusEl = document.getElementById('iss-sync-status');
+      const modeTag = document.getElementById('iss-telemetry-mode');
+      if (statusEl) {
+        statusEl.textContent = '⏳ Se verifică conexiunea pentru sincronizarea coordonatelor ISS…';
+      }
+      const result = await this.orbitalEngine.issTracker.syncLiveISSCoordinates();
+      if (result.isOnlineLive) {
+        if (modeTag) modeTag.textContent = '🌐 Live Online';
+        if (statusEl) {
+          statusEl.textContent =
+            '✅ Coordonate ISS sincronizate în timp real cu telemetria orbitală live!';
+        }
+      } else {
+        if (modeTag) modeTag.textContent = '100% Offline TLE';
+        if (statusEl) {
+          statusEl.textContent =
+            '📡 Mod autonom: coordonate calculate 100% offline cu satellite.js (SGP4) din /data/tle-iss.json.';
+        }
+      }
+      this.updateLiveDistance(this.currentBody);
     });
   }
 
@@ -67,6 +101,34 @@ export class StudyDrawer {
       const distStr = body.distanceFromSunAu.toFixed(2).replace('.', ',');
       distEl.textContent = `Distanță de Soare: ${distStr} UA`;
     }
+
+    // Actualizăm telemetria SGP4 dacă este selectată Stația Spațială Internațională (ISS) sau Hubble
+    if (body.data.id === 'iss' || body.data.id === 'hubble') {
+      const tel = this.orbitalEngine.issTracker.getTelemetry(
+        body.data.id,
+        this.orbitalEngine.simulationDate
+      );
+      const latEl = document.getElementById('iss-lat');
+      const lonEl = document.getElementById('iss-lon');
+      const altEl = document.getElementById('iss-alt');
+      const velEl = document.getElementById('iss-vel');
+
+      const latHemi = tel.latitudeDeg >= 0 ? 'N' : 'S';
+      const lonHemi = tel.longitudeDeg >= 0 ? 'E' : 'V';
+
+      if (latEl) {
+        latEl.textContent = `${Math.abs(tel.latitudeDeg).toFixed(2).replace('.', ',')}° ${latHemi}`;
+      }
+      if (lonEl) {
+        lonEl.textContent = `${Math.abs(tel.longitudeDeg).toFixed(2).replace('.', ',')}° ${lonHemi}`;
+      }
+      if (altEl) {
+        altEl.textContent = `~${tel.altitudeKm.toFixed(1).replace('.', ',')} km`;
+      }
+      if (velEl) {
+        velEl.textContent = `~${Math.round(tel.velocityKmh).toLocaleString('ro-RO')} km/h`;
+      }
+    }
   }
 
   private renderBody(body: CelestialBodyInstance, openDrawer: boolean): void {
@@ -86,6 +148,13 @@ export class StudyDrawer {
     if (nameEl) nameEl.textContent = d.name;
     if (subtitleEl) subtitleEl.textContent = d.subtitle;
     if (catEl) catEl.textContent = body.meta.categoryNameRo;
+
+    // Afișăm caseta de telemetrie SGP4 pentru ISS și Hubble
+    const issCard = document.getElementById('lab-iss-telemetry-card');
+    if (issCard) {
+      const isLeoTracked = d.id === 'iss' || d.id === 'hubble';
+      issCard.classList.toggle('is-hidden', !isLeoTracked);
+    }
 
     const juniorBox = document.getElementById('hud-junior-box');
     const cadetBox = document.getElementById('hud-cadet-box');
@@ -173,6 +242,9 @@ export class StudyDrawer {
 
         if (isCorrect) {
           this.saveBadge(d.id);
+          if (this.onBadgeUnlocked) {
+            this.onBadgeUnlocked(d.id);
+          }
         }
       });
       optionsEl.appendChild(btn);
@@ -192,9 +264,6 @@ export class StudyDrawer {
     }
   }
 
-  /**
-   * Sinteză vocală (Text-to-Speech) în limba română (`ro-RO`) pentru butonul "🔊 Citește-mi".
-   */
   private toggleSpeechRo(): void {
     if (!('speechSynthesis' in window) || !this.currentBody) return;
 

@@ -4,21 +4,25 @@ import { SceneManager } from './core/SceneManager';
 import { ScaleManager } from './core/ScaleManager';
 import { CelestialBodyInstance, OrbitalEngine } from './core/OrbitalEngine';
 import { CameraController } from './core/CameraController';
+import { SurfaceMarkers } from './core/SurfaceMarkers';
 import { HeaderHud, LayerFilter, matchesLayerFilter } from './ui/HeaderHud';
 import { StudyDrawer } from './ui/StudyDrawer';
 import { BottomDock } from './ui/BottomDock';
 import { LightSpeedRuler } from './ui/LightSpeedRuler';
 import { LicenseModal } from './ui/LicenseModal';
+import { OrbitarMissions } from './ui/OrbitarMissions';
 
 interface OrbitarGlobalDebug {
   sceneManager: SceneManager;
   scaleManager: ScaleManager;
   orbitalEngine: OrbitalEngine;
   cameraController: CameraController;
+  surfaceMarkers: SurfaceMarkers;
   headerHud: HeaderHud;
   studyDrawer: StudyDrawer;
   bottomDock: BottomDock;
   lightSpeedRuler: LightSpeedRuler;
+  orbitarMissions: OrbitarMissions;
 }
 
 declare global {
@@ -58,10 +62,13 @@ async function bootstrapOrbitar(): Promise<void> {
   if (loadingBarFill) loadingBarFill.style.width = '80%';
   if (loadingStatus) {
     loadingStatus.textContent =
-      'Se încarcă baza de date didactică și interfața Bento HUD…';
+      'Se încarcă baza de date didactică, TLE-urile SGP4 și pini planetari…';
   }
 
   await orbitalEngine.initialize();
+
+  // Inițializăm Markerele Planetare (Marte & Lună)
+  const surfaceMarkers = new SurfaceMarkers(orbitalEngine, labelsContainer);
 
   // 2. Crearea etichetelor 2D și a pastilelor din Dock-ul Inferior
   const labelElements = new Map<string, HTMLButtonElement>();
@@ -111,9 +118,20 @@ async function bootstrapOrbitar(): Promise<void> {
     }
   };
 
-  const studyDrawer = new StudyDrawer('junior', () => {
-    cameraController.resetToOverview();
+  const orbitarMissions = new OrbitarMissions(orbitalEngine, (bodyId) => {
+    cameraController.focusBody(bodyId);
   });
+
+  const studyDrawer = new StudyDrawer(
+    orbitalEngine,
+    'junior',
+    () => {
+      cameraController.resetToOverview();
+    },
+    (unlockedBodyId) => {
+      orbitarMissions.unlockBadge(unlockedBodyId);
+    }
+  );
 
   const headerHud = new HeaderHud(orbitalEngine.getBodies(), {
     onSelectBody: (bodyId) => {
@@ -127,14 +145,40 @@ async function bootstrapOrbitar(): Promise<void> {
     },
   });
 
-  // Sincronizăm nivelul de vârstă salvat în localStorage (orbitar_age_tier)
   studyDrawer.setTier(headerHud.getTier());
 
   const bottomDock = new BottomDock(orbitalEngine, scaleManager);
   const lightSpeedRuler = new LightSpeedRuler(sceneManager.scene, orbitalEngine);
   new LicenseModal();
 
-  // 4. Conectarea selecției corpului ceresc cu Panoul Lateral de Studiu și Rigla cu Viteza Luminii
+  // Caseta de detalii pentru Markerele Planetare (Marte & Lună)
+  const markerCardEl = document.getElementById('hud-surface-marker-card');
+  const markerTitleEl = document.getElementById('marker-card-title');
+  const markerRegionEl = document.getElementById('marker-card-region');
+  const markerDescEl = document.getElementById('marker-card-desc');
+  const btnMarkerClose = document.getElementById('btn-marker-card-close');
+
+  btnMarkerClose?.addEventListener('click', () => {
+    markerCardEl?.classList.add('is-hidden');
+  });
+
+  surfaceMarkers.onSelectMarker((marker) => {
+    if (markerTitleEl) markerTitleEl.textContent = `📍 ${marker.titleRo}`;
+    if (markerRegionEl) {
+      markerRegionEl.textContent = `${marker.regionRo} • Anul ${marker.year}`;
+    }
+    if (markerDescEl) markerDescEl.textContent = marker.descriptionRo;
+    markerCardEl?.classList.remove('is-hidden');
+
+    if (marker.linkedBodyId) {
+      const linkedBody = orbitalEngine.getBody(marker.linkedBodyId);
+      if (linkedBody) {
+        studyDrawer.showBody(linkedBody);
+      }
+    }
+  });
+
+  // 4. Conectarea selecției corpului ceresc cu Panoul de Studiu, Rigla și Misiunile Orbitar
   const handleBodySelection = (body: CelestialBodyInstance | null): void => {
     const selected = body ?? orbitalEngine.getBody('sun') ?? null;
     const activeId = selected?.data.id ?? 'sun';
@@ -149,6 +193,7 @@ async function bootstrapOrbitar(): Promise<void> {
     if (selected) {
       studyDrawer.showBody(selected);
       lightSpeedRuler.handleBodySelectedInScene(selected);
+      orbitarMissions.handleBodySelectedIn3D(selected);
     }
   };
 
@@ -163,10 +208,12 @@ async function bootstrapOrbitar(): Promise<void> {
     scaleManager,
     orbitalEngine,
     cameraController,
+    surfaceMarkers,
     headerHud,
     studyDrawer,
     bottomDock,
     lightSpeedRuler,
+    orbitarMissions,
   };
 
   // 5. Bucla de actualizare per cadru
@@ -180,6 +227,7 @@ async function bootstrapOrbitar(): Promise<void> {
 
     const tracked = cameraController.getTrackedBody();
     studyDrawer.updateLiveDistance(tracked);
+    surfaceMarkers.update(sceneManager.camera, tracked);
 
     const width = window.innerWidth;
     const height = window.innerHeight;

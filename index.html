@@ -25,7 +25,7 @@
     <!-- Containerul scenei 3D Three.js -->
     <div id="canvas-container" aria-label="Scenă 3D Sistemul Solar"></div>
 
-    <!-- Etichete 2D suprapuse pentru corpurile cerești -->
+    <!-- Etichete 2D suprapuse pentru corpurile cerești și pini planetari -->
     <div id="labels-container" aria-hidden="true"></div>
 
     <!-- 1. HEADER-UL "ORBITAR" (Bento Dark Mode) -->
@@ -65,8 +65,8 @@
         </button>
       </nav>
 
-      <!-- Comutator de nivel salvat în localStorage (orbitar_age_tier) -->
-      <div class="bento-card header-tier-switch" role="group" aria-label="Nivel de studiu">
+      <!-- Comutator de nivel salvat în localStorage (orbitar_age_tier) + Buton Misiunile Orbitar -->
+      <div class="bento-card header-tier-switch" role="group" aria-label="Nivel de studiu și Misiuni">
         <button
           id="btn-tier-junior"
           type="button"
@@ -82,6 +82,14 @@
           title="Mod avansat pentru copii de 9–12 ani"
         >
           Cadet Orbitar: 9-12 ani
+        </button>
+        <button
+          id="btn-missions-toggle"
+          type="button"
+          class="hud-btn hud-btn-amber"
+          title="Deschide Vânătoarea de Comori Cosmică și Jurnalul de Bord Orbitar"
+        >
+          🎯 Misiuni (<span id="hud-badges-count">0/6</span>)
         </button>
       </div>
     </header>
@@ -114,6 +122,26 @@
         <button id="btn-reset-camera" type="button" class="hud-btn hud-btn-amber">
           🌌 Vedere generală
         </button>
+      </div>
+
+      <!-- Casetă Telemetrie SGP4 (ISS & Hubble) prin satellite.js -->
+      <div id="lab-iss-telemetry-card" class="lab-card iss-telemetry-card is-hidden">
+        <div class="iss-telemetry-header">
+          <strong>🛰️ Telemetrie Orbitală SGP4 (satellite.js)</strong>
+          <span id="iss-telemetry-mode" class="telemetry-tag">100% Offline TLE</span>
+        </div>
+        <div class="metrics-grid">
+          <div><span>Latitudine:</span> <strong id="iss-lat" class="highlight-cyan">—</strong></div>
+          <div><span>Longitudine:</span> <strong id="iss-lon" class="highlight-cyan">—</strong></div>
+          <div><span>Altitudine:</span> <strong id="iss-alt" class="highlight-amber">~418,5 km</strong></div>
+          <div><span>Viteză orbitală:</span> <strong id="iss-vel" class="highlight-amber">~27.580 km/h</strong></div>
+        </div>
+        <button id="btn-iss-live-sync" type="button" class="hud-btn hud-btn-cyan">
+          🌐 Sincronizează Coordonate ISS Live (Online)
+        </button>
+        <p id="iss-sync-status" class="voyager-status">
+          Calculat autonom prin modelul SGP4 din <code>/data/tle-iss.json</code>.
+        </p>
       </div>
 
       <!-- Rezumat adaptiv (Junior vs Cadet) -->
@@ -222,6 +250,47 @@
       </section>
     </aside>
 
+    <!-- 3. MODULUL DE STUDIU "MISIUNILE ORBITAR" & JURNALUL DE BORD -->
+    <section id="hud-missions-panel" class="bento-card missions-floating-panel is-hidden" aria-label="Misiunile Orbitar și Jurnalul de Bord">
+      <div class="missions-header">
+        <strong>🎯 Misiunile Orbitar — Vânătoare de Comori Cosmică</strong>
+        <button id="btn-missions-close" type="button" class="hud-icon-btn" title="Închide misiunile">✕</button>
+      </div>
+
+      <div class="mission-challenge-card">
+        <p id="mission-prompt-text" class="mission-prompt"></p>
+        <p id="mission-step-status" class="mission-status"></p>
+        <p id="mission-hint-text" class="mission-hint is-hidden"></p>
+
+        <div id="mission-quiz-container" class="quiz-box is-hidden">
+          <p id="mission-quiz-question" class="quiz-question"></p>
+          <div id="mission-quiz-options" class="quiz-options"></div>
+          <p id="mission-quiz-feedback" class="quiz-feedback"></p>
+        </div>
+
+        <div class="mission-nav-row">
+          <button id="btn-mission-prev" type="button" class="hud-btn">⬅️ Anterioară</button>
+          <button id="btn-mission-hint" type="button" class="hud-btn hud-btn-cyan">💡 Indiciu</button>
+          <button id="btn-mission-next" type="button" class="hud-btn">Următoarea ➡️</button>
+        </div>
+      </div>
+
+      <div class="logbook-section">
+        <h3 class="subcard-title">🏅 Jurnalul de Bord Orbitar (Insigne Deblocate)</h3>
+        <div id="logbook-badges-grid" class="logbook-badges-grid"></div>
+      </div>
+    </section>
+
+    <!-- Caseta pentru detalii Pin de Suprafață (Marte / Lună) -->
+    <section id="hud-surface-marker-card" class="bento-card surface-marker-modal is-hidden" aria-label="Detalii loc de aselenizare sau amartizare">
+      <div class="ruler-header">
+        <strong id="marker-card-title">📍 Loc istoric de explorare</strong>
+        <button id="btn-marker-card-close" type="button" class="hud-icon-btn" title="Închide">✕</button>
+      </div>
+      <p id="marker-card-region" class="marker-meta"></p>
+      <p id="marker-card-desc" class="target-desc"></p>
+    </section>
+
     <!-- Caseta flotantă pentru unealta "🚀 Rigla cu Viteza Luminii" -->
     <section id="hud-ruler-panel" class="bento-card ruler-floating-panel is-hidden" aria-label="Rigla cu Viteza Luminii">
       <div class="ruler-header">
@@ -248,7 +317,7 @@
       </div>
     </section>
 
-    <!-- 3. DOCK-UL INFERIOR DE NAVIGAȚIE -->
+    <!-- 4. DOCK-UL INFERIOR DE NAVIGAȚIE -->
     <footer id="hud-bottom-dock" class="hud-bottom-dock" aria-label="Dock inferior de navigație">
       <!-- Bară rapidă de selecție a corpurilor din stratul curent -->
       <div class="bento-card dock-bodies-strip" id="hud-bodies-list" role="navigation" aria-label="Selector rapid corpuri">

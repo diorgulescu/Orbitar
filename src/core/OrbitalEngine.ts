@@ -11,6 +11,7 @@ import {
 } from '../types/celestial';
 import { ScaleManager } from './ScaleManager';
 import { InstancedBeltEntry, ProceduralModels } from './ProceduralModels';
+import { ISSTracker } from './ISSTracker';
 
 export interface CelestialBodyInstance {
   data: CelestialBodyData;
@@ -84,6 +85,7 @@ export class OrbitalEngine {
   public simulationDate: Date;
   public timeScale: number = 86400;
   public isPaused: boolean = false;
+  public readonly issTracker: ISSTracker;
 
   private readonly scene: THREE.Scene;
   private readonly scaleManager: ScaleManager;
@@ -100,6 +102,7 @@ export class OrbitalEngine {
     this.scene = scene;
     this.scaleManager = scaleManager;
     this.simulationDate = new Date(initialDate.getTime());
+    this.issTracker = new ISSTracker();
 
     this.bodiesGroup = new THREE.Group();
     this.bodiesGroup.name = 'CelestialBodiesGroup';
@@ -122,6 +125,7 @@ export class OrbitalEngine {
     const [solarRes, missionsRes] = await Promise.all([
       fetch('./data/solar-system-ro.json'),
       fetch('./data/missions-ro.json'),
+      this.issTracker.initialize(),
     ]);
 
     const solarDataset = (await solarRes.json()) as SolarSystemDataset;
@@ -263,6 +267,11 @@ export class OrbitalEngine {
       const jMoons = Astronomy.JupiterMoons(date);
       const state = jMoons[id];
       return this.eqjToThreeEclipticAu(state);
+    }
+
+    // Calcul orbital SGP4 100% offline prin satellite.js (ISSTracker) pentru ISS și Hubble
+    if (id === 'iss' || id === 'hubble') {
+      return this.issTracker.getOffsetFromEarthAu(id, date);
     }
 
     // Pentru Titan, Enceladus, ISS, Hubble și roverele marțiene
