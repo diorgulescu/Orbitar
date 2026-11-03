@@ -21,6 +21,9 @@ export class StudyDrawer {
   private readonly lab: OrbitarLab;
   private readonly onResetOverview: () => void;
   private readonly onBadgeUnlocked?: (bodyId: string) => void;
+  private onPrintStudy?: (bodyId: string) => void;
+  private onPrintColoring?: (bodyId: string) => void;
+  private onSyncPrintPreview?: (bodyId: string) => void;
 
   constructor(
     orbitalEngine: OrbitalEngine,
@@ -36,11 +39,23 @@ export class StudyDrawer {
     this.bindEvents();
   }
 
+  public setPrintHandlers(handlers: {
+    onPrintStudy: (bodyId: string) => void;
+    onPrintColoring: (bodyId: string) => void;
+    onSyncPrintPreview?: (bodyId: string) => void;
+  }): void {
+    this.onPrintStudy = handlers.onPrintStudy;
+    this.onPrintColoring = handlers.onPrintColoring;
+    this.onSyncPrintPreview = handlers.onSyncPrintPreview;
+  }
+
   private bindEvents(): void {
     const btnClose = document.getElementById('btn-drawer-close');
     const drawerEl = document.getElementById('hud-study-drawer');
     const btnResetCam = document.getElementById('btn-reset-camera');
     const btnSpeak = document.getElementById('btn-speak-ro');
+    const btnPrintStudy = document.getElementById('btn-print-study');
+    const btnPrintColoring = document.getElementById('btn-print-coloring');
     const btnIssSync = document.getElementById('btn-iss-live-sync');
 
     btnClose?.addEventListener('click', () => {
@@ -55,6 +70,16 @@ export class StudyDrawer {
 
     btnSpeak?.addEventListener('click', () => {
       this.toggleSpeechRo();
+    });
+
+    btnPrintStudy?.addEventListener('click', () => {
+      const id = this.currentBody?.data.id ?? 'sun';
+      this.onPrintStudy?.(id);
+    });
+
+    btnPrintColoring?.addEventListener('click', () => {
+      const id = this.currentBody?.data.id ?? 'sun';
+      this.onPrintColoring?.(id);
     });
 
     btnIssSync?.addEventListener('click', async () => {
@@ -216,6 +241,7 @@ export class StudyDrawer {
 
     this.lab.updateForBody(d);
     this.updateLiveDistance(body);
+    this.onSyncPrintPreview?.(d.id);
   }
 
   private renderQuiz(d: CelestialBodyInstance['data']): void {

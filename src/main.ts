@@ -11,6 +11,7 @@ import { BottomDock } from './ui/BottomDock';
 import { LightSpeedRuler } from './ui/LightSpeedRuler';
 import { LicenseModal } from './ui/LicenseModal';
 import { OrbitarMissions } from './ui/OrbitarMissions';
+import { PrintManager } from './ui/PrintManager';
 
 interface OrbitarGlobalDebug {
   sceneManager: SceneManager;
@@ -23,6 +24,7 @@ interface OrbitarGlobalDebug {
   bottomDock: BottomDock;
   lightSpeedRuler: LightSpeedRuler;
   orbitarMissions: OrbitarMissions;
+  printManager: PrintManager;
 }
 
 declare global {
@@ -149,7 +151,20 @@ async function bootstrapOrbitar(): Promise<void> {
 
   const bottomDock = new BottomDock(orbitalEngine, scaleManager);
   const lightSpeedRuler = new LightSpeedRuler(sceneManager.scene, orbitalEngine);
+  const printManager = new PrintManager(orbitalEngine, () => headerHud.getTier());
   new LicenseModal();
+
+  studyDrawer.setPrintHandlers({
+    onPrintStudy: (bodyId) => {
+      printManager.printStudySheet(bodyId);
+    },
+    onPrintColoring: (bodyId) => {
+      printManager.printColoringSheet(bodyId);
+    },
+    onSyncPrintPreview: (bodyId) => {
+      printManager.populateStudySheet(bodyId);
+    },
+  });
 
   // Caseta de detalii pentru Markerele Planetare (Marte & Lună)
   const markerCardEl = document.getElementById('hud-surface-marker-card');
@@ -214,6 +229,7 @@ async function bootstrapOrbitar(): Promise<void> {
     bottomDock,
     lightSpeedRuler,
     orbitarMissions,
+    printManager,
   };
 
   // 5. Bucla de actualizare per cadru

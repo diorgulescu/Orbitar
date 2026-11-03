@@ -10,6 +10,7 @@
     <link rel="apple-touch-icon" href="./icons/orbitar-icon.svg" />
     <title>Orbitar — Planetariu Didactic Interactiv</title>
     <link rel="stylesheet" href="/src/style.css" />
+    <link rel="stylesheet" href="/src/styles/print.css" />
   </head>
   <body>
     <!-- Ecran de încărcare minimal cu sigla ORBITAR -->
@@ -96,6 +97,14 @@
         >
           🎯 Misiuni (<span id="hud-badges-count">0/6</span>)
         </button>
+        <button
+          id="btn-coloring-modal-open"
+          type="button"
+          class="hud-btn hud-btn-cyan"
+          title="Deschide centrul de Planșe de Colorat A4 și Fișe de Studiu Imprimabile"
+        >
+          🎨 Planșe de Colorat &amp; Fișe
+        </button>
       </div>
     </header>
 
@@ -118,10 +127,26 @@
         </button>
       </div>
 
-      <!-- Buton "🔊 Citește-mi" + Vedere generală -->
+      <!-- Buton "🔊 Citește-mi" + Butoane de Imprimare A4 + Vedere generală -->
       <div class="drawer-actions-row">
         <button id="btn-speak-ro" type="button" class="hud-btn hud-btn-cyan">
           🔊 Citește-mi
+        </button>
+        <button
+          id="btn-print-study"
+          type="button"
+          class="hud-btn"
+          title="Generează și printează Fișa de Studiu &amp; Quiz A4 pentru acest corp"
+        >
+          🖨️ Printează Fișa de Studiu
+        </button>
+        <button
+          id="btn-print-coloring"
+          type="button"
+          class="hud-btn"
+          title="Generează și printează Foaia de Colorat A4 (Line-Art Vectorial)"
+        >
+          🎨 Foaie de Colorat
         </button>
         <span id="hud-target-dist" class="target-dist-badge">Distanță de Soare: 0,00 UA</span>
         <button id="btn-reset-camera" type="button" class="hud-btn hud-btn-amber">
@@ -377,6 +402,14 @@
             🚀 Rigla cu Viteza Luminii
           </button>
           <button
+            id="btn-dock-coloring"
+            type="button"
+            class="hud-btn hud-btn-amber"
+            title="Deschide Planșe de Colorat A4 și Fișe de Studiu pentru imprimare"
+          >
+            🎨 Planșe de Colorat &amp; Fișe
+          </button>
+          <button
             id="btn-gpl-modal"
             type="button"
             class="hud-btn hud-btn-gpl"
@@ -387,6 +420,64 @@
         </div>
       </div>
     </footer>
+
+    <!-- Fereastră modală pentru "🎨 Planșe de Colorat & Fișe" (Imprimare A4 & Export SVG/PNG) -->
+    <div id="hud-coloring-modal" class="modal-backdrop is-hidden" role="dialog" aria-modal="true" aria-labelledby="coloring-modal-title">
+      <div class="bento-card coloring-modal-card">
+        <div class="modal-header">
+          <h2 id="coloring-modal-title">🎨 Planșe de Colorat &amp; Fișe Didactice A4 (Line-Art Vectorial)</h2>
+          <button id="btn-coloring-modal-close" type="button" class="hud-icon-btn" aria-label="Închide fereastra">✕</button>
+        </div>
+
+        <div class="coloring-modal-body">
+          <!-- Coloana stângă: Acțiuni principale + Grilă vizuală cu toate planetele, asteroizii și sondele -->
+          <div class="coloring-left-col">
+            <div class="coloring-featured-actions">
+              <button id="btn-print-solar-map" type="button" class="coloring-hero-btn">
+                <span class="coloring-hero-title">🗺️ Printează Harta Sistemului Solar de Colorat (A4)</span>
+                <span class="coloring-hero-sub">Planșă A4 Landscape cu Soarele, cele 8 planete în ordine, asteroizi, Pluto, cometă și ISS.</span>
+              </button>
+              <button id="btn-print-mission-table" type="button" class="coloring-hero-btn hero-amber">
+                <span class="coloring-hero-title">📊 Printează Tabelul Comparativ al Planetelor</span>
+                <span class="coloring-hero-sub">Jurnal de Misiune pe o pagină cu toate planetele Sistemului Solar + mini-harta de colorat.</span>
+              </button>
+            </div>
+
+            <h3 class="coloring-grid-title">🪐 Alege orice planetă, lună, asteroid sau sondă (Print cu un singur click):</h3>
+            <div id="coloring-bodies-grid" class="coloring-bodies-grid" role="list">
+              <!-- Populat dinamic de PrintManager -->
+            </div>
+          </div>
+
+          <!-- Coloana dreaptă: Previzualizare vectorială alb-negru + Butoane Print & Descarcă SVG / PNG -->
+          <div class="coloring-right-col">
+            <div class="coloring-preview-card">
+              <div class="coloring-preview-header">
+                <span id="coloring-preview-title" class="coloring-preview-title">🗺️ Previzualizare Planșă</span>
+                <span class="telemetry-tag">Eco-Print Alb-Negru</span>
+              </div>
+              <div id="coloring-preview-frame" class="coloring-preview-frame">
+                <!-- SVG-ul de colorat este randat aici -->
+              </div>
+              <div class="coloring-export-bar">
+                <button id="btn-preview-print-coloring" type="button" class="hud-btn hud-btn-active-cyan">
+                  🎨 Printează Foaia de Colorat (A4)
+                </button>
+                <button id="btn-preview-print-study" type="button" class="hud-btn hud-btn-amber">
+                  🖨️ Printează Fișa de Studiu &amp; Quiz
+                </button>
+                <button id="btn-coloring-download-svg" type="button" class="hud-btn">
+                  ⬇️ Descarcă SVG
+                </button>
+                <button id="btn-coloring-download-png" type="button" class="hud-btn">
+                  🖼️ Descarcă PNG
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Fereastră modală pentru licența liberă GNU GPLv3 -->
     <div id="hud-gpl-modal" class="modal-backdrop is-hidden" role="dialog" aria-modal="true" aria-labelledby="gpl-modal-title">
@@ -412,6 +503,9 @@
         </div>
       </div>
     </div>
+
+    <!-- Container dedicat pentru imprimare A4: invizibil pe ecran, SINGURUL element vizibil la @media print -->
+    <div id="orbitar-print-sheet" aria-label="Fișă de studiu și planșă de colorat A4 pentru imprimare"></div>
 
     <script type="module" src="/src/main.ts"></script>
   </body>
