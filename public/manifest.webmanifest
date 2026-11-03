@@ -1,0 +1,21 @@
+{
+  "name": "Orbitar — Planetariu Didactic",
+  "short_name": "Orbitar",
+  "description": "Planetariu Didactic Interactiv 3D în limba română pentru copii de 6–12 ani (100% Open-Source, GNU GPLv3)",
+  "lang": "ro",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "theme_color": "#070b19",
+  "background_color": "#070b19",
+  "categories": ["education", "kids", "science"],
+  "icons": [
+    {
+      "src": "./icons/orbitar-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

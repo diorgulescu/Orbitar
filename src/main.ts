@@ -284,3 +284,12 @@ async function bootstrapOrbitar(): Promise<void> {
 bootstrapOrbitar().catch((err) => {
   console.error('Eroare la inițializarea planetariului Orbitar:', err);
 });
+
+// Înregistrăm Service Worker-ul pentru funcționare 100% offline și instalare PWA pe tablete/laptopuri
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(() => {
+      // Ignorăm eventualele restricții în mediul de dev local
+    });
+  });
+}
