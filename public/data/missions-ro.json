@@ -1,0 +1,582 @@
+{
+  "version": "1.0.0",
+  "language": "ro",
+  "missions": [
+    {
+      "id": "iss",
+      "name": "Stația Spațială Internațională (ISS)",
+      "category": "station",
+      "subtitle": "Laboratorul științific locuit permanent pe orbita joasă a Pământului",
+      "color": "#00f0ff",
+      "orbitColor": "#22c55e",
+      "parentId": "earth",
+      "localOrbitOrder": 1,
+      "radiusKm": 0.055,
+      "massEarthRatio": 0.00000000007,
+      "gravityRatio": 0.0,
+      "orbitPeriodDays": 0.064,
+      "dayLengthHours": 1.54,
+      "meanTempC": 21,
+      "distanceFromSunAU": 1.0,
+      "modelType": "iss",
+      "junior": {
+        "summary": "Stația Spațială Internațională este o casă și un laborator uriaș care zboară deasupra Pământului! Acolo astronauții plutesc în imponderabilitate și fac experimente pentru toată omenirea.",
+        "analogy": "ISS este mare cât un teren de fotbal, cu aripi strălucitoare de panouri solare!",
+        "funFact": "ISS zboară atât de repede (28.000 km/h) încât astronauții văd 16 răsărituri și 16 apusuri de Soare în fiecare zi!",
+        "travelTime": {
+          "car": "4 ore pe verticală (se află la ~410 km altitudine)",
+          "plane": "30 de minute (dacă un avion ar putea zbura în sus)",
+          "rocket": "8 minute până pe orbită (și 4–24 ore până la andocare)",
+          "light": "0,0014 secunde"
+        }
+      },
+      "cadet": {
+        "summary": "Construită începând din 1998 prin cooperarea dintre NASA, ESA, Roscosmos, JAXA și CSA, ISS orbitează la ~410 km altitudine cu o viteză de 7,66 km/s. Este locuită continuu de echipaje umane din noiembrie 2000.",
+        "structure": [
+          { "name": "Module presurizate (Columbus, Destiny, Kibo, Zvezda)", "description": "Laboratoare de biologie, fizică a fluidelor, medicină spațială și observații terestre." },
+          { "name": "Grinda centrală (Integrated Truss Structure) și Panourile Solare", "description": "8 aripi fotovoltaice uriașe care generează peste 120 kW de energie electrică." },
+          { "name": "Brațul robotic Canadarm2 și Cupola", "description": "Braț de manipulare de 17 m și fereastra panoramică cu 7 geamuri îndreptată spre Pământ." }
+        ],
+        "explorationHistory": "Peste 270 de astronauți din peste 20 de țări au lucrat la bordul ISS în mai mult de două decenii de prezență umană neîntreruptă în spațiu.",
+        "quiz": {
+          "question": "În cât timp face Stația Spațială Internațională o tură completă în jurul Pământului?",
+          "options": ["În 24 de ore", "În aproximativ 92 de minute", "În 7 zile", "Într-o lună"],
+          "correctIndex": 1,
+          "explanation": "La viteza orbitală de ~28.000 km/h, ISS înconjoară întregul Pământ în aproximativ 92 de minute ( de aproape 16 ori pe zi)."
+        }
+      }
+    },
+    {
+      "id": "hubble",
+      "name": "Telescopul Spațial Hubble",
+      "category": "telescope",
+      "subtitle": "Ochiul cosmic de pe orbita Pământului care a fotografiat Universul timp de peste 30 de ani",
+      "color": "#38bdf8",
+      "orbitColor": "#22c55e",
+      "parentId": "earth",
+      "localOrbitOrder": 2,
+      "radiusKm": 0.0066,
+      "massEarthRatio": 0.000000000002,
+      "gravityRatio": 0.0,
+      "orbitPeriodDays": 0.066,
+      "dayLengthHours": 1.58,
+      "meanTempC": 15,
+      "distanceFromSunAU": 1.0,
+      "modelType": "hubble",
+      "junior": {
+        "summary": "Telescopul Hubble este un aparat foto uriaș care plutește în spațiu, deasupra norilor Pământului, și ne trimite cele mai colorate imagini cu nebuloase, stele și galaxii!",
+        "analogy": "Hubble are mărimea unui autobuz școlar argintiu cu două aripi solare!",
+        "funFact": "Hubble are o vedere atât de precisă încât ar putea zări lumina unui licurici aflat la peste 10.000 km distanță!",
+        "travelTime": {
+          "car": "5 ore și jumătate (540 km altitudine)",
+          "plane": "38 de minute",
+          "rocket": "8 minute și jumătate",
+          "light": "0,0018 secunde"
+        }
+      },
+      "cadet": {
+        "summary": "Lansat la 24 aprilie 1990 de naveta Discovery (NASA/ESA), Hubble observă în spectrul vizibil, ultraviolet și infraroșu apropiat de la o altitudine de ~535 km, fără distorsiunile atmosferei terestre.",
+        "structure": [
+          { "name": "Oglinda primară Ritchey-Chrétien (2,4 m diametru)", "description": "Șlefuită cu precizie nanometrică și acoperită cu un strat reflectorizant de aluminiu și fluorură de magneziu." },
+          { "name": "Camerele WFC3 și ACS", "description": "Instrumente de imagistică cu câmp larg care au realizat celebrele imagini «Hubble Ultra-Deep Field»." },
+          { "name": "Giroscoape și roți de reacție", "description": "Mențin telescopul îndreptat spre ținte cosmice fără să folosească propulsor chimic care ar murdări oglinda." }
+        ],
+        "explorationHistory": "A fost reparat și modernizat direct pe orbită de astronauți în 5 misiuni ale navetelor spațiale (1993–2009), realizând peste 1,6 milioane de observații.",
+        "quiz": {
+          "question": "De ce vede Telescopul Hubble mult mai clar decât multe telescoape de pe Pământ?",
+          "options": ["Pentru că este mult mai aproape de stele", "Pentru că se află în spațiu, deasupra atmosferei turbulente a Pământului", "Pentru că are o lanternă uriașă", "Pentru că se află pe Lună"],
+          "correctIndex": 1,
+          "explanation": "Atmosfera Pământului estompează și face stelele să «pâlpâie» (scintilație); aflat în vidul spațial la 535 km altitudine, Hubble obține imagini de o claritate excepțională."
+        }
+      }
+    },
+    {
+      "id": "jwst",
+      "name": "Telescopul Spațial James Webb (JWST)",
+      "category": "telescope",
+      "subtitle": "Cel mai puternic observator spațial în infraroșu, cu oglindă aurită de tip fagure",
+      "color": "#ffb703",
+      "orbitColor": "#22c55e",
+      "radiusKm": 0.011,
+      "massEarthRatio": 0.000000000001,
+      "gravityRatio": 0.0,
+      "orbitPeriodDays": 365.256,
+      "dayLengthHours": 24.0,
+      "meanTempC": -233,
+      "distanceFromSunAU": 1.01,
+      "keplerian": {
+        "semiMajorAxisAU": 1.01,
+        "eccentricity": 0.0167,
+        "inclinationDeg": 0.5,
+        "ascendingNodeDeg": 0,
+        "argPerihelionDeg": 102.9,
+        "meanAnomalyDeg": 357.5
+      },
+      "modelType": "jwst",
+      "junior": {
+        "summary": "Telescopul James Webb este o bijuterie cosmică cu o oglindă mare cât o casă, formată din 18 plăci hexagonale acoperite cu aur adevărat!",
+        "analogy": "Oglinda lui arată ca un fagure de miere uriaș, iar sub el are o umbrelă de soare cu 5 straturi cât un teren de tenis!",
+        "funFact": "Pentru a încăpea în racheta Ariane 5, telescopul a fost împachetat ca un origami și s-a despăturit singur în spațiu!",
+        "travelTime": {
+          "car": "1,7 ani (1,5 milioane km față de Pământ)",
+          "plane": "2 luni și jumătate",
+          "rocket": "29 de zile (până în punctul Lagrange L2)",
+          "light": "5 secunde față de Pământ"
+        }
+      },
+      "cadet": {
+        "summary": "Dezvoltat de NASA, ESA și CSA și lansat la 25 decembrie 2021, JWST orbitează în jurul punctului Lagrange L2 Soare–Pământ (la 1,5 milioane km de Pământ). Observă în infraroșu primele galaxii formate după Big Bang și analizează atmosferele exoplanetelor.",
+        "structure": [
+          { "name": "Oglinda primară segmentată (6,5 m diametru)", "description": "18 segmente hexagonale din beriliu acoperite cu un strat microscopic de aur pentru reflexie maximă în infraroșu." },
+          { "name": "Scutul termic în 5 straturi (Kapton)", "description": "Menține instrumentele la -233 °C (40 K), blocând căldura Soarelui, a Pământului și a Lunii." },
+          { "name": "Instrumentele NIRCam, NIRSpec, MIRI și FGS/NIRISS", "description": "Camere și spectrografe capabile să străpungă norii de praf cosmic și să detecteze apă și CO₂ pe exoplanete." }
+        ],
+        "explorationHistory": "Lansat din Kourou cu o rachetă europeană Ariane 5 în decembrie 2021; a transmis primele imagini științifice revoluționare în iulie 2022.",
+        "quiz": {
+          "question": "Din câte segmente hexagonale aurite este alcătuită oglinda principală a Telescopului James Webb?",
+          "options": ["6 segmente", "18 segmente", "100 de segmente", "Un singur bloc de sticlă"],
+          "correctIndex": 1,
+          "explanation": "Oglinda de 6,5 metri a JWST este formată din 18 segmente hexagonale din beriliu aurit care s-au depliat și aliniat la nivel nanometric în spațiu."
+        }
+      }
+    },
+    {
+      "id": "euclid",
+      "name": "Telescopul Spațial Euclid",
+      "category": "telescope",
+      "subtitle": "Cartograful european al Universului Întunecat (în punctul Lagrange L2)",
+      "color": "#60a5fa",
+      "orbitColor": "#22c55e",
+      "radiusKm": 0.0024,
+      "massEarthRatio": 0.0000000000003,
+      "gravityRatio": 0.0,
+      "orbitPeriodDays": 365.256,
+      "dayLengthHours": 24.0,
+      "meanTempC": -190,
+      "distanceFromSunAU": 1.01,
+      "keplerian": {
+        "semiMajorAxisAU": 1.01,
+        "eccentricity": 0.018,
+        "inclinationDeg": 1.2,
+        "ascendingNodeDeg": 18.0,
+        "argPerihelionDeg": 98.0,
+        "meanAnomalyDeg": 2.5
+      },
+      "modelType": "hubble",
+      "junior": {
+        "summary": "Euclid este telescopul Agenției Spațiale Europene (ESA) trimis să deseneze cea mai mare hartă 3D a miliarde de galaxii din Univers!",
+        "analogy": "Dacă James Webb este o lupă super-puternică ce privește un singur detaliu, Euclid este un aparat foto panoramic care cuprinde o bucată uriașă de cer dintr-odată!",
+        "funFact": "Numele lui vine de la Euclid din Alexandria, matematicianul antic numit «părintele geometriei»!",
+        "travelTime": {
+          "car": "1,7 ani (1,5 milioane km de Pământ)",
+          "plane": "2 luni și jumătate",
+          "rocket": "30 de zile până în L2",
+          "light": "5 secunde față de Pământ"
+        }
+      },
+      "cadet": {
+        "summary": "Lansat în iulie 2023 de ESA, Euclid operează în punctul Lagrange L2 pentru a investiga natura materiei întunecate și a energiei întunecate, cartografiind distribuția tridimensională a miliarde de galaxii pe o distanță de 10 miliarde de ani-lumină.",
+        "structure": [
+          { "name": "Telescop Korsch din carbură de siliciu (1,2 m)", "description": "Material ceramic ultra-stabil termic care previne orice deformare optică." },
+          { "name": "Camera în spectru vizibil VIS (600 megapixeli)", "description": "Măsoară cu precizie extremă forma galaxiilor și efectul de lentilă gravitațională slabă." },
+          { "name": "Spectrometrul și fotometrul în infraroșu apropiat NISP", "description": "Determină distanța (redshift-ul) fiecărei galaxii observate." }
+        ],
+        "explorationHistory": "Lansat la 1 iulie 2023; primele sale imagini cosmice («Early Release Observations») au dezvăluit roiul Perseus și mii de galaxii necunoscute anterior.",
+        "quiz": {
+          "question": "Care este obiectivul științific principal al misiunii europene Euclid?",
+          "options": ["Asolizarea pe Venus", "Realizarea unei hărți 3D a miliarde de galaxii pentru a studia materia și energia întunecată", "Fotografierea petelor solare", "Colectarea de roci lunare"],
+          "correctIndex": 1,
+          "explanation": "Euclid măsoară geometria la scară mare a Universului pentru a înțelege cum materia întunecată și energia întunecată îi modelează expansiunea."
+        }
+      }
+    },
+    {
+      "id": "voyager1",
+      "name": "Voyager 1",
+      "category": "probe",
+      "subtitle": "Cel mai îndepărtat obiect creat de om, călătorind în spațiul interstelar",
+      "color": "#22c55e",
+      "orbitColor": "#22c55e",
+      "radiusKm": 0.002,
+      "massEarthRatio": 0.0000000000001,
+      "gravityRatio": 0.0,
+      "orbitPeriodDays": 180000,
+      "dayLengthHours": 24.0,
+      "meanTempC": -195,
+      "distanceFromSunAU": 165.0,
+      "keplerian": {
+        "semiMajorAxisAU": 42.5,
+        "eccentricity": 0.25,
+        "inclinationDeg": 35.7,
+        "ascendingNodeDeg": 178.0,
+        "argPerihelionDeg": 85.0,
+        "meanAnomalyDeg": 180.0
+      },
+      "modelType": "voyager",
+      "junior": {
+        "summary": "Voyager 1 este cel mai curajos explorator construit vreodată de oameni! Zboară din anul 1977 și a ieșit deja din Sistemul Solar, în spațiul dintre stele.",
+        "analogy": "Poartă cu ea un «Disc de Aur» cu saluturi în 55 de limbi (inclusiv în limba română: «Salutări la toată lumea!»), muzică și sunete de pe Pământ!",
+        "funFact": "Voyager 1 este atât de departe încât un mesaj radio care merge cu viteza luminii face aproape o zi întreagă până ajunge la ea!",
+        "travelTime": {
+          "car": "28.000 de ani",
+          "plane": "3.100 de ani",
+          "rocket": "47+ ani de zbor continuu (cu 61.000 km/h)",
+          "light": "22 de ore și 45 de minute"
+        }
+      },
+      "cadet": {
+        "summary": "Lansată la 5 septembrie 1977, Voyager 1 a explorat sistemele lui Jupiter (1979) și Saturn (1980), iar la 25 august 2012 a traversat heliopauza, devenind primul artefact uman care pătrunde în mediul interstelar, la peste 24 de miliarde km de Pământ.",
+        "structure": [
+          { "name": "Antena parabolică de mare câștig (3,7 m diametru)", "description": "Menținută permanent orientată către Pământ pentru comunicații prin rețeaua Deep Space Network." },
+          { "name": "Generatoare termoelectrice cu radioizotopi (3 × RTG)", "description": "Alimentate cu plutoniu-238, deoarece la distanțe mari lumina Soarelui este prea slabă pentru panouri solare." },
+          { "name": "Discul de Aur (Voyager Golden Record) și Magnetometrele", "description": "Capsulă culturală a umanității și senzori care măsoară plasma și câmpul magnetic interstelar." }
+        ],
+        "explorationHistory": "A realizat în 1990 celebra fotografie a Pământului «Un punct albastru pal» (Pale Blue Dot) de la 6 miliarde km distanță, la sugestia lui Carl Sagan.",
+        "quiz": {
+          "question": "Ce poartă la bord sondele Voyager 1 și Voyager 2 ca mesaj pentru eventuale civilizații extraterestre?",
+          "options": ["Discul de Aur (Golden Record) cu sunete, imagini și saluturi în 55 de limbi, inclusiv în română", "Un steag de hârtie", "Un telescop cu oglindă de aur", "Roci de pe Lună"],
+          "correctIndex": 0,
+          "explanation": "Discul de Aur Voyager conține 115 imagini, muzică de pe Pământ și saluturi în 55 de limbi (inclusiv «Salutări la toată lumea» în limba română)."
+        }
+      }
+    },
+    {
+      "id": "voyager2",
+      "name": "Voyager 2",
+      "category": "probe",
+      "subtitle": "Singura sondă din istorie care a vizitat toți cei 4 giganți: Jupiter, Saturn, Uranus și Neptun",
+      "color": "#10b981",
+      "orbitColor": "#22c55e",
+      "radiusKm": 0.002,
+      "massEarthRatio": 0.0000000000001,
+      "gravityRatio": 0.0,
+      "orbitPeriodDays": 165000,
+      "dayLengthHours": 24.0,
+      "meanTempC": -195,
+      "distanceFromSunAU": 138.0,
+      "keplerian": {
+        "semiMajorAxisAU": 38.5,
+        "eccentricity": 0.22,
+        "inclinationDeg": -32.0,
+        "ascendingNodeDeg": 310.0,
+        "argPerihelionDeg": 45.0,
+        "meanAnomalyDeg": 175.0
+      },
+      "modelType": "voyager",
+      "junior": {
+        "summary": "Voyager 2 este sora geamănă a lui Voyager 1 și singura navă spațială care a făcut «Marele Tur», vizitând toate cele patru planete uriașe: Jupiter, Saturn, Uranus și Neptun!",
+        "analogy": "Folosind gravitația fiecărei planete ca pe o praștie cosmică, Voyager 2 a sărit de la o planetă la alta!",
+        "funFact": "Deși se numește Voyager 2, a fost lansată cu 16 zile ÎNAINTE de Voyager 1!",
+        "travelTime": {
+          "car": "23.500 de ani",
+          "plane": "2.600 de ani",
+          "rocket": "47+ ani",
+          "light": "19 ore"
+        }
+      },
+      "cadet": {
+        "summary": "Lansată la 20 august 1977, Voyager 2 a profitat de o aliniere planetară care apare doar o dată la 175 de ani («Grand Tour»), survolând Jupiter (1979), Saturn (1981), Uranus (1986) și Neptun (1989). În noiembrie 2018 a intrat și ea în spațiul interstelar.",
+        "structure": [
+          { "name": "Antena parabolică de 3,7 m și emițătorul în banda X", "description": "Transmite date științifice cu o putere de doar ~20 W (cât un bec de frigider) de la peste 20 miliarde km." },
+          { "name": "Sub-sistemul de analiză a plasmei (PLS)", "description": "A măsurat direct tranziția bruscă de la vântul solar cald la plasma interstelară rece." },
+          { "name": "Platforma de scanare cu camere și spectrometre", "description": "A descoperit 16 sateliți noi, gheizerele de azot de pe Triton și inelele lui Uranus și Neptun." }
+        ],
+        "explorationHistory": "Rămâne până astăzi singura sondă care a explorat de aproape giganții de gheață Uranus și Neptun.",
+        "quiz": {
+          "question": "Care este singura sondă spațială care a vizitat planetele Uranus și Neptun?",
+          "options": ["Voyager 1", "Voyager 2", "Cassini", "New Horizons"],
+          "correctIndex": 1,
+          "explanation": "Voyager 2 este singura navă spațială care a survolat toate cele patru planete gigante, inclusiv Uranus (1986) și Neptun (1989)."
+        }
+      }
+    },
+    {
+      "id": "newhorizons",
+      "name": "New Horizons",
+      "category": "probe",
+      "subtitle": "Sonda rapidă care ne-a dezvăluit inima înghețată a lui Pluto și Centura Kuiper",
+      "color": "#c084fc",
+      "orbitColor": "#22c55e",
+      "radiusKm": 0.0013,
+      "massEarthRatio": 0.00000000000008,
+      "gravityRatio": 0.0,
+      "orbitPeriodDays": 120000,
+      "dayLengthHours": 24.0,
+      "meanTempC": -210,
+      "distanceFromSunAU": 60.2,
+      "keplerian": {
+        "semiMajorAxisAU": 35.0,
+        "eccentricity": 0.28,
+        "inclinationDeg": 14.5,
+        "ascendingNodeDeg": 115.0,
+        "argPerihelionDeg": 180.0,
+        "meanAnomalyDeg": 168.0
+      },
+      "modelType": "probe",
+      "junior": {
+        "summary": "New Horizons este sonda spațială de mărimea unui pian cu coadă care a zburat timp de 9 ani și jumătate pentru a fotografia pentru prima oară de aproape planeta pitică Pluto!",
+        "analogy": "A plecat de pe Pământ mai repede decât orice altă rachetă — a trecut de orbita Lunii în doar 9 ore (față de 3 zile cât le-a luat astronauților Apollo)!",
+        "funFact": "După Pluto, a vizitat în 2019 și pe Arrokoth, un corp înghețat din Centura Kuiper care arată exact ca un om de zăpadă cosmic!",
+        "travelTime": {
+          "car": "10.000 de ani",
+          "plane": "1.100 de ani",
+          "rocket": "9,5 ani până la Pluto (18+ ani în Centura Kuiper)",
+          "light": "8 ore și 20 de minute"
+        }
+      },
+      "cadet": {
+        "summary": "Lansată la 19 ianuarie 2006 cu cea mai mare viteză de evadare de pe Pământ (16,26 km/s), New Horizons a survolat Jupiter în 2007, sistemul Pluto–Charon la 14 iulie 2015 și obiectul primordial din Centura Kuiper 486958 Arrokoth la 1 ianuarie 2019.",
+        "structure": [
+          { "name": "Camera telescopică LORRI și spectrometrul Ralph", "description": "Au cartografiat munții de gheață și câmpia Sputnik Planitia de pe Pluto la rezoluții de sub 100 m/pixel." },
+          { "name": "Generator radioizotopic RTG și antenă de 2,1 m", "description": "Asigură energia și comunicațiile la peste 55–60 UA de Soare." },
+          { "name": "Detectorul de praf Venetia Burney (SDC)", "description": "Construit de studenți și numit după fetița de 11 ani care a propus numele «Pluto» în 1930." }
+        ],
+        "explorationHistory": "A realizat cel mai îndepărtat survol al unui corp ceresc din istorie (Arrokoth, la 43,4 UA de Soare).",
+        "quiz": {
+          "question": "În cât timp a ajuns sonda New Horizons de la Pământ până la orbita Lunii după lansarea din 2006?",
+          "options": ["În 3 zile", "În doar 9 ore", "Într-o lună", "Într-un an"],
+          "correctIndex": 1,
+          "explanation": "Lansată cu peste 58.000 km/h, New Horizons a traversat distanța Pământ–Lună în doar 9 ore!"
+        }
+      }
+    },
+    {
+      "id": "parker",
+      "name": "Parker Solar Probe",
+      "category": "probe",
+      "subtitle": "Sonda ultra-rapidă care a «atins» Soarele, pătrunzând în coroana solară",
+      "color": "#ffb703",
+      "orbitColor": "#22c55e",
+      "radiusKm": 0.0015,
+      "massEarthRatio": 0.0000000000001,
+      "gravityRatio": 0.0,
+      "orbitPeriodDays": 88.0,
+      "dayLengthHours": 24.0,
+      "meanTempC": 1370,
+      "distanceFromSunAU": 0.25,
+      "keplerian": {
+        "semiMajorAxisAU": 0.39,
+        "eccentricity": 0.88,
+        "inclinationDeg": 3.4,
+        "ascendingNodeDeg": 75.0,
+        "argPerihelionDeg": 15.0,
+        "meanAnomalyDeg": 45.0
+      },
+      "modelType": "probe",
+      "junior": {
+        "summary": "Parker Solar Probe este cea mai rapidă navă construită vreodată de oameni și singura care s-a apropiat atât de mult de Soare încât a zburat chiar prin atmosfera lui de foc!",
+        "analogy": "Are în față un scut termic special, gros cât o carte, în spatele căruia instrumentele stau la o temperatură plăcută de cameră în timp ce afară sunt +1.400 °C!",
+        "funFact": "Atinge viteza incredibilă de 690.000 km/h — cu această viteză ai ajunge de la București la Oradea în mai puțin de 3 secunde!",
+        "travelTime": {
+          "car": "160 de ani",
+          "plane": "18 ani",
+          "rocket": "câteva luni",
+          "light": "8 minute"
+        }
+      },
+      "cadet": {
+        "summary": "Lansată în august 2018 și numită în onoarea astrofizicianului Eugene Parker (care a prezis existența vântului solar), sonda folosește 7 asistențe gravitaționale ale planetei Venus pentru a coborî periheliul până la ~6,1 milioane km de fotosfera solară.",
+        "structure": [
+          { "name": "Scutul de protecție termică (Thermal Protection System)", "description": "Gros de 11,4 cm din compozit carbon-carbon și spumă de carbon, rezistă la temperaturi de 1.370 °C." },
+          { "name": "Panouri solare răcite activ cu apă deionizată", "description": "Se retrag în umbra scutului termic în timpul trecerilor apropiate pe lângă Soare." },
+          { "name": "Instrumentele FIELDS, SWEAP, WISPR și IS☉IS", "description": "Măsoară câmpurile magnetice, plasma coronală și fotografiaza structurile vântului solar." }
+        ],
+        "explorationHistory": "În 2021 a devenit prima navă care a traversat suprafața critică Alfvén, intrând oficial în atmosfera magnetică a Soarelui.",
+        "quiz": {
+          "question": "Ce record absolut deține sonda Parker Solar Probe?",
+          "options": ["Cea mai grea rachetă", "Cel mai rapid obiect construit vreodată de om (~690.000 km/h) și cel mai apropiat de Soare", "Cea mai veche sondă", "Singura sondă de pe Marte"],
+          "correctIndex": 1,
+          "explanation": "Atrăgând-o gravitația imensă a Soarelui la periheliu, Parker Solar Probe atinge ~191 km/s (690.000 km/h)."
+        }
+      }
+    },
+    {
+      "id": "rosetta",
+      "name": "Rosetta & Philae",
+      "category": "probe",
+      "subtitle": "Misiunea europeană istorică ce a însoțit o cometă și a asolizat pe nucleul ei",
+      "color": "#38bdf8",
+      "orbitColor": "#22c55e",
+      "radiusKm": 0.0016,
+      "massEarthRatio": 0.0000000000005,
+      "gravityRatio": 0.0,
+      "orbitPeriodDays": 2352.0,
+      "dayLengthHours": 12.4,
+      "meanTempC": -70,
+      "distanceFromSunAU": 3.46,
+      "keplerian": {
+        "semiMajorAxisAU": 3.46,
+        "eccentricity": 0.64,
+        "inclinationDeg": 7.04,
+        "ascendingNodeDeg": 50.1,
+        "argPerihelionDeg": 12.8,
+        "meanAnomalyDeg": 90.0
+      },
+      "modelType": "probe",
+      "junior": {
+        "summary": "Rosetta a fost sonda Agenției Spațiale Europene care a urmărit timp de 10 ani cometa Ciuriumov-Gherasimenko și a coborât pe ea micul robot laborator Philae!",
+        "analogy": "Cometa pe care a ajuns Rosetta are exact forma unei rățuște de baie din gheață și praf negru, lungă de 4 kilometri!",
+        "funFact": "Aripile solare ale sondei Rosetta erau lungi de 32 de metri — cât o balenă albastră!",
+        "travelTime": {
+          "car": "450 de ani",
+          "plane": "50 de ani",
+          "rocket": "10 ani (pe o traiectorie cu asistențe gravitaționale)",
+          "light": "28 de minute"
+        }
+      },
+      "cadet": {
+        "summary": "Lansată de ESA în martie 2004, Rosetta a devenit în august 2014 prima sondă care a intrat pe orbita unei comete (67P/Ciuriumov-Gherasimenko), iar la 12 noiembrie 2014 modulul său Philae a realizat prima asolizare moale pe nucleul unei comete.",
+        "structure": [
+          { "name": "Aripi solare de 64 m² cu celule LILT", "description": "Proiectate pentru intensitate luminoasă scăzută și temperaturi joase până la 5,2 UA de Soare." },
+          { "name": "Modulul de asolizare Philae (100 kg)", "description": "Echipat cu harpoane, burghiu de eșantionare și 10 instrumente de analiză chimică și izotopică." },
+          { "name": "Spectrometrul ROSINA și camera OSIRIS", "description": "Au detectat aminoacidul glicină, fosfor și raportul deuteriu/hidrogen din apa cometară." }
+        ],
+        "explorationHistory": "Și-a încheiat misiunea la 30 septembrie 2016 coborând lent și așezându-se definitiv pe suprafața cometei 67P.",
+        "quiz": {
+          "question": "Ce premieră mondială a realizat misiunea europeană Rosetta în anul 2014?",
+          "options": ["A ajuns pe Pluto", "A intrat pe orbita unei comete (67P) și a așezat robotul Philae pe suprafața ei", "A adus roci de pe Marte", "A fotografiat Soarele din interior"],
+          "correctIndex": 1,
+          "explanation": "Rosetta și modulul Philae au realizat prima orbitare și prima asolizare din istorie pe nucleul unei comete."
+        }
+      }
+    },
+    {
+      "id": "juice",
+      "name": "JUICE (Jupiter Icy Moons Explorer)",
+      "category": "probe",
+      "subtitle": "Exploratorul european al lunilor înghețate cu oceane ale lui Jupiter",
+      "color": "#00f0ff",
+      "orbitColor": "#22c55e",
+      "radiusKm": 0.0018,
+      "massEarthRatio": 0.000000000001,
+      "gravityRatio": 0.0,
+      "orbitPeriodDays": 1850.0,
+      "dayLengthHours": 24.0,
+      "meanTempC": -150,
+      "distanceFromSunAU": 3.1,
+      "keplerian": {
+        "semiMajorAxisAU": 3.1,
+        "eccentricity": 0.52,
+        "inclinationDeg": 2.1,
+        "ascendingNodeDeg": 210.0,
+        "argPerihelionDeg": 60.0,
+        "meanAnomalyDeg": 135.0
+      },
+      "modelType": "probe",
+      "junior": {
+        "summary": "JUICE este sonda Agenției Spațiale Europene aflată în drum spre Jupiter pentru a cerceta oceanele ascunse sub gheață de pe lunile Europa, Callisto și Ganymede!",
+        "analogy": "Cele două aripi solare ale sale, în formă de cruce, sunt mari cât un teren de baschet!",
+        "funFact": "Pe fuselajul sondei JUICE este gravat un desen realizat de o fetiță de 10 ani, ales dintr-un concurs la care au participat mii de copii!",
+        "travelTime": {
+          "car": "717 ani",
+          "plane": "80 de ani",
+          "rocket": "8 ani (lansată în 2023, sosire la Jupiter în 2031)",
+          "light": "35 de minute"
+        }
+      },
+      "cadet": {
+        "summary": "Lansată la 14 aprilie 2023 cu o rachetă Ariane 5, misiunea de clasă mare a ESA (JUICE) va ajunge în sistemul jovian în iulie 2031, va efectua 35 de survoluri ale lunilor Europa, Callisto și Ganymede, iar în 2034 va deveni prima sondă care orbitează o lună a altei planete (Ganymede).",
+        "structure": [
+          { "name": "Panouri solare în formă de cruce (85 m²)", "description": "Cel mai mare sistem fotovoltaic trimis vreodată către Sistemul Solar exterior (unde lumina solară este de 25 de ori mai slabă)." },
+          { "name": "Radarul de penetrare a gheții RIME (antena de 16 m)", "description": "Poate «vedea» până la 9 km adâncime prin crusta de gheață a lunilor joviane." },
+          { "name": "Magnetometrul J-MAG și altimetrul laser GALA", "description": "Vor măsura adâncimea și salinitatea oceanelor subterane de pe Ganymede, Europa și Callisto." }
+        ],
+        "explorationHistory": "În august 2024 a realizat prima manevră dublă din istorie de asistență gravitațională Lună–Pământ (LEGA).",
+        "quiz": {
+          "question": "În jurul cărui satelit natural va intra pe orbită sonda europeană JUICE în anul 2034?",
+          "options": ["Luna Pământului", "Ganymede (cel mai mare satelit al lui Jupiter)", "Titan", "Io"],
+          "correctIndex": 1,
+          "explanation": "JUICE va deveni prima sondă din istorie care va intra pe orbită în jurul unui satelit al altei planete: Ganymede."
+        }
+      }
+    },
+    {
+      "id": "perseverance",
+      "name": "Perseverance & Ingenuity",
+      "category": "rover",
+      "subtitle": "Laboratorul astrobiologic pe roți și primul elicopter care a zburat pe Marte",
+      "color": "#f97316",
+      "orbitColor": "#22c55e",
+      "parentId": "mars",
+      "localOrbitOrder": 1,
+      "radiusKm": 0.0015,
+      "massEarthRatio": 0.0000000000002,
+      "gravityRatio": 0.38,
+      "orbitPeriodDays": 686.98,
+      "dayLengthHours": 24.623,
+      "meanTempC": -63,
+      "distanceFromSunAU": 1.524,
+      "modelType": "rover",
+      "junior": {
+        "summary": "Perseverance («Percy») este un robot explorator pe 6 roți care caută urme de viață străveche în craterul Jezero de pe Marte, însoțit de micul elicopter Ingenuity («Ginny»)!",
+        "analogy": "Roverul este mare cât o mașină de teren, iar elicopterul Ingenuity cântărește doar 1,8 kg — cât o cutie mare de lapte!",
+        "funFact": "Ingenuity a fost primul aparat din istorie care a zburat pe o altă planetă, reușind 72 de zboruri în aerul subțire al lui Marte!",
+        "travelTime": {
+          "car": "62 de ani",
+          "plane": "7 ani",
+          "rocket": "7 luni (lansat în iulie 2020, amartizat în februarie 2021)",
+          "light": "între 3 și 22 de minute"
+        }
+      },
+      "cadet": {
+        "summary": "Amartizat la 18 februarie 2021 în craterul Jezero (delta unui râu antic marțian), Perseverance caută biosemnături fosile, colectează carote de rocă în tuburi sigilate pentru viitoarea aducere pe Pământ și a demonstrat producerea de oxigen din atmosfera marțiană.",
+        "structure": [
+          { "name": "Catargul cu SuperCam și Mastcam-Z", "description": "Camere panoramice cu zoom și un laser care vaporizează rocile de la 7 m distanță pentru a le analiza compoziția." },
+          { "name": "Experimentul MOXIE", "description": "A produs cu succes oxigen respirabil direct din dioxidul de carbon (CO₂) al atmosferei marțiene." },
+          { "name": "Elicopterul coaxial Ingenuity", "description": "Elice din fibră de carbon care se rotesc cu 2.400 rpm pentru a genera portanță în atmosfera marțiană cu densitate de doar 1%." }
+        ],
+        "explorationHistory": "Coborât pe Marte prin spectaculoasa manevră «Sky Crane» (macara zburătoare cu rachete); Ingenuity a zburat de 72 de ori între 2021 și 2024.",
+        "quiz": {
+          "question": "Ce a demonstrat în premieră instrumentul MOXIE de la bordul roverului Perseverance?",
+          "options": ["Că pe Marte plouă cu apă", "Că se poate produce oxigen pur din atmosfera de dioxid de carbon a lui Marte", "Că Marte are câmp magnetic puternic", "Că există plante verzi"],
+          "correctIndex": 1,
+          "explanation": "MOXIE a extras oxigen din CO₂-ul atmosferic marțian, o tehnologie esențială pentru viitorii astronauți (pentru respirație și combustibil de rachetă)."
+        }
+      }
+    },
+    {
+      "id": "curiosity",
+      "name": "Curiosity (Mars Science Laboratory)",
+      "category": "rover",
+      "subtitle": "Roverul veteran care urcă pe Muntele Sharp din craterul Gale de pe Marte",
+      "color": "#fb923c",
+      "orbitColor": "#22c55e",
+      "parentId": "mars",
+      "localOrbitOrder": 2,
+      "radiusKm": 0.0015,
+      "massEarthRatio": 0.00000000000015,
+      "gravityRatio": 0.38,
+      "orbitPeriodDays": 686.98,
+      "dayLengthHours": 24.623,
+      "meanTempC": -63,
+      "distanceFromSunAU": 1.524,
+      "modelType": "rover",
+      "junior": {
+        "summary": "Curiosity este laboratorul chimic pe roți care explorează Marte încă din anul 2012! El a demonstrat că pe Marte au existat lacuri cu apă dulce în care ar fi putut trăi microbi.",
+        "analogy": "Curiosity are un «cap» cu 17 camere foto și un braț robotic lung de 2 metri cu care găurește pietrele marțiene!",
+        "funFact": "Roțile lui Curiosity au găuri speciale care lasă pe nisipul de pe Marte urme în codul Morse cu literele «J P L» (laboratorul care l-a construit)!",
+        "travelTime": {
+          "car": "62 de ani",
+          "plane": "7 ani",
+          "rocket": "8 luni și jumătate (2011–2012)",
+          "light": "între 3 și 22 de minute"
+        }
+      },
+      "cadet": {
+        "summary": "Amartizat la 6 august 2012 în craterul Gale, Curiosity (900 kg, alimentat nuclear prin RTG) urcă treptat pe versanții muntelui Aeolis Mons (Mount Sharp, 5,5 km înălțime), citind în straturile sedimentare tranziția lui Marte de la o lume umedă la un deșert rece.",
+        "structure": [
+          { "name": "Laboratorul intern SAM (Sample Analysis at Mars)", "description": "Spectrometru de masă și cromatograf cu gaz care a identificat molecule organice complexe în argilele marțiene." },
+          { "name": "Instrumentul cu laser ChemCam și difractometrul CheMin", "description": "Identifică mineralele formate în prezența apei cu pH neutru." },
+          { "name": "Suspensia Rocker-Bogie cu 6 roți motoare", "description": "Permite roverului să treacă peste obstacole de două ori mai mari decât diametrul roților fără să se răstoarne." }
+        ],
+        "explorationHistory": "A parcurs peste 32 km pe Marte în mai mult de 4.300 de zile marțiene (soli), fiind încă activ.",
+        "quiz": {
+          "question": "Ce descoperire fundamentală a făcut roverul Curiosity în craterul Gale de pe Marte?",
+          "options": ["Că Marte nu a avut niciodată apă", "Că în trecutul îndepărtat al lui Marte au existat lacuri și râuri de apă lichidă cu condiții prielnice vieții microbiene", "Că solul este din aur pur", "Că Marte are inele"],
+          "correctIndex": 1,
+          "explanation": "Analizând pietrișul rotunjit de apă și argilele din craterul Gale, Curiosity a demonstrat că Marte a găzduit lacuri străvechi de apă potabilă."
+        }
+      }
+    }
+  ]
+}

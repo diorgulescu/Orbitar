@@ -1,0 +1,1217 @@
+{
+  "version": "1.0.0",
+  "language": "ro",
+  "belts": [
+    {
+      "id": "asteroid-belt",
+      "name": "Centura Principală de Asteroizi",
+      "innerRadiusAU": 2.15,
+      "outerRadiusAU": 3.25,
+      "thicknessAU": 0.35,
+      "count": 2200,
+      "color": "#a8a29e",
+      "descriptionRo": "Regiune toroidală între orbitele planetelor Marte și Jupiter, populată de milioane de corpuri stâncoase și metalice rămase de la formarea Sistemului Solar."
+    },
+    {
+      "id": "kuiper-belt",
+      "name": "Centura Kuiper",
+      "innerRadiusAU": 30.5,
+      "outerRadiusAU": 49.0,
+      "thicknessAU": 3.2,
+      "count": 2800,
+      "color": "#7dd3fc",
+      "descriptionRo": "Disc vast de corpuri înghețate situat dincolo de orbita lui Neptun, casa planetelor pitice Pluto, Haumea și Makemake."
+    }
+  ],
+  "bodies": [
+    {
+      "id": "sun",
+      "name": "Soarele",
+      "category": "star",
+      "subtitle": "Steaua centrală a Sistemului Solar (Pitică Galbenă G2V)",
+      "color": "#ffb703",
+      "orbitColor": "#ffb703",
+      "radiusKm": 696340,
+      "massEarthRatio": 332946,
+      "gravityRatio": 27.94,
+      "orbitPeriodDays": 0,
+      "dayLengthHours": 609.12,
+      "meanTempC": 5505,
+      "distanceFromSunAU": 0,
+      "axialTiltDeg": 7.25,
+      "modelType": "sphere",
+      "junior": {
+        "summary": "Soarele este o minge uriașă de foc și plasmă strălucitoare care ne dă lumină și căldură în fiecare zi. Fără el, pe Pământ ar fi întuneric și un frig de gheață!",
+        "analogy": "Dacă Soarele ar fi cât o minge mare de plajă, Pământul ar fi doar cât un bob mic de mazăre!",
+        "funFact": "În interiorul Soarelui ar încăpea aproximativ 1,3 milioane de planete Pământ!",
+        "travelTime": {
+          "car": "171 de ani (fără oprire, cu 100 km/h)",
+          "plane": "19 ani cu un avion de pasageri",
+          "rocket": "4 luni cu o navă spațială rapidă",
+          "light": "8 minute și 20 de secunde"
+        }
+      },
+      "cadet": {
+        "summary": "Soarele este o stea de tip spectral G2V care concentrează 99,86% din masa totală a Sistemului Solar. În nucleul său, la temperaturi de 15 milioane °C, fuziunea nucleară transformă 600 de milioane de tone de hidrogen în heliu în fiecare secundă.",
+        "structure": [
+          { "name": "Nucleul solar", "description": "Zona centrală extrem de densă (15.000.000 °C) unde au loc reacțiile de fuziune proton-proton." },
+          { "name": "Zona radiativă și convectivă", "description": "Straturile prin care fotonii și curenții de plasmă transportă energia spre suprafață timp de mii de ani." },
+          { "name": "Fotosfera și Coroana", "description": "Suprafața vizibilă la 5.505 °C și atmosfera exterioară rarefiată care depășește 1.000.000 °C." }
+        ],
+        "explorationHistory": "Studiat de misiunile SOHO, Solar Dynamics Observatory (SDO), Solar Orbiter (ESA) și Parker Solar Probe (NASA), care a pătruns direct în coroana solară.",
+        "quiz": {
+          "question": "Ce procent din masa întregului Sistem Solar se află în Soare?",
+          "options": ["Aproximativ 50%", "Aproximativ 75%", "Peste 99,8%", "Sub 25%"],
+          "correctIndex": 2,
+          "explanation": "Soarele concentrează 99,86% din masa Sistemului Solar; toate planetele, lunile și asteroizii la un loc reprezintă doar 0,14%!"
+        }
+      }
+    },
+    {
+      "id": "mercury",
+      "name": "Mercur",
+      "category": "terrestrial",
+      "subtitle": "Cea mai apropiată și mai mică planetă de la Soare",
+      "color": "#a8a29e",
+      "orbitColor": "#00f0ff",
+      "radiusKm": 2439.7,
+      "massEarthRatio": 0.055,
+      "gravityRatio": 0.38,
+      "orbitPeriodDays": 87.97,
+      "dayLengthHours": 1407.6,
+      "meanTempC": 167,
+      "distanceFromSunAU": 0.387,
+      "axialTiltDeg": 0.03,
+      "modelType": "sphere",
+      "junior": {
+        "summary": "Mercur este mesagerul rapid al Sistemului Solar! Fiind cel mai aproape de Soare, termină o tură completă în doar 88 de zile.",
+        "analogy": "Mercur este doar puțin mai mare decât Luna noastră și arată aproape ca o nucă cenușie plină de gropițe.",
+        "funFact": "Deși este cel mai aproape de Soare, noaptea pe Mercur îngheață totul la -180 °C pentru că nu are o pătură de aer!",
+        "travelTime": {
+          "car": "105 ani",
+          "plane": "11 ani și jumătate",
+          "rocket": "3 luni",
+          "light": "5 minute de pe Pământ"
+        }
+      },
+      "cadet": {
+        "summary": "Mercur este o planetă telurică densă, având un nucleu metalic uriaș din fier care ocupă 85% din raza planetei. Lipsa unei atmosfere substanțiale (are doar o exosferă subțire) provoacă cele mai mari variații termice din Sistemul Solar.",
+        "structure": [
+          { "name": "Nucleu metalic supradimensionat", "description": "Format din fier solid și lichid, reprezintă ~85% din raza planetei și generează un câmp magnetic propriu." },
+          { "name": "Manta silicatată subțire", "description": "Un înveliș de roci de numai 400 km grosime." },
+          { "name": "Scoarță craterizată", "description": "Dominată de Bazinul Caloris (1.550 km diametru) și faleze de contracție numite rupes." }
+        ],
+        "explorationHistory": "Vizitată de Mariner 10 (1974–1975), cartografiată complet de sonda MESSENGER (2011–2015) și explorată de misiunea europeo-japoneză BepiColombo.",
+        "quiz": {
+          "question": "Cât durează un an pe planeta Mercur (o orbită completă în jurul Soarelui)?",
+          "options": ["365 de zile", "88 de zile pământești", "24 de ore", "12 ani"],
+          "correctIndex": 1,
+          "explanation": "Fiind cea mai apropiată planetă de Soare, Mercur parcurge orbita cu ~47 km/s și încheie un an în doar 88 de zile terestre."
+        }
+      }
+    },
+    {
+      "id": "venus",
+      "name": "Venus",
+      "category": "terrestrial",
+      "subtitle": "Luceafărul strălucitor cu efect de seră extrem",
+      "color": "#fbbf24",
+      "orbitColor": "#00f0ff",
+      "radiusKm": 6051.8,
+      "massEarthRatio": 0.815,
+      "gravityRatio": 0.9,
+      "orbitPeriodDays": 224.7,
+      "dayLengthHours": -5832.5,
+      "meanTempC": 464,
+      "distanceFromSunAU": 0.723,
+      "axialTiltDeg": 177.36,
+      "modelType": "sphere",
+      "junior": {
+        "summary": "Venus este cel mai strălucitor obiect de pe cerul nopții după Lună! Este învelită în nori groși și gălbui care păstrează căldura ca într-un cuptor.",
+        "analogy": "Venus are aproape aceeași mărime ca Pământul — ca două portocale așezate una lângă alta!",
+        "funFact": "Pe Venus, Soarele răsare din vest și apune în est, deoarece planeta se învârte invers față de Pământ!",
+        "travelTime": {
+          "car": "47 de ani (când este cel mai aproape)",
+          "plane": "5 ani și 2 luni",
+          "rocket": "3 luni și jumătate",
+          "light": "2 minute și 18 secunde"
+        }
+      },
+      "cadet": {
+        "summary": "Numită sora geamănă a Pământului datorită dimensiunii și masei similare, Venus are o atmosferă compusă în proporție de 96,5% din dioxid de carbon, cu o presiune la sol de 92 de ori mai mare decât cea terestră.",
+        "structure": [
+          { "name": "Nucleu de fier și nichel", "description": "Similar cu cel terestru, dar fără efectul de dinam magnetic din cauza rotației extrem de lente." },
+          { "name": "Manta și scoarță vulcanică", "description": "Peste 1.600 de vulcani majori, platouri ca Ishtar Terra și munții Maxwell Montes." },
+          { "name": "Atmosferă super-densă", "description": "Nori de acid sulfuric și CO₂ care mențin temperatura medie la +464 °C." }
+        ],
+        "explorationHistory": "Sondele sovietice Venera au reușit primele asolizări și fotografii de pe suprafață (1970–1982), iar sonda NASA Magellan a cartografiat relieful prin radar.",
+        "quiz": {
+          "question": "De ce este Venus mai fierbinte decât Mercur, deși se află mai departe de Soare?",
+          "options": ["Are mai mulți vulcani activi", "Are o atmosferă densă de CO₂ care creează un efect de seră extrem", "Este mai mare decât Mercur", "Se rotește foarte repede"],
+          "correctIndex": 1,
+          "explanation": "Atmosfera groasă de dioxid de carbon captează radiația termică, ridicând temperatura la +464 °C pe toată suprafața planetei."
+        }
+      }
+    },
+    {
+      "id": "earth",
+      "name": "Pământul",
+      "category": "terrestrial",
+      "subtitle": "Planeta Albastră — singura lume cunoscută care găzduiește viață",
+      "color": "#38bdf8",
+      "orbitColor": "#00f0ff",
+      "radiusKm": 6371.0,
+      "massEarthRatio": 1.0,
+      "gravityRatio": 1.0,
+      "orbitPeriodDays": 365.256,
+      "dayLengthHours": 23.934,
+      "meanTempC": 15,
+      "distanceFromSunAU": 1.0,
+      "axialTiltDeg": 23.44,
+      "modelType": "sphere",
+      "junior": {
+        "summary": "Pământul este casa noastră minunată din cosmos! Are oceane albastre, continente verzi, nori albi și o pătură de aer respirabil care ne apără.",
+        "analogy": "Văzut din spațiu, Pământul seamănă cu o bilă de sticlă albastră cu vârtejuri albe de frișcă!",
+        "funFact": "Pământul nu este perfect rotund: pentru că se învârte, este puțin turtit la poli ca o mandarină!",
+        "travelTime": {
+          "car": "Ești deja aici! Înconjurul Ecuatorului durează 17 zile cu mașina",
+          "plane": "45 de ore în jurul lumii",
+          "rocket": "90 de minute pentru o orbită completă",
+          "light": "0,13 secunde în jurul Ecuatorului"
+        }
+      },
+      "cadet": {
+        "summary": "A treia planetă de la Soare definește distanța etalon de 1 Unitate Astronomică (149.597.870 km). Este singurul corp planetar cu tectonică a plăcilor activă, hidrosferă lichidă (71% din suprafață) și atmosferă bogată în azot (78%) și oxigen (21%).",
+        "structure": [
+          { "name": "Nucleu intern solid și extern lichid", "description": "Aliaj de fier-nichel care generează magnetosfera protectoare împotriva radiațiilor cosmice." },
+          { "name": "Manta silicatată și Litosferă", "description": "Curenții de convecție din manta pun în mișcare plăcile tectonice ale scoarței." },
+          { "name": "Hidrosferă și Atmosferă", "description": "Oceanele și straturile atmosferice (troposferă, stratosferă cu stratul de ozon) reglează clima." }
+        ],
+        "explorationHistory": "Observată continuu de flote de sateliți meteorologici și științifici (programul european Copernicus Sentinel, NASA EOS) și de echipajele de pe ISS.",
+        "quiz": {
+          "question": "Ce ne protejează planeta de particulele încărcate electric ale vântului solar?",
+          "options": ["Câmpul magnetic (magnetosfera) generat de nucleul Pământului", "Gravitația Lunii", "Rotația în jurul Soarelui", "Norii din troposferă"],
+          "correctIndex": 0,
+          "explanation": "Nucleul extern din fier lichid al Pământului funcționează ca un dinam și creează magnetosfera, care deviază vântul solar."
+        }
+      }
+    },
+    {
+      "id": "mars",
+      "name": "Marte",
+      "category": "terrestrial",
+      "subtitle": "Planeta Roșie a vulcanilor giganți și a roverelor exploratoare",
+      "color": "#f97316",
+      "orbitColor": "#00f0ff",
+      "radiusKm": 3389.5,
+      "massEarthRatio": 0.107,
+      "gravityRatio": 0.38,
+      "orbitPeriodDays": 686.98,
+      "dayLengthHours": 24.623,
+      "meanTempC": -63,
+      "distanceFromSunAU": 1.524,
+      "axialTiltDeg": 25.19,
+      "modelType": "sphere",
+      "junior": {
+        "summary": "Marte este numită Planeta Roșie deoarece solul ei este plin de praf de fier ruginit! Este singura planetă locuită exclusiv de roboți și rovere trimise de oameni.",
+        "analogy": "Marte este cam pe jumătate cât Pământul — dacă Pământul e o portocală, Marte e o caisă roșiatică!",
+        "funFact": "Pe Marte se află Olympus Mons, un vulcan stins de trei ori mai înalt decât vârful Everest!",
+        "travelTime": {
+          "car": "62 de ani (la apropierea minimă)",
+          "plane": "7 ani",
+          "rocket": "7 luni",
+          "light": "între 3 și 22 de minute"
+        }
+      },
+      "cadet": {
+        "summary": "A patra planetă de la Soare are o zi solară (numită «sol») de 24 de ore și 39 de minute, foarte apropiată de cea terestră. Văile râurilor secate și mineralele hidratate demonstrează că Marte a avut oceane de apă lichidă acum peste 3,5 miliarde de ani.",
+        "structure": [
+          { "name": "Nucleu metalic", "description": "Compus din fier, nichel și sulf (aprox. 1.830 km rază), măsurat cu precizie de sonda InSight." },
+          { "name": "Scoarță bazaltică bogată în oxid de fier", "description": "Găzduiește canionul Valles Marineris (4.000 km lungime) și calote polare din gheață și CO₂ solid." },
+          { "name": "Atmosferă rarefiată (0,6% din presiunea terestră)", "description": "95% dioxid de carbon, capabilă totuși să susțină furtuni globale de praf." }
+        ],
+        "explorationHistory": "Explorată de sondele Viking, Mars Reconnaissance Orbiter, MAVEN și roverele Sojourner, Spirit, Opportunity, Curiosity și Perseverance.",
+        "quiz": {
+          "question": "Cum se numește cel mai înalt vulcan de pe Marte și din întregul Sistem Solar?",
+          "options": ["Mauna Kea", "Olympus Mons", "Valles Marineris", "Maxwell Montes"],
+          "correctIndex": 1,
+          "explanation": "Olympus Mons are o altitudine de aproape 22 km și o bază de aproximativ 600 km diametru!"
+        }
+      }
+    },
+    {
+      "id": "jupiter",
+      "name": "Jupiter",
+      "category": "gas_giant",
+      "subtitle": "Cel mai masiv gigant gazos din Sistemul Solar",
+      "color": "#f59e0b",
+      "orbitColor": "#ffb703",
+      "radiusKm": 69911,
+      "massEarthRatio": 317.8,
+      "gravityRatio": 2.53,
+      "orbitPeriodDays": 4332.59,
+      "dayLengthHours": 9.925,
+      "meanTempC": -110,
+      "distanceFromSunAU": 5.204,
+      "axialTiltDeg": 3.13,
+      "modelType": "sphere",
+      "junior": {
+        "summary": "Jupiter este uriașul protector al Sistemului Solar! Nu are un sol tare pe care să poți păși, fiind alcătuit aproape în întregime din nori și gaze.",
+        "analogy": "Dacă Pământul ar fi un bob de strugure, Jupiter ar fi cât un pepene verde imens!",
+        "funFact": "Marea Pată Roșie de pe Jupiter este o furtună gigantică ce suflă de sute de ani și e mai mare decât tot Pământul!",
+        "travelTime": {
+          "car": "717 ani",
+          "plane": "80 de ani",
+          "rocket": "2 până la 5 ani",
+          "light": "35 de minute"
+        }
+      },
+      "cadet": {
+        "summary": "Jupiter are o masă de 2,5 ori mai mare decât a tuturor celorlalte planete la un loc. Se rotește în jurul axei sale în mai puțin de 10 ore, ceea ce creează benzi atmosferice spectaculoase (zone și centuri) și cel mai puternic câmp magnetic planetar.",
+        "structure": [
+          { "name": "Nucleu difuz stâncos și de gheață", "description": "Un nucleu central de mare presiune amestecat cu hidrogen metalic." },
+          { "name": "Ocean de hidrogen metalic lichid", "description": "La presiuni de milioane de atmosfere, hidrogenul devine conductor electric și generează magnetosfera uriașă." },
+          { "name": "Atmosferă de hidrogen (90%) și heliu (10%)", "description": "Nori de amoniac și hidrosulfură de amoniu organizați în jeturi zonale și anticicloane." }
+        ],
+        "explorationHistory": "Survolată de Pioneer 10/11, Voyager 1/2, Ulysses, Cassini și New Horizons; studiată pe orbită de sondele Galileo (1995–2003) și Juno (din 2016).",
+        "quiz": {
+          "question": "Ce este celebra «Mare Pată Roșie» de pe Jupiter?",
+          "options": ["Un vulcan uriaș de lavă", "Un ocean de fier lichid", "O furtună anticiclonică mai mare decât Pământul", "Un crater de impact"],
+          "correctIndex": 2,
+          "explanation": "Marea Pată Roșie este un anticiclon gigantic cu vânturi de peste 430 km/h, observat de mai bine de 300 de ani."
+        }
+      }
+    },
+    {
+      "id": "saturn",
+      "name": "Saturn",
+      "category": "gas_giant",
+      "subtitle": "Bijuteria Sistemului Solar, încoronată cu inele de gheață",
+      "color": "#fde047",
+      "orbitColor": "#ffb703",
+      "radiusKm": 58232,
+      "massEarthRatio": 95.16,
+      "gravityRatio": 1.06,
+      "orbitPeriodDays": 10759.22,
+      "dayLengthHours": 10.7,
+      "meanTempC": -140,
+      "distanceFromSunAU": 9.582,
+      "axialTiltDeg": 26.73,
+      "modelType": "sphere",
+      "junior": {
+        "summary": "Saturn este cea mai ușor de recunoscut planetă datorită inelelor sale strălucitoare! Aceste inele sunt făcute din miliarde de bulgări de gheață și praf cosmic.",
+        "analogy": "Saturn este atât de ușor pentru mărimea lui încât, dacă am avea o cadă cu apă destul de mare, planeta ar pluti!",
+        "funFact": "La polul nord al lui Saturn există un vârtej de nori cu o formă geometrică perfectă de hexagon!",
+        "travelTime": {
+          "car": "1.450 de ani",
+          "plane": "160 de ani",
+          "rocket": "3 până la 7 ani",
+          "light": "1 oră și 11 minute"
+        }
+      },
+      "cadet": {
+        "summary": "Al doilea gigant gazos ca mărime are o densitate medie de doar 0,687 g/cm³ (mai mică decât a apei). Sistemul său principal de inele (A, B, C) are o lățime de 282.000 km, dar o grosime medie de numai 10–30 de metri.",
+        "structure": [
+          { "name": "Nucleu dens stâncos-metalic", "description": "De 9–22 de ori masa Pământului, înconjurat de hidrogen metalic lichid." },
+          { "name": "Atmosferă aurie cu vânturi de 1.800 km/h", "description": "Dominată de hidrogen și heliu, cu un jet-stream hexagonal persistent la polul nord." },
+          { "name": "Sistemul de Inele", "description": "Compus 99% din gheață pură de apă, cu dimensiuni de la granule microscopice la blocuri de câțiva metri." }
+        ],
+        "explorationHistory": "Vizitată de Pioneer 11 și Voyager 1/2, apoi explorată în detaliu timp de 13 ani de misiunea istorică Cassini-Huygens (2004–2017).",
+        "quiz": {
+          "question": "Din ce sunt alcătuite în principal celebrele inele ale lui Saturn?",
+          "options": ["Din inele solide de metal", "Din gaze colorate", "Din miliarde de fragmente de gheață și rocă", "Din lavă vulcanică înghețată"],
+          "correctIndex": 2,
+          "explanation": "Inelele lui Saturn nu sunt solide, ci sunt formate din nenumărate particule și blocuri de gheață care orbitează independent planeta."
+        }
+      }
+    },
+    {
+      "id": "uranus",
+      "name": "Uranus",
+      "category": "ice_giant",
+      "subtitle": "Gigantul de gheață turcoaz care se rostogolește pe orbită",
+      "color": "#67e8f9",
+      "orbitColor": "#38bdf8",
+      "radiusKm": 25362,
+      "massEarthRatio": 14.54,
+      "gravityRatio": 0.89,
+      "orbitPeriodDays": 30688.5,
+      "dayLengthHours": -17.24,
+      "meanTempC": -195,
+      "distanceFromSunAU": 19.218,
+      "axialTiltDeg": 97.77,
+      "modelType": "sphere",
+      "junior": {
+        "summary": "Uranus este o planetă de culoare bleu-turcoaz care face ceva unic: în loc să se învârtă ca un titirez drept, stă culcată pe o parte și se rostogolește ca o minge!",
+        "analogy": "Dacă Pământul e o mărgea, Uranus e cât un măr mare de culoarea gheții!",
+        "funFact": "Un anotimp pe Uranus durează 21 de ani pământești de lumină continuă sau de întuneric!",
+        "travelTime": {
+          "car": "3.100 de ani",
+          "plane": "345 de ani",
+          "rocket": "8 ani și jumătate",
+          "light": "2 ore și 30 de minute"
+        }
+      },
+      "cadet": {
+        "summary": "Prima planetă descoperită cu ajutorul telescopului (William Herschel, 1781), Uranus este clasificată drept «gigant de gheață». Înclinarea axială extremă de 97,77° este atribuită unei coliziuni cataclismice cu o protoplanetă în tinerețea Sistemului Solar.",
+        "structure": [
+          { "name": "Nucleu silicat-metalic rece", "description": "De dimensiuni relativ reduse, emițând foarte puțină căldură internă." },
+          { "name": "Manta fluidă de «ghețuri»", "description": "Amestec dens și fierbinte de apă, amoniac și metan aflate la presiuni extreme." },
+          { "name": "Atmosferă de hidrogen, heliu și metan", "description": "Metanul absoarbe lumina roșie a Soarelui și reflectă nuanța caracteristică cyan." }
+        ],
+        "explorationHistory": "Descoperită în 1781 și vizitată de o singură navă spațială până în prezent: Voyager 2 în ianuarie 1986.",
+        "quiz": {
+          "question": "Ce gaz din atmosfera lui Uranus îi oferă culoarea turcoaz (cyan)?",
+          "options": ["Oxigenul", "Dioxidul de carbon", "Metanul", "Azotul"],
+          "correctIndex": 2,
+          "explanation": "Metanul (CH₄) din atmosfera superioară absoarbe componenta roșie a luminii solare și difuzează lumina albastră-verzuie."
+        }
+      }
+    },
+    {
+      "id": "neptune",
+      "name": "Neptun",
+      "category": "ice_giant",
+      "subtitle": "Planeta albastră a vânturilor supersonice",
+      "color": "#3b82f6",
+      "orbitColor": "#38bdf8",
+      "radiusKm": 24622,
+      "massEarthRatio": 17.15,
+      "gravityRatio": 1.14,
+      "orbitPeriodDays": 60182,
+      "dayLengthHours": 16.11,
+      "meanTempC": -200,
+      "distanceFromSunAU": 30.11,
+      "axialTiltDeg": 28.32,
+      "modelType": "sphere",
+      "junior": {
+        "summary": "Neptun este cea mai îndepărtată planetă mare de la Soare! Are culoarea unui ocean adânc și vânturi atât de rapide încât depășesc viteza sunetului.",
+        "analogy": "Neptun este de 30 de ori mai departe de Soare decât Pământul — acolo Soarele pare doar o stea foarte strălucitoare!",
+        "funFact": "De când a fost descoperit în anul 1846, Neptun a reușit să facă o singură tură completă în jurul Soarelui (în 2011)!",
+        "travelTime": {
+          "car": "4.950 de ani",
+          "plane": "550 de ani",
+          "rocket": "12 ani (Voyager 2)",
+          "light": "4 ore și 10 minute"
+        }
+      },
+      "cadet": {
+        "summary": "Neptun a fost prima planetă a cărei existență a fost prezisă prin calcul matematic (Urbain Le Verrier și John Couch Adams) înainte de a fi observată prin telescop în 1846. Deși primește de 900 de ori mai puțină energie solară decât Pământul, are cea mai dinamică meteorologie dintre giganți.",
+        "structure": [
+          { "name": "Nucleu stâncos", "description": "Cu o masă apropiată de cea a Pământului, la temperaturi de ~5.000 °C." },
+          { "name": "Manta ionică de apă, amoniac și metan", "description": "La adâncimi mari, presiunea poate descompune metanul în cristale de diamant." },
+          { "name": "Atmosferă dinamică", "description": "Nori înalți de metan înghețat și vânturi care ating 2.100 km/h." }
+        ],
+        "explorationHistory": "Survolată de sonda Voyager 2 în august 1989 și observată în infraroșu de Telescopul Spațial James Webb.",
+        "quiz": {
+          "question": "Cum a fost descoperită planeta Neptun în anul 1846?",
+          "options": ["Cu ochiul liber în Antichitate", "Prin calcule matematice bazate pe perturbațiile orbitei lui Uranus", "De către sonda Voyager 2", "În timpul unei eclipse solare"],
+          "correctIndex": 1,
+          "explanation": "Matematicienii au observat că Uranus nu urma exact orbita calculată și au dedus poziția unei planete necunoscute care îl atrăgea gravitațional."
+        }
+      }
+    },
+    {
+      "id": "moon",
+      "name": "Luna",
+      "category": "moon",
+      "subtitle": "Singurul satelit natural al Pământului",
+      "color": "#e2e8f0",
+      "orbitColor": "#94a3b8",
+      "parentId": "earth",
+      "localOrbitOrder": 1,
+      "radiusKm": 1737.4,
+      "massEarthRatio": 0.0123,
+      "gravityRatio": 0.165,
+      "orbitPeriodDays": 27.322,
+      "dayLengthHours": 655.7,
+      "meanTempC": -23,
+      "distanceFromSunAU": 1.0,
+      "axialTiltDeg": 6.68,
+      "modelType": "sphere",
+      "junior": {
+        "summary": "Luna este tovarășa fidelă a Pământului! Ea nu are lumină proprie, ci strălucește pe cerul nopții pentru că reflectă lumina Soarelui ca o oglindă.",
+        "analogy": "Dacă Pământul ar fi o minge de baschet, Luna ar fi cât o minge de tenis aflată la 7 metri distanță!",
+        "funFact": "Pe Lună gravitația este de 6 ori mai slabă decât pe Pământ: acolo ai putea sări de 6 ori mai sus!",
+        "travelTime": {
+          "car": "160 de zile (aproximativ 5 luni)",
+          "plane": "18 zile",
+          "rocket": "3 zile (misiunile Apollo)",
+          "light": "1,28 secunde"
+        }
+      },
+      "cadet": {
+        "summary": "Formată acum ~4,5 miliarde de ani în urma impactului dintre proto-Pământ și un corp de mărimea lui Marte (Theia), Luna se află în rotație sincronă (ne arată mereu aceeași față) și stabilizează înclinarea axei terestre.",
+        "structure": [
+          { "name": "Nucleu mic de fier", "description": "Rază de numai ~350 km, parțial topit la exterior." },
+          { "name": "Manta litosferică", "description": "Bogată în olivină și piroxen, mult mai rigidă decât mantaua Pământului." },
+          { "name": "Scoarță acoperită cu regolit", "description": "Mări lunare întunecate (bazalt vulcanic antic) și podișuri înalte intens craterizate." }
+        ],
+        "explorationHistory": "Singurul corp ceresc pe care au pășit oamenii (12 astronauți în programul Apollo, 1969–1972) și ținta programului actual Artemis.",
+        "quiz": {
+          "question": "De ce vedem de pe Pământ întotdeauna aceeași față a Lunii?",
+          "options": ["Pentru că Luna nu se rotește deloc", "Pentru că perioada de rotație a Lunii este egală cu perioada ei de orbitare în jurul Pământului", "Pentru că cealaltă față este mereu în întuneric", "Din cauza norilor terestri"],
+          "correctIndex": 1,
+          "explanation": "Fenomenul se numește rotație sincronă: Luna se rotește în jurul axei sale în exact 27,3 zile — același timp în care înconjoară Pământul."
+        }
+      }
+    },
+    {
+      "id": "io",
+      "name": "Io",
+      "category": "moon",
+      "subtitle": "Luna vulcanică a lui Jupiter",
+      "color": "#facc15",
+      "orbitColor": "#fde047",
+      "parentId": "jupiter",
+      "localOrbitOrder": 1,
+      "radiusKm": 1821.6,
+      "massEarthRatio": 0.015,
+      "gravityRatio": 0.183,
+      "orbitPeriodDays": 1.769,
+      "dayLengthHours": 42.46,
+      "meanTempC": -143,
+      "distanceFromSunAU": 5.204,
+      "modelType": "sphere",
+      "junior": {
+        "summary": "Io este cea mai vulcanică lume din tot Sistemul Solar! Are sute de vulcani activi care aruncă fântâni uriașe de lavă și sulf până în spațiu.",
+        "analogy": "Cu petele ei galbene, portocalii și roșii, Io arată exact ca o pizza uriașă cu multă brânză!",
+        "funFact": "Jupiter și celelalte luni trag atât de tare de Io încât interiorul ei se frământă și se încălzește ca o bucată de plastilină!",
+        "travelTime": {
+          "car": "717 ani",
+          "plane": "80 de ani",
+          "rocket": "2,5 ani",
+          "light": "35 de minute"
+        }
+      },
+      "cadet": {
+        "summary": "Cel mai apropiat dintre cei patru sateliți galileeni ai lui Jupiter suferă o încălzire mareică extremă din cauza rezonanței orbitale 4:2:1 cu Europa și Ganymede. Are peste 400 de vulcani activi, iar jeturile sale eruptive se ridică până la 500 km altitudine.",
+        "structure": [
+          { "name": "Nucleu de fier și sulfură de fier", "description": "Reprezintă aproximativ 20% din masa satelitului." },
+          { "name": "Manta de silicați și ocean de magmă", "description": "Un strat global de magmă topită la 50 km sub scoarță, alimentat de frecarea mareică." },
+          { "name": "Scoarță bogată în sulf", "description": "Câmpii de lavă și caldere vulcanice precum Loki Patera, fără cratere de impact vizibile." }
+        ],
+        "explorationHistory": "Descoperită de Galileo Galilei în 1610; vulcanismul ei activ a fost observat pentru prima dată de sonda Voyager 1 în 1979.",
+        "quiz": {
+          "question": "Ce fenomen provoacă activitatea vulcanică extremă de pe satelitul Io?",
+          "options": ["Căldura directă de la Soare", "Încălzirea mareică produsă de gravitația lui Jupiter și a lunilor vecine", "Impactul continuu cu asteroizi", "Fuziunea nucleară"],
+          "correctIndex": 1,
+          "explanation": "Forțele mareice uriașe ale lui Jupiter deformează continuu interiorul lui Io, generând căldură prin frecare internă."
+        }
+      }
+    },
+    {
+      "id": "europa",
+      "name": "Europa",
+      "category": "moon",
+      "subtitle": "Luna înghețată a lui Jupiter cu un ocean ascuns",
+      "color": "#bae6fd",
+      "orbitColor": "#7dd3fc",
+      "parentId": "jupiter",
+      "localOrbitOrder": 2,
+      "radiusKm": 1560.8,
+      "massEarthRatio": 0.008,
+      "gravityRatio": 0.134,
+      "orbitPeriodDays": 3.551,
+      "dayLengthHours": 85.22,
+      "meanTempC": -160,
+      "distanceFromSunAU": 5.204,
+      "modelType": "sphere",
+      "junior": {
+        "summary": "Europa este o lună acoperită cu un patinoar neted de gheață! Sub această coajă înghețată se ascunde un ocean uriaș de apă sărată.",
+        "analogy": "Europa este ca un ou de ciocolată cu surprize: tare și înghețată la exterior, dar cu un ocean adânc înăuntru!",
+        "funFact": "Deși Europa este mai mică decât Luna noastră, oceanul ei ascuns are de două ori mai multă apă decât toate oceanele Pământului!",
+        "travelTime": {
+          "car": "717 ani",
+          "plane": "80 de ani",
+          "rocket": "2,5–5 ani",
+          "light": "35 de minute"
+        }
+      },
+      "cadet": {
+        "summary": "Europa are cea mai netedă suprafață din Sistemul Solar, brăzdată de fracturi roșiatice numite «lineae». Sub crusta de gheață de 15–25 km grosime se află un ocean global de apă lichidă cu o adâncime estimată la 100 km, fiind unul dintre principalele locuri căutate pentru viață extraterestră.",
+        "structure": [
+          { "name": "Nucleu metalic și manta stâncoasă", "description": "Contactul direct dintre ocean și mantaua stâncoasă permite existența izvoarelor hidrotermale." },
+          { "name": "Ocean global subglaciar", "description": "Apă sărată menținută lichidă de încălzirea mareică joviană." },
+          { "name": "Crustă activă de gheață", "description": "Plăci de gheață în mișcare și posibile gheizere de vapori de apă." }
+        ],
+        "explorationHistory": "Studiată de Galileo și Juno, fiind ținta principală a misiunilor JUICE (ESA) și Europa Clipper (NASA).",
+        "quiz": {
+          "question": "De ce sunt oamenii de știință atât de interesați de satelitul Europa?",
+          "options": ["Are păduri tropicale", "Adăpostește sub gheață un ocean global de apă lichidă care ar putea susține viață", "Este cel mai fierbinte corp din Sistemul Solar", "Are inele strălucitoare"],
+          "correctIndex": 1,
+          "explanation": "Oceanul subglaciar al Europei, aflat în contact cu un fund oceanic stâncos, oferă ingredientele esențiale pentru potențiale ecosisteme."
+        }
+      }
+    },
+    {
+      "id": "ganymede",
+      "name": "Ganymede",
+      "category": "moon",
+      "subtitle": "Cel mai mare satelit natural din Sistemul Solar",
+      "color": "#cbd5e1",
+      "orbitColor": "#94a3b8",
+      "parentId": "jupiter",
+      "localOrbitOrder": 3,
+      "radiusKm": 2631.2,
+      "massEarthRatio": 0.025,
+      "gravityRatio": 0.146,
+      "orbitPeriodDays": 7.155,
+      "dayLengthHours": 171.7,
+      "meanTempC": -163,
+      "distanceFromSunAU": 5.204,
+      "modelType": "sphere",
+      "junior": {
+        "summary": "Ganymede este campionul tuturor lunilor! Este atât de mare încât depășește chiar și planeta Mercur în dimensiune.",
+        "analogy": "Dacă Ganymede s-ar învârti direct în jurul Soarelui în loc de Jupiter, ar fi numită fără îndoială o planetă!",
+        "funFact": "Ganymede este singura lună din Sistemul Solar care are propriul ei scut magnetic și propriile aurore polare!",
+        "travelTime": {
+          "car": "717 ani",
+          "plane": "80 de ani",
+          "rocket": "2,5–5 ani",
+          "light": "35 de minute"
+        }
+      },
+      "cadet": {
+        "summary": "Cu un diametru de 5.262 km, Ganymede este cel mai mare satelit din Sistemul Solar și singurul cunoscut care posedă o magnetosferă intrinsecă, generată de convecția din nucleul său de fier lichid.",
+        "structure": [
+          { "name": "Nucleu de fier lichid", "description": "Generează un câmp magnetic propriu în interiorul magnetosferei uriașe a lui Jupiter." },
+          { "name": "Straturi alternante de gheață și oceane", "description": "Modelele indică un ocean subteran uriaș prins între straturi de gheață de înaltă presiune." },
+          { "name": "Scoarță mixtă", "description": "Regiuni întunecate străvechi craterizate și terenuri mai tinere, brăzdate de șanțuri tectonice." }
+        ],
+        "explorationHistory": "Descoperită în 1610 de Galileo Galilei; sonda europeană JUICE va deveni în 2034 prima navă care va intra pe orbita lui Ganymede.",
+        "quiz": {
+          "question": "Prin ce este Ganymede unic printre toți sateliții naturali din Sistemul Solar?",
+          "options": ["Este cel mai mare satelit (mai mare decât Mercur) și are câmp magnetic propriu", "Are vulcani de lavă fierbinte", "Orbitează în jurul lui Marte", "Este compus doar din gaz"],
+          "correctIndex": 0,
+          "explanation": "Ganymede depășește în diametru planeta Mercur și este singurul satelit cu o magnetosferă proprie."
+        }
+      }
+    },
+    {
+      "id": "callisto",
+      "name": "Callisto",
+      "category": "moon",
+      "subtitle": "Lumea străveche de gheață și cratere a lui Jupiter",
+      "color": "#94a3b8",
+      "orbitColor": "#64748b",
+      "parentId": "jupiter",
+      "localOrbitOrder": 4,
+      "radiusKm": 2410.3,
+      "massEarthRatio": 0.018,
+      "gravityRatio": 0.126,
+      "orbitPeriodDays": 16.689,
+      "dayLengthHours": 400.5,
+      "meanTempC": -139,
+      "distanceFromSunAU": 5.204,
+      "modelType": "sphere",
+      "junior": {
+        "summary": "Callisto este a patra lună mare a lui Jupiter și are cea mai veche suprafață din Sistemul Solar, plină de cratere strălucitoare de gheață!",
+        "analogy": "Callisto arată ca un glob de Crăciun întunecat, presărat cu mii de scântei albe acolo unde au căzut meteoriți!",
+        "funFact": "Fiind mai departe de radiațiile puternice ale lui Jupiter, Callisto este locul preferat de ingineri pentru o viitoare bază umană!",
+        "travelTime": {
+          "car": "717 ani",
+          "plane": "80 de ani",
+          "rocket": "2,5–5 ani",
+          "light": "35 de minute"
+        }
+      },
+      "cadet": {
+        "summary": "Al treilea satelit ca mărime din Sistemul Solar (aproape cât Mercur) nu participă la rezonanța orbitală a celorlalte trei luni galileene, motiv pentru care nu a suferit încălzire mareică intensă, păstrând o arhivă geologică intactă de 4 miliarde de ani.",
+        "structure": [
+          { "name": "Interior parțial diferențiat", "description": "Un amestec comprimat de rocă și gheață, fără un nucleu metalic mare complet separat." },
+          { "name": "Posibil ocean sărat la adâncime", "description": "Detectat indirect prin variațiile câmpului magnetic indus." },
+          { "name": "Litosferă străveche", "description": "Dominată de Bazinul Valhalla, o structură de impact cu inele concentrice de 3.800 km diametru." }
+        ],
+        "explorationHistory": "Fotografiată în detaliu de Voyager 1/2 și Galileo; va fi survolată de 21 de ori de sonda JUICE.",
+        "quiz": {
+          "question": "Cum se numește uriașul bazin de impact cu inele concentrice de pe Callisto?",
+          "options": ["Valhalla", "Caloris", "Olympus", "Sputnik"],
+          "correctIndex": 0,
+          "explanation": "Bazinul Valhalla este cel mai mare crater multi-inelar de pe Callisto, având un diametru de aproape 3.800 km."
+        }
+      }
+    },
+    {
+      "id": "titan",
+      "name": "Titan",
+      "category": "moon",
+      "subtitle": "Satelitul lui Saturn cu atmosferă densă și lacuri de metan",
+      "color": "#f59e0b",
+      "orbitColor": "#fbbf24",
+      "parentId": "saturn",
+      "localOrbitOrder": 2,
+      "radiusKm": 2574.7,
+      "massEarthRatio": 0.0225,
+      "gravityRatio": 0.138,
+      "orbitPeriodDays": 15.945,
+      "dayLengthHours": 382.68,
+      "meanTempC": -179,
+      "distanceFromSunAU": 9.582,
+      "modelType": "sphere",
+      "junior": {
+        "summary": "Titan este cea mai mare lună a lui Saturn și singura lună învelită într-o atmosferă groasă și portocalie, cu nori, ploi, râuri și mări!",
+        "analogy": "Pe Titan atmosfera e atât de deasă și gravitația atât de mică încât, dacă ți-ai pune aripi pe brațe, ai putea zbura dând din mâini ca o pasăre!",
+        "funFact": "Râurile și lacurile de pe Titan nu sunt din apă, ci din metan și etan lichid, la aproape -180 °C!",
+        "travelTime": {
+          "car": "1.450 de ani",
+          "plane": "160 de ani",
+          "rocket": "7 ani",
+          "light": "1 oră și 11 minute"
+        }
+      },
+      "cadet": {
+        "summary": "Al doilea satelit ca mărime din Sistemul Solar (mai mare decât Mercur), Titan este singurul satelit cu o atmosferă densă (97% azot, presiune de 1,45 ori mai mare decât pe Pământ) și singurul corp în afară de Pământ cu lichid stabil la suprafață.",
+        "structure": [
+          { "name": "Nucleu de silicați hidratati", "description": "Rază de ~2.000 km în centrul satelitului." },
+          { "name": "Ocean subteran de apă și amoniac", "description": "Situat sub o crustă de gheață de apă dură ca roca." },
+          { "name": "Suprafață cu ciclu al metanului și atmosferă de azot", "description": "Mări de hidrocarburi (Kraken Mare, Ligeia Mare), dune organice și ceață fotochimică (toline)." }
+        ],
+        "explorationHistory": "Sonda europeană Huygens a asolizat pe Titan în ianuarie 2005 (cea mai îndepărtată asolizare din istorie); NASA pregătește drona nucleară Dragonfly.",
+        "quiz": {
+          "question": "Din ce sunt formate lacurile și mările de la suprafața lui Titan?",
+          "options": ["Din apă caldă", "Din metan și etan lichid", "Din lavă topită", "Din mercur lichid"],
+          "correctIndex": 1,
+          "explanation": "La temperatura de -179 °C de pe Titan, apa este tare ca piatra, iar metanul și etanul formează nori, ploi, râuri și mări."
+        }
+      }
+    },
+    {
+      "id": "enceladus",
+      "name": "Enceladus",
+      "category": "moon",
+      "subtitle": "Luna albă ca zăpada a lui Saturn, cu gheizere cosmice",
+      "color": "#f8fafc",
+      "orbitColor": "#e2e8f0",
+      "parentId": "saturn",
+      "localOrbitOrder": 1,
+      "radiusKm": 252.1,
+      "massEarthRatio": 0.000018,
+      "gravityRatio": 0.011,
+      "orbitPeriodDays": 1.37,
+      "dayLengthHours": 32.88,
+      "meanTempC": -198,
+      "distanceFromSunAU": 9.582,
+      "modelType": "sphere",
+      "junior": {
+        "summary": "Enceladus este un bulgăre strălucitor de gheață proaspătă! La polul său sudic, gheizere uriașe aruncă apă și cristale de gheață direct în spațiu.",
+        "analogy": "Enceladus este atât de mic încât ar încăpea cu ușurință deasupra României!",
+        "funFact": "Cristalele de gheață aruncate de gheizerele lui Enceladus formează unul dintre inelele lui Saturn (inelul E)!",
+        "travelTime": {
+          "car": "1.450 de ani",
+          "plane": "160 de ani",
+          "rocket": "7 ani",
+          "light": "1 oră și 11 minute"
+        }
+      },
+      "cadet": {
+        "summary": "Enceladus are cel mai ridicat albedo (reflectivitate) din Sistemul Solar (~0,99). Sonda Cassini a zburat direct prin jeturile sale criovulcanice de la polul sud («Dungile de Tigru»), detectând apă sărată, molecule organice complexe, hidrogen molecular și silice hidrotermală.",
+        "structure": [
+          { "name": "Nucleu poros stâncos", "description": "Încălzit de mareele lui Saturn, generează izvoare hidrotermale pe fundul oceanului." },
+          { "name": "Ocean global subglaciar", "description": "Strat de apă lichidă de 30–40 km adâncime sub calota de gheață." },
+          { "name": "Crustă de gheață pură și fisuri criovulcanice", "description": "Patru fracturi paralele calde la polul sudic prin care iese apa oceanică în vid." }
+        ],
+        "explorationHistory": "Descoperită de William Herschel în 1789; gheizerele sale au fost descoperite și analizate chimic de sonda Cassini în 2005–2015.",
+        "quiz": {
+          "question": "Ce alimentează inelul E al planetei Saturn?",
+          "options": ["Praf de pe Marte", "Gheizerele de gheață și vapori de apă de la polul sud al lui Enceladus", "Vântul solar", "Asteroizii din Centura Kuiper"],
+          "correctIndex": 1,
+          "explanation": "Jetul criovulcanic al lui Enceladus expulzează continuu granule de gheață care scapă de gravitația micului satelit și formează inelul E."
+        }
+      }
+    },
+    {
+      "id": "pluto",
+      "name": "Pluto",
+      "category": "dwarf",
+      "subtitle": "Regele planetelor pitice din Centura Kuiper",
+      "color": "#c084fc",
+      "orbitColor": "#c084fc",
+      "radiusKm": 1188.3,
+      "massEarthRatio": 0.0022,
+      "gravityRatio": 0.063,
+      "orbitPeriodDays": 90560,
+      "dayLengthHours": -153.3,
+      "meanTempC": -229,
+      "distanceFromSunAU": 39.48,
+      "axialTiltDeg": 122.53,
+      "modelType": "sphere",
+      "junior": {
+        "summary": "Pluto este o planetă pitică îndepărtată și înghețată care poartă pe pieptul ei o formă uriașă de inimă albă din gheață de azot!",
+        "analogy": "Pluto este mai mic chiar și decât Luna noastră — cam cât jumătate din lățimea Europei!",
+        "funFact": "Pluto și satelitul său cel mai mare, Charon, sunt atât de apropiați ca mărime încât dansează unul în jurul celuilalt!",
+        "travelTime": {
+          "car": "6.500 de ani",
+          "plane": "720 de ani",
+          "rocket": "9 ani și jumătate (New Horizons)",
+          "light": "5 ore și 30 de minute"
+        }
+      },
+      "cadet": {
+        "summary": "Descoperită de Clyde Tombaugh în 1930 și reclasificată în 2006 de UAI drept planetă pitică (obiect plutoid din Centura Kuiper), Pluto are o orbită excentrică și înclinată la 17° și o geologie surprinzător de activă, cu munți de gheață de apă și ghețari de azot.",
+        "structure": [
+          { "name": "Nucleu stâncos (70% din diametru)", "description": "Bogat în silicați, a cărui dezintegrare radioactivă menține căldura internă." },
+          { "name": "Manta de gheață de apă ( și posibil ocean subteran)", "description": "Susține lanțuri muntoase înalte de 3–4 km." },
+          { "name": "Suprafață de azot, metan și CO înghețat", "description": "Dominată de câmpia convectivă Sputnik Planitia («Inima lui Pluto»)." }
+        ],
+        "explorationHistory": "Survolată în premieră istorică la 14 iulie 2015 de sonda NASA New Horizons, care a dezvăluit munți și câmpii de gheață tinere.",
+        "quiz": {
+          "question": "Cum se numește celebra regiune strălucitoare în formă de inimă de pe Pluto?",
+          "options": ["Tombaugh Regio (Sputnik Planitia)", "Olympus Mons", "Mare Tranquillitatis", "Caloris Planitia"],
+          "correctIndex": 0,
+          "explanation": "Regiunea în formă de inimă a fost numită Tombaugh Regio în onoarea descoperitorului lui Pluto, iar lobul ei vestic este ghețarul Sputnik Planitia."
+        }
+      }
+    },
+    {
+      "id": "ceres",
+      "name": "Ceres",
+      "category": "dwarf",
+      "subtitle": "Singura planetă pitică din Centura Principală de Asteroizi",
+      "color": "#94a3b8",
+      "orbitColor": "#c084fc",
+      "radiusKm": 473,
+      "massEarthRatio": 0.00015,
+      "gravityRatio": 0.029,
+      "orbitPeriodDays": 1682,
+      "dayLengthHours": 9.07,
+      "meanTempC": -105,
+      "distanceFromSunAU": 2.767,
+      "keplerian": {
+        "semiMajorAxisAU": 2.767,
+        "eccentricity": 0.076,
+        "inclinationDeg": 10.59,
+        "ascendingNodeDeg": 80.3,
+        "argPerihelionDeg": 73.6,
+        "meanAnomalyDeg": 95.9
+      },
+      "modelType": "sphere",
+      "junior": {
+        "summary": "Ceres este cea mai mare lume din Centura de Asteroizi dintre Marte și Jupiter! Este atât de mare încât propria ei gravitație a modelat-o într-o sferă.",
+        "analogy": "Dacă toți asteroizii din centură ar fi adunați într-o găleată, Ceres singură ar umple o treime din găleată!",
+        "funFact": "În craterul Occator de pe Ceres strălucesc pete albe misterioase, făcute din sare lăsată în urmă de izvoare sărate!",
+        "travelTime": {
+          "car": "300 de ani",
+          "plane": "33 de ani",
+          "rocket": "1,5–3 ani",
+          "light": "22 de minute"
+        }
+      },
+      "cadet": {
+        "summary": "Descoperită la 1 ianuarie 1801 de Giuseppe Piazzi, Ceres este singura planetă pitică situată în Sistemul Solar interior. Reprezintă o protoplanetă embrionară bogată în apă și argile amoniacale.",
+        "structure": [
+          { "name": "Nucleu stâncos hidratat", "description": "Compus din silicați și minerale argiloase." },
+          { "name": "Manta bogată în gheață și saramură", "description": "Rezervoare subterane de apă sărată care alimentează criovulcanismul (ex. muntele Ahuna Mons)." },
+          { "name": "Crustă întunecată cu depozite de carbonat de sodiu", "description": "Petele luminoase (faculae) din craterul Occator sunt depozite de săruri hidrotermale." }
+        ],
+        "explorationHistory": "A fost prima planetă pitică vizitată și orbitată de o sondă spațială: misiunea NASA Dawn (2015–2018).",
+        "quiz": {
+          "question": "Unde se află planeta pitică Ceres?",
+          "options": ["Dincolo de Neptun, în Centura Kuiper", "În Centura Principală de Asteroizi, între Marte și Jupiter", "Pe orbita Pământului", "Între Mercur și Venus"],
+          "correctIndex": 1,
+          "explanation": "Ceres orbitează la 2,77 UA de Soare, în mijlocul Centurii Principale de Asteroizi dintre Marte și Jupiter."
+        }
+      }
+    },
+    {
+      "id": "eris",
+      "name": "Eris",
+      "category": "dwarf",
+      "subtitle": "Cea mai masivă planetă pitică cunoscută, din Discul Împrăștiat",
+      "color": "#e2e8f0",
+      "orbitColor": "#c084fc",
+      "radiusKm": 1163,
+      "massEarthRatio": 0.0028,
+      "gravityRatio": 0.084,
+      "orbitPeriodDays": 203830,
+      "dayLengthHours": 25.9,
+      "meanTempC": -243,
+      "distanceFromSunAU": 67.86,
+      "keplerian": {
+        "semiMajorAxisAU": 67.86,
+        "eccentricity": 0.436,
+        "inclinationDeg": 44.04,
+        "ascendingNodeDeg": 35.9,
+        "argPerihelionDeg": 151.6,
+        "meanAnomalyDeg": 205.9
+      },
+      "modelType": "sphere",
+      "junior": {
+        "summary": "Eris este o lume albă ca zăpada, aflată de peste două ori mai departe de Soare decât Neptun! Descoperirea ei i-a făcut pe astronomi să inventeze categoria de «planetă pitică».",
+        "analogy": "Eris este aproape geamănă ca mărime cu Pluto, dar cântărește puțin mai mult pentru că are mai multă piatră în interior!",
+        "funFact": "Pe Eris este atât de frig încât toată atmosfera ei a înghețat și s-a așternut pe sol ca o pătură sclipitoare de promoroacă!",
+        "travelTime": {
+          "car": "11.000 de ani",
+          "plane": "1.200 de ani",
+          "rocket": "25 de ani",
+          "light": "9 ore și 25 de minute"
+        }
+      },
+      "cadet": {
+        "summary": "Descoperită în 2005 de echipa lui Mike Brown la Observatorul Palomar, Eris este cu 27% mai masivă decât Pluto. Orbita sa puternic înclinată (44°) o poartă până la 97 UA de Soare în Discul Împrăștiat, iar un an pe Eris durează 558 de ani terestri.",
+        "structure": [
+          { "name": "Nucleu dens de silicați", "description": "Constituie aproximativ 85% din masa corpului (densitate medie 2,52 g/cm³)." },
+          { "name": "Manta de gheață de apă", "description": "Înveliș glaciar rigid la temperaturi apropiate de zero absolut." },
+          { "name": "Suprafață ultra-reflectivă de metan și azot înghețat", "description": "Reflectă 96% din lumina solară incidentă." }
+        ],
+        "explorationHistory": "Studiată prin telescoapele Hubble, Keck și James Webb, împreună cu satelitul său Dysnomia.",
+        "quiz": {
+          "question": "Ce eveniment astronomic a determinat descoperirea planetei pitice Eris în 2005?",
+          "options": ["Lansarea telescopului Hubble", "Definirea oficială a categoriei de «planetă pitică» și reclasificarea lui Pluto în 2006", "Asolizarea pe Marte", "Descoperirea inelelor lui Saturn"],
+          "correctIndex": 1,
+          "explanation": "Deoarece Eris s-a dovedit mai masivă decât Pluto, Uniunea Astronomică Internațională a stabilit în 2006 criteriile pentru planete și planete pitice."
+        }
+      }
+    },
+    {
+      "id": "haumea",
+      "name": "Haumea",
+      "category": "dwarf",
+      "subtitle": "Planeta pitică ovală cu inel propriu și rotație ultra-rapidă",
+      "color": "#d8b4fe",
+      "orbitColor": "#c084fc",
+      "radiusKm": 780,
+      "massEarthRatio": 0.00067,
+      "gravityRatio": 0.041,
+      "orbitPeriodDays": 103774,
+      "dayLengthHours": 3.915,
+      "meanTempC": -241,
+      "distanceFromSunAU": 43.13,
+      "keplerian": {
+        "semiMajorAxisAU": 43.13,
+        "eccentricity": 0.195,
+        "inclinationDeg": 28.19,
+        "ascendingNodeDeg": 122.1,
+        "argPerihelionDeg": 239.0,
+        "meanAnomalyDeg": 218.2
+      },
+      "modelType": "sphere",
+      "junior": {
+        "summary": "Haumea este cel mai rapid titirez mare din Sistemul Solar! O zi pe Haumea durează mai puțin de 4 ore, iar din această cauză s-a alungit ca o minge de rugby!",
+        "analogy": "Haumea are forma unei pietre plate de râu sau a unui ou alb de Paște care se învârte amețitor!",
+        "funFact": "Haumea are două luni mici (Hiʻiaka și Namaka) și chiar și un inel subțire în jurul ei, ca un mini-Saturn!",
+        "travelTime": {
+          "car": "7.100 de ani",
+          "plane": "790 de ani",
+          "rocket": "14 ani",
+          "light": "6 ore"
+        }
+      },
+      "cadet": {
+        "summary": "Situată în Centura Kuiper la ~43 UA, Haumea are forma unui elipsoid triaxial (aprox. 2.100 × 1.680 × 1.070 km) din cauza perioadei de rotație de doar 3,9 ore. În 2017, printr-o ocultație stelară, s-a descoperit că posedă un sistem de inele.",
+        "structure": [
+          { "name": "Interior stâncos diferențiat", "description": "Densitate ridicată (~2,0 g/cm³) rezultată după un impact antic care i-a accelerat rotația." },
+          { "name": "Crustă subțire de gheață cristalină pură", "description": "Spre deosebire de alte obiecte transneptuniene, suprafața ei este acoperită cu gheață de apă cristalină." },
+          { "name": "Inel ecuatorial (rază ~2.287 km)", "description": "Primul inel descoperit în jurul unui obiect transneptunian." }
+        ],
+        "explorationHistory": "Descoperită în 2004 și caracterizată prin ocultații stelare și observații ale telescoapelor spațiale.",
+        "quiz": {
+          "question": "De ce are planeta pitică Haumea o formă alungită, asemănătoare unei mingi de rugby?",
+          "options": ["Din cauza căldurii Soarelui", "Din cauza rotației extrem de rapide (o rotație completă în mai puțin de 4 ore)", "Pentru că este atrasă de Marte", "Pentru că este făcută din gaz"],
+          "correctIndex": 1,
+          "explanation": "Forța centrifugă produsă de rotația în doar 3,9 ore i-a deformat corpul într-un elipsoid alungit."
+        }
+      }
+    },
+    {
+      "id": "makemake",
+      "name": "Makemake",
+      "category": "dwarf",
+      "subtitle": "Lumea roșiatică de metan înghețat din Centura Kuiper",
+      "color": "#f472b6",
+      "orbitColor": "#c084fc",
+      "radiusKm": 715,
+      "massEarthRatio": 0.0005,
+      "gravityRatio": 0.05,
+      "orbitPeriodDays": 111845,
+      "dayLengthHours": 22.83,
+      "meanTempC": -243,
+      "distanceFromSunAU": 45.43,
+      "keplerian": {
+        "semiMajorAxisAU": 45.43,
+        "eccentricity": 0.161,
+        "inclinationDeg": 28.98,
+        "ascendingNodeDeg": 79.6,
+        "argPerihelionDeg": 294.8,
+        "meanAnomalyDeg": 165.5
+      },
+      "modelType": "sphere",
+      "junior": {
+        "summary": "Makemake este unul dintre cele mai strălucitoare obiecte din Centura Kuiper, numit după zeul primăverii și al fertilității din Insula Paștelui!",
+        "analogy": "Makemake este ca un bulgăre mare de înghețată de căpșuni la marginea Sistemului Solar!",
+        "funFact": "A fost descoperită chiar în zilele de după Paște în anul 2005, așa că porecla ei inițială a fost «Iepurașul de Paște» (Easterbunny)!",
+        "travelTime": {
+          "car": "7.500 de ani",
+          "plane": "830 de ani",
+          "rocket": "15 ani",
+          "light": "6 ore și 18 minute"
+        }
+      },
+      "cadet": {
+        "summary": "A doua planetă pitică ca strălucire din Centura Kuiper (după Pluto), Makemake orbitează la o distanță medie de 45,4 UA în 306 ani terestri. Are o suprafață bogată în pelete de metan și etan înghețat și un mic satelit întunecat botezat MK 2.",
+        "structure": [
+          { "name": "Nucleu de silicați și gheață", "description": "Interior rece compus dintr-un amestec de rocă și gheață de apă." },
+          { "name": "Suprafață acoperită cu metan, etan și toline", "description": "Radiația UV solară transformă metanul în compuși organici roșiatici (toline)." },
+          { "name": "Exosferă sezonieră infimă", "description": "Ocultațiile stelare arată că Makemake nu posedă o atmosferă globală substanțială." }
+        ],
+        "explorationHistory": "Descoperită în martie 2005 la Observatorul Palomar; satelitul său MK 2 a fost descoperit cu Telescopul Hubble în 2016.",
+        "quiz": {
+          "question": "Care a fost porecla dată de astronomi planetei pitice Makemake la descoperire?",
+          "options": ["Moș Crăciun", "Iepurașul de Paște (Easterbunny)", "Micul Prinț", "Steaua Polară"],
+          "correctIndex": 1,
+          "explanation": "Fiind descoperită la scurt timp după Paștele anului 2005, echipa a poreclit-o «Easterbunny», iar numele oficial Makemake provine din mitologia Rapa Nui (Insula Paștelui)."
+        }
+      }
+    },
+    {
+      "id": "vesta",
+      "name": "4 Vesta",
+      "category": "asteroid",
+      "subtitle": "Cel mai strălucitor asteroid și protoplanetă stâncoasă",
+      "color": "#d6d3d1",
+      "orbitColor": "#a8a29e",
+      "radiusKm": 262.7,
+      "massEarthRatio": 0.000043,
+      "gravityRatio": 0.025,
+      "orbitPeriodDays": 1325.75,
+      "dayLengthHours": 5.34,
+      "meanTempC": -60,
+      "distanceFromSunAU": 2.362,
+      "keplerian": {
+        "semiMajorAxisAU": 2.362,
+        "eccentricity": 0.089,
+        "inclinationDeg": 7.14,
+        "ascendingNodeDeg": 103.8,
+        "argPerihelionDeg": 151.2,
+        "meanAnomalyDeg": 20.8
+      },
+      "modelType": "asteroid",
+      "junior": {
+        "summary": "Vesta este un asteroid uriaș din piatră, atât de luminos încât uneori poate fi văzut de pe Pământ chiar și fără telescop, într-o noapte foarte senină!",
+        "analogy": "Vesta este ca un cartof uriaș din stâncă, cu un munte la polul sud aproape la fel de înalt ca cel de pe Marte!",
+        "funFact": "Bucăți rupte din Vesta acum milioane de ani au căzut pe Pământ sub formă de meteoriți pe care îi putem vedea în muzee!",
+        "travelTime": {
+          "car": "230 de ani",
+          "plane": "25 de ani",
+          "rocket": "1,2 ani",
+          "light": "19 minute"
+        }
+      },
+      "cadet": {
+        "summary": "Descoperită în 1807 de Heinrich Olbers, 4 Vesta este o protoplanetă diferențiată (cu nucleu metalic, manta și scoarță bazaltică). Bazinul de impact Rheasilvia de la polul sud are 500 km diametru și un vârf central de 22 km înălțime.",
+        "structure": [
+          { "name": "Nucleu de fier-nichel (rază ~110 km)", "description": "Dovadă că Vesta s-a topit și s-a diferențiat ca o planetă telurică în primele milioane de ani." },
+          { "name": "Manta de olivină", "description": "Expusă la suprafață în uriașul bazin de impact Rheasilvia." },
+          { "name": "Scoarță bazaltică (sursa meteoriților HED)", "description": "Sursă pentru meteoriții de tip howardit-eucrit-diogenit găsiți pe Pământ." }
+        ],
+        "explorationHistory": "Orbitată și cartografiată în detaliu de sonda NASA Dawn între iulie 2011 și septembrie 2012.",
+        "quiz": {
+          "question": "Ce au descoperit oamenii de știință în centrul bazinului Rheasilvia de pe asteroidul Vesta?",
+          "options": ["Un lac de apă", "Un munte central înalt de 22 km, aproape cât Olympus Mons de pe Marte", "Un vulcan activ", "O sondă extraterestră"],
+          "correctIndex": 1,
+          "explanation": "Impactul colosal care a creat craterul Rheasilvia a ridicat în centru un munte de 22 km înălțime, unul dintre cele mai înalte vârfuri din Sistemul Solar."
+        }
+      }
+    },
+    {
+      "id": "pallas",
+      "name": "2 Pallas",
+      "category": "asteroid",
+      "subtitle": "Al doilea asteroid descoperit, cu o orbită puternic înclinată",
+      "color": "#a1a1aa",
+      "orbitColor": "#a8a29e",
+      "radiusKm": 256,
+      "massEarthRatio": 0.000034,
+      "gravityRatio": 0.022,
+      "orbitPeriodDays": 1685.9,
+      "dayLengthHours": 7.81,
+      "meanTempC": -109,
+      "distanceFromSunAU": 2.773,
+      "keplerian": {
+        "semiMajorAxisAU": 2.773,
+        "eccentricity": 0.231,
+        "inclinationDeg": 34.84,
+        "ascendingNodeDeg": 173.0,
+        "argPerihelionDeg": 310.0,
+        "meanAnomalyDeg": 140.0
+      },
+      "modelType": "asteroid",
+      "junior": {
+        "summary": "Pallas este unul dintre cei mai mari asteroizi din Sistemul Solar și are o suprafață atât de plină de cratere încât seamănă cu o minge de golf!",
+        "analogy": "În timp ce majoritatea asteroizilor merg pe aceeași «autostradă» în jurul Soarelui, Pallas zboară pe o pistă înclinată ca un montagne-russe!",
+        "funFact": "A fost al doilea asteroid descoperit vreodată, în anul 1802, la doar un an după Ceres!",
+        "travelTime": {
+          "car": "300 de ani",
+          "plane": "33 de ani",
+          "rocket": "2 ani",
+          "light": "23 de minute"
+        }
+      },
+      "cadet": {
+        "summary": "Cu un diametru mediu de 512 km, 2 Pallas conține ~7% din masa Centurii de Asteroizi. Înclinarea orbitală neobișnuit de mare (34,8°) provoacă coliziuni la viteze medii mult mai ridicate decât la alți asteroizi, dându-i o morfologie intens craterizată.",
+        "structure": [
+          { "name": "Interior bogat în silicați hidratați", "description": "Compoziție asemănătoare condritelor carbonice sărace în apă." },
+          { "name": "Suprafață saturată de cratere («golf-ball»)", "description": "Observată cu rezoluție înaltă prin instrumentul SPHERE al Very Large Telescope (ESO)." },
+          { "name": "Depozite luminoase de sare", "description": "Vizibile în unele cratere, indicând o evoluție termică timpurie." }
+        ],
+        "explorationHistory": "Descoperită în 1802 de Heinrich Olbers; din cauza înclinării orbitale mari (34,8°), nicio sondă nu a putut încă să intre pe orbita sa.",
+        "quiz": {
+          "question": "De ce seamănă suprafața asteroidului Pallas cu o minge de golf?",
+          "options": ["A fost sculptată de vânt", "Orbita sa foarte înclinată (34,8°) produce ciocniri extrem de violente și numeroase cu alți asteroizi", "Este acoperită cu gheață moale", "Are vulcani mici"],
+          "correctIndex": 1,
+          "explanation": "Traversând centura de asteroizi sub un unghi mare, Pallas suferă impacturi la viteze de până la patru ori mai mari decât media din centură."
+        }
+      }
+    },
+    {
+      "id": "bennu",
+      "name": "101955 Bennu",
+      "category": "asteroid",
+      "subtitle": "Asteroid în formă de titirez din care NASA a adus mostre pe Pământ",
+      "color": "#78716c",
+      "orbitColor": "#22c55e",
+      "radiusKm": 0.245,
+      "massEarthRatio": 0.000000000012,
+      "gravityRatio": 0.00001,
+      "orbitPeriodDays": 436.65,
+      "dayLengthHours": 4.296,
+      "meanTempC": 4,
+      "distanceFromSunAU": 1.126,
+      "keplerian": {
+        "semiMajorAxisAU": 1.126,
+        "eccentricity": 0.204,
+        "inclinationDeg": 6.03,
+        "ascendingNodeDeg": 2.06,
+        "argPerihelionDeg": 66.2,
+        "meanAnomalyDeg": 101.7
+      },
+      "modelType": "asteroid",
+      "junior": {
+        "summary": "Bennu este un mic asteroid în formă de titirez care trece pe lângă Pământ! O sondă spațială l-a atins și a adus acasă un pumn din pietricelele lui.",
+        "analogy": "Bennu este înalt cam cât o clădire zgârie-nori de 100 de etaje (aproximativ 500 de metri lățime)!",
+        "funFact": "Bennu nu este o piatră solidă, ci o grămadă de bolovani și pietriș ținuți împreună de o gravitație minusculă!",
+        "travelTime": {
+          "car": "30 de ani (la apropiere)",
+          "plane": "3 ani și jumătate",
+          "rocket": "2 ani (OSIRIS-REx)",
+          "light": "1,5 minute"
+        }
+      },
+      "cadet": {
+        "summary": "Asteroid apropiat de Pământ (grupul Apollo) de tip carbonic B, format prin agregarea gravitațională a fragmentelor («rubble-pile»). Este o capsulă a timpului chimică din primele 10 milioane de ani ale Sistemului Solar.",
+        "structure": [
+          { "name": "Structură internă tip «grămadă de moloz» (Rubble Pile)", "description": "Cu 20–40% spații goale în interior și o densitate de doar 1,19 g/cm³." },
+          { "name": "Creastă ecuatorială pronunțată", "description": "Îi conferă forma de titirez sau diamant datorită rotației în 4,3 ore." },
+          { "name": "Regolit bogat în carbon, apă legată în argile și fosfați", "description": "121,6 grame de eșantioane au fost aduse pe Pământ în septembrie 2023." }
+        ],
+        "explorationHistory": "Explorat de misiunea NASA OSIRIS-REx (2018–2021), care a colectat mostre din craterul Nightingale și le-a livrat pe Pământ în 2023.",
+        "quiz": {
+          "question": "Ce misiune spațială a colectat mostre de pe asteroidul Bennu și le-a adus pe Pământ în 2023?",
+          "options": ["Voyager 1", "OSIRIS-REx", "Cassini", "Apollo 11"],
+          "correctIndex": 1,
+          "explanation": "Sonda NASA OSIRIS-REx a colectat peste 120 de grame de regolit carbonic de pe Bennu și a parașutat capsula în deșertul Utah în septembrie 2023."
+        }
+      }
+    },
+    {
+      "id": "apophis",
+      "name": "99942 Apophis",
+      "category": "asteroid",
+      "subtitle": "Asteroidul care va trece în siguranță foarte aproape de Pământ în 2029",
+      "color": "#a8a29e",
+      "orbitColor": "#22c55e",
+      "radiusKm": 0.185,
+      "massEarthRatio": 0.000000000004,
+      "gravityRatio": 0.000008,
+      "orbitPeriodDays": 323.6,
+      "dayLengthHours": 30.56,
+      "meanTempC": 17,
+      "distanceFromSunAU": 0.922,
+      "keplerian": {
+        "semiMajorAxisAU": 0.922,
+        "eccentricity": 0.191,
+        "inclinationDeg": 3.34,
+        "ascendingNodeDeg": 204.4,
+        "argPerihelionDeg": 126.4,
+        "meanAnomalyDeg": 245.0
+      },
+      "modelType": "asteroid",
+      "junior": {
+        "summary": "Apophis este un asteroid în formă de arahidă care în anul 2029 ne va face o vizită pașnică, trecând pe cer ca o steluță vizibilă cu ochiul liber!",
+        "analogy": "Apophis are mărimea a trei terenuri de fotbal puse cap la cap (aproximativ 370 de metri)!",
+        "funFact": "Pe 13 aprilie 2029, Apophis va trece în deplină siguranță la doar 32.000 km de Pământ — mai aproape decât unii sateliți TV!",
+        "travelTime": {
+          "car": "13 zile la apropierea din 2029",
+          "plane": "36 de ore (în 2029)",
+          "rocket": "câteva luni pe o traiectorie de întâlnire",
+          "light": "0,1 secunde la perigeul din 2029"
+        }
+      },
+      "cadet": {
+        "summary": "Asteroid de tip S (silicatic) din grupul Aten. Măsurătorile radar de înaltă precizie au confirmat că nu există niciun risc de impact cu Pământul pentru cel puțin următoarea sută de ani, dar survolul din 13 aprilie 2029 va fi o oportunitate științifică unică.",
+        "structure": [
+          { "name": "Formă bilobată (de arahidă)", "description": "Determinată prin imagistică radar de la observatorul Goldstone." },
+          { "name": "Compoziție de condrite ordinare, fier și nichel", "description": "Tipică asteroizilor stâncoși de clasă Sq." },
+          { "name": "Rotație complexă (tumbling)", "description": "Forțele mareice terestre din 2029 îi vor modifica ușor rotația și orbita." }
+        ],
+        "explorationHistory": "Va fi studiat de aproape în 2029 de sonda NASA OSIRIS-APEX (fosta OSIRIS-REx) și de misiunea europeană RAMSES (ESA).",
+        "quiz": {
+          "question": "Ce se va întâmpla pe 13 aprilie 2029 cu asteroidul Apophis?",
+          "options": ["Va intra pe orbita lui Jupiter", "Va trece în deplină siguranță la ~32.000 km de Pământ, fiind vizibil cu ochiul liber", "Se va topi lângă Soare", "Va lovi Luna"],
+          "correctIndex": 1,
+          "explanation": "Calculele radar au demonstrat că Apophis va trece fără niciun pericol la ~32.000 km de Pământ, oferind astronomilor ocazia rară de a-l studia de aproape."
+        }
+      }
+    },
+    {
+      "id": "psyche",
+      "name": "16 Psyche",
+      "category": "asteroid",
+      "subtitle": "Lumea metalică unică din Centura de Asteroizi",
+      "color": "#cbd5e1",
+      "orbitColor": "#a8a29e",
+      "radiusKm": 111,
+      "massEarthRatio": 0.0000038,
+      "gravityRatio": 0.015,
+      "orbitPeriodDays": 1823.9,
+      "dayLengthHours": 4.196,
+      "meanTempC": -100,
+      "distanceFromSunAU": 2.923,
+      "keplerian": {
+        "semiMajorAxisAU": 2.923,
+        "eccentricity": 0.134,
+        "inclinationDeg": 3.09,
+        "ascendingNodeDeg": 150.2,
+        "argPerihelionDeg": 227.5,
+        "meanAnomalyDeg": 310.0
+      },
+      "modelType": "asteroid",
+      "junior": {
+        "summary": "Psyche este un asteroid cu totul special: în timp ce majoritatea asteroizilor sunt din piatră sau gheață, Psyche este făcut în mare parte din metal (fier și nichel)!",
+        "analogy": "Oamenii de știință cred că Psyche este inima de metal (nucleul) a unei planete străvechi care și-a pierdut învelișul de piatră!",
+        "funFact": "Deoarece nu putem săpa până în nucleul de fier al Pământului nostru, am trimis o sondă spațială să viziteze un nucleu direct în spațiu — pe Psyche!",
+        "travelTime": {
+          "car": "340 de ani",
+          "plane": "38 de ani",
+          "rocket": "5 ani și 10 luni (sonda Psyche)",
+          "light": "24 de minute"
+        }
+      },
+      "cadet": {
+        "summary": "Descoperit în 1852 de Annibale de Gasparis, 16 Psyche este cel mai masiv asteroid de tip M (metalic), având un diametru mediu de 222 km. Conține între 30% și 60% fier și nichel metalic amestecat cu silicați săraci în fier.",
+        "structure": [
+          { "name": "Matrice metalică de fier-nichel", "description": "Posibil nucleul expus al unui planetesimal diferențiat timpuriu." },
+          { "name": "Cratere metalice și bazaltice", "description": "Două mari depresiuni de impact de ~90 km în emisfera sudică." },
+          { "name": "Regolit mixt metal-silicat", "description": "Densitate medie de ~3,9–4,1 g/cm³." }
+        ],
+        "explorationHistory": "Sonda NASA Psyche a fost lansată în octombrie 2023 cu propulsie electrică solară cu efect Hall și va intra pe orbita asteroidului în august 2029.",
+        "quiz": {
+          "question": "Din ce este alcătuit în proporție ridicată asteroidul 16 Psyche?",
+          "options": ["Din gheață de metan", "Din fier și nichel metalic (și silicați)", "Din gaz hidrogen", "Din apă lichidă"],
+          "correctIndex": 1,
+          "explanation": "16 Psyche este cel mai mare asteroid de tip M, bogat în fier și nichel, oferind indicii despre cum s-au format nucleele planetelor telurice."
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ro">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Orbitar — Planetariu Didactic Interactiv</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <!-- Ecran de încărcare minimal cu sigla ORBITAR -->
+    <div id="loading-screen" role="status" aria-label="Se încarcă planetariul Orbitar">
+      <div class="loading-content">
+        <div class="loading-orbit-ring" aria-hidden="true">
+          <div class="loading-planet-dot"></div>
+        </div>
+        <h1 class="loading-logo">ORBITAR</h1>
+        <p class="loading-subtitle">Planetariu Didactic Interactiv</p>
+        <div class="loading-bar-track">
+          <div id="loading-bar-fill" class="loading-bar-fill"></div>
+        </div>
+        <p id="loading-status" class="loading-status">Se inițializează efemeridele astronomice…</p>
+      </div>
+    </div>
+
+    <!-- Containerul scenei 3D Three.js -->
+    <div id="canvas-container" aria-label="Scenă 3D Sistemul Solar"></div>
+
+    <!-- Etichete 2D suprapuse pentru corpurile cerești -->
+    <div id="labels-container" aria-hidden="true"></div>
+
+    <!-- Interfața Bento Grid HUD superioară -->
+    <header class="hud-top-bar">
+      <div class="hud-card hud-brand">
+        <span class="brand-badge">ORBITAR</span>
+        <span class="brand-sub">Planetariu Didactic Interactiv</span>
+      </div>
+
+      <div class="hud-card hud-controls">
+        <div class="control-group">
+          <span class="control-label">Nivel studiu:</span>
+          <button id="btn-tier-junior" class="hud-btn hud-btn-cyan" type="button" title="Micul Explorator (6–8 ani)">
+            Micul Explorator (6–8 ani)
+          </button>
+          <button id="btn-tier-cadet" class="hud-btn" type="button" title="Cadet Orbitar (9–12 ani)">
+            Cadet Orbitar (9–12 ani)
+          </button>
+        </div>
+
+        <div class="control-group">
+          <span class="control-label">Scară:</span>
+          <button id="btn-scale-toggle" class="hud-btn hud-btn-cyan" type="button" title="Comută între Scara Didactică și Scara Reală">
+            Scară Didactică
+          </button>
+        </div>
+
+        <div class="control-group">
+          <span class="control-label">Timp:</span>
+          <button id="btn-time-pause" class="hud-btn" type="button" title="Pauză / Continuă simularea">⏸</button>
+          <button id="btn-time-real" class="hud-btn" type="button" data-speed="1">1×</button>
+          <button id="btn-time-hour" class="hud-btn" type="button" data-speed="3600">1 oră/s</button>
+          <button id="btn-time-day" class="hud-btn hud-btn-active" type="button" data-speed="86400">1 zi/s</button>
+          <button id="btn-time-month" class="hud-btn" type="button" data-speed="2592000">30 zile/s</button>
+        </div>
+
+        <div class="control-group">
+          <span id="hud-sim-date" class="sim-date-readout">—</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Selector pe categorii și Fișa Didactică Bento HUD -->
+    <aside class="hud-bottom-bar">
+      <div class="hud-card hud-catalog-panel">
+        <div class="catalog-tabs" role="tablist" aria-label="Categorii corpuri cerești">
+          <button class="hud-btn hud-btn-active" type="button" data-filter="planets">Planete (9)</button>
+          <button class="hud-btn" type="button" data-filter="moons">Sateliți (7)</button>
+          <button class="hud-btn" type="button" data-filter="dwarfs_asteroids">Pitice &amp; Asteroizi (10)</button>
+          <button class="hud-btn" type="button" data-filter="missions">Misiuni &amp; Sonde (12)</button>
+        </div>
+        <div class="hud-bodies-bar" id="hud-bodies-list" role="navigation" aria-label="Corpuri cerești">
+          <!-- Populat dinamic din OrbitalEngine -->
+        </div>
+      </div>
+
+      <div class="hud-card hud-target-info" id="hud-target-card">
+        <div class="target-header">
+          <div>
+            <span class="target-tag" id="hud-target-subtitle">Stea centrală</span>
+            <h2 class="target-title" id="hud-target-name">Soarele</h2>
+          </div>
+          <span id="hud-target-category" class="target-category">Stea</span>
+        </div>
+
+        <p id="hud-target-desc" class="target-desc"></p>
+
+        <!-- Secțiune specifică nivelului Junior (6–8 ani) -->
+        <div id="hud-junior-box" class="tier-box">
+          <div class="didactic-callout">
+            <strong>Analogie vizuală:</strong> <span id="hud-junior-analogy"></span>
+          </div>
+          <div class="didactic-callout callout-amber">
+            <strong>Știai că?</strong> <span id="hud-junior-fact"></span>
+          </div>
+          <div class="travel-grid">
+            <span>🚗 Mașină: <strong id="travel-car"></strong></span>
+            <span>✈️ Avion: <strong id="travel-plane"></strong></span>
+            <span>🚀 Rachetă: <strong id="travel-rocket"></strong></span>
+            <span>💡 Lumină: <strong id="travel-light"></strong></span>
+          </div>
+        </div>
+
+        <!-- Secțiune specifică nivelului Cadet (9–12 ani) -->
+        <div id="hud-cadet-box" class="tier-box is-hidden-box">
+          <div class="metrics-grid">
+            <span>Rază: <strong id="metric-radius"></strong></span>
+            <span>Gravitație: <strong id="metric-gravity"></strong></span>
+            <span>Temp. medie: <strong id="metric-temp"></strong></span>
+            <span>Orbită: <strong id="metric-orbit"></strong></span>
+          </div>
+          <div class="structure-list" id="hud-cadet-structure"></div>
+          <div class="quiz-box" id="hud-quiz-box">
+            <p class="quiz-question" id="hud-quiz-question"></p>
+            <div class="quiz-options" id="hud-quiz-options"></div>
+            <p class="quiz-feedback" id="hud-quiz-feedback"></p>
+          </div>
+        </div>
+
+        <div class="target-meta">
+          <span id="hud-target-dist">Distanță față de Soare: 0,00 UA</span>
+          <button id="btn-reset-camera" class="hud-btn hud-btn-amber" type="button">
+            Vedere generală
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
