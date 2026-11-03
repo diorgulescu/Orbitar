@@ -1,0 +1,72 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# ============================================================================
+# Orbitar — Configurație Apache / LiteSpeed (cPanel Namebox.ro)
+# Subdomeniu aplicație 3D: planetariu.orbitar.ro
+# ============================================================================
+
+# 1. Redirecționare automată HTTP -> HTTPS
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https [NC]
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# 2. Tipuri MIME corecte pentru module ES, JSON, SVG, OGG și PWA WebManifest
+<IfModule mod_mime.c>
+  AddType application/javascript .js .mjs
+  AddType text/css .css
+  AddType application/json .json
+  AddType application/manifest+json .webmanifest
+  AddType image/svg+xml .svg .svgz
+  AddType audio/ogg .ogg
+  AddCharset UTF-8 .html .css .js .json .svg .webmanifest
+</IfModule>
+
+# 3. Compresie Brotli și Gzip pentru .js, .css, .json, .svg
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/css text/javascript application/javascript application/json image/svg+xml application/manifest+json
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/javascript application/javascript application/json image/svg+xml application/manifest+json
+</IfModule>
+
+# 4. Cache-Control inteligent pentru texturile 2K din /textures/, fișierele audio și bundle-uri
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+  # HTML și Service Worker (sw.js / manifest.webmanifest): fără cache blocant pentru actualizări PWA
+  <FilesMatch "^(index\.html|sw\.js|manifest\.webmanifest)$">
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+
+  # Datele astronomice și didactice JSON: cache moderat (24 ore)
+  <FilesMatch "\.json$">
+    Header set Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+  </FilesMatch>
+
+  # Texturile planetare 2K (/textures/*), audio (/audio/*), iconițe și bundle-urile Vite cu hash: cache 1 an (immutable)
+  <FilesMatch "\.(jpg|jpeg|png|webp|svg|ogg|mp3|wav|woff2|css|js)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # Excepție explicită pentru sw.js ca să nu fie marcat immutable de regula .js
+  <Files "sw.js">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+  </Files>
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 7 days"
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType application/json "access plus 1 day"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType audio/ogg "access plus 1 year"
+</IfModule>

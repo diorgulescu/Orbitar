@@ -12,6 +12,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "build:landing": "rm -rf dist-landing && mkdir -p dist-landing && cp -R landing/. dist-landing/",
+    "build:all": "npm run build && npm run build:landing",
     "preview": "vite preview",
     "fetch:textures": "bash scripts/fetch-textures.sh"
   },

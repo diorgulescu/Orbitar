@@ -3,6 +3,7 @@ node_modules/
 
 # Build output
 dist/
+dist-landing/
 dist-ssr/
 
 # Local env and logs

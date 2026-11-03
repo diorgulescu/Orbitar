@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<html lang="ro">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#070b19" />
+    <title>Orbitar — Planetariul Didactic Interactiv în Limba Română</title>
+    <meta
+      name="description"
+      content="Explorează Soarele, planetele, asteroizii, Stația Spațială Internațională și sondele trimise de om. Creat pentru copii curioși între 6 și 12 ani. 100% Gratuit, Fără Reclame, GNU GPLv3."
+    />
+    <link rel="icon" type="image/svg+xml" href="./orbitar-icon.svg" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <!-- BARĂ DE NAVIGARE -->
+    <header class="site-nav" aria-label="Navigare principală Orbitar">
+      <div class="container nav-inner">
+        <a href="#top" class="nav-brand">
+          <svg width="32" height="32" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+            <circle cx="32" cy="32" r="10" fill="#ffb703" />
+            <ellipse cx="32" cy="32" rx="26" ry="11" transform="rotate(-24 32 32)" stroke="#00f0ff" stroke-width="2.5" />
+            <circle cx="52" cy="23" r="4.5" fill="#00f0ff" />
+          </svg>
+          <span>ORBITAR</span>
+          <span class="nav-brand-badge">6–12 ani</span>
+        </a>
+        <nav class="nav-links" aria-label="Secțiuni pagină">
+          <a href="#descopera" class="nav-link">Ce pot descoperi copiii?</a>
+          <a href="#parinti-profesori" class="nav-link">Părinți &amp; Profesori</a>
+          <a href="#licenta-credite" class="nav-link">Open-Source (GPLv3)</a>
+          <a
+            href="https://planetariu.orbitar.ro"
+            data-local-href="./planetariu/"
+            class="nav-cta-mini js-planetarium-link"
+          >
+            🚀 Deschide 3D
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="top">
+      <!-- 1. HERO SECTION -->
+      <section class="hero-section" aria-labelledby="hero-heading">
+        <div class="container">
+          <div class="hero-card">
+            <div class="hero-logo-wrap">
+              <!-- Sigla vectorială SVG "ORBITAR" -->
+              <svg
+                class="hero-svg-logo"
+                viewBox="0 0 120 120"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                role="img"
+                aria-label="Sigla vectorială Orbitar"
+              >
+                <circle cx="60" cy="60" r="54" stroke="#00f0ff" stroke-opacity="0.22" stroke-width="1.5" stroke-dasharray="4 6" />
+                <ellipse cx="60" cy="60" rx="48" ry="20" transform="rotate(-25 60 60)" stroke="#00f0ff" stroke-width="3" />
+                <ellipse cx="60" cy="60" rx="34" ry="14" transform="rotate(20 60 60)" stroke="#ffb703" stroke-opacity="0.7" stroke-width="2" />
+                <circle cx="60" cy="60" r="16" fill="#ffb703" />
+                <circle cx="60" cy="60" r="21" stroke="#ffb703" stroke-opacity="0.4" stroke-width="2" />
+                <circle cx="98" cy="42" r="7" fill="#00f0ff" />
+                <circle cx="29" cy="48" r="4.5" fill="#ffffff" />
+              </svg>
+              <span class="hero-wordmark">ORBITAR // PLANETARIU DIDACTIC</span>
+            </div>
+
+            <h1 id="hero-heading" class="hero-title">
+              Orbitar — Planetariul Didactic Interactiv în Limba Română
+            </h1>
+
+            <p class="hero-subtitle">
+              Explorează Soarele, planetele, asteroizii, Stația Spațială Internațională și sondele trimise de om. Creat pentru copii curioși între 6 și 12 ani.
+            </p>
+
+            <div class="hero-cta-wrap">
+              <a
+                id="btn-hero-launch"
+                href="https://planetariu.orbitar.ro"
+                data-local-href="./planetariu/"
+                class="btn-launch-planetarium js-planetarium-link"
+              >
+                🚀 LANSEAZĂ PLANETARIUL 3D
+              </a>
+              <p class="hero-local-fallback">
+                Subdomeniu oficial: <strong>planetariu.orbitar.ro</strong> &bull;
+                <a href="./planetariu/" title="Fallback relativ pentru testare locală">Mod local (./planetariu/)</a>
+              </p>
+            </div>
+
+            <!-- Insigne sub buton -->
+            <div class="hero-badges" role="list" aria-label="Garanțiile proiectului Orbitar">
+              <span class="hero-badge hero-badge-emerald" role="listitem">
+                ✨ 100% Gratuit &amp; Fără Reclame
+              </span>
+              <span class="hero-badge" role="listitem">
+                🔓 Software Liber (GNU GPLv3)
+              </span>
+              <span class="hero-badge hero-badge-amber" role="listitem">
+                ⚡ Funcționează și pe Tablete / PC-uri mai vechi (Mod Eco)
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. SECȚIUNEA "CE POT DESCOPERI COPIII ÎN ORBITAR?" (Grilă Bento cu 4 carduri) -->
+      <section id="descopera" class="section-block" aria-labelledby="bento-heading">
+        <div class="container">
+          <div class="section-header">
+            <span class="section-eyebrow">EXPLORARE INTERACTIVĂ ÎN LIMBA ROMÂNĂ</span>
+            <h2 id="bento-heading" class="section-title">
+              Ce pot descoperi copiii în Orbitar?
+            </h2>
+            <p class="section-lead">
+              Un laborator cosmic 3D complet, construit special pentru ritmul de învățare al elevilor din ciclul primar și gimnazial.
+            </p>
+          </div>
+
+          <div class="bento-grid-4">
+            <!-- Card 1 -->
+            <article class="bento-feature-card">
+              <div class="bento-icon-pill" aria-hidden="true">🪐</div>
+              <h3 class="bento-card-title">
+                Sistemul Solar în 3D (Scară Didactică &amp; Scară Reală)
+              </h3>
+              <p class="bento-card-desc">
+                Planete, sateliți naturali (Luna, Io, Europa, Ganymede, Callisto, Titan, Enceladus), planete pitice (Pluto, Ceres, Eris, Haumea, Makemake) și centurile de asteroizi. Comută instantaneu între scara didactică și scara astronomică reală 1:1 sau măsoară distanțele cu Rigla cu Viteza Luminii!
+              </p>
+              <div class="bento-card-tags">
+                <span class="bento-tag">Efemeride VSOP87</span>
+                <span class="bento-tag">Texturi 2K &amp; Lumini de Noapte</span>
+                <span class="bento-tag">Rigla cu Viteza Luminii</span>
+              </div>
+            </article>
+
+            <!-- Card 2 -->
+            <article class="bento-feature-card card-amber">
+              <div class="bento-icon-pill" aria-hidden="true">🛰️</div>
+              <h3 class="bento-card-title">
+                Misiuni Umane &amp; Tracker Live ISS
+              </h3>
+              <p class="bento-card-desc">
+                Vezi pe unde zboară Stația Spațială Internațională chiar acum la ~420 km altitudine și ~27.600 km/h, descoperă telescopul James Webb în punctul Lagrange L2, explorează locurile de amartizare Perseverance și Curiosity și ascultă salutul în limba română de pe sonda Voyager (1977): <em>„Salutări la toată lumea!”</em>
+              </p>
+              <div class="bento-card-tags">
+                <span class="bento-tag">Tracker SGP4 Offline &amp; Live</span>
+                <span class="bento-tag">Discul de Aur Voyager (1977)</span>
+                <span class="bento-tag">Pini pe Marte și Lună</span>
+              </div>
+            </article>
+
+            <!-- Card 3 -->
+            <article class="bento-feature-card">
+              <div class="bento-icon-pill" aria-hidden="true">🧪</div>
+              <h3 class="bento-card-title">
+                Două Niveluri de Vârstă (6–8 ani &amp; 9–12 ani)
+              </h3>
+              <p class="bento-card-desc">
+                De la explicații calde, analogii vizuale și butonul <strong>„🔊 Citește-mi”</strong> cu voce tare pentru <em>Micul Explorator (6–8 ani)</em>, până la <strong>Laboratorul Orbitar</strong> cu calculatoare de greutate, înălțimea săriturii, vârstă pe alte planete și Vânătoarea de Comori Cosmică pentru <em>Cadet Orbitar (9–12 ani)</em>.
+              </p>
+              <div class="bento-card-tags">
+                <span class="bento-tag">Micul Explorator (6–8 ani)</span>
+                <span class="bento-tag">Cadet Orbitar (9–12 ani)</span>
+                <span class="bento-tag">Sinteză Vocală RO</span>
+              </div>
+            </article>
+
+            <!-- Card 4 -->
+            <article class="bento-feature-card card-amber">
+              <div class="bento-icon-pill" aria-hidden="true">🎨</div>
+              <h3 class="bento-card-title">
+                Fișe de Studiu, Planșe de Colorat &amp; Diplomă A4
+              </h3>
+              <p class="bento-card-desc">
+                Materiale didactice vectoriale alb-negru (line-art SVG cu consum redus de toner), gata de scos la imprimantă pentru acasă sau pentru orele de științe de la școală: planșe de colorat individuale pentru fiecare corp ceresc, harta Sistemului Solar A4, tabel comparativ și <strong>Diploma de Cadet / Explorator Spațial Orbitar</strong>.
+              </p>
+              <div class="bento-card-tags">
+                <span class="bento-tag">Imprimare A4 Eco-Toner</span>
+                <span class="bento-tag">Export SVG &amp; PNG</span>
+                <span class="bento-tag">Diplomă Academie Spațială</span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. SECȚIUNEA "PENTRU PĂRINȚI ȘI PROFESORI" -->
+      <section id="parinti-profesori" class="section-block" aria-labelledby="educators-heading">
+        <div class="container">
+          <div class="educators-panel">
+            <span class="section-eyebrow">EDUCAȚIE DESCHISĂ &amp; SIGURANȚĂ DIGITALĂ</span>
+            <h2 id="educators-heading" class="section-title">
+              Pentru Părinți și Profesori
+            </h2>
+            <p class="section-lead">
+              Orbitar s-a născut din dorința de a oferi copiilor din România un instrument modern, riguros științific și prietenos pentru descoperirea astronomiei în limba maternă.
+            </p>
+
+            <div class="educators-grid">
+              <div class="educator-pillar">
+                <h3>🛡️ Confidențialitate 100% (Zero Telemetrie)</h3>
+                <p>
+                  Orbitar <strong>nu colectează niciun fel de date despre copii</strong>: zero conturi de utilizator, zero cookie-uri de urmărire, zero reclame și zero scripturi de analiză externă. Progresul la misiuni se salvează exclusiv local pe dispozitivul copilului.
+                </p>
+              </div>
+
+              <div class="educator-pillar">
+                <h3>🏫 Ideal pentru Sala de Clasă &amp; Table Interactive</h3>
+                <p>
+                  Interfața cu butoane tactile mari este optimizată pentru videoproiectoare, table inteligente (SmartBoard) și tablete școlare. Profesorii pot genera și imprima pe loc fișe de lucru A4, teste grilă și diplome pentru toată clasa.
+                </p>
+              </div>
+
+              <div class="educator-pillar">
+                <h3>⚡ Accesibil pe Orice Calculator + Offline PWA</h3>
+                <p>
+                  Datorită <strong>Modului Rapid (Eco)</strong> și arhitecturii PWA (Service Worker), Orbitar rulează lin chiar și pe tablete mai vechi sau PC-uri școlare fără placă video dedicată și funcționează inclusiv fără conexiune la internet.
+                </p>
+              </div>
+            </div>
+
+            <div class="educators-cta-row">
+              <p class="educators-note">
+                📚 Baza de date didactică (<code>solar-system-ro.json</code> și <code>missions-ro.json</code>) este deschisă și poate fi adaptată liber pentru lecții personalizate.
+              </p>
+              <a
+                href="https://planetariu.orbitar.ro"
+                data-local-href="./planetariu/"
+                class="nav-cta-mini js-planetarium-link"
+              >
+                🚀 Intră în Planetariul Orbitar
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- 4. FOOTER -->
+    <footer id="licenta-credite" class="site-footer" aria-label="Subsol și informații despre licență">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-col">
+            <h4>ORBITAR // Planetariu Didactic</h4>
+            <p>
+              Proiect educațional liber în limba română pentru popularizarea astronomiei și a explorării spațiale în rândul copiilor de 6–12 ani.
+            </p>
+            <p>
+              Cod sursă deschis sub licența
+              <a href="https://github.com/diorgulescu/orbitar" target="_blank" rel="noopener noreferrer">
+                GNU General Public License v3.0 (GNU GPLv3)
+              </a>.
+            </p>
+          </div>
+
+          <div class="footer-col">
+            <h4>Credite Științifice &amp;Vizuale</h4>
+            <ul>
+              <li>Efemeride planetare: <strong>VSOP87 / Astronomy Engine</strong> (MIT)</li>
+              <li>Telemetrie orbitală SGP4: <strong>CelesTrak / NORAD &amp; satellite.js</strong></li>
+              <li>Date și arhivă audio: <strong>NASA / JPL-Caltech &amp; ESA</strong></li>
+              <li>Hărți planetare 2K: <strong>Solar System Scope</strong> (CC-BY 4.0) &amp; <strong>NASA Visible Earth / Black Marble</strong></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h4>Legături Utile &amp; Contact</h4>
+            <ul>
+              <li>
+                Planetariu 3D:
+                <a href="https://planetariu.orbitar.ro" data-local-href="./planetariu/" class="js-planetarium-link">
+                  planetariu.orbitar.ro
+                </a>
+              </li>
+              <li>
+                Cod Sursă GitHub:
+                <a href="https://github.com/diorgulescu/orbitar" target="_blank" rel="noopener noreferrer">
+                  github.com/diorgulescu/orbitar
+                </a>
+              </li>
+              <li>
+                Contact &amp; Sugestii Educaționale:
+                <a href="mailto:contact@orbitar.ro">contact@orbitar.ro</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <span>&copy; 2026 Proiectul Orbitar. Distribuit liber sub licența GNU GPLv3 (<code>GPL-3.0-or-later</code>).</span>
+          <span>Făcut cu pasiune pentru micii exploratori ai României 🇷🇴</span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Comutare inteligentă către fallback-ul relativ ./planetariu/ la rularea locală (localhost / file://) -->
+    <script>
+      (function () {
+        var host = window.location.hostname;
+        var isLocal =
+          window.location.protocol === "file:" ||
+          host === "localhost" ||
+          host === "127.0.0.1" ||
+          host.endsWith(".local");
+        if (isLocal) {
+          var links = document.querySelectorAll(".js-planetarium-link");
+          for (var i = 0; i < links.length; i++) {
+            var fallback = links[i].getAttribute("data-local-href");
+            if (fallback) {
+              links[i].setAttribute("href", fallback);
+            }
+          }
+        }
+      })();
+    </script>
+  </body>
+</html>

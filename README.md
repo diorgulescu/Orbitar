@@ -123,11 +123,13 @@ npm run dev
 ```
 Aplicația va porni la adresa `http://localhost:5173/`.
 
-### 3. Compilarea versiunii de producție (pentru GitHub Pages / server static)
+### 3. Compilarea versiunii de producție (`orbitar.ro` & `planetariu.orbitar.ro`)
 ```bash
-npm run build
+npm run build:all
 ```
-Fișierele optimizate și pregătite pentru utilizare offline sunt generate în directorul `dist/` (cu căi relative `base: './'` configurate în `vite.config.ts`).
+Comanda generează două directoare curate, gata de publicare pe cPanel (Apache/LiteSpeed) sau GitHub Pages:
+- `dist-landing/` — site-ul oficial de prezentare pentru rădăcina `orbitar.ro` (include `index.html`, `style.css`, `orbitar-icon.svg` și `.htaccess`).
+- `dist/` — aplicația 3D completă pentru subdomeniul `planetariu.orbitar.ro` (include `CNAME`, `.htaccess` cu reguli de cache pentru `/textures/` și `/audio/`, PWA `sw.js` și bundle-urile optimizate).
 
 Pentru a testa local versiunea de producție compilată:
 ```bash
