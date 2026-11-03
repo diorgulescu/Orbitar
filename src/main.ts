@@ -234,9 +234,34 @@ async function bootstrapOrbitar(): Promise<void> {
 
   cameraController.resetToOverview();
 
-  // Comutator Grafică: Rapidă (Eco) <-> Realistă HD + Watchdog FPS
-  const btnQualityToggle = document.getElementById('btn-quality-toggle');
-  const qualityToastEl = document.getElementById('hud-quality-toast');
+  // Comutator Grafică (#orbitar-quality-toggle): Rapidă (Eco) <-> Realistă HD + Tasta Q + Watchdog FPS
+  let btnQualityToggle = document.getElementById('orbitar-quality-toggle') as HTMLButtonElement | null;
+  if (!btnQualityToggle) {
+    btnQualityToggle = document.createElement('button');
+    btnQualityToggle.id = 'orbitar-quality-toggle';
+    btnQualityToggle.type = 'button';
+    btnQualityToggle.className = 'hud-btn quality-pill-switch';
+    const btnCadet = document.getElementById('btn-tier-cadet');
+    const tierContainer = document.querySelector('.header-tier-switch') ?? document.querySelector('.hud-header');
+    if (btnCadet && btnCadet.parentElement) {
+      btnCadet.insertAdjacentElement('afterend', btnQualityToggle);
+    } else if (tierContainer) {
+      tierContainer.appendChild(btnQualityToggle);
+    } else {
+      document.body.appendChild(btnQualityToggle);
+    }
+  }
+
+  let qualityToastEl = document.getElementById('hud-quality-toast');
+  if (!qualityToastEl) {
+    qualityToastEl = document.createElement('div');
+    qualityToastEl.id = 'hud-quality-toast';
+    qualityToastEl.className = 'bento-card quality-toast is-hidden';
+    qualityToastEl.setAttribute('role', 'status');
+    qualityToastEl.setAttribute('aria-live', 'polite');
+    document.body.appendChild(qualityToastEl);
+  }
+
   let toastTimeoutId: number | null = null;
 
   const showQualityToast = (messageRo: string): void => {
@@ -247,23 +272,44 @@ async function bootstrapOrbitar(): Promise<void> {
       window.clearTimeout(toastTimeoutId);
     }
     toastTimeoutId = window.setTimeout(() => {
-      qualityToastEl.classList.add('is-hidden');
-    }, 4500);
+      qualityToastEl?.classList.add('is-hidden');
+    }, 3600);
   };
 
   const syncQualityButtonUI = (): void => {
     if (!btnQualityToggle) return;
     const profile = qualityManager.getProfile();
-    btnQualityToggle.textContent = profile.buttonTextRo;
-    btnQualityToggle.title = profile.tooltipRo;
-    btnQualityToggle.classList.toggle('hud-btn-active-cyan', profile.mode === 'hd');
-    btnQualityToggle.classList.toggle('hud-btn-active-amber', profile.mode === 'eco');
+    btnQualityToggle.textContent =
+      profile.mode === 'eco' ? '⚡ Grafică: Rapidă (Eco)' : '✨ Grafică: Realistă HD';
+    btnQualityToggle.title = `${profile.tooltipRo} (Scurtătură: Tasta Q)`;
+    btnQualityToggle.dataset.qualityMode = profile.mode;
+    btnQualityToggle.classList.toggle('is-eco', profile.mode === 'eco');
+    btnQualityToggle.classList.toggle('is-hd', profile.mode === 'hd');
   };
 
   syncQualityButtonUI();
 
-  btnQualityToggle?.addEventListener('click', () => {
+  btnQualityToggle.addEventListener('click', () => {
     qualityManager.toggleMode();
+  });
+
+  // Scurtătură de tastatură: Tasta Q (Quality)
+  window.addEventListener('keydown', (e) => {
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    const target = e.target as HTMLElement | null;
+    if (
+      target &&
+      (target.tagName === 'INPUT' ||
+        target.tagName === 'TEXTAREA' ||
+        target.tagName === 'SELECT' ||
+        target.isContentEditable)
+    ) {
+      return;
+    }
+    if (e.key === 'q' || e.key === 'Q' || e.code === 'KeyQ') {
+      e.preventDefault();
+      qualityManager.toggleMode();
+    }
   });
 
   qualityManager.onChange((newMode, isAutoFallback) => {
@@ -272,6 +318,10 @@ async function bootstrapOrbitar(): Promise<void> {
     syncQualityButtonUI();
     if (isAutoFallback) {
       showQualityToast('Am activat Modul Rapid pentru ca Orbitar să se miște lin pe dispozitivul tău!');
+    } else if (newMode === 'eco') {
+      showQualityToast('Mod Grafic activat: Rapid (Eco)');
+    } else {
+      showQualityToast('Mod Grafic activat: Realist HD (Texturi 2K)');
     }
   });
 
@@ -360,11 +410,25 @@ bootstrapOrbitar().catch((err) => {
   console.error('Eroare la inițializarea planetariului Orbitar:', err);
 });
 
-// Înregistrăm Service Worker-ul pentru funcționare 100% offline și instalare PWA pe tablete/laptopuri
+// Înregistrăm și actualizăm Service Worker-ul pentru funcționare offline și instalare PWA
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js').catch(() => {
-      // Ignorăm eventualele restricții în mediul de dev local
-    });
+    if ('caches' in window) {
+      caches.keys().then((keys) => {
+        keys.forEach((key) => {
+          if (key === 'orbitar-pwa-v1.0.0') {
+            caches.delete(key);
+          }
+        });
+      });
+    }
+    navigator.serviceWorker
+      .register('./sw.js')
+      .then((reg) => {
+        reg.update().catch(() => {});
+      })
+      .catch(() => {
+        // Ignorăm eventualele restricții în mediul de dev local
+      });
   });
 }
