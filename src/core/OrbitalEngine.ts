@@ -498,9 +498,24 @@ export class OrbitalEngine {
     return this.beltConfigs;
   }
 
+  /**
+   * Filtrează vizibilitatea corpurilor și a orbitelor în funcție de stratul selectat în Header HUD.
+   */
+  public setCategoryVisibility(predicate: (cat: CelestialCategory, id: string) => boolean): void {
+    for (const instance of this.bodies.values()) {
+      // Soarele rămâne mereu vizibil ca reper central și sursă de lumină
+      const visible = instance.data.id === 'sun' || predicate(instance.data.category, instance.data.id);
+      instance.rootGroup.visible = visible;
+      if (instance.orbitLine) {
+        instance.orbitLine.visible = visible;
+      }
+    }
+  }
+
   public getRaycastTargets(): THREE.Object3D[] {
     const targets: THREE.Object3D[] = [];
     for (const instance of this.bodies.values()) {
+      if (!instance.rootGroup.visible) continue;
       targets.push(instance.hitMesh, instance.visualRoot);
     }
     return targets;

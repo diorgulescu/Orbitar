@@ -28,111 +28,316 @@
     <!-- Etichete 2D suprapuse pentru corpurile cerești -->
     <div id="labels-container" aria-hidden="true"></div>
 
-    <!-- Interfața Bento Grid HUD superioară -->
-    <header class="hud-top-bar">
-      <div class="hud-card hud-brand">
-        <span class="brand-badge">ORBITAR</span>
-        <span class="brand-sub">Planetariu Didactic Interactiv</span>
+    <!-- 1. HEADER-UL "ORBITAR" (Bento Dark Mode) -->
+    <header class="hud-header" aria-label="Antet principal Orbitar">
+      <!-- Sigla / Titlul în stânga sus -->
+      <div class="bento-card header-brand">
+        <span class="brand-title">ORBITAR // Planetariu Didactic</span>
       </div>
 
-      <div class="hud-card hud-controls">
-        <div class="control-group">
-          <span class="control-label">Nivel studiu:</span>
-          <button id="btn-tier-junior" class="hud-btn hud-btn-cyan" type="button" title="Micul Explorator (6–8 ani)">
-            Micul Explorator (6–8 ani)
-          </button>
-          <button id="btn-tier-cadet" class="hud-btn" type="button" title="Cadet Orbitar (9–12 ani)">
-            Cadet Orbitar (9–12 ani)
-          </button>
-        </div>
+      <!-- Bară de căutare rapidă -->
+      <div class="bento-card header-search-wrap">
+        <span class="search-icon" aria-hidden="true">🔍</span>
+        <input
+          id="hud-search-input"
+          class="hud-search-input"
+          type="search"
+          autocomplete="off"
+          placeholder="Caută în Orbitar: planetă, asteroid, sondă..."
+          aria-label="Caută în Orbitar: planetă, asteroid, sondă"
+        />
+        <div id="hud-search-results" class="search-dropdown is-hidden" role="listbox"></div>
+      </div>
 
-        <div class="control-group">
-          <span class="control-label">Scară:</span>
-          <button id="btn-scale-toggle" class="hud-btn hud-btn-cyan" type="button" title="Comută între Scara Didactică și Scara Reală">
-            Scară Didactică
-          </button>
-        </div>
+      <!-- Filtre rapide pe straturi -->
+      <nav class="bento-card header-filters" aria-label="Filtre pe straturi cosmice">
+        <button type="button" class="hud-btn hud-btn-active-cyan" data-layer-filter="all">
+          Toate
+        </button>
+        <button type="button" class="hud-btn" data-layer-filter="planets_moons">
+          Planete &amp; Luni
+        </button>
+        <button type="button" class="hud-btn" data-layer-filter="dwarfs_asteroids">
+          Pitice &amp; Asteroizi
+        </button>
+        <button type="button" class="hud-btn" data-layer-filter="probes_telescopes">
+          Sonde &amp; Telescoape
+        </button>
+      </nav>
 
-        <div class="control-group">
-          <span class="control-label">Timp:</span>
-          <button id="btn-time-pause" class="hud-btn" type="button" title="Pauză / Continuă simularea">⏸</button>
-          <button id="btn-time-real" class="hud-btn" type="button" data-speed="1">1×</button>
-          <button id="btn-time-hour" class="hud-btn" type="button" data-speed="3600">1 oră/s</button>
-          <button id="btn-time-day" class="hud-btn hud-btn-active" type="button" data-speed="86400">1 zi/s</button>
-          <button id="btn-time-month" class="hud-btn" type="button" data-speed="2592000">30 zile/s</button>
-        </div>
-
-        <div class="control-group">
-          <span id="hud-sim-date" class="sim-date-readout">—</span>
-        </div>
+      <!-- Comutator de nivel salvat în localStorage (orbitar_age_tier) -->
+      <div class="bento-card header-tier-switch" role="group" aria-label="Nivel de studiu">
+        <button
+          id="btn-tier-junior"
+          type="button"
+          class="hud-btn hud-btn-active-cyan"
+          title="Mod adaptat pentru copii de 6–8 ani"
+        >
+          Micul Explorator: 6-8 ani
+        </button>
+        <button
+          id="btn-tier-cadet"
+          type="button"
+          class="hud-btn"
+          title="Mod avansat pentru copii de 9–12 ani"
+        >
+          Cadet Orbitar: 9-12 ani
+        </button>
       </div>
     </header>
 
-    <!-- Selector pe categorii și Fișa Didactică Bento HUD -->
-    <aside class="hud-bottom-bar">
-      <div class="hud-card hud-catalog-panel">
-        <div class="catalog-tabs" role="tablist" aria-label="Categorii corpuri cerești">
-          <button class="hud-btn hud-btn-active" type="button" data-filter="planets">Planete (9)</button>
-          <button class="hud-btn" type="button" data-filter="moons">Sateliți (7)</button>
-          <button class="hud-btn" type="button" data-filter="dwarfs_asteroids">Pitice &amp; Asteroizi (10)</button>
-          <button class="hud-btn" type="button" data-filter="missions">Misiuni &amp; Sonde (12)</button>
+    <!-- 2. PANOUL LATERAL DE STUDIU (se deschide la selectarea unui corp) -->
+    <aside id="hud-study-drawer" class="bento-card study-drawer" aria-label="Panou lateral de studiu">
+      <div class="drawer-top-bar">
+        <div>
+          <span id="hud-target-category" class="target-category">Stea</span>
+          <h2 id="hud-target-name" class="target-title">Soarele</h2>
+          <p id="hud-target-subtitle" class="target-subtitle">Steaua centrală a Sistemului Solar</p>
         </div>
-        <div class="hud-bodies-bar" id="hud-bodies-list" role="navigation" aria-label="Corpuri cerești">
-          <!-- Populat dinamic din OrbitalEngine -->
+        <button
+          id="btn-drawer-close"
+          type="button"
+          class="hud-icon-btn"
+          title="Ascunde panoul de studiu"
+          aria-label="Închide panoul"
+        >
+          ✕
+        </button>
+      </div>
+
+      <!-- Buton "🔊 Citește-mi" + Vedere generală -->
+      <div class="drawer-actions-row">
+        <button id="btn-speak-ro" type="button" class="hud-btn hud-btn-cyan">
+          🔊 Citește-mi
+        </button>
+        <span id="hud-target-dist" class="target-dist-badge">Distanță de Soare: 0,00 UA</span>
+        <button id="btn-reset-camera" type="button" class="hud-btn hud-btn-amber">
+          🌌 Vedere generală
+        </button>
+      </div>
+
+      <!-- Rezumat adaptiv (Junior vs Cadet) -->
+      <p id="hud-target-desc" class="target-desc"></p>
+
+      <!-- Conținut Micul Explorator (6–8 ani) -->
+      <div id="hud-junior-box" class="tier-section">
+        <div class="didactic-callout">
+          <strong>🎨 Analogie vizuală:</strong>
+          <p id="hud-junior-analogy"></p>
+        </div>
+        <div class="didactic-callout callout-amber">
+          <strong>✨ Știai că?</strong>
+          <p id="hud-junior-fact"></p>
+        </div>
+        <div class="subcard">
+          <h3 class="subcard-title">⏱️ Cât durează călătoria până aici?</h3>
+          <div class="travel-grid">
+            <div><span>🚗 Cu mașina:</span> <strong id="travel-car"></strong></div>
+            <div><span>✈️ Cu avionul:</span> <strong id="travel-plane"></strong></div>
+            <div><span>🚀 Cu racheta:</span> <strong id="travel-rocket"></strong></div>
+            <div><span>💡 Cu viteza luminii:</span> <strong id="travel-light"></strong></div>
+          </div>
         </div>
       </div>
 
-      <div class="hud-card hud-target-info" id="hud-target-card">
-        <div class="target-header">
-          <div>
-            <span class="target-tag" id="hud-target-subtitle">Stea centrală</span>
-            <h2 class="target-title" id="hud-target-name">Soarele</h2>
-          </div>
-          <span id="hud-target-category" class="target-category">Stea</span>
+      <!-- Conținut Cadet Orbitar (9–12 ani) -->
+      <div id="hud-cadet-box" class="tier-section is-hidden">
+        <div class="metrics-grid">
+          <div><span>Rază medie:</span> <strong id="metric-radius"></strong></div>
+          <div><span>Gravitație la sol:</span> <strong id="metric-gravity"></strong></div>
+          <div><span>Temperatură medie:</span> <strong id="metric-temp"></strong></div>
+          <div><span>Perioadă orbitală:</span> <strong id="metric-orbit"></strong></div>
         </div>
 
-        <p id="hud-target-desc" class="target-desc"></p>
+        <div class="subcard">
+          <h3 class="subcard-title">🔬 Structură internă / Instrumente la bord</h3>
+          <div id="hud-cadet-structure" class="structure-list"></div>
+        </div>
 
-        <!-- Secțiune specifică nivelului Junior (6–8 ani) -->
-        <div id="hud-junior-box" class="tier-box">
-          <div class="didactic-callout">
-            <strong>Analogie vizuală:</strong> <span id="hud-junior-analogy"></span>
+        <div class="didactic-callout">
+          <strong>🛰️ Istoricul explorării:</strong>
+          <p id="hud-cadet-history"></p>
+        </div>
+
+        <div class="quiz-box" id="hud-quiz-box">
+          <p id="hud-quiz-question" class="quiz-question"></p>
+          <div id="hud-quiz-options" class="quiz-options"></div>
+          <p id="hud-quiz-feedback" class="quiz-feedback"></p>
+        </div>
+      </div>
+
+      <!-- Secțiunea interactivă "Laboratorul Orbitar" -->
+      <section class="orbitar-lab-section" aria-label="Laboratorul Orbitar">
+        <h3 class="lab-header">🧪 Laboratorul Orbitar</h3>
+
+        <!-- a) Calculator "Cât cântăresc și cât de sus sar aici?" -->
+        <div class="lab-card">
+          <h4 class="lab-card-title">⚖️ Cât cântăresc și cât de sus sar aici?</h4>
+          <div class="lab-inputs-row">
+            <label class="lab-field">
+              <span>Greutate pe Pământ (kg):</span>
+              <input id="lab-input-weight" type="number" min="5" max="250" step="1" value="35" />
+            </label>
+            <label class="lab-field">
+              <span>Săritură pe Pământ (cm):</span>
+              <input id="lab-input-jump" type="number" min="5" max="200" step="5" value="40" />
+            </label>
           </div>
-          <div class="didactic-callout callout-amber">
-            <strong>Știai că?</strong> <span id="hud-junior-fact"></span>
-          </div>
-          <div class="travel-grid">
-            <span>🚗 Mașină: <strong id="travel-car"></strong></span>
-            <span>✈️ Avion: <strong id="travel-plane"></strong></span>
-            <span>🚀 Rachetă: <strong id="travel-rocket"></strong></span>
-            <span>💡 Lumină: <strong id="travel-light"></strong></span>
+          <div class="lab-results-row">
+            <div>Aici cântărești: <strong id="lab-result-weight" class="highlight-cyan">35,0 kg</strong></div>
+            <div>Aici sari până la: <strong id="lab-result-jump" class="highlight-amber">40,0 cm</strong></div>
           </div>
         </div>
 
-        <!-- Secțiune specifică nivelului Cadet (9–12 ani) -->
-        <div id="hud-cadet-box" class="tier-box is-hidden-box">
-          <div class="metrics-grid">
-            <span>Rază: <strong id="metric-radius"></strong></span>
-            <span>Gravitație: <strong id="metric-gravity"></strong></span>
-            <span>Temp. medie: <strong id="metric-temp"></strong></span>
-            <span>Orbită: <strong id="metric-orbit"></strong></span>
+        <!-- b) Calculator "Câți ani am pe această lume?" -->
+        <div class="lab-card">
+          <h4 class="lab-card-title">🎂 Câți ani am pe această lume?</h4>
+          <div class="lab-inputs-row">
+            <label class="lab-field">
+              <span>Vârsta ta în ani pământești:</span>
+              <input id="lab-input-age" type="number" min="1" max="110" step="1" value="10" />
+            </label>
           </div>
-          <div class="structure-list" id="hud-cadet-structure"></div>
-          <div class="quiz-box" id="hud-quiz-box">
-            <p class="quiz-question" id="hud-quiz-question"></p>
-            <div class="quiz-options" id="hud-quiz-options"></div>
-            <p class="quiz-feedback" id="hud-quiz-feedback"></p>
+          <div class="lab-results-row">
+            <div>Vârsta în ani orbitali: <strong id="lab-result-years" class="highlight-cyan">10,0 ani locali</strong></div>
+            <div>Zile trăite aici: <strong id="lab-result-days" class="highlight-amber">3.653 zile locale</strong></div>
           </div>
         </div>
 
-        <div class="target-meta">
-          <span id="hud-target-dist">Distanță față de Soare: 0,00 UA</span>
-          <button id="btn-reset-camera" class="hud-btn hud-btn-amber" type="button">
-            Vedere generală
+        <!-- c) Casetă dedicată Voyager 1 & 2: Discul de Aur (1977) -->
+        <div id="lab-voyager-golden-record" class="lab-card voyager-gold-card is-hidden">
+          <h4 class="lab-card-title">💿 Discul de Aur — Salutul în limba română (1977)</h4>
+          <p class="voyager-quote">
+            Mesajul românesc călătorește în eternitate la bordul sondelor Voyager:
+            <strong>„Salutări la toată lumea!”</strong>
+          </p>
+          <audio id="voyager-native-audio" preload="auto" src="./audio/salut-voyager-ro.ogg"></audio>
+          <button id="btn-voyager-audio" type="button" class="hud-btn hud-btn-active-amber">
+            ▶️ Ascultă salutul în limba română (1977)
+          </button>
+          <p id="voyager-audio-status" class="voyager-status">
+            Fișier local: <code>/audio/salut-voyager-ro.ogg</code> + sinteză vocală RO
+          </p>
+        </div>
+      </section>
+    </aside>
+
+    <!-- Caseta flotantă pentru unealta "🚀 Rigla cu Viteza Luminii" -->
+    <section id="hud-ruler-panel" class="bento-card ruler-floating-panel is-hidden" aria-label="Rigla cu Viteza Luminii">
+      <div class="ruler-header">
+        <strong>🚀 Rigla cu Viteza Luminii (Semnal Radio / Foton)</strong>
+        <button id="btn-ruler-close" type="button" class="hud-icon-btn" title="Închide rigla">✕</button>
+      </div>
+      <p class="ruler-hint">
+        Alege două corpuri din listă sau dă click direct pe ele în scena 3D pentru a lansa o rază de lumină!
+      </p>
+      <div class="ruler-selectors">
+        <label class="lab-field">
+          <span>De la (Origine):</span>
+          <select id="ruler-select-a"></select>
+        </label>
+        <label class="lab-field">
+          <span>Până la (Destinație):</span>
+          <select id="ruler-select-b"></select>
+        </label>
+      </div>
+      <div class="ruler-readouts">
+        <div>Distanță astronomică: <strong id="ruler-readout-au" class="highlight-cyan">—</strong></div>
+        <div>Distanță în kilometri: <strong id="ruler-readout-km" class="highlight-cyan">—</strong></div>
+        <div>Timp la viteza luminii (c): <strong id="ruler-readout-light" class="highlight-amber">—</strong></div>
+      </div>
+    </section>
+
+    <!-- 3. DOCK-UL INFERIOR DE NAVIGAȚIE -->
+    <footer id="hud-bottom-dock" class="hud-bottom-dock" aria-label="Dock inferior de navigație">
+      <!-- Bară rapidă de selecție a corpurilor din stratul curent -->
+      <div class="bento-card dock-bodies-strip" id="hud-bodies-list" role="navigation" aria-label="Selector rapid corpuri">
+        <!-- Populat dinamic -->
+      </div>
+
+      <!-- Bara de control al timpului, scării, riglei cu viteza luminii și licenței GPLv3 -->
+      <div class="bento-card dock-controls-bar">
+        <!-- Controlul timpului -->
+        <div class="dock-group">
+          <button id="btn-time-pause" type="button" class="hud-btn" title="Pauză / Continuă simularea">
+            ⏸ Pauză
+          </button>
+          <button id="btn-time-now" type="button" class="hud-btn" title="Resetează la momentul actual în timp real">
+            🕒 Timp Real (Acum)
+          </button>
+        </div>
+
+        <!-- Slider de viteză orbitală + afișare dată -->
+        <div class="dock-group dock-slider-group">
+          <label for="hud-speed-slider" class="control-label">Viteză orbitală:</label>
+          <input
+            id="hud-speed-slider"
+            class="hud-speed-slider"
+            type="range"
+            min="0"
+            max="6"
+            step="1"
+            value="3"
+            aria-label="Viteză orbitală"
+          />
+          <span id="hud-speed-label" class="speed-badge">1 zi / sec</span>
+          <span id="hud-sim-date" class="sim-date-readout">—</span>
+        </div>
+
+        <!-- Comutator Scară Didactică <-> Scară Reală, Rigla cu Viteza Luminii și Buton GPLv3 -->
+        <div class="dock-group">
+          <button
+            id="btn-scale-toggle"
+            type="button"
+            class="hud-btn hud-btn-active-cyan"
+            title="Comută între Scara Didactică și Scara Reală"
+          >
+            🔭 Scară Didactică
+          </button>
+          <button
+            id="btn-ruler-toggle"
+            type="button"
+            class="hud-btn"
+            title="Măsoară distanța și timpul razei de lumină între două corpuri"
+          >
+            🚀 Rigla cu Viteza Luminii
+          </button>
+          <button
+            id="btn-gpl-modal"
+            type="button"
+            class="hud-btn hud-btn-gpl"
+            title="Despre licența liberă GNU GPLv3 a proiectului Orbitar"
+          >
+            ⓘ GPLv3
           </button>
         </div>
       </div>
-    </aside>
+    </footer>
+
+    <!-- Fereastră modală pentru licența liberă GNU GPLv3 -->
+    <div id="hud-gpl-modal" class="modal-backdrop is-hidden" role="dialog" aria-modal="true" aria-labelledby="gpl-modal-title">
+      <div class="bento-card modal-card">
+        <div class="modal-header">
+          <h2 id="gpl-modal-title">ⓘ Orbitar — Software 100% Liber (GNU GPLv3)</h2>
+          <button id="btn-gpl-close" type="button" class="hud-icon-btn" aria-label="Închide fereastra">✕</button>
+        </div>
+        <div class="modal-body">
+          <p>
+            <strong>Orbitar — Planetariu Didactic Interactiv</strong> este un proiect educațional deschis,
+            licențiat integral sub <strong>GNU General Public License v3.0 (GPL-3.0-or-later)</strong>.
+          </p>
+          <ul class="gpl-freedoms-list">
+            <li><strong>Libertatea de utilizare:</strong> Poate fi folosit gratuit în școli, acasă sau în planetarii.</li>
+            <li><strong>Libertatea de studiu și modificare:</strong> Codul sursă (TypeScript, Three.js, GLSL) și baza de date didactică în limba română (<code>/public/data/</code>) sunt complet deschise.</li>
+            <li><strong>Zero Telemetrie &amp; 100% Autonom:</strong> Nu folosește cookies de urmărire, analytics sau CDN-uri externe. Funcționează complet offline.</li>
+            <li><strong>Libertatea de partajare (Copyleft):</strong> Orice versiune derivată păstrează aceleași libertăți pentru toți elevii și profesorii.</li>
+          </ul>
+          <p class="modal-footer-note">
+            Dependențe Open-Source: <code>three</code> (MIT), <code>astronomy-engine</code> (MIT), <code>satellite.js</code> (MIT), <code>vite</code> (MIT).
+          </p>
+        </div>
+      </div>
+    </div>
 
     <script type="module" src="/src/main.ts"></script>
   </body>
