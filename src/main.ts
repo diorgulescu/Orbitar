@@ -151,8 +151,17 @@ async function bootstrapOrbitar(): Promise<void> {
 
   const bottomDock = new BottomDock(orbitalEngine, scaleManager);
   const lightSpeedRuler = new LightSpeedRuler(sceneManager.scene, orbitalEngine);
-  const printManager = new PrintManager(orbitalEngine, () => headerHud.getTier());
+  const printManager = new PrintManager(
+    orbitalEngine,
+    () => headerHud.getTier(),
+    () => orbitarMissions.getUnlockedBadges()
+  );
   new LicenseModal();
+
+  orbitarMissions.setOnGenerateDiploma(() => {
+    orbitarMissions.setOpen(false);
+    printManager.openDiplomaBuilder(true);
+  });
 
   studyDrawer.setPrintHandlers({
     onPrintStudy: (bodyId) => {

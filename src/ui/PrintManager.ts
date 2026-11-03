@@ -5,26 +5,49 @@ import {
   generateBodyColoringSvg,
   generateSolarSystemColoringSvg,
 } from '../utils/ColoringSvgGenerator';
+import {
+  DiplomaGenerator,
+  DiplomaOptions,
+  DiplomaRank,
+  resolveDiplomaTitleRo,
+} from '../utils/DiplomaGenerator';
 
-export type PrintTemplateType = 'study' | 'coloring' | 'mission-table';
+export type PrintTemplateType = 'study' | 'coloring' | 'mission-table' | 'diploma';
 
 /**
- * PrintManager gestionează generarea și imprimarea fișelor didactice A4 și a planșelor de colorat:
+ * PrintManager gestionează generarea și imprimarea fișelor didactice A4, a planșelor de colorat
+ * și a Diplomei de Explorator / Cadet Spațial Orbitar:
  * - Populează containerul #orbitar-print-sheet (singurul vizibil la @media print)
  * - Șablonul A: "Fișă de Studiu & Colorat" (date + rezumat adaptiv + desen SVG + Quiz cu căsuțe de bifat)
  * - Șablonul B: "Planșă de Colorat A4 — Doar Desen Mare" (~85% desen SVG + litere conturate + curiozități)
  * - Șablonul C: "Jurnal de Misiune — Toate Planetele pe o Pagină" (tabel comparativ + harta Sistemului Solar)
+ * - Șablonul D: "Diplomă de Explorator / Cadet Spațial Orbitar" (A4 Landscape, line-art oficial + insigne + ștampilă)
  * - Fereastra modală "🎨 Planșe de Colorat & Fișe" cu grilă vizuală și descărcare locală SVG / PNG
  */
 export class PrintManager {
   private readonly orbitalEngine: OrbitalEngine;
   private readonly getTier: () => AgeTier;
+  private readonly getUnlockedBadges: () => string[];
   private selectedModalTargetId = 'solar-system';
   private lastTemplate: PrintTemplateType = 'study';
 
-  constructor(orbitalEngine: OrbitalEngine, getTier: () => AgeTier) {
+  constructor(
+    orbitalEngine: OrbitalEngine,
+    getTier: () => AgeTier,
+    getUnlockedBadges?: () => string[]
+  ) {
     this.orbitalEngine = orbitalEngine;
     this.getTier = getTier;
+    this.getUnlockedBadges =
+      getUnlockedBadges ??
+      (() => {
+        try {
+          const raw = window.localStorage.getItem('orbitar_badges');
+          return raw ? (JSON.parse(raw) as string[]) : [];
+        } catch {
+          return [];
+        }
+      });
     this.initModalUI();
     // Pre-populăm #orbitar-print-sheet cu Soarele pentru a avea mereu o fișă pregătită
     this.populateStudySheet('sun');
@@ -395,6 +418,98 @@ export class PrintManager {
     window.print();
   }
 
+  /**
+   * Citește opțiunile curente din interfața diplomei (Nume + Rang + Insigne deblocate)
+   */
+  public getCurrentDiplomaOptions(overrides: DiplomaOptions = {}): DiplomaOptions {
+    const nameInput = document.getElementById(
+      'diploma-input-name'
+    ) as HTMLInputElement | null;
+    const rankSelect = document.getElementById(
+      'diploma-select-rank'
+    ) as HTMLSelectElement | null;
+
+    const recipientName =
+      overrides.recipientName !== undefined
+        ? overrides.recipientName
+        : nameInput?.value ?? '';
+    const rank =
+      overrides.rank ??
+      ((rankSelect?.value as DiplomaRank | undefined) ||
+        (this.getTier() === 'junior' ? 'explorer' : 'cadet'));
+
+    return {
+      recipientName,
+      rank,
+      ageTier: overrides.ageTier ?? this.getTier(),
+      unlockedBadgeIds: overrides.unlockedBadgeIds ?? this.getUnlockedBadges(),
+      issueDate: overrides.issueDate ?? new Date(),
+    };
+  }
+
+  /**
+   * Șablonul D ("Diplomă de Explorator / Cadet Spațial Orbitar" — A4 Landscape):
+   * Populează #orbitar-print-sheet cu diploma oficială a Academiei Spațiale Orbitar.
+   */
+  public populateDiplomaSheet(overrides: DiplomaOptions = {}): string {
+    this.lastTemplate = 'diploma';
+    const opts = this.getCurrentDiplomaOptions(overrides);
+    const html = DiplomaGenerator.generateDiplomaPrintHtml(opts);
+    const container = this.getPrintContainer();
+    if (container) {
+      container.innerHTML = html;
+    }
+    return html;
+  }
+
+  /**
+   * Populează #orbitar-print-sheet cu Șablonul D (Diploma A4 Landscape) și deschide dialogul de imprimare
+   */
+  public printDiplomaSheet(overrides: DiplomaOptions = {}): void {
+    this.populateDiplomaSheet(overrides);
+    window.print();
+  }
+
+  /**
+   * Deschide fereastra modală direct pe Șablonul D (Diploma de Cadet / Explorator)
+   * și declanșează o animație festivă de felicitare.
+   */
+  public openDiplomaBuilder(syncRankWithTier = true): void {
+    const modal = document.getElementById('hud-coloring-modal');
+    const rankSelect = document.getElementById(
+      'diploma-select-rank'
+    ) as HTMLSelectElement | null;
+    const builderCard = document.getElementById('diploma-builder-card');
+    const festiveBadge = document.getElementById('diploma-festive-badge');
+    const nameInput = document.getElementById(
+      'diploma-input-name'
+    ) as HTMLInputElement | null;
+
+    if (syncRankWithTier && rankSelect) {
+      rankSelect.value = this.getTier() === 'junior' ? 'explorer' : 'cadet';
+    }
+
+    this.selectedModalTargetId = 'diploma';
+    this.renderModalPreview('diploma');
+    modal?.classList.remove('is-hidden');
+
+    const unlockedCount = this.getUnlockedBadges().length;
+    if (festiveBadge) {
+      festiveBadge.textContent =
+        unlockedCount >= 6
+          ? '🎉 Toate cele 6 Misiuni Îndeplinite!'
+          : `🏅 ${unlockedCount}/6 Insigne Cucerite`;
+    }
+
+    if (builderCard) {
+      builderCard.classList.remove('is-celebrating');
+      void builderCard.offsetWidth;
+      builderCard.classList.add('is-celebrating');
+    }
+
+    nameInput?.focus();
+  }
+
   public getLastTemplate(): PrintTemplateType {
     return this.lastTemplate;
   }
@@ -420,7 +535,8 @@ export class PrintManager {
    */
   public async downloadPng(targetId: string): Promise<void> {
     const svgString = this.getSvgForTarget(targetId);
-    const isLandscapeMap = targetId === 'solar-system';
+    const isLandscapeMap =
+      targetId === 'solar-system' || targetId === 'diploma';
     const width = isLandscapeMap ? 2200 : 1600;
     const height = isLandscapeMap ? 1400 : 1080;
 
@@ -460,6 +576,9 @@ export class PrintManager {
   }
 
   private getSvgForTarget(targetId: string): string {
+    if (targetId === 'diploma') {
+      return DiplomaGenerator.generateDiplomaSvg(this.getCurrentDiplomaOptions());
+    }
     if (targetId === 'solar-system') {
       return generateSolarSystemColoringSvg();
     }
@@ -479,6 +598,15 @@ export class PrintManager {
     const btnHeroMap = document.getElementById('btn-print-solar-map');
     const btnHeroTable = document.getElementById('btn-print-mission-table');
     const gridEl = document.getElementById('coloring-bodies-grid');
+
+    const diplomaNameInput = document.getElementById(
+      'diploma-input-name'
+    ) as HTMLInputElement | null;
+    const diplomaRankSelect = document.getElementById(
+      'diploma-select-rank'
+    ) as HTMLSelectElement | null;
+    const btnPreviewDiploma = document.getElementById('btn-preview-diploma');
+    const btnPrintDiploma = document.getElementById('btn-print-diploma');
 
     const btnPreviewPrintColoring = document.getElementById(
       'btn-preview-print-coloring'
@@ -532,15 +660,37 @@ export class PrintManager {
     });
 
     btnPreviewPrintColoring?.addEventListener('click', () => {
+      if (this.selectedModalTargetId === 'diploma') {
+        this.printDiplomaSheet();
+        return;
+      }
       this.printColoringSheet(this.selectedModalTargetId);
     });
 
     btnPreviewPrintStudy?.addEventListener('click', () => {
+      if (this.selectedModalTargetId === 'diploma') {
+        this.printDiplomaSheet();
+        return;
+      }
       const target =
         this.selectedModalTargetId === 'solar-system'
           ? 'sun'
           : this.selectedModalTargetId;
       this.printStudySheet(target);
+    });
+
+    const refreshDiplomaPreview = (): void => {
+      this.selectedModalTargetId = 'diploma';
+      this.renderModalPreview('diploma');
+    };
+
+    diplomaNameInput?.addEventListener('input', refreshDiplomaPreview);
+    diplomaRankSelect?.addEventListener('change', refreshDiplomaPreview);
+    btnPreviewDiploma?.addEventListener('click', refreshDiplomaPreview);
+    btnPrintDiploma?.addEventListener('click', () => {
+      this.selectedModalTargetId = 'diploma';
+      this.renderModalPreview('diploma');
+      this.printDiplomaSheet();
     });
 
     btnDownloadSvg?.addEventListener('click', () => {
@@ -631,6 +781,17 @@ export class PrintManager {
     const previewFrame = document.getElementById('coloring-preview-frame');
     const previewTitle = document.getElementById('coloring-preview-title');
     if (!previewFrame) return;
+
+    if (targetId === 'diploma') {
+      const opts = this.getCurrentDiplomaOptions();
+      const titleRo = resolveDiplomaTitleRo(opts.rank, opts.ageTier);
+      if (previewTitle) {
+        previewTitle.textContent = `🎓 Previzualizare: ${titleRo} (A4 Landscape)`;
+      }
+      previewFrame.innerHTML = DiplomaGenerator.generateDiplomaSvg(opts);
+      this.populateDiplomaSheet(opts);
+      return;
+    }
 
     if (targetId === 'solar-system') {
       if (previewTitle) {

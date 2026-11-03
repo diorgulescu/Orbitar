@@ -36,12 +36,13 @@ Proiectul este **100% Open-Source**, licențiat sub **GNU General Public License
    - **📍 Markere Planetare pe Marte și Lună:** pini interactivi pe glob pentru *Craterul Jezero (Perseverance)*, *Craterul Gale (Curiosity)*, *Chryse Planitia (Viking 1)* și *Marea Liniștii (Apollo 11)*.
    - **🎯 Misiunile Orbitar & Jurnalul de Bord (`orbitar_badges`):** joc de tip „Vânătoare de Comori Cosmică” în care copiii caută ținte în Sistemul Solar și deblochează insigne.
 
-5. **Fișe de Studiu A4 & Planșe de Colorat Vectoriale (`ColoringSvgGenerator.ts` + `PrintManager.ts`):**
+5. **Fișe de Studiu A4, Planșe de Colorat & Diplomă de Cadet (`ColoringSvgGenerator.ts` + `DiplomaGenerator.ts` + `PrintManager.ts`):**
    - **Generator vectorial SVG „line-art” (Eco-Print Alb-Negru):** ilustrații cu contururi negre clare pe fundal alb (`#ffffff`), fără degradeuri gri, ideale pentru imprimare cu consum minim de toner și pentru a fi colorate cu creioane sau carioci.
-   - **3 Șabloane A4 în limba română (`@media print`):**
+   - **4 Șabloane A4 în limba română (`@media print`):**
      - *Șablonul A („Fișă de Studiu & Colorat”)*: antet cu câmpuri pentru numele elevului și dată, tabel cu datele rapide, rezumat adaptiv, ilustrația SVG de colorat și întrebarea Quiz cu căsuțe de bifat cu creionul.
      - *Șablonul B („Planșă de Colorat A4 — Doar Desen Mare”)*: 85% din pagină dedicată desenului de colorat (pentru orice corp/sondă sau **Harta Sistemului Solar de Colorat A4 Landscape**), cu titlu în litere conturate de colorat și curiozități în subsol.
      - *Șablonul C („Jurnal de Misiune — Tabelul Comparativ al Planetelor”)*: sinteză cu toate planetele pe o singură pagină + mini-harta de colorat.
+     - *Șablonul D („Diplomă de Explorator / Cadet Spațial Orbitar — A4 Landscape”)*: diplomă oficială de Academie Spațială cu bordură decorativă în line-art, numele copilului (sau linie punctată pentru completare cu stiloul), insignele cucerite în Jurnalul de Bord și ștampila oficială *„Ad Astra — Prin Știință către Stele”*.
    - **Export local:** descărcare directă în format `.svg` sau `.png` de înaltă rezoluție.
 
 ---

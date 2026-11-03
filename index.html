@@ -306,8 +306,27 @@
       </div>
 
       <div class="logbook-section">
-        <h3 class="subcard-title">🏅 Jurnalul de Bord Orbitar (Insigne Deblocate)</h3>
+        <div class="missions-progress-header">
+          <h3 class="subcard-title">🏅 Jurnalul de Bord Orbitar (Insigne Deblocate)</h3>
+          <span id="missions-progress-label" class="telemetry-tag">0 / 6 insigne (0%)</span>
+        </div>
+        <div class="missions-progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="6" aria-valuenow="0">
+          <div id="missions-progress-bar-fill" class="missions-progress-fill" style="width: 0%"></div>
+        </div>
+        <div id="missions-celebration-banner" class="missions-celebration-banner is-hidden" role="status">
+          🎉 Felicitări, Exploratorule! Ai cucerit insignele Academiei Spațiale Orbitar!
+        </div>
         <div id="logbook-badges-grid" class="logbook-badges-grid"></div>
+        <div class="missions-diploma-cta">
+          <button
+            id="btn-missions-diploma"
+            type="button"
+            class="hud-btn hud-btn-active-amber missions-diploma-btn"
+            title="Generează și printează Diploma A4 de Cadet / Explorator Spațial (cu nume sau în alb pentru clasă)"
+          >
+            🎓 Generează Diploma de Cadet
+          </button>
+        </div>
       </div>
     </section>
 
@@ -441,6 +460,42 @@
                 <span class="coloring-hero-title">📊 Printează Tabelul Comparativ al Planetelor</span>
                 <span class="coloring-hero-sub">Jurnal de Misiune pe o pagină cu toate planetele Sistemului Solar + mini-harta de colorat.</span>
               </button>
+            </div>
+
+            <!-- Șablonul D: Generator Diplomă de Explorator / Cadet Spațial Orbitar (A4 Landscape) -->
+            <div id="diploma-builder-card" class="diploma-builder-card">
+              <div class="diploma-builder-head">
+                <span class="coloring-hero-title">🎓 Șablonul D — Diplomă de Explorator / Cadet Spațial Orbitar (A4 Landscape)</span>
+                <span id="diploma-festive-badge" class="telemetry-tag">Academie Spațială</span>
+              </div>
+              <div class="diploma-builder-controls">
+                <label class="lab-field">
+                  <span>Numele copilului pe diplomă (opțional):</span>
+                  <input
+                    id="diploma-input-name"
+                    type="text"
+                    maxlength="48"
+                    autocomplete="off"
+                    placeholder="ex: Andrei / lasă gol pentru completare de mână"
+                  />
+                </label>
+                <label class="lab-field">
+                  <span>Titlul acordat pe diplomă:</span>
+                  <select id="diploma-select-rank" aria-label="Titlul acordat pe diplomă">
+                    <option value="explorer">Micul Explorator (6-8 ani)</option>
+                    <option value="cadet" selected>Cadet Spațial Orbitar (9-12 ani)</option>
+                    <option value="commander">Comandant de Navă</option>
+                  </select>
+                </label>
+              </div>
+              <div class="diploma-builder-actions">
+                <button id="btn-preview-diploma" type="button" class="hud-btn hud-btn-cyan">
+                  👁️ Previzualizează Diploma
+                </button>
+                <button id="btn-print-diploma" type="button" class="hud-btn hud-btn-active-amber">
+                  🖨️ Printează Diploma A4
+                </button>
+              </div>
             </div>
 
             <h3 class="coloring-grid-title">🪐 Alege orice planetă, lună, asteroid sau sondă (Print cu un singur click):</h3>

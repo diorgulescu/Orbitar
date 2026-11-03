@@ -204,6 +204,128 @@
 }
 
 /* ============================================================================
+   ȘABLONUL D (HUD): GENERATOR DIPLOMĂ & BARA DE PROGRES MISIUNI
+   ============================================================================ */
+.diploma-builder-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 183, 3, 0.48);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 183, 3, 0.14) 0%,
+    rgba(0, 240, 255, 0.08) 100%
+  );
+}
+
+.diploma-builder-card.is-celebrating {
+  animation: diplomaFestivePulse 1.4s ease-in-out 2;
+  box-shadow: 0 0 24px rgba(255, 183, 3, 0.45);
+}
+
+@keyframes diplomaFestivePulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 14px rgba(255, 183, 3, 0.35);
+  }
+  50% {
+    transform: scale(1.015);
+    box-shadow: 0 0 28px rgba(0, 240, 255, 0.65);
+  }
+}
+
+.diploma-builder-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.diploma-builder-controls {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 10px;
+}
+
+.diploma-builder-controls input[type='text'],
+.diploma-builder-controls select {
+  min-height: 36px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(130, 175, 255, 0.35);
+  background: rgba(6, 12, 26, 0.88);
+  color: var(--text-main);
+  font-size: 0.85rem;
+  font-family: inherit;
+  outline: none;
+}
+
+.diploma-builder-controls input[type='text']:focus,
+.diploma-builder-controls select:focus {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 8px rgba(0, 240, 255, 0.25);
+}
+
+.diploma-builder-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.missions-progress-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.missions-progress-track {
+  width: 100%;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(15, 25, 52, 0.88);
+  border: 1px solid rgba(130, 175, 255, 0.25);
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.missions-progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent-cyan) 0%, var(--accent-amber) 100%);
+  transition: width 0.35s ease;
+}
+
+.missions-celebration-banner {
+  padding: 8px 12px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  background: rgba(255, 183, 3, 0.18);
+  border: 1px solid var(--accent-amber);
+  color: var(--accent-amber);
+  font-size: 0.84rem;
+  font-weight: 800;
+  text-align: center;
+  animation: diplomaFestivePulse 1.5s ease-in-out infinite;
+}
+
+.missions-diploma-cta {
+  margin-top: 10px;
+  display: flex;
+}
+
+.missions-diploma-btn {
+  width: 100%;
+  justify-content: center;
+  font-weight: 800;
+}
+
+/* ============================================================================
    CONTAINERUL DEDICAT PENTRU IMPRIMARE (#orbitar-print-sheet)
    Invizibil pe ecran, devine SINGURUL element vizibil la imprimare (@media print)
    ============================================================================ */
@@ -478,6 +600,37 @@
   font-weight: 600;
 }
 
+/* Șablonul D: Diplomă de Explorator / Cadet Spațial Orbitar (A4 Landscape pe o singură pagină) */
+.print-diploma-page {
+  page-break-inside: avoid;
+  break-inside: avoid;
+  page-break-after: avoid;
+  break-after: avoid;
+  max-height: 100vh;
+  box-sizing: border-box;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+}
+
+.print-diploma-svg-wrap {
+  width: 100%;
+  max-height: 182mm;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  page-break-inside: avoid;
+  break-inside: avoid;
+  box-sizing: border-box;
+}
+
+.print-diploma-svg-wrap svg {
+  width: 100%;
+  max-height: 180mm;
+  height: auto;
+  display: block;
+}
+
 /* ============================================================================
    REGULI DE IMPRIMARE A4 (@media print)
    Ascunde WebGL 3D & HUD-ul dark-mode; afișează exclusiv #orbitar-print-sheet
@@ -517,6 +670,12 @@
   #orbitar-print-sheet {
     display: block !important;
     width: 100% !important;
+    max-height: 100vh !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+    box-sizing: border-box !important;
     background: #ffffff !important;
     color: #000000 !important;
   }
@@ -526,7 +685,8 @@
   .coloring-modal-body {
     grid-template-columns: 1fr;
   }
-  .coloring-featured-actions {
+  .coloring-featured-actions,
+  .diploma-builder-controls {
     grid-template-columns: 1fr;
   }
 }

@@ -80,6 +80,7 @@ export const ORBITAR_TREASURE_MISSIONS: CosmicTreasureMission[] = [
 export class OrbitarMissions {
   private readonly orbitalEngine: OrbitalEngine;
   private readonly onFocusBody: (bodyId: string) => void;
+  private onGenerateDiploma?: () => void;
 
   private isOpen = false;
   private currentMissionIndex = 0;
@@ -99,6 +100,10 @@ export class OrbitarMissions {
 
     this.bindEvents();
     this.render();
+  }
+
+  public setOnGenerateDiploma(callback: () => void): void {
+    this.onGenerateDiploma = callback;
   }
 
   private loadBadgesFromStorage(): string[] {
@@ -145,6 +150,7 @@ export class OrbitarMissions {
     const btnHint = document.getElementById('btn-mission-hint');
     const btnPrev = document.getElementById('btn-mission-prev');
     const btnNext = document.getElementById('btn-mission-next');
+    const btnDiploma = document.getElementById('btn-missions-diploma');
 
     btnToggle?.addEventListener('click', () => {
       this.setOpen(!this.isOpen);
@@ -152,6 +158,10 @@ export class OrbitarMissions {
 
     btnClose?.addEventListener('click', () => {
       this.setOpen(false);
+    });
+
+    btnDiploma?.addEventListener('click', () => {
+      this.onGenerateDiploma?.();
     });
 
     btnHint?.addEventListener('click', () => {
@@ -210,8 +220,26 @@ export class OrbitarMissions {
     if (!mission) return;
 
     const badgeCountEl = document.getElementById('hud-badges-count');
+    const totalMissions = ORBITAR_TREASURE_MISSIONS.length;
+    const earnedCount = this.unlockedBadges.size;
     if (badgeCountEl) {
-      badgeCountEl.textContent = `${this.unlockedBadges.size}/${ORBITAR_TREASURE_MISSIONS.length}`;
+      badgeCountEl.textContent = `${earnedCount}/${totalMissions}`;
+    }
+
+    // Actualizăm bara de progres a insignelor și bannerul festiv
+    const progressFill = document.getElementById('missions-progress-bar-fill');
+    const progressLabel = document.getElementById('missions-progress-label');
+    const celebrationBanner = document.getElementById('missions-celebration-banner');
+    const pct = Math.round((earnedCount / totalMissions) * 100);
+    if (progressFill) {
+      progressFill.style.width = `${pct}%`;
+      progressFill.parentElement?.setAttribute('aria-valuenow', String(earnedCount));
+    }
+    if (progressLabel) {
+      progressLabel.textContent = `${earnedCount} / ${totalMissions} insigne (${pct}%)`;
+    }
+    if (celebrationBanner) {
+      celebrationBanner.classList.toggle('is-hidden', earnedCount < totalMissions);
     }
 
     const promptEl = document.getElementById('mission-prompt-text');

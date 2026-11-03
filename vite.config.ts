@@ -8,7 +8,15 @@ export default defineConfig({
     outDir: 'dist',
     assetsDir: 'assets',
     sourcemap: false,
-    chunkSizeWarningLimit: 700,
+    chunkSizeWarningLimit: 800,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          three: ['three'],
+          astro: ['astronomy-engine', 'satellite.js'],
+        },
+      },
+    },
   },
   server: {
     port: 5173,
