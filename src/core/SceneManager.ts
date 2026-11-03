@@ -2,6 +2,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { PlanetMaterialFactory } from './PlanetMaterialFactory';
+import { QualityMode } from './QualityManager';
 
 export type FrameUpdateCallback = (deltaSeconds: number, elapsedSeconds: number) => void;
 
@@ -23,6 +24,7 @@ export class SceneManager {
   private readonly clock: THREE.Clock;
   private readonly updateCallbacks: Set<FrameUpdateCallback> = new Set();
   private animationFrameId: number | null = null;
+  private activeQualityMode: QualityMode = 'hd';
 
   constructor(container: HTMLElement) {
     this.container = container;
@@ -196,11 +198,19 @@ export class SceneManager {
     }
   }
 
+  public applyQualityProfile(mode: QualityMode): void {
+    this.activeQualityMode = mode;
+    const pixelRatio = mode === 'eco' ? 1 : Math.min(window.devicePixelRatio || 1, 2);
+    this.renderer.setPixelRatio(pixelRatio);
+  }
+
   private handleResize = (): void => {
     const width = this.container.clientWidth || window.innerWidth;
     const height = this.container.clientHeight || window.innerHeight;
     this.camera.aspect = width / height;
     this.camera.updateProjectionMatrix();
+    const pixelRatio = this.activeQualityMode === 'eco' ? 1 : Math.min(window.devicePixelRatio || 1, 2);
+    this.renderer.setPixelRatio(pixelRatio);
     this.renderer.setSize(width, height);
   };
 

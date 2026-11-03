@@ -5,6 +5,8 @@ import { ScaleManager } from './core/ScaleManager';
 import { CelestialBodyInstance, OrbitalEngine } from './core/OrbitalEngine';
 import { CameraController } from './core/CameraController';
 import { SurfaceMarkers } from './core/SurfaceMarkers';
+import { QualityManager } from './core/QualityManager';
+import { PlanetMaterialFactory } from './core/PlanetMaterialFactory';
 import { HeaderHud, LayerFilter, matchesLayerFilter } from './ui/HeaderHud';
 import { StudyDrawer } from './ui/StudyDrawer';
 import { BottomDock } from './ui/BottomDock';
@@ -16,6 +18,7 @@ import { PrintManager } from './ui/PrintManager';
 interface OrbitarGlobalDebug {
   sceneManager: SceneManager;
   scaleManager: ScaleManager;
+  qualityManager: QualityManager;
   orbitalEngine: OrbitalEngine;
   cameraController: CameraController;
   surfaceMarkers: SurfaceMarkers;
@@ -49,8 +52,12 @@ async function bootstrapOrbitar(): Promise<void> {
     loadingStatus.textContent = 'Se construiește scena 3D și câmpul stelar procedural…';
   }
 
-  // 1. Inițializarea nucleului 3D (src/core/)
+  // 1. Inițializarea nucleului 3D (src/core/) și a profilului de calitate (Eco vs HD)
+  const qualityManager = new QualityManager();
+  PlanetMaterialFactory.setQualityMode(qualityManager.getMode());
+
   const sceneManager = new SceneManager(canvasContainer);
+  sceneManager.applyQualityProfile(qualityManager.getMode());
   const scaleManager = new ScaleManager('didactic');
   const orbitalEngine = new OrbitalEngine(sceneManager.scene, scaleManager, new Date());
   const cameraController = new CameraController(
@@ -227,9 +234,51 @@ async function bootstrapOrbitar(): Promise<void> {
 
   cameraController.resetToOverview();
 
+  // Comutator Grafică: Rapidă (Eco) <-> Realistă HD + Watchdog FPS
+  const btnQualityToggle = document.getElementById('btn-quality-toggle');
+  const qualityToastEl = document.getElementById('hud-quality-toast');
+  let toastTimeoutId: number | null = null;
+
+  const showQualityToast = (messageRo: string): void => {
+    if (!qualityToastEl) return;
+    qualityToastEl.textContent = messageRo;
+    qualityToastEl.classList.remove('is-hidden');
+    if (toastTimeoutId !== null) {
+      window.clearTimeout(toastTimeoutId);
+    }
+    toastTimeoutId = window.setTimeout(() => {
+      qualityToastEl.classList.add('is-hidden');
+    }, 4500);
+  };
+
+  const syncQualityButtonUI = (): void => {
+    if (!btnQualityToggle) return;
+    const profile = qualityManager.getProfile();
+    btnQualityToggle.textContent = profile.buttonTextRo;
+    btnQualityToggle.title = profile.tooltipRo;
+    btnQualityToggle.classList.toggle('hud-btn-active-cyan', profile.mode === 'hd');
+    btnQualityToggle.classList.toggle('hud-btn-active-amber', profile.mode === 'eco');
+  };
+
+  syncQualityButtonUI();
+
+  btnQualityToggle?.addEventListener('click', () => {
+    qualityManager.toggleMode();
+  });
+
+  qualityManager.onChange((newMode, isAutoFallback) => {
+    sceneManager.applyQualityProfile(newMode);
+    orbitalEngine.applyQualityMode(newMode);
+    syncQualityButtonUI();
+    if (isAutoFallback) {
+      showQualityToast('Am activat Modul Rapid pentru ca Orbitar să se miște lin pe dispozitivul tău!');
+    }
+  });
+
   window.__orbitar = {
     sceneManager,
     scaleManager,
+    qualityManager,
     orbitalEngine,
     cameraController,
     surfaceMarkers,
@@ -245,6 +294,7 @@ async function bootstrapOrbitar(): Promise<void> {
   const tempProj = new THREE.Vector3();
 
   sceneManager.onUpdate((deltaSeconds) => {
+    qualityManager.recordFrame(deltaSeconds);
     orbitalEngine.updatePositions(deltaSeconds);
     cameraController.update(deltaSeconds);
     lightSpeedRuler.update(deltaSeconds);

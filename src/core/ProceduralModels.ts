@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { BeltConfig, CelestialBodyData } from '../types/celestial';
 import { ScaleManager } from './ScaleManager';
 import { PlanetMaterialFactory } from './PlanetMaterialFactory';
+import { QualityMode } from './QualityManager';
 
 export interface InstancedBeltEntry {
   config: BeltConfig;
@@ -19,19 +20,18 @@ export interface InstancedBeltEntry {
  * - Centura de Asteroizi și Centura Kuiper randate eficient cu THREE.InstancedMesh.
  */
 export class ProceduralModels {
-  private static readonly sharedSphereGeo = new THREE.SphereGeometry(1, 64, 48);
-
   /**
    * Creează grupul vizual 3D complet al unui corp ceresc sau al unei misiuni spațiale,
-   * folosind sistemul hibrid PBR + texturi 2K progresive din `PlanetMaterialFactory`.
+   * folosind sistemul hibrid PBR + texturi 2K progresive sau Modul Eco din `PlanetMaterialFactory`.
    */
   public static createCelestialVisual(
-    data: CelestialBodyData
+    data: CelestialBodyData,
+    mode: QualityMode = PlanetMaterialFactory.getQualityMode()
   ): { visualRoot: THREE.Object3D; updateShaderTime?: (elapsed: number) => void } {
     const modelType = data.modelType ?? 'sphere';
 
     if (data.id === 'sun') {
-      return PlanetMaterialFactory.createSunVisual(this.sharedSphereGeo);
+      return PlanetMaterialFactory.createSunVisual(mode);
     }
 
     if (modelType === 'iss') {
@@ -53,11 +53,11 @@ export class ProceduralModels {
       return { visualRoot: this.createMarsRoverModel(data.id === 'perseverance') };
     }
     if (modelType === 'asteroid') {
-      return { visualRoot: PlanetMaterialFactory.createDeformedAsteroidMesh(data) };
+      return { visualRoot: PlanetMaterialFactory.createDeformedAsteroidMesh(data, mode) };
     }
 
-    // Corp sferic PBR (planete, sateliți majori, planete pitice, Pământul multi-layer, inele cu UV radial)
-    return PlanetMaterialFactory.createPlanetVisual(data, this.sharedSphereGeo);
+    // Corp sferic PBR (planete, sateliți majori, planete pitice, Pământul multi-layer cu lumini de noapte în HD)
+    return PlanetMaterialFactory.createPlanetVisual(data, mode);
   }
 
   /**
@@ -394,17 +394,22 @@ export class ProceduralModels {
 
   /**
    * Actualizează matricile instanțelor centurii atunci când utilizatorul comută între
-   * Scara Didactică și Scara Reală.
+   * Scara Didactică și Scara Reală sau între Modul Eco (25% particule) și Modul HD (100%).
    */
   public static updateInstancedBeltTransforms(
     entry: InstancedBeltEntry,
-    scaleManager: ScaleManager
+    scaleManager: ScaleManager,
+    mode: QualityMode = PlanetMaterialFactory.getQualityMode()
   ): void {
     const dummy = new THREE.Object3D();
     const isReal = scaleManager.getMode() === 'real';
     const baseSize = isReal ? 0.14 : entry.config.id === 'kuiper-belt' ? 0.34 : 0.22;
 
-    for (let i = 0; i < entry.config.count; i++) {
+    const activeCount =
+      mode === 'eco' ? Math.max(1, Math.floor(entry.config.count * 0.25)) : entry.config.count;
+    entry.mesh.count = activeCount;
+
+    for (let i = 0; i < activeCount; i++) {
       const pos3D = scaleManager.scaleHeliocentricPosition(entry.orbitalPointsAu[i]);
       dummy.position.copy(pos3D);
       dummy.rotation.copy(entry.rotations[i]);

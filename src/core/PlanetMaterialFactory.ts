@@ -1,11 +1,13 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import * as THREE from 'three';
 import { CelestialBodyData } from '../types/celestial';
+import { QualityMode } from './QualityManager';
 
 interface ProceduralMaps {
   colorMap: THREE.CanvasTexture;
-  bumpMap: THREE.CanvasTexture;
+  bumpMap?: THREE.CanvasTexture;
   roughnessMap?: THREE.CanvasTexture;
+  nightMap?: THREE.CanvasTexture;
 }
 
 const TEXTURE_FILE_MAP: Record<string, string> = {
@@ -26,18 +28,29 @@ const TEXTURE_FILE_MAP: Record<string, string> = {
 };
 
 /**
- * PlanetMaterialFactory gestionează sistemul hibrid de texturi fotorealiste 2K și materiale PBR:
- * - Configurează anisotropia maximă a plăcii video (`renderer.capabilities.getMaxAnisotropy()`) și `SRGBColorSpace`.
- * - Generează instantaneu la pornire hărți procedurale 2048×1024 cu zgomot fractal multi-octavă + `bumpMap`
- *   pentru relief 3D autentic la terminatorul zi/noapte.
- * - Încarcă progresiv și asincron texturile foto 2K din `public/textures/` fără a bloca interfața.
- * - Construiește Pământul multi-strat (suprafață PBR + sferă de nori la 1.01x + halou Fresnel la 1.025x),
- *   inelele lui Saturn/Uranus cu UV-uri radiale recalculate și asteroizii sculptați cu zgomot 3D.
+ * PlanetMaterialFactory gestionează sistemul hibrid de texturi 2K, materiale PBR și modul Eco:
+ * - În modul `hd` ("✨ Mod Realist HD"):
+ *   - Lazy-load pentru texturile 2K din `public/textures/` cu `anisotropy` maxim și `SRGBColorSpace`
+ *   - Fallback procedural High-Res `2048×1024` + `bumpMap` + `roughnessMap`
+ *   - Pământul Multi-Layer cu Luminile Orașelor Noaptea (`earth_nightmap.jpg` modulat de `dot(normal, sunDirection)`),
+ *     stratul de nori la `1.01x` și atmosfera Fresnel la `1.025x`.
+ * - În modul `eco` ("⚡ Mod Rapid / Eco"):
+ *   - Zero descărcări externe din `public/textures/` (economie de date și memorie)
+ *   - Texturi procedurale ușoare `512×256`, geometrii `24×24`, fără sfere secundare de nori sau shadere grele
+ *   - Eliberare imediată a memoriei VRAM (`.dispose()`) la trecerea din `hd` în `eco`.
  */
 export class PlanetMaterialFactory {
   private static maxAnisotropy = 8;
+  private static qualityMode: QualityMode = 'hd';
   private static readonly textureLoader = new THREE.TextureLoader();
-  private static readonly proceduralCache = new Map<string, ProceduralMaps>();
+
+  private static readonly ecoSphereGeo = new THREE.SphereGeometry(1, 24, 24);
+  private static hdSphereGeo: THREE.SphereGeometry | null = null;
+
+  private static readonly ecoProceduralCache = new Map<string, ProceduralMaps>();
+  private static readonly hdProceduralCache = new Map<string, ProceduralMaps>();
+  private static readonly loadedHdTextures = new Set<THREE.Texture>();
+  private static readonly hdGeometries = new Set<THREE.BufferGeometry>();
 
   /**
    * Inițializează anisotropia maximă suportată de GPU-ul curent.
@@ -46,8 +59,56 @@ export class PlanetMaterialFactory {
     this.maxAnisotropy = Math.max(1, renderer.capabilities.getMaxAnisotropy());
   }
 
-  public static getMaxAnisotropy(): number {
-    return this.maxAnisotropy;
+  public static setQualityMode(mode: QualityMode): void {
+    const previous = this.qualityMode;
+    this.qualityMode = mode;
+    if (previous === 'hd' && mode === 'eco') {
+      this.disposeHdResources();
+    }
+  }
+
+  public static getQualityMode(): QualityMode {
+    return this.qualityMode;
+  }
+
+  public static getSphereGeometry(mode: QualityMode = this.qualityMode): THREE.SphereGeometry {
+    if (mode === 'eco') {
+      return this.ecoSphereGeo;
+    }
+    if (!this.hdSphereGeo) {
+      this.hdSphereGeo = new THREE.SphereGeometry(1, 64, 64);
+      this.hdGeometries.add(this.hdSphereGeo);
+    }
+    return this.hdSphereGeo;
+  }
+
+  /**
+   * Eliberează imediat memoria RAM și VRAM (texturi 2K, hărți procedurale 2048×1024 și geometrii 64×64)
+   * atunci când utilizatorul sau Watchdog-ul FPS comută din `hd` în `eco`.
+   */
+  public static disposeHdResources(): void {
+    for (const tex of this.loadedHdTextures) {
+      tex.dispose();
+    }
+    this.loadedHdTextures.clear();
+
+    for (const maps of this.hdProceduralCache.values()) {
+      maps.colorMap.dispose();
+      maps.bumpMap?.dispose();
+      maps.roughnessMap?.dispose();
+      maps.nightMap?.dispose();
+    }
+    this.hdProceduralCache.clear();
+
+    for (const geo of this.hdGeometries) {
+      geo.dispose();
+    }
+    this.hdGeometries.clear();
+    this.hdSphereGeo = null;
+  }
+
+  public static getLoadedHdTextureCount(): number {
+    return this.loadedHdTextures.size;
   }
 
   /**
@@ -102,43 +163,64 @@ export class PlanetMaterialFactory {
   }
 
   /**
-   * Încarcă asincron o textură din `public/textures/` cu anisotropie maximă și colorSpace configurat.
+   * Încarcă asincron (doar în modul `hd`) o textură 2K din `public/textures/`.
+   * În modul `eco` nu face niciun request de rețea.
    */
   public static loadTextureAsync(
     url: string,
     isColorMap: boolean,
     onLoaded: (tex: THREE.Texture) => void
   ): void {
+    if (this.qualityMode === 'eco') {
+      return;
+    }
+
     this.textureLoader.load(
       url,
       (tex) => {
+        if (this.qualityMode === 'eco') {
+          tex.dispose();
+          return;
+        }
         tex.colorSpace = isColorMap ? THREE.SRGBColorSpace : THREE.NoColorSpace;
         tex.anisotropy = this.maxAnisotropy;
         tex.wrapS = THREE.RepeatWrapping;
         tex.wrapT = THREE.ClampToEdgeWrapping;
         tex.needsUpdate = true;
+        this.loadedHdTextures.add(tex);
         onLoaded(tex);
       },
       undefined,
       () => {
-        // Dacă un fișier lipsește, rămâne activă textura procedurală 2048×1024 de înaltă rezoluție
+        // Dacă fișierul nu este disponibil, rămâne activă textura procedurală
       }
     );
   }
 
   /**
-   * Creează Soarele cu Shader GLSL animat + textură solară 2K + coroană radială pulsatorie.
+   * Creează Soarele adaptat la modul de calitate (`eco` vs `hd`).
    */
-  public static createSunVisual(sphereGeo: THREE.SphereGeometry): {
+  public static createSunVisual(mode: QualityMode = this.qualityMode): {
     visualRoot: THREE.Object3D;
-    updateShaderTime: (elapsed: number) => void;
+    updateShaderTime?: (elapsed: number) => void;
   } {
+    const sphereGeo = this.getSphereGeometry(mode);
     const group = new THREE.Group();
-    const procMaps = this.getOrCreateProceduralMaps({
-      id: 'sun',
-      color: '#ffb703',
-      category: 'star',
-    } as CelestialBodyData);
+    const procMaps = this.getOrCreateProceduralMaps(
+      { id: 'sun', color: '#ffb703', category: 'star' } as CelestialBodyData,
+      mode
+    );
+
+    if (mode === 'eco') {
+      // În modul Eco folosim un material direct ultra-rapid, fără shadere GLSL costisitoare
+      const ecoSunMat = new THREE.MeshBasicMaterial({
+        map: procMaps.colorMap,
+        color: 0xffe169,
+      });
+      const coreMesh = new THREE.Mesh(sphereGeo, ecoSunMat);
+      group.add(coreMesh);
+      return { visualRoot: group };
+    }
 
     const uniforms = {
       uTime: { value: 0 },
@@ -202,7 +284,6 @@ export class PlanetMaterialFactory {
     const coreMesh = new THREE.Mesh(sphereGeo, sunShaderMat);
     group.add(coreMesh);
 
-    // Coroană solară volumetrică (glow radial cu pulsație ușoară)
     const coronaUniforms = {
       uTime: { value: 0 },
       uGlowColor: { value: new THREE.Color(0xff9e00) },
@@ -251,48 +332,57 @@ export class PlanetMaterialFactory {
   }
 
   /**
-   * Creează un corp planetar PBR (inclusiv Pământul multi-layer, giganții cu inele UV radiale și atmosfera Fresnel).
+   * Creează un corp planetar adaptat la modul curent (`eco` vs `hd`).
    */
   public static createPlanetVisual(
     data: CelestialBodyData,
-    sphereGeo: THREE.SphereGeometry
+    mode: QualityMode = this.qualityMode
   ): { visualRoot: THREE.Object3D; updateShaderTime?: (elapsed: number) => void } {
-    if (data.id === 'earth') {
-      return this.createMultiLayerEarth(data, sphereGeo);
+    const sphereGeo = this.getSphereGeometry(mode);
+
+    if (data.id === 'earth' && mode === 'hd') {
+      return this.createMultiLayerEarthHd(data, sphereGeo);
     }
 
     const group = new THREE.Group();
-    const procMaps = this.getOrCreateProceduralMaps(data);
+    const procMaps = this.getOrCreateProceduralMaps(data, mode);
 
     const isGasOrIce = data.category === 'gas_giant' || data.category === 'ice_giant';
-    const bumpScale = isGasOrIce ? 0.012 : data.id === 'mars' || data.id === 'moon' || data.id === 'mercury' ? 0.065 : 0.04;
+    const bumpScale =
+      mode === 'eco'
+        ? 0
+        : isGasOrIce
+        ? 0.012
+        : data.id === 'mars' || data.id === 'moon' || data.id === 'mercury'
+        ? 0.065
+        : 0.04;
 
     const mat = new THREE.MeshStandardMaterial({
       map: procMaps.colorMap,
-      bumpMap: procMaps.bumpMap,
+      bumpMap: mode === 'hd' ? procMaps.bumpMap ?? null : null,
       bumpScale,
       roughness: isGasOrIce ? 0.58 : 0.82,
       metalness: 0.05,
       emissive: new THREE.Color(data.color),
-      emissiveIntensity: 0.03,
+      emissiveIntensity: mode === 'eco' ? 0.06 : 0.03,
     });
 
-    // Încărcare progresivă a texturii 2K din public/textures/
-    const texFile = TEXTURE_FILE_MAP[data.id];
-    if (texFile) {
-      this.loadTextureAsync(texFile, true, (photoTex) => {
-        mat.map = photoTex;
-        mat.needsUpdate = true;
-      });
-    }
+    if (mode === 'hd') {
+      const texFile = TEXTURE_FILE_MAP[data.id];
+      if (texFile) {
+        this.loadTextureAsync(texFile, true, (photoTex) => {
+          mat.map = photoTex;
+          mat.needsUpdate = true;
+        });
+      }
 
-    // Pentru Venus încărcăm și harta de suprafață ca bumpMap suplimentar
-    if (data.id === 'venus') {
-      this.loadTextureAsync('./textures/venus_surface.jpg', false, (surfTex) => {
-        mat.bumpMap = surfTex;
-        mat.bumpScale = 0.025;
-        mat.needsUpdate = true;
-      });
+      if (data.id === 'venus') {
+        this.loadTextureAsync('./textures/venus_surface.jpg', false, (surfTex) => {
+          mat.bumpMap = surfTex;
+          mat.bumpScale = 0.025;
+          mat.needsUpdate = true;
+        });
+      }
     }
 
     const mesh = new THREE.Mesh(sphereGeo, mat);
@@ -301,50 +391,54 @@ export class PlanetMaterialFactory {
     }
     group.add(mesh);
 
-    // Halou atmosferic Fresnel (THREE.BackSide, AdditiveBlending) pe planetele cu atmosferă
-    if (data.id === 'venus') {
-      group.add(this.createFresnelAtmosphereMesh(sphereGeo, new THREE.Color(0xfbbf24), 1.03, 0.58));
-    } else if (data.id === 'mars') {
-      group.add(this.createFresnelAtmosphereMesh(sphereGeo, new THREE.Color(0xf97316), 1.024, 0.42));
-    } else if (data.id === 'jupiter') {
-      group.add(this.createFresnelAtmosphereMesh(sphereGeo, new THREE.Color(0xfde68a), 1.02, 0.28));
-    } else if (data.id === 'neptune' || data.id === 'uranus') {
-      group.add(this.createFresnelAtmosphereMesh(sphereGeo, new THREE.Color(0x38bdf8), 1.025, 0.45));
-    } else if (data.id === 'titan') {
-      group.add(this.createFresnelAtmosphereMesh(sphereGeo, new THREE.Color(0xf59e0b), 1.045, 0.65));
+    // În modul HD adăugăm haloul atmosferic Fresnel
+    if (mode === 'hd') {
+      if (data.id === 'venus') {
+        group.add(this.createFresnelAtmosphereMesh(sphereGeo, new THREE.Color(0xfbbf24), 1.03, 0.58));
+      } else if (data.id === 'mars') {
+        group.add(this.createFresnelAtmosphereMesh(sphereGeo, new THREE.Color(0xf97316), 1.024, 0.42));
+      } else if (data.id === 'jupiter') {
+        group.add(this.createFresnelAtmosphereMesh(sphereGeo, new THREE.Color(0xfde68a), 1.02, 0.28));
+      } else if (data.id === 'neptune' || data.id === 'uranus') {
+        group.add(this.createFresnelAtmosphereMesh(sphereGeo, new THREE.Color(0x38bdf8), 1.025, 0.45));
+      } else if (data.id === 'titan') {
+        group.add(this.createFresnelAtmosphereMesh(sphereGeo, new THREE.Color(0xf59e0b), 1.045, 0.65));
+      }
     }
 
     // Sistemele de inele cu UV-uri recalculate radial
     if (data.id === 'saturn') {
-      group.add(this.createRadialRingMesh(1.32, 2.45, 'saturn'));
+      group.add(this.createRadialRingMesh(1.32, 2.45, 'saturn', mode));
     } else if (data.id === 'uranus') {
-      group.add(this.createRadialRingMesh(1.38, 1.85, 'uranus'));
+      group.add(this.createRadialRingMesh(1.38, 1.85, 'uranus', mode));
     } else if (data.id === 'haumea') {
-      group.add(this.createRadialRingMesh(1.55, 1.74, 'haumea'));
+      group.add(this.createRadialRingMesh(1.55, 1.74, 'haumea', mode));
     }
 
     return { visualRoot: group };
   }
 
   /**
-   * Pământul Multi-Layer:
-   * 1. Sfera de bază (1.0x) cu `map` (continente/oceane), `bumpMap` (relief montan) și `roughnessMap` (oceane lucioase, uscat mat).
-   * 2. Sfera de nori (1.01x) cu `earth_clouds.jpg` (sau procedural), transparentă, cu rotație ușor diferențiată.
-   * 3. Sfera atmosferică (1.025x) cu Custom Fresnel Atmosphere Shader (`THREE.BackSide`, `AdditiveBlending`).
+   * Pământul Multi-Layer în modul `hd`:
+   * 1. Sfera de bază (1.0x) cu `map` (`earth_daymap.jpg`), `bumpMap` și `roughnessMap` (`earth_specular.jpg`).
+   * 2. Stratul Luminilor de Noapte (`1.002x`) cu `earth_nightmap.jpg` (și fallback procedural cu Europa & România)
+   *    modulat în shader prin `dot(normal, sunDirection)` astfel încât orașele se aprind DOAR pe emisfera aflată în umbră (noapte).
+   * 3. Sfera de nori (`1.01x`) cu `earth_clouds.jpg`, transparentă, cu rotație diferențiată.
+   * 4. Sfera atmosferică (`1.025x`) cu Custom Fresnel Atmosphere Shader (`THREE.BackSide`, `AdditiveBlending`).
    */
-  private static createMultiLayerEarth(
+  private static createMultiLayerEarthHd(
     data: CelestialBodyData,
     sphereGeo: THREE.SphereGeometry
   ): { visualRoot: THREE.Object3D; updateShaderTime: (elapsed: number) => void } {
     const group = new THREE.Group();
-    const procMaps = this.getOrCreateProceduralMaps(data);
+    const procMaps = this.getOrCreateProceduralMaps(data, 'hd');
 
     // 1. Sfera de bază PBR a Pământului
     const earthMat = new THREE.MeshStandardMaterial({
       map: procMaps.colorMap,
-      bumpMap: procMaps.bumpMap,
+      bumpMap: procMaps.bumpMap ?? null,
       bumpScale: 0.055,
-      roughnessMap: procMaps.roughnessMap ?? procMaps.bumpMap,
+      roughnessMap: procMaps.roughnessMap ?? procMaps.bumpMap ?? null,
       roughness: 0.85,
       metalness: 0.12,
     });
@@ -355,16 +449,72 @@ export class PlanetMaterialFactory {
     });
 
     this.loadTextureAsync('./textures/earth_specular.jpg', false, (specTex) => {
-      // Construim o hartă de rugozitate inversată (ocean = lucios / roughness mic, uscat = mat / roughness mare)
       const roughTex = this.invertSpecularToRoughnessTexture(specTex);
       earthMat.roughnessMap = roughTex;
       earthMat.needsUpdate = true;
     });
 
     const baseSphere = new THREE.Mesh(sphereGeo, earthMat);
+    baseSphere.name = 'EarthBaseSphere';
     group.add(baseSphere);
 
-    // 2. A doua sferă cu rază 1.01x pentru stratul de nori
+    // 2. Luminile Orașelor pe Pământ Noaptea (modulate de dot(normal, sunDirection))
+    const fallbackNightMap = procMaps.nightMap ?? this.createProceduralEarthNightTexture();
+    const nightUniforms = {
+      uNightMap: { value: fallbackNightMap as THREE.Texture },
+      uSunWorldPos: { value: new THREE.Vector3(0, 0, 0) },
+    };
+
+    this.loadTextureAsync('./textures/earth_nightmap.jpg', true, (nightTex) => {
+      nightUniforms.uNightMap.value = nightTex;
+    });
+
+    const nightLightsMat = new THREE.ShaderMaterial({
+      uniforms: nightUniforms,
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+      vertexShader: /* glsl */ `
+        varying vec2 vUv;
+        varying vec3 vWorldNormal;
+        varying vec3 vWorldPos;
+        void main() {
+          vUv = uv;
+          vWorldNormal = normalize(mat3(modelMatrix) * normal);
+          vec4 worldPosition = modelMatrix * vec4(position, 1.0);
+          vWorldPos = worldPosition.xyz;
+          gl_Position = projectionMatrix * viewMatrix * worldPosition;
+        }
+      `,
+      fragmentShader: /* glsl */ `
+        uniform sampler2D uNightMap;
+        uniform vec3 uSunWorldPos;
+        varying vec2 vUv;
+        varying vec3 vWorldNormal;
+        varying vec3 vWorldPos;
+
+        void main() {
+          vec3 sunDirection = normalize(uSunWorldPos - vWorldPos);
+          float sunDot = dot(normalize(vWorldNormal), sunDirection);
+          // Luminile orașelor se aprind DOAR pe emisfera de noapte (sunDot < 0.0) și se sting lin în zona de zi
+          float nightFactor = 1.0 - smoothstep(-0.18, 0.06, sunDot);
+          if (nightFactor <= 0.001) {
+            discard;
+          }
+          vec3 texLights = texture2D(uNightMap, vUv).rgb;
+          float intensity = max(texLights.r, max(texLights.g, texLights.b));
+          vec3 cityGlow = texLights * vec3(1.35, 1.12, 0.78) * 1.55;
+          gl_FragColor = vec4(cityGlow * nightFactor, clamp(intensity * 1.4, 0.0, 1.0) * nightFactor);
+        }
+      `,
+    });
+
+    const nightLightsSphere = new THREE.Mesh(sphereGeo, nightLightsMat);
+    nightLightsSphere.name = 'EarthNightLightsLayer';
+    nightLightsSphere.scale.setScalar(1.002);
+    group.add(nightLightsSphere);
+
+    // 3. A doua sferă cu rază 1.01x pentru stratul de nori
     const procClouds = this.createProceduralCloudsTexture();
     const cloudsMat = new THREE.MeshStandardMaterial({
       map: procClouds,
@@ -387,7 +537,7 @@ export class PlanetMaterialFactory {
     cloudsSphere.scale.setScalar(1.01);
     group.add(cloudsSphere);
 
-    // 3. A treia sferă cu rază 1.025x cu Custom Fresnel Atmosphere Shader (THREE.BackSide, AdditiveBlending)
+    // 4. A treia sferă cu rază 1.025x cu Custom Fresnel Atmosphere Shader (THREE.BackSide, AdditiveBlending)
     const atmosphereSphere = this.createFresnelAtmosphereMesh(
       sphereGeo,
       new THREE.Color(0x38bdf8),
@@ -400,7 +550,6 @@ export class PlanetMaterialFactory {
     return {
       visualRoot: group,
       updateShaderTime: (elapsed: number) => {
-        // Rotație ușor diferențiată a stratului de nori față de globul terestru
         cloudsSphere.rotation.y = elapsed * 0.035;
       },
     };
@@ -408,7 +557,6 @@ export class PlanetMaterialFactory {
 
   /**
    * Custom Fresnel Atmosphere Shader (`THREE.BackSide`, `THREE.AdditiveBlending`)
-   * care creează haloul subțire de atmosferă pe marginea planetei.
    */
   public static createFresnelAtmosphereMesh(
     sphereGeo: THREE.SphereGeometry,
@@ -441,7 +589,6 @@ export class PlanetMaterialFactory {
         varying vec3 vNormal;
         varying vec3 vViewDir;
         void main() {
-          // Pentru BackSide, produsul scalar este negativ în centru și tinde spre 0 pe contur (limb)
           float viewDot = abs(dot(vNormal, vViewDir));
           float rim = pow(clamp(1.0 - viewDot, 0.0, 1.0), 2.4);
           gl_FragColor = vec4(uAtmosphereColor, rim * uIntensity);
@@ -455,15 +602,20 @@ export class PlanetMaterialFactory {
   }
 
   /**
-   * Geometrie `THREE.RingGeometry` cu UV-uri recalculate radial (de la raza interioară la cea exterioară)
-   * pentru a afișa corect benzile fine ale inelelor și Diviziunea Cassini, cu `DoubleSide` și `transparent: true`.
+   * Geometrie `THREE.RingGeometry` cu UV-uri recalculate radial (de la raza interioară la cea exterioară).
    */
   public static createRadialRingMesh(
     innerRadius: number,
     outerRadius: number,
-    ringType: 'saturn' | 'uranus' | 'haumea'
+    ringType: 'saturn' | 'uranus' | 'haumea',
+    mode: QualityMode = this.qualityMode
   ): THREE.Mesh {
-    const geo = new THREE.RingGeometry(innerRadius, outerRadius, 128, 4);
+    const segments = mode === 'eco' ? 48 : 128;
+    const geo = new THREE.RingGeometry(innerRadius, outerRadius, segments, mode === 'eco' ? 1 : 4);
+    if (mode === 'hd') {
+      this.hdGeometries.add(geo);
+    }
+
     const pos = geo.attributes.position;
     const uv = geo.attributes.uv;
     const v3 = new THREE.Vector3();
@@ -481,7 +633,7 @@ export class PlanetMaterialFactory {
     uv.needsUpdate = true;
     geo.rotateX(Math.PI / 2);
 
-    const procRingTex = this.createProceduralRingTexture(ringType);
+    const procRingTex = this.createProceduralRingTexture(ringType, mode);
     const mat = new THREE.MeshStandardMaterial({
       map: procRingTex,
       alphaMap: procRingTex,
@@ -493,7 +645,7 @@ export class PlanetMaterialFactory {
       metalness: 0.08,
     });
 
-    if (ringType === 'saturn') {
+    if (mode === 'hd' && ringType === 'saturn') {
       this.loadTextureAsync('./textures/saturn_ring_alpha.png', true, (ringTex) => {
         mat.map = ringTex;
         mat.alphaMap = ringTex;
@@ -505,19 +657,25 @@ export class PlanetMaterialFactory {
   }
 
   /**
-   * Creează un asteroid sculptat 3D (`IcosahedronGeometry` subdivizată) deformat cu zgomot 3D multi-octavă
-   * și cratere de impact ("cartof cosmic" / diamant orbital) cu `bumpMap` și `bumpScale` pronunțat.
+   * Creează un asteroid sculptat 3D (`IcosahedronGeometry` subdivizată) deformat cu zgomot 3D.
    */
-  public static createDeformedAsteroidMesh(data: CelestialBodyData): THREE.Mesh {
-    const geo = new THREE.IcosahedronGeometry(1, 4);
+  public static createDeformedAsteroidMesh(
+    data: CelestialBodyData,
+    mode: QualityMode = this.qualityMode
+  ): THREE.Mesh {
+    const detail = mode === 'eco' ? 2 : 4;
+    const geo = new THREE.IcosahedronGeometry(1, detail);
+    if (mode === 'hd') {
+      this.hdGeometries.add(geo);
+    }
+
     const posAttr = geo.attributes.position;
     const seed = data.id.split('').reduce((acc, ch) => acc + ch.charCodeAt(0) * 37, 211);
 
-    // Centre deterministe pentru craterele majore pe asteroid
     const craters: Array<{ dir: THREE.Vector3; radius: number; depth: number }> = [];
     for (let c = 0; c < 7; c++) {
       const theta = ((c * 137.5 + seed) % 360) * (Math.PI / 180);
-      const phi = Math.acos(1 - 2 * (((c * 0.618034) + 0.2) % 1));
+      const phi = Math.acos(1 - 2 * ((c * 0.618034 + 0.2) % 1));
       const dir = new THREE.Vector3(
         Math.sin(phi) * Math.cos(theta),
         Math.cos(phi),
@@ -537,7 +695,6 @@ export class PlanetMaterialFactory {
       v.fromBufferAttribute(posAttr, i);
       normDir.copy(v).normalize();
 
-      // Forma globală de „cartof cosmic” sau titirez (Bennu) / bilobat (Apophis)
       if (data.id === 'apophis') {
         v.x *= 1.44;
         v.y *= 0.74;
@@ -556,12 +713,10 @@ export class PlanetMaterialFactory {
         v.z *= 0.92;
       }
 
-      // Zgomot 3D fractal pe vertecși
       const nLow = this.fbm3D(normDir.x * 1.8, normDir.y * 1.8, normDir.z * 1.8, seed, 4);
       const nHigh = this.fbm3D(normDir.x * 5.2, normDir.y * 5.2, normDir.z * 5.2, seed + 99, 3);
       let displacement = 0.82 + nLow * 0.34 + (nHigh - 0.5) * 0.09;
 
-      // Adâncituri de cratere cu inel ridicat pe margine
       for (const crater of craters) {
         const dist = normDir.distanceTo(crater.dir);
         if (dist < crater.radius) {
@@ -578,12 +733,12 @@ export class PlanetMaterialFactory {
 
     geo.computeVertexNormals();
 
-    const procMaps = this.getOrCreateProceduralMaps(data);
+    const procMaps = this.getOrCreateProceduralMaps(data, mode);
     const isMetallic = data.id === 'psyche';
     const mat = new THREE.MeshStandardMaterial({
       map: procMaps.colorMap,
-      bumpMap: procMaps.bumpMap,
-      bumpScale: 0.095,
+      bumpMap: mode === 'hd' ? procMaps.bumpMap ?? null : null,
+      bumpScale: mode === 'hd' ? 0.095 : 0,
       roughness: isMetallic ? 0.42 : 0.9,
       metalness: isMetallic ? 0.72 : 0.12,
     });
@@ -592,45 +747,56 @@ export class PlanetMaterialFactory {
   }
 
   /**
-   * Generează (și memorează în cache) textura procedurală High-Res 2048×1024 + `bumpMap` + `roughnessMap`
-   * ca fallback instantaneu înainte de finalizarea încărcării fișierelor `.jpg` din `public/textures/`.
+   * Generează textura procedurală (`512×256` în modul `eco` sau `2048×1024` + `bumpMap` + `nightMap` în modul `hd`).
    */
-  private static getOrCreateProceduralMaps(data: CelestialBodyData): ProceduralMaps {
-    const cached = this.proceduralCache.get(data.id);
+  private static getOrCreateProceduralMaps(
+    data: CelestialBodyData,
+    mode: QualityMode
+  ): ProceduralMaps {
+    const cache = mode === 'eco' ? this.ecoProceduralCache : this.hdProceduralCache;
+    const cached = cache.get(data.id);
     if (cached) return cached;
 
-    const width = 2048;
-    const height = 1024;
+    const width = mode === 'eco' ? 512 : 2048;
+    const height = mode === 'eco' ? 256 : 1024;
+    const scaleX = width / 2048;
+    const scaleY = height / 1024;
 
     const colorCanvas = document.createElement('canvas');
     colorCanvas.width = width;
     colorCanvas.height = height;
     const cCtx = colorCanvas.getContext('2d');
 
-    const bumpCanvas = document.createElement('canvas');
-    bumpCanvas.width = width;
-    bumpCanvas.height = height;
-    const bCtx = bumpCanvas.getContext('2d');
+    let bumpCanvas: HTMLCanvasElement | undefined;
+    let bCtx: CanvasRenderingContext2D | null = null;
+    if (mode === 'hd') {
+      bumpCanvas = document.createElement('canvas');
+      bumpCanvas.width = width;
+      bumpCanvas.height = height;
+      bCtx = bumpCanvas.getContext('2d');
+    }
 
     let roughnessMap: THREE.CanvasTexture | undefined;
+    let nightMap: THREE.CanvasTexture | undefined;
 
-    if (cCtx && bCtx) {
+    if (cCtx) {
       const baseCol = new THREE.Color(data.color);
       const r0 = Math.round(baseCol.r * 255);
       const g0 = Math.round(baseCol.g * 255);
       const b0 = Math.round(baseCol.b * 255);
 
-      // Fundal de bază
       cCtx.fillStyle = `rgb(${r0}, ${g0}, ${b0})`;
       cCtx.fillRect(0, 0, width, height);
 
-      bCtx.fillStyle = 'rgb(128, 128, 128)';
-      bCtx.fillRect(0, 0, width, height);
+      if (bCtx) {
+        bCtx.fillStyle = 'rgb(128, 128, 128)';
+        bCtx.fillRect(0, 0, width, height);
+      }
 
       const seed = data.id.split('').reduce((a, ch) => a + ch.charCodeAt(0) * 29, 101);
+      const stepY = mode === 'eco' ? 2 : 2;
 
-      // Benzi latitudinale detaliate și variație multi-octavă
-      for (let y = 0; y < height; y += 2) {
+      for (let y = 0; y < height; y += stepY) {
         const v = y / height;
         const nBand =
           Math.sin(v * Math.PI * 16 + seed) * 0.5 +
@@ -641,20 +807,25 @@ export class PlanetMaterialFactory {
           255,
           Math.max(0, g0 + delta)
         )}, ${Math.min(255, Math.max(0, b0 + delta))}, 0.55)`;
-        cCtx.fillRect(0, y, width, 2);
+        cCtx.fillRect(0, y, width, stepY);
 
-        const bVal = Math.min(255, Math.max(0, 128 + Math.round(nBand * 45)));
-        bCtx.fillStyle = `rgb(${bVal}, ${bVal}, ${bVal})`;
-        bCtx.fillRect(0, y, width, 2);
+        if (bCtx) {
+          const bVal = Math.min(255, Math.max(0, 128 + Math.round(nBand * 45)));
+          bCtx.fillStyle = `rgb(${bVal}, ${bVal}, ${bVal})`;
+          bCtx.fillRect(0, y, width, stepY);
+        }
       }
 
       if (data.id === 'earth') {
-        const roughCanvas = document.createElement('canvas');
-        roughCanvas.width = width;
-        roughCanvas.height = height;
-        const rCtx = roughCanvas.getContext('2d');
+        let rCtx: CanvasRenderingContext2D | null = null;
+        let roughCanvas: HTMLCanvasElement | undefined;
+        if (mode === 'hd') {
+          roughCanvas = document.createElement('canvas');
+          roughCanvas.width = width;
+          roughCanvas.height = height;
+          rCtx = roughCanvas.getContext('2d');
+        }
 
-        // Ocean albastru profund (lucios pe roughnessMap -> valoare mică ~35)
         cCtx.fillStyle = '#0c4a6e';
         cCtx.fillRect(0, 0, width, height);
         if (rCtx) {
@@ -662,107 +833,121 @@ export class PlanetMaterialFactory {
           rCtx.fillRect(0, 0, width, height);
         }
 
-        // Continente și lanțuri montane
         const continents = [
           [420, 310, 210, 155],
           [560, 580, 145, 210],
-          [1020, 290, 175, 145],
+          [1090, 265, 195, 135], // Europa & bazinul Carpatic / România
           [1090, 520, 165, 195],
           [1420, 285, 295, 175],
           [1640, 660, 145, 105],
         ];
         cCtx.fillStyle = '#15803d';
-        bCtx.fillStyle = 'rgb(215, 215, 215)';
+        if (bCtx) bCtx.fillStyle = 'rgb(215, 215, 215)';
         if (rCtx) rCtx.fillStyle = 'rgb(225, 225, 225)';
 
         for (const [cx, cy, rx, ry] of continents) {
           cCtx.beginPath();
-          cCtx.ellipse(cx, cy, rx, ry, 0.2, 0, Math.PI * 2);
+          cCtx.ellipse(cx * scaleX, cy * scaleY, rx * scaleX, ry * scaleY, 0.2, 0, Math.PI * 2);
           cCtx.fill();
 
-          bCtx.beginPath();
-          bCtx.ellipse(cx, cy, rx * 0.85, ry * 0.85, 0.2, 0, Math.PI * 2);
-          bCtx.fill();
+          if (bCtx) {
+            bCtx.beginPath();
+            bCtx.ellipse(
+              cx * scaleX,
+              cy * scaleY,
+              rx * 0.85 * scaleX,
+              ry * 0.85 * scaleY,
+              0.2,
+              0,
+              Math.PI * 2
+            );
+            bCtx.fill();
+          }
 
           if (rCtx) {
             rCtx.beginPath();
-            rCtx.ellipse(cx, cy, rx, ry, 0.2, 0, Math.PI * 2);
+            rCtx.ellipse(cx * scaleX, cy * scaleY, rx * scaleX, ry * scaleY, 0.2, 0, Math.PI * 2);
             rCtx.fill();
           }
         }
 
-        // Calote polare
         cCtx.fillStyle = '#f8fafc';
-        cCtx.fillRect(0, 0, width, 58);
-        cCtx.fillRect(0, height - 58, width, 58);
+        cCtx.fillRect(0, 0, width, Math.round(58 * scaleY));
+        cCtx.fillRect(0, height - Math.round(58 * scaleY), width, Math.round(58 * scaleY));
 
-        roughnessMap = new THREE.CanvasTexture(roughCanvas);
-        roughnessMap.anisotropy = this.maxAnisotropy;
-        roughnessMap.needsUpdate = true;
+        if (roughCanvas) {
+          roughnessMap = new THREE.CanvasTexture(roughCanvas);
+          roughnessMap.anisotropy = this.maxAnisotropy;
+          roughnessMap.needsUpdate = true;
+        }
+        if (mode === 'hd') {
+          nightMap = this.createProceduralEarthNightTexture();
+        }
       } else if (data.id === 'mars') {
-        // Valles Marineris, Olympus Mons și calotele polare pe Marte
         cCtx.fillStyle = '#7c2d12';
-        cCtx.fillRect(620, 490, 420, 36);
-        bCtx.fillStyle = 'rgb(40, 40, 40)';
-        bCtx.fillRect(620, 490, 420, 36);
+        cCtx.fillRect(620 * scaleX, 490 * scaleY, 420 * scaleX, 36 * scaleY);
+        if (bCtx) {
+          bCtx.fillStyle = 'rgb(40, 40, 40)';
+          bCtx.fillRect(620 * scaleX, 490 * scaleY, 420 * scaleX, 36 * scaleY);
+        }
 
-        // Olympus Mons
         cCtx.fillStyle = '#9a3412';
         cCtx.beginPath();
-        cCtx.arc(460, 390, 78, 0, Math.PI * 2);
+        cCtx.arc(460 * scaleX, 390 * scaleY, 78 * scaleX, 0, Math.PI * 2);
         cCtx.fill();
-        bCtx.fillStyle = 'rgb(245, 245, 245)';
-        bCtx.beginPath();
-        bCtx.arc(460, 390, 78, 0, Math.PI * 2);
-        bCtx.fill();
+        if (bCtx) {
+          bCtx.fillStyle = 'rgb(245, 245, 245)';
+          bCtx.beginPath();
+          bCtx.arc(460 * scaleX, 390 * scaleY, 78 * scaleX, 0, Math.PI * 2);
+          bCtx.fill();
+        }
 
-        // Calote polare de gheață
         cCtx.fillStyle = '#f8fafc';
-        cCtx.fillRect(0, 0, width, 42);
-        cCtx.fillRect(0, height - 42, width, 42);
+        cCtx.fillRect(0, 0, width, Math.round(42 * scaleY));
+        cCtx.fillRect(0, height - Math.round(42 * scaleY), width, Math.round(42 * scaleY));
       } else if (data.id === 'jupiter') {
-        // Marea Pată Roșie și vârtejuri pe Jupiter
         cCtx.fillStyle = '#c2410c';
         cCtx.beginPath();
-        cCtx.ellipse(1260, 640, 135, 72, 0, 0, Math.PI * 2);
+        cCtx.ellipse(1260 * scaleX, 640 * scaleY, 135 * scaleX, 72 * scaleY, 0, 0, Math.PI * 2);
         cCtx.fill();
 
-        bCtx.fillStyle = 'rgb(210, 210, 210)';
-        bCtx.beginPath();
-        bCtx.ellipse(1260, 640, 135, 72, 0, 0, Math.PI * 2);
-        bCtx.fill();
+        if (bCtx) {
+          bCtx.fillStyle = 'rgb(210, 210, 210)';
+          bCtx.beginPath();
+          bCtx.ellipse(1260 * scaleX, 640 * scaleY, 135 * scaleX, 72 * scaleY, 0, 0, Math.PI * 2);
+          bCtx.fill();
+        }
       } else if (data.id === 'pluto') {
-        // Inima Tombaugh Regio pe Pluto
         cCtx.fillStyle = '#fff1f2';
         cCtx.beginPath();
-        cCtx.ellipse(1020, 540, 155, 118, -0.2, 0, Math.PI * 2);
+        cCtx.ellipse(1020 * scaleX, 540 * scaleY, 155 * scaleX, 118 * scaleY, -0.2, 0, Math.PI * 2);
         cCtx.fill();
       }
 
-      // Adăugăm cratere de relief pe lumile stâncoase / înghețate și asteroizi
       if (
         data.category === 'terrestrial' ||
         data.category === 'moon' ||
         data.category === 'dwarf' ||
         data.category === 'asteroid'
       ) {
-        const craterCount = data.id === 'earth' ? 12 : 95;
+        const craterCount = data.id === 'earth' ? 8 : mode === 'eco' ? 28 : 95;
         for (let i = 0; i < craterCount; i++) {
-          const cx = ((i * 397 + seed * 17) % (width - 120)) + 60;
-          const cy = ((i * 263 + seed * 31) % (height - 120)) + 60;
-          const rad = 10 + ((i * 19 + seed) % 44);
+          const cx = (((i * 397 + seed * 17) % 1920) + 60) * scaleX;
+          const cy = (((i * 263 + seed * 31) % 900) + 60) * scaleY;
+          const rad = (10 + ((i * 19 + seed) % 44)) * scaleX;
 
-          // Inel exterior luminos în bumpMap + interior adâncit
-          bCtx.strokeStyle = 'rgb(235, 235, 235)';
-          bCtx.lineWidth = 4;
-          bCtx.beginPath();
-          bCtx.arc(cx, cy, rad, 0, Math.PI * 2);
-          bCtx.stroke();
+          if (bCtx) {
+            bCtx.strokeStyle = 'rgb(235, 235, 235)';
+            bCtx.lineWidth = 4;
+            bCtx.beginPath();
+            bCtx.arc(cx, cy, rad, 0, Math.PI * 2);
+            bCtx.stroke();
 
-          bCtx.fillStyle = 'rgb(52, 52, 52)';
-          bCtx.beginPath();
-          bCtx.arc(cx, cy, rad * 0.78, 0, Math.PI * 2);
-          bCtx.fill();
+            bCtx.fillStyle = 'rgb(52, 52, 52)';
+            bCtx.beginPath();
+            bCtx.arc(cx, cy, rad * 0.78, 0, Math.PI * 2);
+            bCtx.fill();
+          }
 
           if (data.id !== 'earth') {
             cCtx.fillStyle = 'rgba(20, 20, 25, 0.16)';
@@ -776,21 +961,87 @@ export class PlanetMaterialFactory {
 
     const colorMap = new THREE.CanvasTexture(colorCanvas);
     colorMap.colorSpace = THREE.SRGBColorSpace;
-    colorMap.anisotropy = this.maxAnisotropy;
+    colorMap.anisotropy = mode === 'eco' ? 1 : this.maxAnisotropy;
     colorMap.wrapS = THREE.RepeatWrapping;
     colorMap.wrapT = THREE.ClampToEdgeWrapping;
     colorMap.needsUpdate = true;
 
-    const bumpMap = new THREE.CanvasTexture(bumpCanvas);
-    bumpMap.colorSpace = THREE.NoColorSpace;
-    bumpMap.anisotropy = this.maxAnisotropy;
-    bumpMap.wrapS = THREE.RepeatWrapping;
-    bumpMap.wrapT = THREE.ClampToEdgeWrapping;
-    bumpMap.needsUpdate = true;
+    let bumpMap: THREE.CanvasTexture | undefined;
+    if (bumpCanvas) {
+      bumpMap = new THREE.CanvasTexture(bumpCanvas);
+      bumpMap.colorSpace = THREE.NoColorSpace;
+      bumpMap.anisotropy = this.maxAnisotropy;
+      bumpMap.wrapS = THREE.RepeatWrapping;
+      bumpMap.wrapT = THREE.ClampToEdgeWrapping;
+      bumpMap.needsUpdate = true;
+    }
 
-    const result: ProceduralMaps = { colorMap, bumpMap, roughnessMap };
-    this.proceduralCache.set(data.id, result);
+    const result: ProceduralMaps = { colorMap, bumpMap, roughnessMap, nightMap };
+    cache.set(data.id, result);
     return result;
+  }
+
+  /**
+   * Fallback procedural pentru Luminile Orașelor pe Pământ Noaptea (`earth_nightmap.jpg`),
+   * desenând puncte luminoase aurii pe conturul continentelor, cu vizibilitate clară pentru Europa și România.
+   */
+  private static createProceduralEarthNightTexture(): THREE.CanvasTexture {
+    const width = 2048;
+    const height = 1024;
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext('2d');
+
+    if (ctx) {
+      ctx.fillStyle = '#02040a';
+      ctx.fillRect(0, 0, width, height);
+
+      // Regiuni metropolitane și artere luminoase (inclusiv Europa și România la u≈0.57, v≈0.246)
+      const clusters: Array<[number, number, number, number, number]> = [
+        [1168, 252, 65, 42, 95], // România (București, Cluj, Timișoara, Iași, Constanța) & Sud-Estul Europei
+        [1065, 238, 115, 65, 140], // Europa Centrală și de Vest
+        [1195, 338, 45, 35, 65], // Mediterana de Est & Delta Nilului
+        [530, 290, 120, 75, 130], // Coasta de Est a Americii de Nord
+        [375, 310, 75, 60, 85], // Coasta de Vest a Americii de Nord
+        [720, 640, 85, 95, 90], // America de Sud
+        [1120, 560, 85, 95, 70], // Africa
+        [1475, 365, 95, 70, 125], // India
+        [1695, 305, 115, 85, 145], // Asia de Est (China, Coreea, Japonia)
+        [1790, 710, 65, 45, 55], // Australia
+      ];
+
+      for (const [cx, cy, rx, ry, dotCount] of clusters) {
+        const grad = ctx.createRadialGradient(cx, cy, 2, cx, cy, Math.max(rx, ry));
+        grad.addColorStop(0, 'rgba(255, 205, 95, 0.55)');
+        grad.addColorStop(0.5, 'rgba(255, 165, 45, 0.22)');
+        grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.ellipse(cx, cy, rx * 1.15, ry * 1.15, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        for (let i = 0; i < dotCount; i++) {
+          const ang = (i * 137.508 * Math.PI) / 180;
+          const dist = Math.sqrt((i + 0.5) / dotCount);
+          const px = cx + Math.cos(ang) * rx * dist;
+          const py = cy + Math.sin(ang) * ry * dist;
+          const rad = i % 7 === 0 ? 3.2 : 1.8;
+          ctx.fillStyle = i % 4 === 0 ? '#fffbeb' : '#ffb703';
+          ctx.beginPath();
+          ctx.arc(px, py, rad, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+    }
+
+    const tex = new THREE.CanvasTexture(canvas);
+    tex.colorSpace = THREE.SRGBColorSpace;
+    tex.anisotropy = this.maxAnisotropy;
+    tex.wrapS = THREE.RepeatWrapping;
+    tex.wrapT = THREE.ClampToEdgeWrapping;
+    tex.needsUpdate = true;
+    return tex;
   }
 
   private static createProceduralCloudsTexture(): THREE.CanvasTexture {
@@ -818,15 +1069,17 @@ export class PlanetMaterialFactory {
     tex.wrapS = THREE.RepeatWrapping;
     tex.wrapT = THREE.ClampToEdgeWrapping;
     tex.needsUpdate = true;
+    this.loadedHdTextures.add(tex);
     return tex;
   }
 
   private static createProceduralRingTexture(
-    ringType: 'saturn' | 'uranus' | 'haumea'
+    ringType: 'saturn' | 'uranus' | 'haumea',
+    mode: QualityMode
   ): THREE.CanvasTexture {
     const canvas = document.createElement('canvas');
-    canvas.width = 1024;
-    canvas.height = 64;
+    canvas.width = mode === 'eco' ? 256 : 1024;
+    canvas.height = mode === 'eco' ? 16 : 64;
     const ctx = canvas.getContext('2d');
 
     if (ctx) {
@@ -856,8 +1109,11 @@ export class PlanetMaterialFactory {
 
     const tex = new THREE.CanvasTexture(canvas);
     tex.colorSpace = THREE.SRGBColorSpace;
-    tex.anisotropy = this.maxAnisotropy;
+    tex.anisotropy = mode === 'eco' ? 1 : this.maxAnisotropy;
     tex.needsUpdate = true;
+    if (mode === 'hd') {
+      this.loadedHdTextures.add(tex);
+    }
     return tex;
   }
 
@@ -876,7 +1132,6 @@ export class PlanetMaterialFactory {
     const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     const d = imgData.data;
     for (let i = 0; i < d.length; i += 4) {
-      // Specular mare (ocean) -> Roughness mic (lucios ~35); Specular mic (uscat) -> Roughness mare (mat ~225)
       const spec = d[i];
       const rough = Math.max(30, Math.min(235, 245 - Math.round(spec * 0.82)));
       d[i] = rough;
@@ -889,6 +1144,7 @@ export class PlanetMaterialFactory {
     roughTex.colorSpace = THREE.NoColorSpace;
     roughTex.anisotropy = this.maxAnisotropy;
     roughTex.needsUpdate = true;
+    this.loadedHdTextures.add(roughTex);
     return roughTex;
   }
 }

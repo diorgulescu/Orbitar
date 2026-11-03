@@ -12,6 +12,8 @@ import {
 import { ScaleManager } from './ScaleManager';
 import { InstancedBeltEntry, ProceduralModels } from './ProceduralModels';
 import { ISSTracker } from './ISSTracker';
+import { PlanetMaterialFactory } from './PlanetMaterialFactory';
+import { QualityMode } from './QualityManager';
 
 export interface CelestialBodyInstance {
   data: CelestialBodyData;
@@ -203,6 +205,58 @@ export class OrbitalEngine {
 
     this.rebuildScaleAndOrbits();
     this.updatePositions(0);
+  }
+
+  /**
+   * Comută instantaneu în timp real între Modul Eco (`eco`) și Modul Realist HD (`hd`),
+   * eliberând memoria VRAM pentru texturile 2K la trecerea în `eco` și păstrând poziția
+   * camerei și corpul ceresc selectat.
+   */
+  public applyQualityMode(mode: QualityMode): void {
+    PlanetMaterialFactory.setQualityMode(mode);
+
+    for (const instance of this.bodies.values()) {
+      const modelType = instance.data.modelType ?? 'sphere';
+      const isQualityDependent =
+        instance.data.id === 'sun' || modelType === 'sphere' || modelType === 'asteroid';
+      if (!isQualityDependent) continue;
+
+      const prevRotY = instance.visualRoot.rotation.y;
+      const prevRotZ = instance.visualRoot.rotation.z;
+
+      // Eliberăm materialele vechiului visualRoot
+      instance.visualRoot.traverse((obj) => {
+        if (obj instanceof THREE.Mesh) {
+          if (Array.isArray(obj.material)) {
+            obj.material.forEach((m) => m.dispose());
+          } else if (obj.material instanceof THREE.Material) {
+            obj.material.dispose();
+          }
+        }
+      });
+      instance.rootGroup.remove(instance.visualRoot);
+
+      const { visualRoot, updateShaderTime } = ProceduralModels.createCelestialVisual(
+        instance.data,
+        mode
+      );
+      visualRoot.name = `Visual_${instance.data.id}`;
+      visualRoot.rotation.y = prevRotY;
+      visualRoot.rotation.z = prevRotZ;
+      visualRoot.scale.setScalar(instance.visualRadius);
+
+      visualRoot.traverse((obj) => {
+        obj.userData = { ...obj.userData, bodyId: instance.data.id };
+      });
+
+      instance.visualRoot = visualRoot;
+      instance.updateShaderTime = updateShaderTime;
+      instance.rootGroup.add(visualRoot);
+    }
+
+    for (const beltEntry of this.belts) {
+      ProceduralModels.updateInstancedBeltTransforms(beltEntry, this.scaleManager, mode);
+    }
   }
 
   public eqjToThreeEclipticAu(vec: { x: number; y: number; z: number }): THREE.Vector3 {

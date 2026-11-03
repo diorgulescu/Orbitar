@@ -44,6 +44,7 @@ download_texture "mercury.jpg"          "https://www.solarsystemscope.com/textur
 download_texture "venus_surface.jpg"    "https://www.solarsystemscope.com/textures/download/2k_venus_surface.jpg"
 download_texture "venus_atmosphere.jpg" "https://www.solarsystemscope.com/textures/download/2k_venus_atmosphere.jpg"
 download_texture "earth_daymap.jpg"     "https://www.solarsystemscope.com/textures/download/2k_earth_daymap.jpg"
+download_texture "earth_nightmap.jpg"   "https://www.solarsystemscope.com/textures/download/2k_earth_nightmap.jpg"
 download_texture "earth_clouds.jpg"     "https://www.solarsystemscope.com/textures/download/2k_earth_clouds.jpg"
 download_texture "earth_specular.jpg"   "https://www.solarsystemscope.com/textures/download/2k_earth_specular_map.tif"
 download_texture "moon.jpg"             "https://www.solarsystemscope.com/textures/download/2k_moon.jpg"
@@ -180,6 +181,7 @@ const specs = [
   { file: 'venus_surface.jpg', seed: 303, mode: 'rock', c1: [217, 119, 6], c2: [180, 83, 9], c3: [120, 53, 15] },
   { file: 'venus_atmosphere.jpg', seed: 309, mode: 'bands', c1: [253, 230, 138], c2: [245, 158, 11], c3: [217, 119, 6] },
   { file: 'earth_daymap.jpg', seed: 404, mode: 'earth', c1: [14, 75, 165], c2: [34, 139, 68], c3: [210, 185, 135] },
+  { file: 'earth_nightmap.jpg', seed: 404, mode: 'earth_night', c1: [255, 200, 90], c2: [255, 145, 35], c3: [6, 10, 22] },
   { file: 'earth_clouds.jpg', seed: 405, mode: 'clouds', c1: [255, 255, 255], c2: [220, 235, 255], c3: [0, 0, 0] },
   { file: 'earth_specular.jpg', seed: 404, mode: 'earth_spec', c1: [240, 240, 240], c2: [22, 22, 22], c3: [0, 0, 0] },
   { file: 'moon.jpg', seed: 408, mode: 'rock', c1: [195, 195, 200], c2: [130, 132, 138], c3: [82, 84, 90] },
@@ -233,6 +235,42 @@ for (const spec of specs) {
         g = Math.round(spec.c2[1] + (spec.c1[1] - spec.c2[1]) * fine);
         b = Math.round(spec.c2[2] + (spec.c1[2] - spec.c2[2]) * fine);
         a = Math.round(255 * Math.max(0, Math.min(1, fine * cassini * edge)));
+      } else if (spec.mode === 'earth_night') {
+        const nLand = fbm3(sx * 2.6, sy * 2.6, sz * 2.6, spec.seed, 6);
+        const polar = Math.abs(v - 0.5) * 2;
+        const isLand = nLand > 0.505 && polar < 0.8;
+        const nCity = fbm3(sx * 18.5, sy * 18.5, sz * 18.5, spec.seed + 77, 4);
+        const nFine = smoothNoise3(sx * 52, sy * 52, sz * 52, spec.seed + 199);
+
+        // Hub-uri metropolitane explicite (Europa, România / Carpați-București-Cluj-Timișoara-Iași, America, Asia)
+        const hubs = [
+          [0.57, 0.246, 0.032, 1.35], // România & Europa de Sud-Est
+          [0.525, 0.23, 0.048, 1.2],  // Europa Centrală și de Vest
+          [0.586, 0.33, 0.025, 1.1],  // Delta Nilului / Mediterana de Est
+          [0.26, 0.28, 0.055, 1.15],  // Coasta de Est SUA
+          [0.18, 0.30, 0.04, 1.0],    // Coasta de Vest SUA
+          [0.36, 0.63, 0.04, 0.95],   // America de Sud (São Paulo / Buenos Aires)
+          [0.72, 0.36, 0.05, 1.15],   // India
+          [0.83, 0.29, 0.055, 1.25],  // Asia de Est (China / Japonia)
+        ];
+
+        let hubGlow = 0;
+        for (const [hu, hv, rad, weight] of hubs) {
+          const du = (u - hu) / rad;
+          const dv = (v - hv) / (rad * 0.85);
+          const d2 = du * du + dv * dv;
+          if (d2 < 3.2) {
+            hubGlow += Math.exp(-d2 * 1.4) * weight;
+          }
+        }
+
+        const coastalFactor = isLand && nLand < 0.62 ? 1.35 : isLand ? 0.85 : 0.08;
+        const Sparkle = Math.max(0, (nCity - 0.52) * 3.1) * (0.45 + 0.85 * nFine);
+        const cityIntensity = Math.min(1, Sparkle * coastalFactor + hubGlow * (0.55 + 0.65 * nFine));
+
+        r = Math.min(255, Math.round(4 + 255 * Math.pow(cityIntensity, 0.85)));
+        g = Math.min(255, Math.round(7 + 195 * Math.pow(cityIntensity, 1.05)));
+        b = Math.min(255, Math.round(16 + 85 * Math.pow(cityIntensity, 1.45)));
       } else if (spec.mode === 'earth' || spec.mode === 'earth_spec') {
         const n = fbm3(sx * 2.6, sy * 2.6, sz * 2.6, spec.seed, 6);
         const polar = Math.abs(v - 0.5) * 2;
@@ -330,5 +368,5 @@ for (const spec of specs) {
 }
 EOF
 
-echo "✅ [Orbitar] Toate cele 18 texturi din ${TEXTURE_DIR}/ sunt gata!"
+echo "✅ [Orbitar] Toate cele 19 texturi din ${TEXTURE_DIR}/ sunt gata!"
 exit 0

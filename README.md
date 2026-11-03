@@ -26,6 +26,9 @@ Proiectul este **100% Open-Source**, licențiat sub **GNU General Public License
 3. **Scară Didactică vs. Scară Reală (`orbitar_scale_mode`):**
    - **Scara Didactică (implicită):** mărește logaritmic planetele și sondele pentru a fi ușor de găsit și selectat pe ecran tactil.
    - **Scara Reală:** respectă proporțiile fizice exacte dintre razele planetelor și distanțele în Unități Astronomice (UA).
+   - **Incluziune Digitală & Comutator Grafic (`orbitar_quality_mode`):**
+     - **⚡ Grafică: Rapidă (Eco):** zero descărcări externe din `public/textures/`, texturi procedurale ușoare `512×256`, sfere `24×24`, `pixelRatio(1)`, 25% particule în centuri și eliberare imediată a memoriei VRAM (`.dispose()`) + **Watchdog FPS** care activează automat Modul Rapid pe tablete/PC-uri școlare modeste.
+     - **✨ Grafică: Realistă HD:** texturi 2K lazy-load, relief `bumpMap`, nori dinamici și **Luminile Orașelor pe Pământ Noaptea** (`earth_nightmap.jpg` + shader modulat de `dot(normal, sunDirection)` pe emisfera umbrită).
 
 4. **Laboratorul Orbitar & Unelte Interactive:**
    - **⚖️ Cât cântăresc și cât de sus sar aici?** — calculator interactiv de greutate și săritură în funcție de gravitația locală.
