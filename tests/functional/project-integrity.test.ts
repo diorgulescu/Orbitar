@@ -133,4 +133,22 @@ describe('Integritatea Proiectului, Resurse NASA/HD și Conformitate Licență G
       'Fișierele MP3 trebuie generate cu voce neurală (nu cu vocea robotică macos-ioana)'
     );
   });
+
+  it('src-tauri/tauri.conf.json respectă strict schema Tauri v2 fără proprietăți deprecată din v1 (distDir, window)', () => {
+    const tauriConfPath = path.resolve(process.cwd(), 'src-tauri/tauri.conf.json');
+    const tauriConf = JSON.parse(fs.readFileSync(tauriConfPath, 'utf8'));
+
+    assert.equal(tauriConf.build?.frontendDist, '../dist');
+    assert.equal(
+      'distDir' in (tauriConf.build || {}),
+      false,
+      'tauri.conf.json nu trebuie să conțină build.distDir în Tauri v2'
+    );
+    assert.equal(
+      'window' in tauriConf,
+      false,
+      'tauri.conf.json nu trebuie să conțină proprietatea rădăcină window în Tauri v2 (se folosește app.windows)'
+    );
+    assert.ok(Array.isArray(tauriConf.app?.windows) && tauriConf.app.windows.length >= 1);
+  });
 });
