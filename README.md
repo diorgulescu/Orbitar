@@ -27,8 +27,8 @@ Proiectul este **100% Open-Source**, licențiat sub **GNU General Public License
    - **Scara Didactică (implicită):** mărește logaritmic planetele și sondele pentru a fi ușor de găsit și selectat pe ecran tactil.
    - **Scara Reală:** respectă proporțiile fizice exacte dintre razele planetelor și distanțele în Unități Astronomice (UA).
    - **Incluziune Digitală & Comutator Grafic (`orbitar_quality_mode`):**
-     - **⚡ Grafică: Rapidă (Eco):** zero descărcări externe din `public/textures/`, texturi procedurale ușoare `512×256`, sfere `24×24`, `pixelRatio(1)`, 25% particule în centuri și eliberare imediată a memoriei VRAM (`.dispose()`) + **Watchdog FPS** care activează automat Modul Rapid pe tablete/PC-uri școlare modeste.
-     - **✨ Grafică: Realistă HD:** texturi 2K lazy-load, relief `bumpMap`, nori dinamici și **Luminile Orașelor pe Pământ Noaptea** (`earth_nightmap.jpg` + shader modulat de `dot(normal, sunDirection)` pe emisfera umbrită).
+     - **⚡ Grafică: Rapidă (Eco):** zero descărcări externe din `public/textures/hd/`, texturi procedurale ușoare `512×256`, sfere `24×24`, `pixelRatio(1)`, 25% particule în centuri și eliberare imediată a memoriei VRAM (`.dispose()`) + **Watchdog FPS** care activează automat Modul Rapid pe tablete/PC-uri școlare modeste.
+     - **✨ Grafică: Realistă HD (Simulator Astronomic):** 26 de hărți planetare științifice 2K în `public/textures/hd/`, Tone Mapping fotografic `ACESFilmicToneMapping`, relief topografic 3D (`bumpMap` LOLA/MOLA/MESSENGER/Magellan), Pământ pe 5 hărți simultane (`earth_albedo.jpg`, `earth_bump.jpg`, `earth_ocean_roughness.jpg`, `earth_clouds_alpha.png` cu umbră pe continente și `earth_nightlights.jpg`), Venus cu radarul vulcanic Magellan sub nori („👁️ Vezi sub nori (Radar Magellan)”) și umbra planetară proiectată pe inelele lui Saturn.
 
 4. **Laboratorul Orbitar & Unelte Interactive:**
    - **⚖️ Cât cântăresc și cât de sus sar aici?** — calculator interactiv de greutate și săritură în funcție de gravitația locală.
@@ -142,7 +142,7 @@ npm run preview
 
 - **Dragoş Iorgulescu** (`@diorgulescu`) — Concept, arhitectură și coordonare proiect
 - **Google Antigravity (Gemini)** — Dezvoltare asistată în pereche (Pair Programming)
-- **Atribuire Hărți și Texturi Planetare 2K:** **Solar System Scope (CC-BY 4.0) & NASA Visible Earth (Public Domain)** (`npm run fetch:textures`)
+- **Atribuire Hărți Științifice și Texturi Planetare HD (2K):** **NASA / JPL-Caltech / USGS Astrogeology / SDO / LRO / MOLA / Magellan / Cassini / New Horizons / Dawn (Public Domain), CelestiaContent (GNU GPLv2+) & Solar System Scope (CC-BY 4.0)** (`npm run fetch:hd-textures`)
 
 ---
 

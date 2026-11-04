@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import { CelestialBodyInstance, OrbitalEngine } from '../core/OrbitalEngine';
+import { PlanetMaterialFactory } from '../core/PlanetMaterialFactory';
 import { AgeTier } from '../types/celestial';
 import { OrbitarLab } from './OrbitarLab';
 
@@ -56,6 +57,7 @@ export class StudyDrawer {
     const btnSpeak = document.getElementById('btn-speak-ro');
     const btnPrintStudy = document.getElementById('btn-print-study');
     const btnPrintColoring = document.getElementById('btn-print-coloring');
+    const btnVenusRadar = document.getElementById('btn-venus-radar');
     const btnIssSync = document.getElementById('btn-iss-live-sync');
 
     btnClose?.addEventListener('click', () => {
@@ -80,6 +82,11 @@ export class StudyDrawer {
     btnPrintColoring?.addEventListener('click', () => {
       const id = this.currentBody?.data.id ?? 'sun';
       this.onPrintColoring?.(id);
+    });
+
+    btnVenusRadar?.addEventListener('click', () => {
+      const active = PlanetMaterialFactory.toggleVenusRadarMode();
+      this.syncVenusRadarButtonState(active);
     });
 
     btnIssSync?.addEventListener('click', async () => {
@@ -179,6 +186,15 @@ export class StudyDrawer {
     if (issCard) {
       const isLeoTracked = d.id === 'iss' || d.id === 'hubble';
       issCard.classList.toggle('is-hidden', !isLeoTracked);
+    }
+
+    // Afișăm butonul „👁️ Vezi sub nori (Radar Magellan)" când este selectată planeta Venus
+    const btnVenusRadar = document.getElementById('btn-venus-radar');
+    if (btnVenusRadar) {
+      btnVenusRadar.classList.toggle('is-hidden', d.id !== 'venus');
+      if (d.id === 'venus') {
+        this.syncVenusRadarButtonState(PlanetMaterialFactory.isVenusRadarMode());
+      }
     }
 
     const juniorBox = document.getElementById('hud-junior-box');
@@ -342,5 +358,15 @@ export class StudyDrawer {
       btnSpeak.textContent = '🔊 Citește-mi';
       btnSpeak.classList.remove('hud-btn-active-amber');
     }
+  }
+
+  private syncVenusRadarButtonState(active: boolean): void {
+    const btnVenusRadar = document.getElementById('btn-venus-radar');
+    if (!btnVenusRadar) return;
+    btnVenusRadar.classList.toggle('hud-btn-active-amber', active);
+    btnVenusRadar.setAttribute('aria-pressed', active ? 'true' : 'false');
+    btnVenusRadar.textContent = active
+      ? '👁️ Nori Semitransparenți (Radar Magellan Activ)'
+      : '👁️ Vezi sub nori (Radar Magellan)';
   }
 }

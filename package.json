@@ -15,7 +15,8 @@
     "build:landing": "rm -rf dist-landing && mkdir -p dist-landing && cp -R landing/. dist-landing/",
     "build:all": "npm run build && npm run build:landing",
     "preview": "vite preview",
-    "fetch:textures": "bash scripts/fetch-textures.sh"
+    "fetch:textures": "bash scripts/fetch-textures.sh",
+    "fetch:hd-textures": "bash scripts/fetch-hd-textures.sh"
   },
   "dependencies": {
     "astronomy-engine": "^2.1.19",

@@ -202,6 +202,13 @@ export class SceneManager {
     this.activeQualityMode = mode;
     const pixelRatio = mode === 'eco' ? 1 : Math.min(window.devicePixelRatio || 1, 2);
     this.renderer.setPixelRatio(pixelRatio);
+    if (mode === 'hd') {
+      this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      this.renderer.toneMappingExposure = 1.15;
+    } else {
+      this.renderer.toneMapping = THREE.NoToneMapping;
+      this.renderer.toneMappingExposure = 1.0;
+    }
   }
 
   private handleResize = (): void => {
