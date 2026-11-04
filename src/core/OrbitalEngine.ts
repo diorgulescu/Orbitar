@@ -85,7 +85,7 @@ const ASTRO_BODY_MAP: Record<string, Astronomy.Body> = {
  */
 export class OrbitalEngine {
   public simulationDate: Date;
-  public timeScale: number = 86400;
+  public timeScale: number = 60;
   public isPaused: boolean = false;
   public readonly issTracker: ISSTracker;
 

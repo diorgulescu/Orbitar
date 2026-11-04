@@ -96,10 +96,14 @@ export class BottomDock {
 
   private syncSpeedReadout(): void {
     const speedLabelEl = document.getElementById('hud-speed-label');
+    const speedSlider = document.getElementById('hud-speed-slider') as HTMLInputElement | null;
+    const foundIdx = SPEED_STEPS.findIndex((s) => s.scale === this.orbitalEngine.timeScale);
+    const activeIdx = foundIdx >= 0 ? foundIdx : 1;
+    if (speedSlider && document.activeElement !== speedSlider) {
+      speedSlider.value = String(activeIdx);
+    }
     if (!speedLabelEl) return;
-    const found =
-      SPEED_STEPS.find((s) => s.scale === this.orbitalEngine.timeScale) ?? SPEED_STEPS[3];
-    speedLabelEl.textContent = found.labelRo;
+    speedLabelEl.textContent = SPEED_STEPS[activeIdx].labelRo;
   }
 
   private syncScaleButton(): void {
