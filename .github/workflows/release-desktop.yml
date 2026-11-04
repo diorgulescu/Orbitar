@@ -10,6 +10,9 @@ on:
 permissions:
   contents: write
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   build-tauri-desktop:
     strategy:
@@ -29,10 +32,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js 20
+      - name: Setup Node.js 22
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
 
       - name: Install Rust stable toolchain
@@ -85,7 +88,8 @@ jobs:
 
             ### 👩‍🏫 Sfaturi rapide pentru sala de clasă:
             - Apasă tasta **`F11`** (sau butonul **`⛶ F11`** din bara de sus) pentru proiecție pe tot ecranul la videoproiector sau tablă interactivă.
-            - Apasă tasta **`Q`** (sau butonul **`⚡ Grafică: Rapidă (Eco)`**) pe calculatoarele mai vechi din laboratorul școlii.
+            - Alege orizontul cosmic din bara de sus (**`☀️ Sistemul Solar`**, **`✨ Stele și exoplanete`** sau **`🌀 Calea Lactee și galaxii`**) ori urcă la manșă în **`🚀 Mod Pilot`** (tasta **`P`**).
+            - Apasă tasta **`Q`** (sau butonul **`⚡ Eco`**) pe calculatoarele mai vechi din laboratorul școlii.
             - Apasă pe **„🎨 Planșe de Colorat & Fișe”** pentru a scoate la imprimantă fișe de studiu A4, planșe de colorat și diplome de Cadet Spațial pentru toată clasa!
           releaseDraft: false
           prerelease: false
