@@ -173,6 +173,76 @@ export class SpaceAmbientEngine {
   }
 
   /**
+   * Redă un sunet cald de rezonanță magnetică la activarea Scuturilor Deflectoare
+   * în Centura Principală de Asteroizi (~2.1–3.3 UA) sau în Centura Kuiper (~30–50 UA).
+   */
+  public playDeflectorShieldResonance(beltType: 'asteroid' | 'kuiper' = 'asteroid'): void {
+    try {
+      this.ensureAudioGraph();
+      if (!this.ctx) return;
+      if (this.ctx.state === 'suspended') {
+        this.ctx.resume().catch(() => {});
+      }
+
+      const ctx = this.ctx;
+      const now = ctx.currentTime;
+      const duration = 2.6;
+
+      const outGain = ctx.createGain();
+      const baseLevel = Math.max(0.05, (this.volumePercent / 100) * 0.16);
+      outGain.gain.setValueAtTime(0.0001, now);
+      outGain.gain.linearRampToValueAtTime(baseLevel, now + 0.35);
+      outGain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+      if (this.enabled && this.synthBus) {
+        outGain.connect(this.synthBus);
+      } else {
+        outGain.connect(ctx.destination);
+      }
+
+      const filter = ctx.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(beltType === 'kuiper' ? 980 : 640, now);
+      filter.Q.setValueAtTime(2.4, now);
+      filter.connect(outGain);
+
+      // LFO pentru pulsația magnetică caldă a scutului deflector
+      const pulseLfo = ctx.createOscillator();
+      pulseLfo.type = 'sine';
+      pulseLfo.frequency.setValueAtTime(beltType === 'kuiper' ? 4.2 : 5.5, now);
+      const pulseGain = ctx.createGain();
+      pulseGain.gain.setValueAtTime(180, now);
+      pulseLfo.connect(pulseGain);
+      pulseGain.connect(filter.frequency);
+      pulseLfo.start(now);
+      pulseLfo.stop(now + duration + 0.1);
+
+      const freqs =
+        beltType === 'kuiper'
+          ? [196.0, 293.66, 440.0] // Sol - Re - La cristalin
+          : [146.83, 220.0, 293.66]; // Re - La - Re magnetic cald
+
+      freqs.forEach((f, idx) => {
+        const osc = ctx.createOscillator();
+        osc.type = idx === 0 ? 'triangle' : 'sine';
+        osc.frequency.setValueAtTime(f * 0.92, now);
+        osc.frequency.exponentialRampToValueAtTime(f, now + 0.45);
+        osc.detune.setValueAtTime(idx === 1 ? 6 : -6, now);
+
+        const vGain = ctx.createGain();
+        vGain.gain.setValueAtTime(idx === 0 ? 0.5 : 0.3, now);
+        osc.connect(vGain);
+        vGain.connect(filter);
+
+        osc.start(now);
+        osc.stop(now + duration + 0.1);
+      });
+    } catch (_e) {
+      // Ignorăm eventualele restricții AudioContext în medii fără ieșire audio
+    }
+  }
+
+  /**
    * Construiește întregul graf de sinteză în Web Audio API la prima activare.
    */
   private ensureAudioGraph(): void {

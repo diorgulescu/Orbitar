@@ -15,6 +15,8 @@ import { LightSpeedRuler } from './ui/LightSpeedRuler';
 import { LicenseModal } from './ui/LicenseModal';
 import { OrbitarMissions } from './ui/OrbitarMissions';
 import { PrintManager } from './ui/PrintManager';
+import { SpacecraftPilot } from './game/SpacecraftPilot';
+import { CockpitHUD } from './ui/CockpitHUD';
 
 interface OrbitarGlobalDebug {
   sceneManager: SceneManager;
@@ -30,6 +32,8 @@ interface OrbitarGlobalDebug {
   lightSpeedRuler: LightSpeedRuler;
   orbitarMissions: OrbitarMissions;
   printManager: PrintManager;
+  spacecraftPilot: SpacecraftPilot;
+  cockpitHud: CockpitHUD;
 }
 
 declare global {
@@ -146,7 +150,11 @@ async function bootstrapOrbitar(): Promise<void> {
 
   const headerHud = new HeaderHud(orbitalEngine.getBodies(), {
     onSelectBody: (bodyId) => {
-      cameraController.focusBody(bodyId);
+      if (spacecraftPilot.isActive()) {
+        cockpitHud.handleFlyToTarget(bodyId);
+      } else {
+        cameraController.focusBody(bodyId);
+      }
     },
     onFilterChange: (filter) => {
       applyLayerFilter(filter);
@@ -166,6 +174,29 @@ async function bootstrapOrbitar(): Promise<void> {
     () => orbitarMissions.getUnlockedBadges()
   );
   new LicenseModal();
+
+  // Mini-jocul educativ la persoana întâi: "🚀 La Manșa Navei (Mod Pilot)"
+  const spacecraftPilot = new SpacecraftPilot(
+    sceneManager.scene,
+    sceneManager.camera,
+    orbitalEngine,
+    scaleManager,
+    cameraController
+  );
+
+  const cockpitHud = new CockpitHUD(
+    sceneManager.camera,
+    orbitalEngine,
+    spacecraftPilot,
+    {
+      onOpenStudySheet: (body) => {
+        studyDrawer.showBody(body);
+      },
+      onExitPilotMode: () => {
+        syncPilotToggleUI(false);
+      },
+    }
+  );
 
   orbitarMissions.setOnGenerateDiploma(() => {
     orbitarMissions.setOpen(false);
@@ -463,7 +494,49 @@ async function bootstrapOrbitar(): Promise<void> {
     }
   });
 
-  // Scurtături de tastatură: Tasta Q (Quality) și Tasta M (Mute / Unmute Muzică Ambientală)
+  // Butonul "🚀 Mod Pilot (La Manșă)" (#btn-pilot-mode-toggle) + Tasta rapidă P
+  let btnPilotToggle = document.getElementById('btn-pilot-mode-toggle') as HTMLButtonElement | null;
+  if (!btnPilotToggle) {
+    btnPilotToggle = document.createElement('button');
+    btnPilotToggle.id = 'btn-pilot-mode-toggle';
+    btnPilotToggle.type = 'button';
+    btnPilotToggle.className = 'hud-btn hud-btn-pilot';
+    btnPilotToggle.setAttribute('aria-pressed', 'false');
+    btnPilotToggle.title =
+      'Activează mini-jocul La Manșa Navei — pilotează 3 nave spațiale la persoana întâi prin Sistemul Solar (Tasta rapidă: P)';
+    btnPilotToggle.textContent = '🚀 Mod Pilot (La Manșă)';
+    audioControlsEl.insertAdjacentElement('afterend', btnPilotToggle);
+  }
+
+  const syncPilotToggleUI = (active: boolean): void => {
+    if (!btnPilotToggle) return;
+    btnPilotToggle.classList.toggle('is-active', active);
+    btnPilotToggle.classList.toggle('hud-btn-active-amber', active);
+    btnPilotToggle.setAttribute('aria-pressed', active ? 'true' : 'false');
+    btnPilotToggle.textContent = active
+      ? '🗗 Ieși din Mod Pilot (P)'
+      : '🚀 Mod Pilot (La Manșă)';
+
+    if (active) {
+      studyDrawer.stopSpeech();
+      document.getElementById('hud-study-drawer')?.classList.add('is-collapsed');
+    }
+  };
+
+  spacecraftPilot.onModeChange((active) => {
+    syncPilotToggleUI(active);
+  });
+
+  btnPilotToggle.addEventListener('click', () => {
+    const nowActive = spacecraftPilot.togglePilotMode();
+    showQualityToast(
+      nowActive
+        ? `🚀 La Manșa Navei activat! Nava curentă: ${spacecraftPilot.getCurrentShip().shortNameRo}`
+        : '🌌 Ai revenit la vederea orbitală a planetariului Orbitar'
+    );
+  });
+
+  // Scurtături de tastatură: Tasta P (Mod Pilot), Tasta Q (Quality în afara Modului Pilot) și Tasta M (Mute / Unmute Muzică Ambientală)
   window.addEventListener('keydown', (e) => {
     if (e.ctrlKey || e.metaKey || e.altKey) return;
     const target = e.target as HTMLElement | null;
@@ -481,7 +554,18 @@ async function bootstrapOrbitar(): Promise<void> {
       toggleOrbitarFullscreen();
       return;
     }
-    if (e.key === 'q' || e.key === 'Q' || e.code === 'KeyQ') {
+    if (e.key === 'p' || e.key === 'P' || e.code === 'KeyP') {
+      e.preventDefault();
+      const nowActive = spacecraftPilot.togglePilotMode();
+      showQualityToast(
+        nowActive
+          ? `🚀 La Manșa Navei activat! Nava curentă: ${spacecraftPilot.getCurrentShip().shortNameRo}`
+          : '🌌 Ai revenit la vederea orbitală a planetariului Orbitar'
+      );
+      return;
+    }
+    // În Modul Pilot, tasta Q este folosită pentru înclinarea navei (Roll Left)
+    if (!spacecraftPilot.isActive() && (e.key === 'q' || e.key === 'Q' || e.code === 'KeyQ')) {
       e.preventDefault();
       qualityManager.toggleMode();
     } else if (e.key === 'm' || e.key === 'M' || e.code === 'KeyM') {
@@ -551,6 +635,8 @@ async function bootstrapOrbitar(): Promise<void> {
     lightSpeedRuler,
     orbitarMissions,
     printManager,
+    spacecraftPilot,
+    cockpitHud,
   };
 
   // 5. Bucla de actualizare per cadru
@@ -559,6 +645,13 @@ async function bootstrapOrbitar(): Promise<void> {
   sceneManager.onUpdate((deltaSeconds) => {
     qualityManager.recordFrame(deltaSeconds);
     orbitalEngine.updatePositions(deltaSeconds);
+
+    if (spacecraftPilot.isActive()) {
+      spacecraftPilot.update(deltaSeconds);
+      cockpitHud.update();
+      return;
+    }
+
     cameraController.update(deltaSeconds);
     lightSpeedRuler.update(deltaSeconds);
     bottomDock.updateDateReadout();

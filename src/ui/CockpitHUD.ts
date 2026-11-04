@@ -1,0 +1,933 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+import * as THREE from 'three';
+import { CelestialBodyInstance, OrbitalEngine } from '../core/OrbitalEngine';
+import { SpaceAmbientEngine } from '../audio/SpaceAmbientEngine';
+import {
+  ArrivalBriefingReport,
+  KM_PER_AU_CONST,
+  SpacecraftId,
+  SpacecraftPilot,
+} from '../game/SpacecraftPilot';
+
+export interface CockpitHUDCallbacks {
+  onOpenStudySheet: (body: CelestialBodyInstance) => void;
+  onExitPilotMode: () => void;
+}
+
+interface ArLabelElements {
+  root: HTMLDivElement;
+  selectBtn: HTMLButtonElement;
+  nameSpan: HTMLSpanElement;
+  distSpan: HTMLSpanElement;
+  flyBtn: HTMLButtonElement;
+}
+
+/**
+ * CockpitHUD gestionează interfața de la persoana întâi a mini-jocului educativ
+ * "🚀 La Manșa Navei (Mod Pilot)":
+ * - Cabina de pilotaj vectorială SVG (fără a bloca vederea centrală), cu temă adaptivă:
+ *   Chihlimbar (Vlaicu-1), Cyan (Coandă-X), Violet-Neon (Luceafărul)
+ * - Halou pulsant SVG pentru Scuturile Deflectoare + alerta Calculatorului de Bord la traversarea
+ *   Centurii Principale de Asteroizi (~2.1–3.3 UA) și a Centurii Kuiper (~30–50 UA)
+ * - Proiecție 3D -> 2D pe parbriz (Etichete AR cu nume în română, distanță și butonul "🔥 Zboară Acolo")
+ * - Instrumente la bord: Vitezometru (km/h și % din c), Starea Scutului Deflector, Data curentă pe Pământ
+ * - Calculatorul de Bord Vorbitor la Destinație (Briefing de Sosire sintetizat vocal în română cu auto-ducking)
+ * - Joystick tactil pe ecran pentru tablete + comenzi manuale și Pilot Automat
+ */
+export class CockpitHUD {
+  private readonly camera: THREE.PerspectiveCamera;
+  private readonly orbitalEngine: OrbitalEngine;
+  private readonly pilot: SpacecraftPilot;
+  private readonly callbacks: CockpitHUDCallbacks;
+
+  private rootEl: HTMLElement | null = null;
+  private arLabelsContainer: HTMLElement | null = null;
+  private readonly arLabels = new Map<string, ArLabelElements>();
+  private readonly tempProj = new THREE.Vector3();
+
+  private isSpeakingArrival = false;
+  private beltAlertTimeoutId: number | null = null;
+  private currentArrivalReport: ArrivalBriefingReport | null = null;
+
+  constructor(
+    camera: THREE.PerspectiveCamera,
+    orbitalEngine: OrbitalEngine,
+    pilot: SpacecraftPilot,
+    callbacks: CockpitHUDCallbacks
+  ) {
+    this.camera = camera;
+    this.orbitalEngine = orbitalEngine;
+    this.pilot = pilot;
+    this.callbacks = callbacks;
+
+    this.ensureDomStructure();
+    this.buildArLabels();
+    this.bindEvents();
+    this.syncShipThemeAndButtons();
+    this.syncVisibility(this.pilot.isActive());
+  }
+
+  /**
+   * Asigură existența containerului #cockpit-hud-overlay și a tuturor sub-elementelor SVG/DOM.
+   */
+  private ensureDomStructure(): void {
+    let root = document.getElementById('cockpit-hud-overlay');
+    if (!root) {
+      root = document.createElement('section');
+      root.id = 'cockpit-hud-overlay';
+      root.className = 'cockpit-hud-overlay is-hidden';
+      root.setAttribute('aria-label', 'Cabina de pilotaj La Manșa Navei (Mod Pilot)');
+      root.setAttribute('data-cockpit-theme', 'amber');
+      document.body.appendChild(root);
+    }
+
+    if (!document.getElementById('cockpit-ar-labels')) {
+      root.innerHTML = this.buildCockpitTemplateHtml();
+    }
+
+    this.rootEl = root;
+    this.arLabelsContainer = document.getElementById('cockpit-ar-labels');
+    this.populateTargetSelectDropdown();
+  }
+
+  private buildCockpitTemplateHtml(): string {
+    return `
+      <!-- 1. Parbrizul Navei (Cockpit SVG Vectorial + Halou Scuturi Deflectoare) -->
+      <svg
+        id="cockpit-svg-frame"
+        class="cockpit-svg-frame"
+        viewBox="0 0 1600 900"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <defs>
+          <radialGradient id="shield-glow-grad" cx="50%" cy="50%" r="52%">
+            <stop offset="68%" stop-color="rgba(0, 240, 255, 0)" />
+            <stop offset="92%" stop-color="rgba(0, 240, 255, 0.22)" />
+            <stop offset="100%" stop-color="rgba(0, 240, 255, 0.58)" />
+          </radialGradient>
+        </defs>
+
+        <!-- Halou pulsant Scuturi Deflectoare pe conturul parbrizului -->
+        <g id="cockpit-shield-halo" class="cockpit-shield-halo">
+          <rect x="8" y="8" width="1584" height="884" rx="34" fill="url(#shield-glow-grad)" />
+          <path
+            class="shield-hex-border"
+            d="M 48 18 L 1552 18 L 1582 54 L 1582 846 L 1552 882 L 48 882 L 18 846 L 18 54 Z"
+          />
+        </g>
+
+        <!-- Structura metalică a parbrizului (montanți laterali, arcadă superioară și consolă inferioară) -->
+        <path
+          class="cockpit-canopy-arch"
+          d="M 0 0 L 1600 0 L 1600 84 L 1460 54 L 1120 34 L 480 34 L 140 54 L 0 84 Z"
+        />
+        <path
+          class="cockpit-strut-line"
+          d="M 140 54 L 42 440 L 135 765 M 1460 54 L 1558 440 L 1465 765"
+        />
+        <path
+          class="cockpit-frame-accent"
+          d="M 155 58 L 480 36 L 1120 36 L 1445 58"
+        />
+        <path
+          class="cockpit-frame-accent"
+          d="M 120 755 L 440 725 L 1160 725 L 1480 755"
+        />
+
+        <!-- Gradații telemetrice laterale pe sticla parbrizului -->
+        <g class="cockpit-hud-ticks">
+          <line x1="95" y1="240" x2="128" y2="240" />
+          <line x1="88" y1="300" x2="116" y2="300" />
+          <line x1="82" y1="360" x2="122" y2="360" />
+          <line x1="78" y1="420" x2="132" y2="420" />
+          <line x1="82" y1="480" x2="122" y2="480" />
+          <line x1="88" y1="540" x2="116" y2="540" />
+          <line x1="95" y1="600" x2="128" y2="600" />
+
+          <line x1="1505" y1="240" x2="1472" y2="240" />
+          <line x1="1512" y1="300" x2="1484" y2="300" />
+          <line x1="1518" y1="360" x2="1478" y2="360" />
+          <line x1="1522" y1="420" x2="1468" y2="420" />
+          <line x1="1518" y1="480" x2="1478" y2="480" />
+          <line x1="1512" y1="540" x2="1484" y2="540" />
+          <line x1="1505" y1="600" x2="1472" y2="600" />
+        </g>
+
+        <!-- Reticul central de vizare (fără a bloca vederea centrală) -->
+        <g class="cockpit-center-reticle" transform="translate(800, 395)">
+          <circle cx="0" cy="0" r="34" class="reticle-ring" />
+          <path d="M -52 0 L -24 0 M 24 0 L 52 0 M 0 -52 L 0 -24 M 0 24 L 0 52" class="reticle-cross" />
+          <circle cx="0" cy="0" r="2.5" class="reticle-dot" />
+        </g>
+      </svg>
+
+      <!-- 2. Container Etichete AR proiectate 3D -> 2D pe sticla parbrizului -->
+      <div id="cockpit-ar-labels" class="cockpit-ar-labels"></div>
+
+      <!-- 3. Bara Superioară a Cabinei: Titlu Navă + Starea Scutului + Buton Ieșire -->
+      <div class="cockpit-top-bar">
+        <div class="bento-card cockpit-status-pill">
+          <span class="cockpit-mode-badge">🚀 LA MANȘA NAVEI (MOD PILOT)</span>
+          <strong id="cockpit-active-ship-title" class="cockpit-ship-title">🚀 Racheta "Vlaicu-1"</strong>
+          <span id="cockpit-active-ship-propulsion" class="telemetry-tag">Propulsie Chimică • 50.000 km/h</span>
+        </div>
+
+        <div id="cockpit-shield-banner-pill" class="bento-card cockpit-shield-pill">
+          <span id="cockpit-shield-status" class="shield-status-text">🛡️ SCUTURI DEFLECTOARE: STANDBY</span>
+        </div>
+
+        <button
+          id="btn-cockpit-exit"
+          type="button"
+          class="hud-btn hud-btn-amber cockpit-exit-btn"
+          title="Ieși din Cabina de Pilotaj și revino la vederea orbitală (Tasta P)"
+        >
+          🗗 Ieși din Mod Pilot (P)
+        </button>
+      </div>
+
+      <!-- 4. Alertă Calculator de Bord pentru Centura de Asteroizi / Centura Kuiper -->
+      <div
+        id="cockpit-belt-alert"
+        class="bento-card cockpit-belt-alert is-hidden"
+        role="alert"
+        aria-live="assertive"
+      >
+        <div class="belt-alert-header">
+          <strong id="cockpit-belt-alert-title">🛡️ SCUTURI DEFLECTOARE: ACTIVE</strong>
+          <button
+            id="btn-cockpit-belt-alert-close"
+            type="button"
+            class="hud-icon-btn"
+            aria-label="Închide alerta centurii"
+          >
+            ✕
+          </button>
+        </div>
+        <p id="cockpit-belt-alert-text" class="belt-alert-body"></p>
+      </div>
+
+      <!-- 5. Fereastra Holografică a Calculatorului de Bord la Destinație (Briefing de Sosire) -->
+      <aside
+        id="cockpit-arrival-briefing"
+        class="bento-card cockpit-arrival-briefing is-hidden"
+        aria-label="Raport de sosire Calculatorul de Bord Orbitar"
+      >
+        <div class="briefing-header">
+          <div>
+            <span class="telemetry-tag">🤖 CALCULATORUL DE BORD ORBITAR</span>
+            <h3 id="briefing-title" class="briefing-title">Raport de Sosire la Destinație</h3>
+          </div>
+          <button
+            id="btn-briefing-close"
+            type="button"
+            class="hud-icon-btn"
+            title="Închide raportul de sosire"
+            aria-label="Închide raportul"
+          >
+            ✕
+          </button>
+        </div>
+
+        <p id="briefing-headline" class="briefing-headline"></p>
+
+        <div class="briefing-metrics-list">
+          <div id="briefing-temp" class="briefing-metric-item"></div>
+          <div id="briefing-distances" class="briefing-metric-item"></div>
+          <div id="briefing-earth-clock" class="briefing-metric-item briefing-clock-highlight"></div>
+          <div id="briefing-observation" class="briefing-metric-item briefing-observation-box"></div>
+        </div>
+
+        <div class="briefing-actions-row">
+          <button id="btn-briefing-repeat-audio" type="button" class="hud-btn hud-btn-cyan">
+            🔊 Repetă Raportul Audio
+          </button>
+          <button id="btn-briefing-open-study" type="button" class="hud-btn hud-btn-amber">
+            📖 Deschide Fișa Completă / Printează
+          </button>
+          <button id="btn-briefing-next-dest" type="button" class="hud-btn">
+            🚀 Alege Următoarea Destinație
+          </button>
+        </div>
+      </aside>
+
+      <!-- 6. Joystick Tactil și Comenzi Rapide pe Ecran (pentru Tablete / Touch) -->
+      <div class="cockpit-touch-cluster" aria-label="Comenzi tactile de zbor">
+        <div id="cockpit-touch-joystick" class="cockpit-joystick-pad" title="Trage pentru viraj și propulsie">
+          <div id="cockpit-joystick-knob" class="cockpit-joystick-knob">🕹️</div>
+        </div>
+        <div class="cockpit-touch-buttons">
+          <button id="btn-touch-boost" type="button" class="hud-btn cockpit-boost-btn">
+            ⚡ Hyper-Boost (Shift)
+          </button>
+          <div class="cockpit-roll-row">
+            <button id="btn-touch-roll-left" type="button" class="hud-btn" title="Înclină spre stânga (Q)">
+              ↺ Q
+            </button>
+            <button id="btn-touch-roll-right" type="button" class="hud-btn" title="Înclină spre dreapta (E)">
+              E ↻
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7. Consola de Bord Inferioară (Instrumente, Selectorul celor 3 Nave și Pilot Automat) -->
+      <footer id="cockpit-dashboard" class="cockpit-dashboard" aria-label="Instrumente la bord și selector nave">
+        <!-- Rândul 1: Selectorul în timp real al celor 3 Nave Spațiale + Consola Pilot Automat -->
+        <div class="bento-card cockpit-ships-and-nav-row">
+          <div class="cockpit-ships-selector" role="group" aria-label="Alege nava spațială">
+            <button
+              id="btn-ship-vlaicu1"
+              type="button"
+              class="cockpit-ship-card is-selected"
+              data-ship-id="vlaicu1"
+            >
+              <span class="ship-card-title">🚀 Racheta "Vlaicu-1"</span>
+              <span class="ship-card-sub">Chimică • 50.000 km/h</span>
+            </button>
+            <button
+              id="btn-ship-coandax"
+              type="button"
+              class="cockpit-ship-card"
+              data-ship-id="coandax"
+            >
+              <span class="ship-card-title">🛸 Nava "Coandă-X"</span>
+              <span class="ship-card-sub">Fuziune &amp; Plasmă • 1.500.000 km/h</span>
+            </button>
+            <button
+              id="btn-ship-luceafarul"
+              type="button"
+              class="cockpit-ship-card"
+              data-ship-id="luceafarul"
+            >
+              <span class="ship-card-title">✨ Astronava "Luceafărul"</span>
+              <span class="ship-card-sub">Fotonică / Cuantică • 1c (Lumină)</span>
+            </button>
+          </div>
+
+          <!-- Pilot Automat ("Zboară către...") -->
+          <div class="cockpit-autopilot-box">
+            <div class="autopilot-quick-Variable-row">
+              <label for="cockpit-target-select" class="cockpit-inst-label">Țintă parbriz:</label>
+              <select id="cockpit-target-select" class="cockpit-target-select" aria-label="Selectează destinația">
+              </select>
+              <button
+                id="btn-cockpit-fly-there"
+                type="button"
+                class="hud-btn hud-btn-active-amber cockpit-fly-cta-btn"
+              >
+                🔥 Zboară Acolo
+              </button>
+            </div>
+            <div class="autopilot-quick-pills" id="cockpit-quick-targets">
+              <button type="button" class="cockpit-dest-pill" data-quick-fly="earth">🌍 Pământ</button>
+              <button type="button" class="cockpit-dest-pill" data-quick-fly="moon">🌙 Lună</button>
+              <button type="button" class="cockpit-dest-pill" data-quick-fly="mars">🔴 Marte</button>
+              <button type="button" class="cockpit-dest-pill" data-quick-fly="jupiter">🟠 Jupiter</button>
+              <button type="button" class="cockpit-dest-pill" data-quick-fly="saturn">🪐 Saturn</button>
+              <button type="button" class="cockpit-dest-pill" data-quick-fly="neptune">🔵 Neptun</button>
+              <button type="button" class="cockpit-dest-pill" data-quick-fly="pluto">❄️ Pluto</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rândul 2: Instrumente la Bord (Vitezometru, Scut Deflector, Data pe Pământ, Ghid Taste) -->
+        <div class="bento-card cockpit-instruments-bar">
+          <div class="cockpit-instrument-cell">
+            <span class="cockpit-inst-label">⚡ VITEZOMETRU NAVĂ</span>
+            <strong id="cockpit-speed-kmh" class="cockpit-inst-value highlight-cyan">0 km/h</strong>
+            <span id="cockpit-speed-light" class="cockpit-inst-sub">0,0000% din viteza luminii (c)</span>
+          </div>
+
+          <div class="cockpit-instrument-cell">
+            <span class="cockpit-inst-label">🛡️ SCUT DEFLECTOR &amp; POZIȚIE</span>
+            <strong id="cockpit-inst-shield" class="cockpit-inst-value">ÎN AȘTEPTARE (STANDBY)</strong>
+            <span id="cockpit-helio-au" class="cockpit-inst-sub">Distanță de Soare: 1,00 UA</span>
+          </div>
+
+          <div class="cockpit-instrument-cell">
+            <span class="cockpit-inst-label">🌍 DATA CURENTĂ PE PĂMÂNT</span>
+            <strong id="cockpit-earth-date" class="cockpit-inst-value highlight-amber">—</strong>
+            <span id="cockpit-trip-elapsed" class="cockpit-inst-sub">Ultimul zbor: —</span>
+          </div>
+
+          <div class="cockpit-instrument-cell cockpit-keys-guide">
+            <span class="cockpit-inst-label">🕹️ COMENZI DE ZBOR</span>
+            <span class="cockpit-keys-line">
+              <kbd>W</kbd>/<kbd>S</kbd> sau <kbd>↑</kbd>/<kbd>↓</kbd> Accelerație •
+              <kbd>A</kbd>/<kbd>D</kbd> Viraj •
+              <kbd>Q</kbd>/<kbd>E</kbd> Înclinare •
+              <kbd>Shift</kbd> Boost
+            </span>
+            <span id="cockpit-ship-didactic-note" class="cockpit-inst-sub">
+              Click pe orice etichetă AR de pe parbriz și apasă „🔥 Zboară Acolo”!
+            </span>
+          </div>
+        </div>
+      </footer>
+    `;
+  }
+
+  private populateTargetSelectDropdown(): void {
+    const selectEl = document.getElementById('cockpit-target-select') as HTMLSelectElement | null;
+    if (!selectEl) return;
+
+    const bodies = this.orbitalEngine
+      .getBodies()
+      .filter((b) => b.data.category !== 'rover');
+
+    selectEl.innerHTML = bodies
+      .map(
+        (b) =>
+          `<option value="${b.data.id}">${b.data.name} (${b.meta.categoryNameRo})</option>`
+      )
+      .join('');
+
+    const defaultId = this.pilot.getSelectedTarget()?.data.id ?? 'jupiter';
+    selectEl.value = defaultId;
+  }
+
+  /**
+   * Creează etichetele AR pe parbriz pentru corpurile cerești și sondele din scenă.
+   */
+  private buildArLabels(): void {
+    if (!this.arLabelsContainer) return;
+    this.arLabelsContainer.innerHTML = '';
+    this.arLabels.clear();
+
+    for (const body of this.orbitalEngine.getBodies()) {
+      if (body.data.category === 'rover') continue;
+
+      const root = document.createElement('div');
+      root.className = 'cockpit-ar-marker';
+      root.setAttribute('data-cockpit-ar-id', body.data.id);
+
+      const selectBtn = document.createElement('button');
+      selectBtn.type = 'button';
+      selectBtn.className = 'cockpit-ar-tag-btn';
+      selectBtn.setAttribute('data-ar-select-id', body.data.id);
+
+      const dotSpan = document.createElement('span');
+      dotSpan.className = 'cockpit-ar-dot';
+      dotSpan.style.background = body.data.color;
+
+      const nameSpan = document.createElement('span');
+      nameSpan.className = 'cockpit-ar-name';
+      nameSpan.textContent = body.data.name;
+
+      const distSpan = document.createElement('span');
+      distSpan.className = 'cockpit-ar-dist';
+      distSpan.textContent = '— UA';
+
+      selectBtn.appendChild(dotSpan);
+      selectBtn.appendChild(nameSpan);
+      selectBtn.appendChild(distSpan);
+
+      const flyBtn = document.createElement('button');
+      flyBtn.type = 'button';
+      flyBtn.className = 'cockpit-ar-fly-btn';
+      flyBtn.setAttribute('data-ar-fly-id', body.data.id);
+      flyBtn.textContent = '🔥 Zboară Acolo';
+
+      selectBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.handleSelectTargetOnWindshield(body.data.id);
+      });
+
+      flyBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.handleFlyToTarget(body.data.id);
+      });
+
+      root.appendChild(selectBtn);
+      root.appendChild(flyBtn);
+      this.arLabelsContainer.appendChild(root);
+
+      this.arLabels.set(body.data.id, {
+        root,
+        selectBtn,
+        nameSpan,
+        distSpan,
+        flyBtn,
+      });
+    }
+  }
+
+  private bindEvents(): void {
+    // 1. Selectorul celor 3 nave spațiale
+    const shipIds: SpacecraftId[] = ['vlaicu1', 'coandax', 'luceafarul'];
+    for (const id of shipIds) {
+      const btn = document.getElementById(`btn-ship-${id}`);
+      btn?.addEventListener('click', () => {
+        this.pilot.selectShip(id);
+        this.syncShipThemeAndButtons();
+      });
+    }
+
+    // 2. Selectorul de destinație și butonul "🔥 Zboară Acolo"
+    const selectEl = document.getElementById('cockpit-target-select') as HTMLSelectElement | null;
+    selectEl?.addEventListener('change', () => {
+      if (selectEl.value) {
+        this.handleSelectTargetOnWindshield(selectEl.value);
+      }
+    });
+
+    const btnFlyThere = document.getElementById('btn-cockpit-fly-there');
+    btnFlyThere?.addEventListener('click', () => {
+      const targetId =
+        selectEl?.value || this.pilot.getSelectedTarget()?.data.id || 'jupiter';
+      this.handleFlyToTarget(targetId);
+    });
+
+    // Pastilele rapide pentru destinații principale (Pământ, Lună, Marte, Jupiter, Saturn, Neptun, Pluto)
+    const quickBtns = document.querySelectorAll<HTMLButtonElement>('[data-quick-fly]');
+    quickBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const bodyId = btn.dataset.quickFly || btn.getAttribute('data-quick-fly');
+        if (bodyId) {
+          this.handleFlyToTarget(bodyId);
+        }
+      });
+    });
+
+    // 3. Buton ieșire din Mod Pilot
+    const btnExit = document.getElementById('btn-cockpit-exit');
+    btnExit?.addEventListener('click', () => {
+      this.stopCockpitSpeech();
+      this.pilot.setPilotMode(false);
+      this.callbacks.onExitPilotMode();
+    });
+
+    // 4. Alerta pentru Centura de Asteroizi / Centura Kuiper
+    const btnBeltClose = document.getElementById('btn-cockpit-belt-alert-close');
+    btnBeltClose?.addEventListener('click', () => {
+      document.getElementById('cockpit-belt-alert')?.classList.add('is-hidden');
+    });
+
+    // 5. Butoanele din Briefingul de Sosire al Calculatorului de Bord
+    const btnBriefingClose = document.getElementById('btn-briefing-close');
+    btnBriefingClose?.addEventListener('click', () => {
+      this.stopCockpitSpeech();
+      document.getElementById('cockpit-arrival-briefing')?.classList.add('is-hidden');
+    });
+
+    const btnRepeatAudio = document.getElementById('btn-briefing-repeat-audio');
+    btnRepeatAudio?.addEventListener('click', () => {
+      if (this.currentArrivalReport) {
+        this.speakTextRo(this.currentArrivalReport.fullSpeechTextRo, 'arrival');
+      }
+    });
+
+    const btnOpenStudy = document.getElementById('btn-briefing-open-study');
+    btnOpenStudy?.addEventListener('click', () => {
+      if (this.currentArrivalReport) {
+        this.callbacks.onOpenStudySheet(this.currentArrivalReport.body);
+      }
+    });
+
+    const btnNextDest = document.getElementById('btn-briefing-next-dest');
+    btnNextDest?.addEventListener('click', () => {
+      this.stopCockpitSpeech();
+      document.getElementById('cockpit-arrival-briefing')?.classList.add('is-hidden');
+      const selectTarget = document.getElementById(
+        'cockpit-target-select'
+      ) as HTMLSelectElement | null;
+      selectTarget?.focus?.();
+    });
+
+    // 6. Joystick tactil & butoane tactile pentru tablete
+    this.bindTouchFlightControls();
+
+    // 7. Evenimente de la SpacecraftPilot
+    this.pilot.onModeChange((active) => {
+      this.syncVisibility(active);
+      if (!active) {
+        this.stopCockpitSpeech();
+      }
+    });
+
+    this.pilot.onShipChange(() => {
+      this.syncShipThemeAndButtons();
+    });
+
+    this.pilot.onBeltAlert((zone, messageRo) => {
+      this.showBeltAlertBanner(zone, messageRo);
+    });
+
+    this.pilot.onArrivalBriefing((report) => {
+      this.showArrivalBriefing(report);
+    });
+  }
+
+  private bindTouchFlightControls(): void {
+    const pad = document.getElementById('cockpit-touch-joystick');
+    const knob = document.getElementById('cockpit-joystick-knob');
+    let dragging = false;
+
+    const updateJoystickFromEvent = (clientX: number, clientY: number) => {
+      if (!pad) return;
+      const rect = pad.getBoundingClientRect();
+      const cx = rect.left + rect.width * 0.5;
+      const cy = rect.top + rect.height * 0.5;
+      const maxR = Math.max(24, rect.width * 0.42);
+      const dx = Math.max(-maxR, Math.min(maxR, clientX - cx));
+      const dy = Math.max(-maxR, Math.min(maxR, clientY - cy));
+
+      if (knob) {
+        knob.style.transform = `translate(${dx.toFixed(1)}px, ${dy.toFixed(1)}px)`;
+      }
+      this.pilot.setTouchControls({
+        joystickX: dx / maxR,
+        joystickY: -dy / maxR,
+      });
+    };
+
+    const resetJoystick = () => {
+      dragging = false;
+      if (knob) {
+        knob.style.transform = 'translate(0px, 0px)';
+      }
+      this.pilot.setTouchControls({ joystickX: 0, joystickY: 0 });
+    };
+
+    pad?.addEventListener('pointerdown', (e: PointerEvent) => {
+      dragging = true;
+      updateJoystickFromEvent(e.clientX, e.clientY);
+    });
+    window.addEventListener('pointermove', (e: PointerEvent) => {
+      if (!dragging) return;
+      updateJoystickFromEvent(e.clientX, e.clientY);
+    });
+    window.addEventListener('pointerup', () => {
+      if (dragging) resetJoystick();
+    });
+
+    const btnBoost = document.getElementById('btn-touch-boost');
+    btnBoost?.addEventListener('pointerdown', () => {
+      this.pilot.setTouchControls({ boost: true });
+      btnBoost.classList.add('hud-btn-active-amber');
+    });
+    const releaseBoost = () => {
+      this.pilot.setTouchControls({ boost: false });
+      btnBoost?.classList.remove('hud-btn-active-amber');
+    };
+    btnBoost?.addEventListener('pointerup', releaseBoost);
+    btnBoost?.addEventListener('pointerleave', releaseBoost);
+
+    const btnRollL = document.getElementById('btn-touch-roll-left');
+    const btnRollR = document.getElementById('btn-touch-roll-right');
+    btnRollL?.addEventListener('pointerdown', () => this.pilot.setTouchControls({ roll: 1 }));
+    btnRollL?.addEventListener('pointerup', () => this.pilot.setTouchControls({ roll: 0 }));
+    btnRollR?.addEventListener('pointerdown', () => this.pilot.setTouchControls({ roll: -1 }));
+    btnRollR?.addEventListener('pointerup', () => this.pilot.setTouchControls({ roll: 0 }));
+  }
+
+  public handleSelectTargetOnWindshield(bodyId: string): void {
+    const target = this.pilot.setSelectedTarget(bodyId);
+    const selectEl = document.getElementById('cockpit-target-select') as HTMLSelectElement | null;
+    if (selectEl && target) {
+      selectEl.value = target.data.id;
+    }
+
+    const btnFlyThere = document.getElementById('btn-cockpit-fly-there');
+    if (btnFlyThere && target) {
+      btnFlyThere.textContent = `🔥 Zboară Acolo (${target.data.name})`;
+    }
+
+    for (const [id, entry] of this.arLabels.entries()) {
+      entry.root.classList.toggle('is-target-selected', id === bodyId);
+    }
+  }
+
+  public handleFlyToTarget(bodyId: string): void {
+    this.handleSelectTargetOnWindshield(bodyId);
+    document.getElementById('cockpit-arrival-briefing')?.classList.add('is-hidden');
+    this.pilot.engageAutopilot(bodyId);
+  }
+
+  private syncVisibility(active: boolean): void {
+    this.rootEl?.classList.toggle('is-hidden', !active);
+    const orbitLabelsEl = document.getElementById('labels-container');
+    if (orbitLabelsEl) {
+      orbitLabelsEl.style.display = active ? 'none' : '';
+    }
+    const bottomDockEl = document.getElementById('hud-bottom-dock');
+    if (bottomDockEl) {
+      bottomDockEl.classList.toggle('is-hidden', active);
+    }
+    if (active) {
+      const selected = this.pilot.getSelectedTarget();
+      if (selected) {
+        this.handleSelectTargetOnWindshield(selected.data.id);
+      }
+    }
+  }
+
+  private syncShipThemeAndButtons(): void {
+    const ship = this.pilot.getCurrentShip();
+    this.rootEl?.setAttribute('data-cockpit-theme', ship.theme);
+
+    const titleEl = document.getElementById('cockpit-active-ship-title');
+    const propEl = document.getElementById('cockpit-active-ship-propulsion');
+    const noteEl = document.getElementById('cockpit-ship-didactic-note');
+
+    if (titleEl) titleEl.textContent = ship.nameRo;
+    if (propEl) {
+      propEl.textContent = `${ship.propulsionRo} • ${ship.speedKmh.toLocaleString('ro-RO')} km/h`;
+    }
+    if (noteEl) {
+      noteEl.textContent = ship.didacticSummaryRo;
+    }
+
+    const shipIds: SpacecraftId[] = ['vlaicu1', 'coandax', 'luceafarul'];
+    for (const id of shipIds) {
+      const btn = document.getElementById(`btn-ship-${id}`);
+      btn?.classList.toggle('is-selected', id === ship.id);
+    }
+  }
+
+  /**
+   * Afișează pe parbriz alerta Calculatorului de Bord la traversarea Centurii de Asteroizi sau a Centurii Kuiper
+   * și o citește vocal dacă nu rulează deja un raport de sosire.
+   */
+  private showBeltAlertBanner(zone: 'asteroid_belt' | 'kuiper_belt', messageRo: string): void {
+    const alertBox = document.getElementById('cockpit-belt-alert');
+    const alertTitle = document.getElementById('cockpit-belt-alert-title');
+    const alertText = document.getElementById('cockpit-belt-alert-text');
+    if (!alertBox || !alertText) return;
+
+    alertBox.setAttribute('data-belt-zone', zone);
+    if (alertTitle) {
+      alertTitle.textContent =
+        zone === 'kuiper_belt'
+          ? '❄️ SCUTURI DEFLECTOARE & TERMICE: ACTIVE (CENTURA KUIPER)'
+          : '🛡️ SCUTURI DEFLECTOARE: ACTIVE (CENTURA DE ASTEROIZI)';
+    }
+    alertText.textContent = messageRo;
+    alertBox.classList.remove('is-hidden');
+
+    if (this.beltAlertTimeoutId !== null) {
+      window.clearTimeout(this.beltAlertTimeoutId);
+    }
+    this.beltAlertTimeoutId = window.setTimeout(() => {
+      alertBox.classList.add('is-hidden');
+    }, 14_000);
+    (this.beltAlertTimeoutId as unknown as { unref?: () => void })?.unref?.();
+
+    if (!this.isSpeakingArrival) {
+      this.speakTextRo(messageRo, 'belt');
+    }
+  }
+
+  /**
+   * Afișează pe parbriz fereastra holografică a Calculatorului de Bord la sosirea lângă un corp ceresc
+   * și citește automat cu voce tare în română raportul de sosire.
+   */
+  public showArrivalBriefing(report: ArrivalBriefingReport): void {
+    this.currentArrivalReport = report;
+
+    const briefingEl = document.getElementById('cockpit-arrival-briefing');
+    const titleEl = document.getElementById('briefing-title');
+    const headlineEl = document.getElementById('briefing-headline');
+    const tempEl = document.getElementById('briefing-temp');
+    const distEl = document.getElementById('briefing-distances');
+    const clockEl = document.getElementById('briefing-earth-clock');
+    const obsEl = document.getElementById('briefing-observation');
+
+    if (titleEl) {
+      titleEl.textContent = `Sosire la ${report.body.data.name} (${report.body.meta.categoryNameRo})`;
+    }
+    if (headlineEl) headlineEl.textContent = report.headlineRo;
+    if (tempEl) tempEl.textContent = report.temperatureLineRo;
+    if (distEl) distEl.textContent = report.distancesLineRo;
+    if (clockEl) clockEl.textContent = report.earthClockLineRo;
+    if (obsEl) obsEl.textContent = report.observationLineRo;
+
+    briefingEl?.classList.remove('is-hidden');
+
+    this.speakTextRo(report.fullSpeechTextRo, 'arrival');
+  }
+
+  private speakTextRo(textRo: string, kind: 'arrival' | 'belt'): void {
+    if (!('speechSynthesis' in window)) return;
+    try {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(textRo);
+      utterance.lang = 'ro-RO';
+      utterance.rate = 0.97;
+
+      const voices = window.speechSynthesis.getVoices?.() ?? [];
+      const roVoice = voices.find((v) => v.lang?.toLowerCase().startsWith('ro'));
+      if (roVoice) {
+        utterance.voice = roVoice;
+      }
+
+      this.isSpeakingArrival = kind === 'arrival';
+      SpaceAmbientEngine.getInstance().setDucking(true);
+
+      utterance.onend = () => {
+        this.isSpeakingArrival = false;
+        SpaceAmbientEngine.getInstance().setDucking(false);
+      };
+      utterance.onerror = () => {
+        this.isSpeakingArrival = false;
+        SpaceAmbientEngine.getInstance().setDucking(false);
+      };
+
+      window.speechSynthesis.speak(utterance);
+    } catch (_e) {
+      this.isSpeakingArrival = false;
+    }
+  }
+
+  public stopCockpitSpeech(): void {
+    if ('speechSynthesis' in window) {
+      try {
+        window.speechSynthesis.cancel();
+      } catch (_e) {}
+    }
+    this.isSpeakingArrival = false;
+    SpaceAmbientEngine.getInstance().setDucking(false);
+  }
+
+  /**
+   * Actualizează în fiecare cadru etichetele AR proiectate pe parbriz și instrumentele de bord.
+   */
+  public update(): void {
+    if (!this.pilot.isActive()) return;
+
+    const tel = this.pilot.getTelemetry();
+
+    // 1. Actualizăm Vitezometrul (km/h și % din viteza luminii)
+    const speedKmhEl = document.getElementById('cockpit-speed-kmh');
+    const speedLightEl = document.getElementById('cockpit-speed-light');
+    if (speedKmhEl) {
+      speedKmhEl.textContent = `${Math.round(tel.currentSpeedKmh).toLocaleString('ro-RO')} km/h`;
+    }
+    if (speedLightEl) {
+      const pctStr =
+        tel.currentLightPercent >= 10
+          ? tel.currentLightPercent.toFixed(1).replace('.', ',')
+          : tel.currentLightPercent.toFixed(4).replace('.', ',');
+      speedLightEl.textContent = `${pctStr}% din viteza luminii (c)`;
+    }
+
+    // 2. Actualizăm Scuturile Deflectoare (SVG Halo + Indicatori de Bord)
+    const shieldHalo = document.getElementById('cockpit-shield-halo');
+    const shieldBannerPill = document.getElementById('cockpit-shield-banner-pill');
+    const shieldStatusTop = document.getElementById('cockpit-shield-status');
+    const shieldInstBottom = document.getElementById('cockpit-inst-shield');
+    const helioAuEl = document.getElementById('cockpit-helio-au');
+
+    shieldHalo?.classList.toggle('is-active', tel.shieldActive);
+    shieldHalo?.classList.toggle('is-kuiper', tel.activeBeltZone === 'kuiper_belt');
+    shieldBannerPill?.classList.toggle('is-active', tel.shieldActive);
+    shieldBannerPill?.classList.toggle('is-kuiper', tel.activeBeltZone === 'kuiper_belt');
+
+    if (shieldStatusTop) {
+      shieldStatusTop.textContent = tel.shieldActive
+        ? tel.activeBeltZone === 'kuiper_belt'
+          ? '🛡️ SCUTURI DEFLECTOARE: ACTIVE (CENTURA KUIPER)'
+          : '🛡️ SCUTURI DEFLECTOARE: ACTIVE'
+        : '🛡️ SCUTURI DEFLECTOARE: STANDBY';
+    }
+    if (shieldInstBottom) {
+      shieldInstBottom.textContent = tel.shieldActive
+        ? '🛡️ SCUTURI DEFLECTOARE: ACTIVE'
+        : 'ÎN AȘTEPTARE (STANDBY)';
+      shieldInstBottom.classList.toggle('highlight-cyan', tel.shieldActive);
+    }
+    if (helioAuEl) {
+      helioAuEl.textContent = `Distanță de Soare: ${tel.heliocentricDistanceAu
+        .toFixed(2)
+        .replace('.', ',')} UA`;
+    }
+
+    // 3. Actualizăm Data curentă pe Pământ și durata ultimei călătorii
+    const earthDateEl = document.getElementById('cockpit-earth-date');
+    const tripElapsedEl = document.getElementById('cockpit-trip-elapsed');
+    if (earthDateEl) {
+      const formattedDate = tel.earthDate.toLocaleDateString('ro-RO', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+      });
+      earthDateEl.textContent = `${formattedDate} (Anul ${tel.earthDate.getFullYear()})`;
+    }
+    if (tripElapsedEl) {
+      tripElapsedEl.textContent = `Ultimul zbor: ${tel.lastTripDurationRo}`;
+    }
+
+    // 4. Proiecția 3D -> 2D a etichetelor AR pe parbrizul navei
+    this.updateWindshieldArLabels(tel.selectedTargetBody?.data.id ?? null);
+  }
+
+  private updateWindshieldArLabels(selectedId: string | null): void {
+    const width = window.innerWidth || 1280;
+    const height = window.innerHeight || 800;
+    const shipPos = this.pilot.getPosition();
+
+    this.camera.updateMatrixWorld();
+
+    for (const body of this.orbitalEngine.getBodies()) {
+      const entry = this.arLabels.get(body.data.id);
+      if (!entry) continue;
+
+      if (!body.rootGroup.visible || body.data.category === 'rover') {
+        entry.root.style.display = 'none';
+        continue;
+      }
+
+      // Pentru sateliți și stații orbitale, le afișăm pe parbriz când suntem aproape de planeta-mamă sau când sunt selectate
+      const isSelected = body.data.id === selectedId;
+      if (body.data.parentId && !isSelected) {
+        const sceneDist = shipPos.distanceTo(body.worldPosition);
+        if (sceneDist > 42) {
+          entry.root.style.display = 'none';
+          continue;
+        }
+      }
+
+      this.tempProj.copy(body.worldPosition);
+      this.tempProj.y += body.visualRadius * 1.15;
+      this.tempProj.project(this.camera);
+
+      // Afișăm doar corpurile aflate în fața parbrizului (în frustum: -1 <= z <= 1)
+      if (this.tempProj.z < -1 || this.tempProj.z > 1) {
+        entry.root.style.display = 'none';
+        continue;
+      }
+
+      const x = (this.tempProj.x * 0.5 + 0.5) * width;
+      const y = (-this.tempProj.y * 0.5 + 0.5) * height;
+
+      if (x < 50 || x > width - 50 || y < 65 || y > height - 155) {
+        entry.root.style.display = 'none';
+        continue;
+      }
+
+      // Calculăm distanța astronomică reală dintre navă și corpul ceresc
+      const shipAu = this.pilot.getTelemetry().heliocentricDistanceAu;
+      const bodyAu = body.distanceFromSunAu;
+      const approxAu = Math.max(
+        0.0005,
+        Math.hypot(
+          bodyAu - shipAu,
+          shipPos.distanceTo(body.worldPosition) * 0.015
+        )
+      );
+
+      const distLabel =
+        approxAu < 0.02
+          ? `${Math.round(approxAu * KM_PER_AU_CONST).toLocaleString('ro-RO')} km`
+          : `${approxAu.toFixed(2).replace('.', ',')} UA`;
+
+      entry.distSpan.textContent = distLabel;
+      entry.root.style.display = 'inline-flex';
+      entry.root.style.left = `${x.toFixed(1)}px`;
+      entry.root.style.top = `${y.toFixed(1)}px`;
+      entry.root.classList.toggle('is-target-selected', isSelected);
+    }
+  }
+}

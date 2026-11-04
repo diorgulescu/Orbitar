@@ -144,6 +144,34 @@ export class ScaleManager {
   }
 
   /**
+   * Transformă o poziție 3D din scenă înapoi în distanța heliocentrică echivalentă în Unități Astronomice (UA).
+   */
+  public unscaleHeliocentricDistanceAu(scenePos: THREE.Vector3): number {
+    const sceneDist = scenePos.length();
+    if (sceneDist <= 0.0001) return 0;
+
+    if (this.mode === 'real') {
+      return sceneDist / REAL_UNITS_PER_AU;
+    }
+
+    if (sceneDist <= 8.0) {
+      return 0;
+    }
+    return Math.pow((sceneDist - 8.0) / 20.0, 1 / 0.62);
+  }
+
+  /**
+   * Transformă un vector 3D din coordonate de scenă înapoi în vector heliocentric în UA.
+   */
+  public unscaleHeliocentricPosition(scenePos: THREE.Vector3): THREE.Vector3 {
+    const distAu = this.unscaleHeliocentricDistanceAu(scenePos);
+    if (distAu === 0 || scenePos.lengthSq() === 0) {
+      return new THREE.Vector3(0, 0, 0);
+    }
+    return scenePos.clone().normalize().multiplyScalar(distAu);
+  }
+
+  /**
    * Scalează poziția unui satelit natural, stații orbitale sau rover relativ la planeta-mamă,
    * astfel încât în Scara Didactică orbitele locale să fie clar separate în jurul planetei.
    */

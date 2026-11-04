@@ -1381,3 +1381,611 @@ body {
     width: 340px;
   }
 }
+
+/* ============================================================================
+   🚀 MINI-JOC EDUCATIV: "LA MANȘA NAVEI (MOD PILOT)" & PARBRIZUL COCKPIT SVG
+   ============================================================================ */
+
+#btn-pilot-mode-toggle,
+.hud-btn-pilot {
+  background: linear-gradient(135deg, rgba(255, 183, 3, 0.28) 0%, rgba(192, 132, 252, 0.28) 100%);
+  border: 1.5px solid var(--accent-amber);
+  color: #ffffff;
+  font-weight: 800;
+  box-shadow: 0 0 16px rgba(255, 183, 3, 0.28);
+}
+
+#btn-pilot-mode-toggle:hover,
+.hud-btn-pilot:hover {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 22px rgba(0, 240, 255, 0.42);
+}
+
+.cockpit-hud-overlay {
+  --cockpit-accent: #ffb703;
+  --cockpit-accent-glow: rgba(255, 183, 3, 0.35);
+  position: fixed;
+  inset: 0;
+  z-index: 600;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.cockpit-hud-overlay[data-cockpit-theme='amber'] {
+  --cockpit-accent: #ffb703;
+  --cockpit-accent-glow: rgba(255, 183, 3, 0.38);
+}
+
+.cockpit-hud-overlay[data-cockpit-theme='cyan'] {
+  --cockpit-accent: #00f0ff;
+  --cockpit-accent-glow: rgba(0, 240, 255, 0.38);
+}
+
+.cockpit-hud-overlay[data-cockpit-theme='violet'] {
+  --cockpit-accent: #c084fc;
+  --cockpit-accent-glow: rgba(192, 132, 252, 0.42);
+}
+
+/* 1. SVG Vectorial Parbriz & Scuturi Deflectoare */
+.cockpit-svg-frame {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 602;
+}
+
+.cockpit-canopy-arch {
+  fill: rgba(5, 8, 18, 0.68);
+  stroke: var(--cockpit-accent);
+  stroke-width: 1.8;
+  stroke-opacity: 0.55;
+}
+
+.cockpit-strut-line {
+  fill: none;
+  stroke: var(--cockpit-accent);
+  stroke-width: 2.8;
+  stroke-opacity: 0.42;
+}
+
+.cockpit-frame-accent {
+  fill: none;
+  stroke: var(--cockpit-accent);
+  stroke-width: 1.5;
+  stroke-dasharray: 12 6;
+  stroke-opacity: 0.45;
+}
+
+.cockpit-hud-ticks line {
+  stroke: var(--cockpit-accent);
+  stroke-width: 1.5;
+  stroke-opacity: 0.45;
+}
+
+.cockpit-center-reticle .reticle-ring {
+  fill: none;
+  stroke: var(--cockpit-accent);
+  stroke-width: 1.4;
+  stroke-opacity: 0.55;
+  stroke-dasharray: 8 5;
+}
+
+.cockpit-center-reticle .reticle-cross {
+  stroke: var(--cockpit-accent);
+  stroke-width: 1.4;
+  stroke-opacity: 0.65;
+}
+
+.cockpit-center-reticle .reticle-dot {
+  fill: var(--cockpit-accent);
+  opacity: 0.85;
+}
+
+/* Halou pulsant Scuturi Deflectoare */
+.cockpit-shield-halo {
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+
+.cockpit-shield-halo.is-active {
+  opacity: 1;
+  animation: shield-pulse-anim 1.6s ease-in-out infinite;
+}
+
+.shield-hex-border {
+  fill: none;
+  stroke: #00f0ff;
+  stroke-width: 5;
+  stroke-dasharray: 24 10;
+  filter: drop-shadow(0 0 16px rgba(0, 240, 255, 0.85));
+}
+
+.cockpit-shield-halo.is-kuiper .shield-hex-border {
+  stroke: #a855f7;
+  filter: drop-shadow(0 0 18px rgba(168, 85, 247, 0.9));
+}
+
+@keyframes shield-pulse-anim {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* 2. Etichete AR pe Sticla Parbrizului */
+.cockpit-ar-labels {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 605;
+}
+
+.cockpit-ar-marker {
+  position: absolute;
+  transform: translate(-50%, -125%);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  pointer-events: auto;
+  z-index: 610;
+}
+
+.cockpit-ar-tag-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(6, 10, 22, 0.84);
+  border: 1px solid var(--cockpit-accent);
+  color: var(--text-main);
+  font-size: 0.74rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.65);
+  transition: all 0.18s ease;
+}
+
+.cockpit-ar-tag-btn:hover,
+.cockpit-ar-marker.is-target-selected .cockpit-ar-tag-btn {
+  background: rgba(15, 23, 42, 0.96);
+  border-color: #ffffff;
+  box-shadow: 0 0 16px var(--cockpit-accent-glow);
+}
+
+.cockpit-ar-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.cockpit-ar-dist {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--cockpit-accent);
+  padding-left: 4px;
+  border-left: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.cockpit-ar-fly-btn {
+  display: none;
+  align-items: center;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ffb703 0%, #f97316 100%);
+  border: 1px solid #ffffff;
+  color: #05070d;
+  font-size: 0.72rem;
+  font-weight: 800;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 0 14px rgba(255, 183, 3, 0.65);
+}
+
+.cockpit-ar-marker.is-target-selected .cockpit-ar-fly-btn,
+.cockpit-ar-marker:hover .cockpit-ar-fly-btn {
+  display: inline-flex;
+}
+
+/* 3. Bara Superioară a Cabinei */
+.cockpit-top-bar {
+  position: fixed;
+  top: var(--hud-header-offset, 118px);
+  left: 16px;
+  right: 16px;
+  z-index: 620;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.cockpit-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border-color: var(--cockpit-accent);
+}
+
+.cockpit-mode-badge {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--cockpit-accent);
+}
+
+.cockpit-ship-title {
+  font-size: 0.86rem;
+  color: #ffffff;
+}
+
+.cockpit-shield-pill {
+  border-color: rgba(148, 163, 184, 0.35);
+  font-size: 0.76rem;
+  font-weight: 800;
+  color: var(--text-muted);
+  transition: all 0.25s ease;
+}
+
+.cockpit-shield-pill.is-active {
+  background: rgba(0, 240, 255, 0.22);
+  border-color: #00f0ff;
+  color: #00f0ff;
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.45);
+}
+
+.cockpit-shield-pill.is-active.is-kuiper {
+  background: rgba(192, 132, 252, 0.24);
+  border-color: #c084fc;
+  color: #e9d5ff;
+  box-shadow: 0 0 20px rgba(192, 132, 252, 0.5);
+}
+
+.cockpit-exit-btn {
+  pointer-events: auto;
+}
+
+/* 4. Alertă Centura de Asteroizi / Centura Kuiper pe Parbriz */
+.cockpit-belt-alert {
+  position: fixed;
+  top: calc(var(--hud-header-offset, 118px) + 56px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(680px, calc(100vw - 32px));
+  z-index: 640;
+  background: rgba(6, 18, 34, 0.94);
+  border: 2px solid #00f0ff;
+  box-shadow: 0 0 28px rgba(0, 240, 255, 0.42);
+  padding: 12px 16px;
+}
+
+.cockpit-belt-alert[data-belt-zone='kuiper_belt'] {
+  border-color: #c084fc;
+  box-shadow: 0 0 28px rgba(192, 132, 252, 0.48);
+}
+
+.belt-alert-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+  color: #00f0ff;
+  font-size: 0.84rem;
+}
+
+.cockpit-belt-alert[data-belt-zone='kuiper_belt'] .belt-alert-header {
+  color: #e9d5ff;
+}
+
+.belt-alert-body {
+  font-size: 0.82rem;
+  line-height: 1.48;
+  color: #f0f6fc;
+}
+
+/* 5. Fereastra Holografică Calculator de Bord la Destinație (Briefing de Sosire) */
+.cockpit-arrival-briefing {
+  position: fixed;
+  top: calc(var(--hud-header-offset, 118px) + 56px);
+  right: 20px;
+  width: min(460px, calc(100vw - 32px));
+  max-height: calc(100vh - 310px);
+  overflow-y: auto;
+  z-index: 635;
+  background: rgba(7, 12, 26, 0.94);
+  border: 2px solid var(--cockpit-accent);
+  box-shadow: 0 0 32px var(--cockpit-accent-glow);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.briefing-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.briefing-title {
+  font-size: 1.05rem;
+  color: var(--cockpit-accent);
+  margin-top: 3px;
+}
+
+.briefing-headline {
+  font-size: 0.86rem;
+  font-weight: 700;
+  line-height: 1.45;
+  color: #ffffff;
+}
+
+.briefing-metrics-list {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.briefing-metric-item {
+  font-size: 0.8rem;
+  line-height: 1.42;
+  padding: 7px 10px;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.briefing-clock-highlight {
+  background: rgba(255, 183, 3, 0.14);
+  border-color: rgba(255, 183, 3, 0.45);
+  color: #fde68a;
+  font-weight: 700;
+}
+
+.briefing-observation-box {
+  background: rgba(0, 240, 255, 0.1);
+  border-color: rgba(0, 240, 255, 0.32);
+}
+
+.briefing-actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 2px;
+}
+
+/* 6. Joystick Tactil pentru Tablete */
+.cockpit-touch-cluster {
+  position: fixed;
+  left: 20px;
+  bottom: 168px;
+  z-index: 625;
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  pointer-events: auto;
+}
+
+.cockpit-joystick-pad {
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+  background: rgba(8, 14, 28, 0.82);
+  border: 1.5px solid var(--cockpit-accent);
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  touch-action: none;
+}
+
+.cockpit-joystick-knob {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid var(--cockpit-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  pointer-events: none;
+}
+
+.cockpit-touch-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cockpit-roll-row {
+  display: flex;
+  gap: 6px;
+}
+
+/* 7. Consola de Bord Inferioară (Selector 3 Nave, Pilot Automat și Instrumente) */
+.cockpit-dashboard {
+  position: fixed;
+  left: 14px;
+  right: 14px;
+  bottom: 10px;
+  z-index: 630;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.cockpit-ships-and-nav-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border-color: var(--cockpit-accent);
+}
+
+.cockpit-ships-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cockpit-ship-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 6px 12px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: var(--text-main);
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.cockpit-ship-card:hover {
+  border-color: var(--cockpit-accent);
+}
+
+.cockpit-ship-card.is-selected {
+  background: rgba(255, 255, 255, 0.14);
+  border: 1.5px solid var(--cockpit-accent);
+  box-shadow: 0 0 16px var(--cockpit-accent-glow);
+}
+
+.ship-card-title {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.ship-card-sub {
+  font-size: 0.68rem;
+  color: var(--cockpit-accent);
+}
+
+.cockpit-autopilot-box {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1 1 360px;
+  align-items: flex-end;
+}
+
+.autopilot-quick-Variable-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.cockpit-target-select {
+  background: rgba(5, 9, 20, 0.92);
+  border: 1px solid var(--cockpit-accent);
+  border-radius: 8px;
+  color: var(--text-main);
+  padding: 5px 10px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.cockpit-fly-cta-btn {
+  font-weight: 800;
+}
+
+.autopilot-quick-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.cockpit-dest-pill {
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: var(--text-main);
+  font-size: 0.7rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.cockpit-dest-pill:hover {
+  border-color: var(--cockpit-accent);
+  color: var(--cockpit-accent);
+}
+
+.cockpit-instruments-bar {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(160px, 1fr));
+  gap: 10px;
+  border-color: var(--cockpit-accent);
+}
+
+.cockpit-instrument-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px 8px;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.cockpit-instrument-cell:last-child {
+  border-right: none;
+}
+
+.cockpit-inst-label {
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+.cockpit-inst-value {
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.cockpit-inst-sub {
+  font-size: 0.69rem;
+  color: var(--text-muted);
+}
+
+.cockpit-keys-line {
+  font-size: 0.72rem;
+  color: #e2e8f0;
+}
+
+.cockpit-keys-line kbd {
+  display: inline-block;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+}
+
+@media (max-width: 1024px) {
+  .cockpit-instruments-bar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+

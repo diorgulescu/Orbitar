@@ -29,6 +29,7 @@ export class CameraController {
   private readonly lastTrackedWorldPos = new THREE.Vector3();
   private lastParentRotY = 0;
   private isTransitioning = false;
+  private enabled = true;
   private readonly desiredCameraOffset = new THREE.Vector3(0, 75, 135);
   private readonly selectCallbacks: Set<BodySelectCallback> = new Set();
 
@@ -72,6 +73,24 @@ export class CameraController {
 
   public getTrackedBody(): CelestialBodyInstance | null {
     return this.trackedBody;
+  }
+
+  public setEnabled(enabled: boolean): void {
+    this.enabled = enabled;
+    this.controls.enabled = enabled;
+    if (!enabled) {
+      this.isTransitioning = false;
+      this.domElement.style.cursor = 'crosshair';
+    } else {
+      this.domElement.style.cursor = 'grab';
+      if (this.trackedBody) {
+        this.lastTrackedWorldPos.copy(this.trackedBody.worldPosition);
+      }
+    }
+  }
+
+  public isEnabled(): boolean {
+    return this.enabled;
   }
 
   /**
@@ -160,7 +179,7 @@ export class CameraController {
    * Actualizează în fiecare cadru urmărirea orbitală și interpolarea lină (smooth lerp) a camerei.
    */
   public update(deltaSeconds: number): void {
-    if (!this.trackedBody) return;
+    if (!this.enabled || !this.trackedBody) return;
 
     const currentBodyPos = this.trackedBody.worldPosition;
 
@@ -218,11 +237,13 @@ export class CameraController {
   }
 
   private handlePointerDown = (event: PointerEvent): void => {
+    if (!this.enabled) return;
     this.pointerDownPos.set(event.clientX, event.clientY);
     this.pointerDownTime = performance.now();
   };
 
   private handlePointerUp = (event: PointerEvent): void => {
+    if (!this.enabled) return;
     const dx = event.clientX - this.pointerDownPos.x;
     const dy = event.clientY - this.pointerDownPos.y;
     const distPx = Math.hypot(dx, dy);
@@ -238,6 +259,7 @@ export class CameraController {
   };
 
   private handlePointerMove = (event: PointerEvent): void => {
+    if (!this.enabled) return;
     const pickedBody = this.pickBodyAtClientCoords(event.clientX, event.clientY);
     this.domElement.style.cursor = pickedBody ? 'pointer' : 'grab';
   };

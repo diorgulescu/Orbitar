@@ -5,6 +5,8 @@ node_modules/
 dist/
 dist-landing/
 dist-ssr/
+.test-dist/
+src-tauri/target/
 
 # Local env and logs
 *.local

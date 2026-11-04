@@ -173,6 +173,15 @@
           <span id="orbitar-audio-volume-label" class="ambient-volume-readout">35%</span>
         </div>
         <button
+          id="btn-pilot-mode-toggle"
+          type="button"
+          class="hud-btn hud-btn-pilot"
+          aria-pressed="false"
+          title="Activează mini-jocul La Manșa Navei — pilotează 3 nave spațiale la persoana întâi prin Sistemul Solar (Tasta rapidă: P)"
+        >
+          🚀 Mod Pilot (La Manșă)
+        </button>
+        <button
           id="btn-missions-toggle"
           type="button"
           class="hud-btn hud-btn-amber"
@@ -190,6 +199,240 @@
         </button>
       </div>
     </header>
+
+    <!-- Cabina de pilotaj First-Person pentru mini-jocul "🚀 La Manșa Navei (Mod Pilot)" -->
+    <section
+      id="cockpit-hud-overlay"
+      class="cockpit-hud-overlay is-hidden"
+      aria-label="Cabina de pilotaj La Manșa Navei (Mod Pilot)"
+      data-cockpit-theme="amber"
+    >
+      <svg
+        id="cockpit-svg-frame"
+        class="cockpit-svg-frame"
+        viewBox="0 0 1600 900"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <defs>
+          <radialGradient id="shield-glow-grad" cx="50%" cy="50%" r="52%">
+            <stop offset="68%" stop-color="rgba(0, 240, 255, 0)" />
+            <stop offset="92%" stop-color="rgba(0, 240, 255, 0.22)" />
+            <stop offset="100%" stop-color="rgba(0, 240, 255, 0.58)" />
+          </radialGradient>
+        </defs>
+        <g id="cockpit-shield-halo" class="cockpit-shield-halo">
+          <rect x="8" y="8" width="1584" height="884" rx="34" fill="url(#shield-glow-grad)" />
+          <path
+            class="shield-hex-border"
+            d="M 48 18 L 1552 18 L 1582 54 L 1582 846 L 1552 882 L 48 882 L 18 846 L 18 54 Z"
+          />
+        </g>
+        <path
+          class="cockpit-canopy-arch"
+          d="M 0 0 L 1600 0 L 1600 84 L 1460 54 L 1120 34 L 480 34 L 140 54 L 0 84 Z"
+        />
+        <path
+          class="cockpit-strut-line"
+          d="M 140 54 L 42 440 L 135 765 M 1460 54 L 1558 440 L 1465 765"
+        />
+        <path class="cockpit-frame-accent" d="M 155 58 L 480 36 L 1120 36 L 1445 58" />
+        <path class="cockpit-frame-accent" d="M 120 755 L 440 725 L 1160 725 L 1480 755" />
+        <g class="cockpit-center-reticle" transform="translate(800, 395)">
+          <circle cx="0" cy="0" r="34" class="reticle-ring" />
+          <path d="M -52 0 L -24 0 M 24 0 L 52 0 M 0 -52 L 0 -24 M 0 24 L 0 52" class="reticle-cross" />
+          <circle cx="0" cy="0" r="2.5" class="reticle-dot" />
+        </g>
+      </svg>
+
+      <div id="cockpit-ar-labels" class="cockpit-ar-labels"></div>
+
+      <div class="cockpit-top-bar">
+        <div class="bento-card cockpit-status-pill">
+          <span class="cockpit-mode-badge">🚀 LA MANȘA NAVEI (MOD PILOT)</span>
+          <strong id="cockpit-active-ship-title" class="cockpit-ship-title">🚀 Racheta "Vlaicu-1"</strong>
+          <span id="cockpit-active-ship-propulsion" class="telemetry-tag">Propulsie Chimică • 50.000 km/h</span>
+        </div>
+        <div id="cockpit-shield-banner-pill" class="bento-card cockpit-shield-pill">
+          <span id="cockpit-shield-status" class="shield-status-text">🛡️ SCUTURI DEFLECTOARE: STANDBY</span>
+        </div>
+        <button
+          id="btn-cockpit-exit"
+          type="button"
+          class="hud-btn hud-btn-amber cockpit-exit-btn"
+          title="Ieși din Cabina de Pilotaj și revino la vederea orbitală (Tasta P)"
+        >
+          🗗 Ieși din Mod Pilot (P)
+        </button>
+      </div>
+
+      <div
+        id="cockpit-belt-alert"
+        class="bento-card cockpit-belt-alert is-hidden"
+        role="alert"
+        aria-live="assertive"
+      >
+        <div class="belt-alert-header">
+          <strong id="cockpit-belt-alert-title">🛡️ SCUTURI DEFLECTOARE: ACTIVE</strong>
+          <button
+            id="btn-cockpit-belt-alert-close"
+            type="button"
+            class="hud-icon-btn"
+            aria-label="Închide alerta centurii"
+          >
+            ✕
+          </button>
+        </div>
+        <p id="cockpit-belt-alert-text" class="belt-alert-body"></p>
+      </div>
+
+      <aside
+        id="cockpit-arrival-briefing"
+        class="bento-card cockpit-arrival-briefing is-hidden"
+        aria-label="Raport de sosire Calculatorul de Bord Orbitar"
+      >
+        <div class="briefing-header">
+          <div>
+            <span class="telemetry-tag">🤖 CALCULATORUL DE BORD ORBITAR</span>
+            <h3 id="briefing-title" class="briefing-title">Raport de Sosire la Destinație</h3>
+          </div>
+          <button
+            id="btn-briefing-close"
+            type="button"
+            class="hud-icon-btn"
+            title="Închide raportul de sosire"
+            aria-label="Închide raportul"
+          >
+            ✕
+          </button>
+        </div>
+        <p id="briefing-headline" class="briefing-headline"></p>
+        <div class="briefing-metrics-list">
+          <div id="briefing-temp" class="briefing-metric-item"></div>
+          <div id="briefing-distances" class="briefing-metric-item"></div>
+          <div id="briefing-earth-clock" class="briefing-metric-item briefing-clock-highlight"></div>
+          <div id="briefing-observation" class="briefing-metric-item briefing-observation-box"></div>
+        </div>
+        <div class="briefing-actions-row">
+          <button id="btn-briefing-repeat-audio" type="button" class="hud-btn hud-btn-cyan">
+            🔊 Repetă Raportul Audio
+          </button>
+          <button id="btn-briefing-open-study" type="button" class="hud-btn hud-btn-amber">
+            📖 Deschide Fișa Completă / Printează
+          </button>
+          <button id="btn-briefing-next-dest" type="button" class="hud-btn">
+            🚀 Alege Următoarea Destinație
+          </button>
+        </div>
+      </aside>
+
+      <div class="cockpit-touch-cluster" aria-label="Comenzi tactile de zbor">
+        <div id="cockpit-touch-joystick" class="cockpit-joystick-pad" title="Trage pentru viraj și propulsie">
+          <div id="cockpit-joystick-knob" class="cockpit-joystick-knob">🕹️</div>
+        </div>
+        <div class="cockpit-touch-buttons">
+          <button id="btn-touch-boost" type="button" class="hud-btn cockpit-boost-btn">
+            ⚡ Hyper-Boost (Shift)
+          </button>
+          <div class="cockpit-roll-row">
+            <button id="btn-touch-roll-left" type="button" class="hud-btn" title="Înclină spre stânga (Q)">
+              ↺ Q
+            </button>
+            <button id="btn-touch-roll-right" type="button" class="hud-btn" title="Înclină spre dreapta (E)">
+              E ↻
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <footer id="cockpit-dashboard" class="cockpit-dashboard" aria-label="Instrumente la bord și selector nave">
+        <div class="bento-card cockpit-ships-and-nav-row">
+          <div class="cockpit-ships-selector" role="group" aria-label="Alege nava spațială">
+            <button
+              id="btn-ship-vlaicu1"
+              type="button"
+              class="cockpit-ship-card is-selected"
+              data-ship-id="vlaicu1"
+            >
+              <span class="ship-card-title">🚀 Racheta "Vlaicu-1"</span>
+              <span class="ship-card-sub">Chimică • 50.000 km/h</span>
+            </button>
+            <button
+              id="btn-ship-coandax"
+              type="button"
+              class="cockpit-ship-card"
+              data-ship-id="coandax"
+            >
+              <span class="ship-card-title">🛸 Nava "Coandă-X"</span>
+              <span class="ship-card-sub">Fuziune &amp; Plasmă • 1.500.000 km/h</span>
+            </button>
+            <button
+              id="btn-ship-luceafarul"
+              type="button"
+              class="cockpit-ship-card"
+              data-ship-id="luceafarul"
+            >
+              <span class="ship-card-title">✨ Astronava "Luceafărul"</span>
+              <span class="ship-card-sub">Fotonică / Cuantică • 1c (Lumină)</span>
+            </button>
+          </div>
+
+          <div class="cockpit-autopilot-box">
+            <div class="autopilot-quick-Variable-row">
+              <label for="cockpit-target-select" class="cockpit-inst-label">Țintă parbriz:</label>
+              <select id="cockpit-target-select" class="cockpit-target-select" aria-label="Selectează destinația">
+              </select>
+              <button
+                id="btn-cockpit-fly-there"
+                type="button"
+                class="hud-btn hud-btn-active-amber cockpit-fly-cta-btn"
+              >
+                🔥 Zboară Acolo
+              </button>
+            </div>
+            <div class="autopilot-quick-pills" id="cockpit-quick-targets">
+              <button type="button" class="cockpit-dest-pill" data-quick-fly="earth">🌍 Pământ</button>
+              <button type="button" class="cockpit-dest-pill" data-quick-fly="moon">🌙 Lună</button>
+              <button type="button" class="cockpit-dest-pill" data-quick-fly="mars">🔴 Marte</button>
+              <button type="button" class="cockpit-dest-pill" data-quick-fly="jupiter">🟠 Jupiter</button>
+              <button type="button" class="cockpit-dest-pill" data-quick-fly="saturn">🪐 Saturn</button>
+              <button type="button" class="cockpit-dest-pill" data-quick-fly="neptune">🔵 Neptun</button>
+              <button type="button" class="cockpit-dest-pill" data-quick-fly="pluto">❄️ Pluto</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="bento-card cockpit-instruments-bar">
+          <div class="cockpit-instrument-cell">
+            <span class="cockpit-inst-label">⚡ VITEZOMETRU NAVĂ</span>
+            <strong id="cockpit-speed-kmh" class="cockpit-inst-value highlight-cyan">0 km/h</strong>
+            <span id="cockpit-speed-light" class="cockpit-inst-sub">0,0000% din viteza luminii (c)</span>
+          </div>
+          <div class="cockpit-instrument-cell">
+            <span class="cockpit-inst-label">🛡️ SCUT DEFLECTOR &amp; POZIȚIE</span>
+            <strong id="cockpit-inst-shield" class="cockpit-inst-value">ÎN AȘTEPTARE (STANDBY)</strong>
+            <span id="cockpit-helio-au" class="cockpit-inst-sub">Distanță de Soare: 1,00 UA</span>
+          </div>
+          <div class="cockpit-instrument-cell">
+            <span class="cockpit-inst-label">🌍 DATA CURENTĂ PE PĂMÂNT</span>
+            <strong id="cockpit-earth-date" class="cockpit-inst-value highlight-amber">—</strong>
+            <span id="cockpit-trip-elapsed" class="cockpit-inst-sub">Ultimul zbor: —</span>
+          </div>
+          <div class="cockpit-instrument-cell cockpit-keys-guide">
+            <span class="cockpit-inst-label">🕹️ COMENZI DE ZBOR</span>
+            <span class="cockpit-keys-line">
+              <kbd>W</kbd>/<kbd>S</kbd> sau <kbd>↑</kbd>/<kbd>↓</kbd> Accelerație •
+              <kbd>A</kbd>/<kbd>D</kbd> Viraj •
+              <kbd>Q</kbd>/<kbd>E</kbd> Înclinare •
+              <kbd>Shift</kbd> Boost
+            </span>
+            <span id="cockpit-ship-didactic-note" class="cockpit-inst-sub">
+              Click pe orice etichetă AR de pe parbriz și apasă „🔥 Zboară Acolo”!
+            </span>
+          </div>
+        </div>
+      </footer>
+    </section>
 
     <!-- Notificare prietenoasă pentru Watchdog-ul FPS / Comutarea Modului Rapid (Eco) -->
     <div id="hud-quality-toast" class="bento-card quality-toast is-hidden" role="status" aria-live="polite">

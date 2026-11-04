@@ -11,6 +11,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "test": "rm -rf .test-dist && tsc -p tsconfig.test.json && node --import ./tests/setup/esm-loader.mjs --test .test-dist/tests/unit/*.test.js .test-dist/tests/functional/*.test.js && rm -rf .test-dist",
     "build": "tsc && vite build",
     "build:landing": "rm -rf dist-landing && mkdir -p dist-landing && cp -R landing/. dist-landing/",
     "build:all": "npm run build && npm run build:landing",

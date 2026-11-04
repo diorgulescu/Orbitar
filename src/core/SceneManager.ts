@@ -185,7 +185,9 @@ export class SceneManager {
         cb(deltaSeconds, elapsedSeconds);
       }
 
-      this.controls.update();
+      if (this.controls.enabled) {
+        this.controls.update();
+      }
       this.renderer.render(this.scene, this.camera);
     };
     animate();
