@@ -128,6 +128,35 @@
         >
           ✨ Grafică: Realistă HD
         </button>
+        <div
+          id="orbitar-audio-controls"
+          class="ambient-audio-controls"
+          role="group"
+          aria-label="Muzică ambientală cosmică (Tasta M)"
+        >
+          <button
+            id="orbitar-audio-toggle"
+            type="button"
+            class="hud-btn ambient-toggle-btn is-off"
+            aria-pressed="false"
+            title="Pornește sau oprește muzica ambientală cosmică generativă (Scurtătură: Tasta M)"
+          >
+            <span class="ambient-wave" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span id="orbitar-audio-label">🔇 Ambiental: Oprit</span>
+          </button>
+          <input
+            id="orbitar-audio-volume"
+            class="ambient-volume-slider"
+            type="range"
+            min="0"
+            max="100"
+            step="1"
+            value="35"
+            aria-label="Volum muzică ambientală"
+            title="Volum muzică ambientală: 35%"
+          />
+          <span id="orbitar-audio-volume-label" class="ambient-volume-readout">35%</span>
+        </div>
         <button
           id="btn-missions-toggle"
           type="button"

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-const CACHE_NAME = 'orbitar-pwa-v2.3.0';
+const CACHE_NAME = 'orbitar-pwa-v2.4.0';
 const PRECACHE_ASSETS = [
   './',
   './index.html',

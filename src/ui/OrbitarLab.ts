@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import { CelestialBodyData } from '../types/celestial';
+import { SpaceAmbientEngine } from '../audio/SpaceAmbientEngine';
 
 /**
  * OrbitarLab gestionează secțiunea interactivă "Laboratorul Orbitar" din Panoul Lateral de Studiu:
@@ -135,6 +136,8 @@ export class OrbitarLab {
       statusEl.textContent = '🔊 Se redă salutul în limba română: „Salutări la toată lumea!” (1977)…';
     }
 
+    SpaceAmbientEngine.getInstance().setDucking(true);
+
     const speakFallbackGreeting = () => {
       if ('speechSynthesis' in window) {
         window.speechSynthesis.cancel();
@@ -144,9 +147,13 @@ export class OrbitarLab {
         utter.lang = 'ro-RO';
         utter.rate = 0.95;
         utter.onend = () => {
+          SpaceAmbientEngine.getInstance().setDucking(false);
           if (statusEl) {
             statusEl.textContent = '✅ Mesaj interstelar redat („Salutări la toată lumea!”)';
           }
+        };
+        utter.onerror = () => {
+          SpaceAmbientEngine.getInstance().setDucking(false);
         };
         window.speechSynthesis.speak(utter);
       }

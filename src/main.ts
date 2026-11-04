@@ -7,6 +7,7 @@ import { CameraController } from './core/CameraController';
 import { SurfaceMarkers } from './core/SurfaceMarkers';
 import { QualityManager } from './core/QualityManager';
 import { PlanetMaterialFactory } from './core/PlanetMaterialFactory';
+import { SpaceAmbientEngine } from './audio/SpaceAmbientEngine';
 import { HeaderHud, LayerFilter, matchesLayerFilter } from './ui/HeaderHud';
 import { StudyDrawer } from './ui/StudyDrawer';
 import { BottomDock } from './ui/BottomDock';
@@ -19,6 +20,7 @@ interface OrbitarGlobalDebug {
   sceneManager: SceneManager;
   scaleManager: ScaleManager;
   qualityManager: QualityManager;
+  ambientEngine: SpaceAmbientEngine;
   orbitalEngine: OrbitalEngine;
   cameraController: CameraController;
   surfaceMarkers: SurfaceMarkers;
@@ -293,7 +295,72 @@ async function bootstrapOrbitar(): Promise<void> {
     qualityManager.toggleMode();
   });
 
-  // Scurtătură de tastatură: Tasta Q (Quality)
+  // Modulul de Muzică Ambientală Generativă (#orbitar-audio-controls) + Tasta M
+  const ambientEngine = SpaceAmbientEngine.getInstance();
+  let audioControlsEl = document.getElementById('orbitar-audio-controls');
+  if (!audioControlsEl) {
+    audioControlsEl = document.createElement('div');
+    audioControlsEl.id = 'orbitar-audio-controls';
+    audioControlsEl.className = 'ambient-audio-controls';
+    audioControlsEl.innerHTML = `
+      <button id="orbitar-audio-toggle" type="button" class="hud-btn ambient-toggle-btn is-off" aria-pressed="false">
+        <span class="ambient-wave" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span id="orbitar-audio-label">🔇 Ambiental: Oprit</span>
+      </button>
+      <input id="orbitar-audio-volume" class="ambient-volume-slider" type="range" min="0" max="100" step="1" value="35" aria-label="Volum muzică ambientală" />
+      <span id="orbitar-audio-volume-label" class="ambient-volume-readout">35%</span>
+    `;
+    btnQualityToggle.insertAdjacentElement('afterend', audioControlsEl);
+  }
+
+  const btnAudioToggle = document.getElementById('orbitar-audio-toggle') as HTMLButtonElement | null;
+  const audioLabelEl = document.getElementById('orbitar-audio-label');
+  const audioVolumeSlider = document.getElementById('orbitar-audio-volume') as HTMLInputElement | null;
+  const audioVolumeLabel = document.getElementById('orbitar-audio-volume-label');
+
+  const syncAmbientAudioUI = (): void => {
+    const enabled = ambientEngine.isEnabled();
+    const vol = ambientEngine.getVolumePercent();
+    if (btnAudioToggle) {
+      btnAudioToggle.classList.toggle('is-on', enabled);
+      btnAudioToggle.classList.toggle('is-off', !enabled);
+      btnAudioToggle.setAttribute('aria-pressed', enabled ? 'true' : 'false');
+    }
+    if (audioLabelEl) {
+      audioLabelEl.textContent = enabled ? '🎵 Ambiental: Pornit' : '🔇 Ambiental: Oprit';
+    }
+    if (audioVolumeSlider && document.activeElement !== audioVolumeSlider) {
+      audioVolumeSlider.value = String(vol);
+      audioVolumeSlider.title = `Volum muzică ambientală: ${vol}%`;
+    }
+    if (audioVolumeLabel) {
+      audioVolumeLabel.textContent = `${vol}%`;
+    }
+  };
+
+  syncAmbientAudioUI();
+  ambientEngine.onChange(() => {
+    syncAmbientAudioUI();
+  });
+
+  btnAudioToggle?.addEventListener('click', () => {
+    const nowEnabled = ambientEngine.toggle();
+    showQualityToast(
+      nowEnabled
+        ? `🎵 Muzică ambientală cosmică: Pornită (${ambientEngine.getVolumePercent()}%)`
+        : '🔇 Muzică ambientală cosmică: Oprită'
+    );
+  });
+
+  audioVolumeSlider?.addEventListener('input', () => {
+    const val = Number(audioVolumeSlider.value);
+    ambientEngine.setVolumePercent(val);
+    if (audioVolumeLabel) {
+      audioVolumeLabel.textContent = `${ambientEngine.getVolumePercent()}%`;
+    }
+  });
+
+  // Scurtături de tastatură: Tasta Q (Quality) și Tasta M (Mute / Unmute Muzică Ambientală)
   window.addEventListener('keydown', (e) => {
     if (e.ctrlKey || e.metaKey || e.altKey) return;
     const target = e.target as HTMLElement | null;
@@ -309,6 +376,14 @@ async function bootstrapOrbitar(): Promise<void> {
     if (e.key === 'q' || e.key === 'Q' || e.code === 'KeyQ') {
       e.preventDefault();
       qualityManager.toggleMode();
+    } else if (e.key === 'm' || e.key === 'M' || e.code === 'KeyM') {
+      e.preventDefault();
+      const nowEnabled = ambientEngine.toggle();
+      showQualityToast(
+        nowEnabled
+          ? `🎵 Muzică ambientală cosmică: Pornită (${ambientEngine.getVolumePercent()}%)`
+          : '🔇 Muzică ambientală cosmică: Oprită'
+      );
     }
   });
 
@@ -329,6 +404,7 @@ async function bootstrapOrbitar(): Promise<void> {
     sceneManager,
     scaleManager,
     qualityManager,
+    ambientEngine,
     orbitalEngine,
     cameraController,
     surfaceMarkers,

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import { CelestialBodyInstance, OrbitalEngine } from '../core/OrbitalEngine';
 import { PlanetMaterialFactory } from '../core/PlanetMaterialFactory';
+import { SpaceAmbientEngine } from '../audio/SpaceAmbientEngine';
 import { AgeTier } from '../types/celestial';
 import { OrbitarLab } from './OrbitarLab';
 
@@ -333,6 +334,7 @@ export class StudyDrawer {
     }
 
     this.isSpeaking = true;
+    SpaceAmbientEngine.getInstance().setDucking(true);
     if (btnSpeak) {
       btnSpeak.textContent = '⏹ Oprește citirea';
       btnSpeak.classList.add('hud-btn-active-amber');
@@ -353,6 +355,7 @@ export class StudyDrawer {
       window.speechSynthesis.cancel();
     }
     this.isSpeaking = false;
+    SpaceAmbientEngine.getInstance().setDucking(false);
     const btnSpeak = document.getElementById('btn-speak-ro');
     if (btnSpeak) {
       btnSpeak.textContent = '🔊 Citește-mi';

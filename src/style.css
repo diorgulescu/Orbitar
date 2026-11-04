@@ -464,6 +464,104 @@ body {
     0 0 30px rgba(255, 183, 3, 0.32);
 }
 
+/* Modulul de control audio ambiental (#orbitar-audio-controls) */
+#orbitar-audio-controls,
+.ambient-audio-controls {
+  position: relative;
+  z-index: 1000;
+  flex-shrink: 0;
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 3px 10px 3px 4px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.72);
+  border: 1px solid rgba(0, 240, 255, 0.28);
+  pointer-events: auto;
+}
+
+.ambient-toggle-btn {
+  min-height: 30px;
+  padding: 4px 11px;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  gap: 6px;
+}
+
+.ambient-toggle-btn.is-on {
+  background: rgba(0, 240, 255, 0.22);
+  border-color: var(--accent-cyan);
+  color: var(--accent-cyan);
+  box-shadow: 0 0 14px rgba(0, 240, 255, 0.28);
+}
+
+.ambient-toggle-btn.is-off {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.18);
+  color: var(--text-muted);
+}
+
+/* Indicator animat discret cu unde sonore pulsante */
+.ambient-wave {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 12px;
+  width: 12px;
+}
+
+.ambient-wave i {
+  display: block;
+  width: 2.5px;
+  height: 4px;
+  border-radius: 2px;
+  background: currentColor;
+  opacity: 0.45;
+  transition: height 0.2s ease, opacity 0.2s ease;
+}
+
+.ambient-toggle-btn.is-on .ambient-wave i {
+  opacity: 1;
+  background: var(--accent-cyan);
+  animation: orbitarSoundWave 1.25s ease-in-out infinite;
+}
+
+.ambient-toggle-btn.is-on .ambient-wave i:nth-child(2) {
+  animation-delay: 0.22s;
+}
+
+.ambient-toggle-btn.is-on .ambient-wave i:nth-child(3) {
+  animation-delay: 0.44s;
+}
+
+@keyframes orbitarSoundWave {
+  0%,
+  100% {
+    height: 4px;
+  }
+  50% {
+    height: 12px;
+  }
+}
+
+.ambient-volume-slider {
+  width: 72px;
+  height: 5px;
+  accent-color: var(--accent-cyan);
+  cursor: pointer;
+}
+
+.ambient-volume-readout {
+  min-width: 32px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--accent-cyan);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
 /* Notificare Toast pe centru-sus pentru schimbarea modului grafic */
 #hud-quality-toast,
 .quality-toast {
