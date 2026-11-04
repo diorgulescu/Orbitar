@@ -60,7 +60,7 @@ jobs:
       - name: Install frontend dependencies & generate HD textures
         run: |
           npm install
-          npm run fetch:hd-textures
+          node scripts/generate-hd-maps.mjs
           node scripts/generate-tauri-icons.mjs
 
       - name: Run Automated Unit & Functional Test Suite
