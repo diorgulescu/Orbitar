@@ -513,6 +513,246 @@ a:hover {
   color: var(--text-secondary);
 }
 
+/* SECȚIUNEA DESCARCĂ PE CALCULATOR (OFFLINE) & ACORDEON PROFESORI */
+.desktop-download-section {
+  padding-top: 24px;
+}
+
+.os-download-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  margin-bottom: 32px;
+}
+
+.os-download-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-cyan);
+  border-radius: 22px;
+  padding: 26px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.os-download-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--border-cyan-strong);
+}
+
+.os-download-card.card-amber {
+  border-color: var(--border-amber);
+}
+
+.os-card-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.os-icon-badge {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: rgba(0, 240, 255, 0.14);
+  border: 1px solid var(--border-cyan);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  flex-shrink: 0;
+}
+
+.os-download-card.card-amber .os-icon-badge {
+  background: rgba(255, 183, 3, 0.16);
+  border-color: var(--border-amber);
+}
+
+.os-card-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--text-main);
+  line-height: 1.25;
+}
+
+.os-card-sub {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.os-btn-stack,
+.os-linux-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-os-download {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 13px 16px;
+  border-radius: 12px;
+  font-size: 0.94rem;
+  font-weight: 800;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.btn-os-primary {
+  background: linear-gradient(135deg, #00f0ff 0%, #38bdf8 100%);
+  color: #040711;
+  box-shadow: 0 6px 20px rgba(0, 240, 255, 0.28);
+}
+
+.btn-os-primary:hover {
+  background: linear-gradient(135deg, #5ef6ff 0%, #7dd3fc 100%);
+  color: #040711;
+  box-shadow: 0 8px 26px rgba(0, 240, 255, 0.45);
+}
+
+.btn-os-amber {
+  background: linear-gradient(135deg, #ffb703 0%, #fb8500 100%);
+  color: #040711;
+  box-shadow: 0 6px 20px rgba(255, 183, 3, 0.28);
+}
+
+.btn-os-amber:hover {
+  background: linear-gradient(135deg, #ffd166 0%, #ffb703 100%);
+  color: #040711;
+  box-shadow: 0 8px 26px rgba(255, 183, 3, 0.45);
+}
+
+.btn-os-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(0, 240, 255, 0.28);
+  color: var(--text-secondary);
+}
+
+.btn-os-secondary:hover {
+  background: rgba(0, 240, 255, 0.14);
+  border-color: var(--accent-cyan);
+  color: var(--accent-cyan);
+}
+
+.os-steps-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.os-steps-list code {
+  color: var(--accent-cyan);
+  background: rgba(0, 240, 255, 0.1);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+/* Caseta Acordeon Ghid Profesori & Părinți */
+.teacher-guide-box {
+  background: linear-gradient(160deg, rgba(13, 23, 50, 0.86) 0%, rgba(9, 15, 34, 0.92) 100%);
+  border: 1px solid var(--border-amber);
+  border-radius: 22px;
+  padding: 28px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+}
+
+.teacher-guide-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.teacher-guide-title {
+  font-size: 1.38rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-top: 4px;
+}
+
+.teacher-accordion-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.teacher-accordion-item {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(0, 240, 255, 0.22);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.teacher-accordion-item[open] {
+  border-color: var(--accent-cyan);
+  background: rgba(0, 240, 255, 0.06);
+}
+
+.teacher-accordion-summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 15px 18px;
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.teacher-accordion-summary::-webkit-details-marker {
+  display: none;
+}
+
+.accordion-chevron {
+  color: var(--accent-cyan);
+  font-size: 1.1rem;
+  transition: transform 0.2s ease;
+}
+
+.teacher-accordion-item[open] .accordion-chevron {
+  transform: rotate(180deg);
+}
+
+.teacher-accordion-body {
+  padding: 0 18px 16px;
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  line-height: 1.65;
+}
+
+.teacher-accordion-body code {
+  color: var(--accent-amber);
+  background: rgba(255, 183, 3, 0.14);
+  padding: 1px 6px;
+  border-radius: 5px;
+}
+
 /* FOOTER */
 .site-footer {
   margin-top: 48px;
@@ -561,6 +801,10 @@ a:hover {
 
 /* RESPONSIVE DESIGN (Mobil & Tabletă) */
 @media (max-width: 900px) {
+  .os-download-grid {
+    grid-template-columns: 1fr;
+  }
+
   .bento-grid-4 {
     grid-template-columns: 1fr;
   }

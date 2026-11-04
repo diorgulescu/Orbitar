@@ -225,9 +225,17 @@ export class ISSTracker {
     telemetry: SatelliteTelemetry;
     isOnlineLive: boolean;
   }> {
+    if (typeof navigator !== 'undefined' && navigator.onLine === false) {
+      this.liveIssOverride = null;
+      return {
+        telemetry: this.getTelemetry('iss', new Date()),
+        isOnlineLive: false,
+      };
+    }
+
     try {
       const controller = new AbortController();
-      const timeoutId = window.setTimeout(() => controller.abort(), 3500);
+      const timeoutId = window.setTimeout(() => controller.abort(), 2200);
       const response = await fetch('https://api.wheretheiss.at/v1/satellites/25544', {
         signal: controller.signal,
       });

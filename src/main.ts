@@ -295,6 +295,77 @@ async function bootstrapOrbitar(): Promise<void> {
     qualityManager.toggleMode();
   });
 
+  // Buton Ecran Complet (#orbitar-fullscreen-toggle — ⛶ F11) pentru proiecția la clasă / Tauri Desktop
+  let btnFullscreenToggle = document.getElementById(
+    'orbitar-fullscreen-toggle'
+  ) as HTMLButtonElement | null;
+  if (!btnFullscreenToggle) {
+    btnFullscreenToggle = document.createElement('button');
+    btnFullscreenToggle.id = 'orbitar-fullscreen-toggle';
+    btnFullscreenToggle.type = 'button';
+    btnFullscreenToggle.className = 'hud-btn fullscreen-pill-btn';
+    btnFullscreenToggle.setAttribute('aria-pressed', 'false');
+    btnFullscreenToggle.title =
+      'Mod Proiecție la Clasă pe tot ecranul pentru videoproiector sau tablă interactivă (Tasta F11)';
+    btnFullscreenToggle.textContent = '⛶ F11';
+    btnQualityToggle.insertAdjacentElement('afterend', btnFullscreenToggle);
+  }
+
+  let isTauriFullscreen = false;
+
+  const syncFullscreenUI = (active: boolean): void => {
+    if (!btnFullscreenToggle) return;
+    btnFullscreenToggle.classList.toggle('is-fullscreen', active);
+    btnFullscreenToggle.setAttribute('aria-pressed', active ? 'true' : 'false');
+    btnFullscreenToggle.textContent = active ? '🗗 Ieșire F11' : '⛶ F11';
+  };
+
+  const toggleOrbitarFullscreen = async (): Promise<void> => {
+    const tauriWindow = window as unknown as {
+      __TAURI_INTERNALS__?: { invoke?: (cmd: string) => Promise<boolean> };
+      __TAURI__?: { core?: { invoke?: (cmd: string) => Promise<boolean> } };
+    };
+    const tauriInvoke =
+      tauriWindow.__TAURI_INTERNALS__?.invoke ?? tauriWindow.__TAURI__?.core?.invoke;
+
+    if (typeof tauriInvoke === 'function') {
+      try {
+        isTauriFullscreen = await tauriInvoke('toggle_fullscreen');
+        syncFullscreenUI(isTauriFullscreen);
+        showQualityToast(
+          isTauriFullscreen
+            ? '🖥️ Mod Proiecție la Clasă: Ecran Complet Activat (F11)'
+            : '🗗 Mod Fereastră Normală (F11)'
+        );
+        return;
+      } catch (_e) {
+        // Fallback la API-ul Fullscreen standard din browser
+      }
+    }
+
+    try {
+      if (!document.fullscreenElement) {
+        await document.documentElement.requestFullscreen();
+        syncFullscreenUI(true);
+        showQualityToast('🖥️ Mod Proiecție la Clasă: Ecran Complet Activat (F11)');
+      } else {
+        await document.exitFullscreen();
+        syncFullscreenUI(false);
+        showQualityToast('🗗 Mod Fereastră Normală (F11)');
+      }
+    } catch (_e) {
+      // Unele medii restricționează requestFullscreen
+    }
+  };
+
+  btnFullscreenToggle.addEventListener('click', () => {
+    toggleOrbitarFullscreen();
+  });
+
+  document.addEventListener('fullscreenchange', () => {
+    syncFullscreenUI(Boolean(document.fullscreenElement));
+  });
+
   // Modulul de Muzică Ambientală Generativă (#orbitar-audio-controls) + Tasta M
   const ambientEngine = SpaceAmbientEngine.getInstance();
   let audioControlsEl = document.getElementById('orbitar-audio-controls');
@@ -371,6 +442,11 @@ async function bootstrapOrbitar(): Promise<void> {
         target.tagName === 'SELECT' ||
         target.isContentEditable)
     ) {
+      return;
+    }
+    if (e.key === 'F11' || e.code === 'F11') {
+      e.preventDefault();
+      toggleOrbitarFullscreen();
       return;
     }
     if (e.key === 'q' || e.key === 'Q' || e.code === 'KeyQ') {
@@ -490,8 +566,13 @@ bootstrapOrbitar().catch((err) => {
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     const host = window.location.hostname;
-    const isLocalDev = host === 'localhost' || host === '127.0.0.1';
-    if (isLocalDev) {
+    const isLocalOrTauri =
+      host === 'localhost' ||
+      host === '127.0.0.1' ||
+      host === 'tauri.localhost' ||
+      window.location.protocol === 'tauri:' ||
+      '__TAURI_INTERNALS__' in window;
+    if (isLocalOrTauri) {
       navigator.serviceWorker.getRegistrations().then((regs) => {
         regs.forEach((reg) => {
           reg.unregister().catch(() => {});

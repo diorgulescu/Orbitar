@@ -15,14 +15,20 @@
           if ("caches" in window) {
             caches.keys().then(function (keys) {
               for (var i = 0; i < keys.length; i++) {
-                if (keys[i] !== "orbitar-pwa-v2.2.0") {
+                if (keys[i] !== "orbitar-pwa-v2.4.0") {
                   caches.delete(keys[i]);
                 }
               }
             });
           }
           var host = window.location.hostname;
-          if ((host === "localhost" || host === "127.0.0.1") && "serviceWorker" in navigator) {
+          var isLocalOrTauri =
+            host === "localhost" ||
+            host === "127.0.0.1" ||
+            host === "tauri.localhost" ||
+            window.location.protocol === "tauri:" ||
+            "__TAURI_INTERNALS__" in window;
+          if (isLocalOrTauri && "serviceWorker" in navigator) {
             navigator.serviceWorker.getRegistrations().then(function (regs) {
               for (var j = 0; j < regs.length; j++) {
                 regs[j].unregister();
@@ -127,6 +133,15 @@
           title="Comută calitatea grafică (Tasta rapidă: Q) — Texturi detaliate 2K, nori și luminile orașelor noaptea"
         >
           ✨ Grafică: Realistă HD
+        </button>
+        <button
+          id="orbitar-fullscreen-toggle"
+          type="button"
+          class="hud-btn fullscreen-pill-btn"
+          aria-pressed="false"
+          title="Mod Proiecție la Clasă pe tot ecranul pentru videoproiector sau tablă interactivă (Tasta F11)"
+        >
+          ⛶ F11
         </button>
         <div
           id="orbitar-audio-controls"

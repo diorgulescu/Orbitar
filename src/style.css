@@ -464,6 +464,39 @@ body {
     0 0 30px rgba(255, 183, 3, 0.32);
 }
 
+/* Buton discret de Ecran Complet (#orbitar-fullscreen-toggle — ⛶ F11) pentru videoproiector / tablă interactivă */
+#orbitar-fullscreen-toggle,
+.fullscreen-pill-btn {
+  position: relative;
+  z-index: 1000;
+  flex-shrink: 0;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 36px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  font-weight: 800;
+  background: rgba(15, 23, 42, 0.72);
+  border: 1px solid rgba(0, 240, 255, 0.34);
+  color: var(--text-main);
+  cursor: pointer;
+  pointer-events: auto;
+  transition: all 0.2s ease;
+}
+
+#orbitar-fullscreen-toggle:hover,
+.fullscreen-pill-btn:hover,
+#orbitar-fullscreen-toggle.is-fullscreen,
+.fullscreen-pill-btn.is-fullscreen {
+  background: rgba(0, 240, 255, 0.22);
+  border-color: var(--accent-cyan);
+  color: var(--accent-cyan);
+  box-shadow: 0 0 14px rgba(0, 240, 255, 0.28);
+}
+
 /* Modulul de control audio ambiental (#orbitar-audio-controls) */
 #orbitar-audio-controls,
 .ambient-audio-controls {

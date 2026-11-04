@@ -1,0 +1,57 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Orbitar",
+  "version": "1.0.0",
+  "identifier": "ro.orbitar.planetariu",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://localhost:5173",
+    "beforeBuildCommand": "npm run build",
+    "distDir": "../dist",
+    "frontendDist": "../dist"
+  },
+  "window": {
+    "title": "Orbitar — Planetariu Didactic Interactiv",
+    "width": 1280,
+    "height": 800,
+    "minWidth": 960,
+    "minHeight": 600,
+    "resizable": true,
+    "fullscreen": false,
+    "f11Fullscreen": true
+  },
+  "app": {
+    "windows": [
+      {
+        "label": "main",
+        "title": "Orbitar — Planetariu Didactic Interactiv",
+        "width": 1280,
+        "height": 800,
+        "minWidth": 960,
+        "minHeight": 600,
+        "resizable": true,
+        "fullscreen": false,
+        "center": true
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["deb", "rpm", "appimage", "msi", "nsis", "dmg"],
+    "category": "Education",
+    "shortDescription": "Orbitar — Planetariu Didactic Interactiv în Limba Română (6–12 ani)",
+    "longDescription": "Planetariu didactic 3D 100% offline în limba română pentru explorarea Sistemului Solar, a sondelor spațiale și imprimarea fișelor de studiu și a planșelor de colorat A4. Licență liberă GNU GPLv3.",
+    "license": "GPL-3.0-or-later",
+    "licenseFile": "../LICENSE",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ]
+  }
+}

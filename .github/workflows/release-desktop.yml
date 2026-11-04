@@ -1,0 +1,89 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+name: Release Orbitar Desktop (Windows, macOS, Linux)
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-tauri-desktop:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: 'ubuntu-22.04'
+            args: ''
+          - platform: 'windows-latest'
+            args: ''
+          - platform: 'macos-latest'
+            args: '--target universal-apple-darwin'
+
+    runs-on: ${{ matrix.platform }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Rust stable toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+
+      - name: Rust Cargo cache
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: './src-tauri -> target'
+
+      - name: Install Linux WebKitGTK & AppImage dependencies
+        if: matrix.platform == 'ubuntu-22.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libwebkit2gtk-4.1-dev \
+            libappindicator3-dev \
+            librsvg2-dev \
+            patchelf \
+            rpm \
+            file
+
+      - name: Install frontend dependencies & generate HD textures
+        run: |
+          npm install
+          npm run fetch:hd-textures
+          node scripts/generate-tauri-icons.mjs
+
+      - name: Build and Publish Orbitar Desktop Release via Tauri Action
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: ${{ github.ref_name == 'main' && 'v1.0.0' || github.ref_name }}
+          releaseName: 'Orbitar Desktop ${{ github.ref_name }} — Planetariu Didactic 100% Offline'
+          releaseBody: |
+            ## 🪐 Orbitar — Planetariu Didactic Interactiv în Limba Română (100% Offline)
+
+            Versiunea desktop nativă a planetariului **Orbitar** funcționează **100% fără internet**, direct pe calculatoarele din laboratorul școlii, pe laptopuri sau acasă. Licență liberă **GNU GPLv3 (`GPL-3.0-or-later`)** — gratuit, fără reclame și fără telemetrie.
+
+            ### 📥 Alege varianta potrivită pentru calculatorul tău:
+            - **🪟 Windows (10 / 11 / 7):** Descarcă instalatorul **`.exe` (Setup)** sau **`.msi`**.
+            - **🍎 macOS (MacBook / iMac — Apple Silicon & Intel Universal):** Descarcă imaginea **`.dmg`**. *(Sfat: la prima deschidere, fă Click-Dreapta pe aplicație -> **Open / Deschide**).*
+            - **🐧 Linux (Ubuntu / Mint / Debian / Fedora):** Descarcă pachetul **`.deb`**, **`.rpm`** sau varianta portabilă **`.AppImage`**.
+
+            ### 👩‍🏫 Sfaturi rapide pentru sala de clasă:
+            - Apasă tasta **`F11`** (sau butonul **`⛶ F11`** din bara de sus) pentru proiecție pe tot ecranul la videoproiector sau tablă interactivă.
+            - Apasă tasta **`Q`** (sau butonul **`⚡ Grafică: Rapidă (Eco)`**) pe calculatoarele mai vechi din laboratorul școlii.
+            - Apasă pe **„🎨 Planșe de Colorat & Fișe”** pentru a scoate la imprimantă fișe de studiu A4, planșe de colorat și diplome de Cadet Spațial pentru toată clasa!
+          releaseDraft: false
+          prerelease: false
+          args: ${{ matrix.args }}
