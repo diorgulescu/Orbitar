@@ -616,9 +616,15 @@ export class OrbitalEngine {
    * Filtrează vizibilitatea corpurilor și a orbitelor în funcție de stratul selectat în Header HUD.
    */
   public setCategoryVisibility(predicate: (cat: CelestialCategory, id: string) => boolean): void {
+    const missionsActive = predicate('rover', 'perseverance');
     for (const instance of this.bodies.values()) {
-      // Soarele rămâne mereu vizibil ca reper central și sursă de lumină
-      const visible = instance.data.id === 'sun' || predicate(instance.data.category, instance.data.id);
+      // Soarele rămâne mereu vizibil, iar Marte/Pământul rămân vizibile când explorăm roverele și stațiile
+      const isHostPlanetForMission =
+        missionsActive && (instance.data.id === 'mars' || instance.data.id === 'earth');
+      const visible =
+        instance.data.id === 'sun' ||
+        isHostPlanetForMission ||
+        predicate(instance.data.category, instance.data.id);
       instance.rootGroup.visible = visible;
       if (instance.orbitLine) {
         instance.orbitLine.visible = visible;

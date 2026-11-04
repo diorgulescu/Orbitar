@@ -184,24 +184,43 @@ async function bootstrapOrbitar(): Promise<void> {
     },
   });
 
-  // Caseta de detalii pentru Markerele Planetare (Marte & Lună)
+  // Caseta de detalii pentru Markerele Planetare și Rovere (Marte & Lună)
   const markerCardEl = document.getElementById('hud-surface-marker-card');
   const markerTitleEl = document.getElementById('marker-card-title');
   const markerRegionEl = document.getElementById('marker-card-region');
   const markerDescEl = document.getElementById('marker-card-desc');
+  const markerMediaEl = document.getElementById('marker-card-media');
+  const markerImgEl = document.getElementById('marker-card-img') as HTMLImageElement | null;
+  const markerCaptionEl = document.getElementById('marker-card-img-caption');
   const btnMarkerClose = document.getElementById('btn-marker-card-close');
+
+  const showSurfaceMarkerCard = (marker: ReturnType<SurfaceMarkers['getMarkers']>[number]): void => {
+    const icon = marker.icon ?? '📍';
+    if (markerTitleEl) markerTitleEl.textContent = `${icon} ${marker.titleRo}`;
+    if (markerRegionEl) {
+      markerRegionEl.textContent = `${marker.regionRo} • Anul ${marker.year}`;
+    }
+    if (markerDescEl) markerDescEl.textContent = marker.descriptionRo;
+
+    if (markerMediaEl && markerImgEl && markerCaptionEl) {
+      if (marker.imageUrl) {
+        markerImgEl.src = marker.imageUrl;
+        markerImgEl.alt = `${marker.titleRo} — Fotografie NASA`;
+        markerCaptionEl.textContent = marker.imageCaptionRo ?? '';
+        markerMediaEl.classList.remove('is-hidden');
+      } else {
+        markerMediaEl.classList.add('is-hidden');
+      }
+    }
+    markerCardEl?.classList.remove('is-hidden');
+  };
 
   btnMarkerClose?.addEventListener('click', () => {
     markerCardEl?.classList.add('is-hidden');
   });
 
   surfaceMarkers.onSelectMarker((marker) => {
-    if (markerTitleEl) markerTitleEl.textContent = `📍 ${marker.titleRo}`;
-    if (markerRegionEl) {
-      markerRegionEl.textContent = `${marker.regionRo} • Anul ${marker.year}`;
-    }
-    if (markerDescEl) markerDescEl.textContent = marker.descriptionRo;
-    markerCardEl?.classList.remove('is-hidden');
+    showSurfaceMarkerCard(marker);
 
     if (marker.linkedBodyId) {
       cameraController.focusBody(marker.linkedBodyId);
@@ -224,6 +243,13 @@ async function bootstrapOrbitar(): Promise<void> {
       studyDrawer.showBody(selected);
       lightSpeedRuler.handleBodySelectedInScene(selected);
       orbitarMissions.handleBodySelectedIn3D(selected);
+
+      if (selected.data.category === 'rover') {
+        const linkedMarker = surfaceMarkers.getMarkerByLinkedBodyId(selected.data.id);
+        if (linkedMarker) {
+          showSurfaceMarkerCard(linkedMarker);
+        }
+      }
     }
   };
 

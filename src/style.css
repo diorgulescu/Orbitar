@@ -1205,6 +1205,27 @@ body {
   color: #fff;
 }
 
+.surface-marker-pin.is-rover-pin {
+  background: rgba(8, 22, 44, 0.95);
+  border: 1.5px solid var(--accent-cyan);
+  color: #f8fafc;
+  z-index: 24;
+  box-shadow: 0 0 16px rgba(0, 240, 255, 0.42);
+}
+
+.surface-marker-pin.is-rover-pin:hover,
+.surface-marker-pin.is-active {
+  background: rgba(0, 240, 255, 0.25);
+  border-color: #fff;
+  color: #fff;
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.65);
+}
+
+.surface-marker-pin.is-behind-limb {
+  opacity: 0.88;
+  border-style: dashed;
+}
+
 .pin-beacon {
   display: inline-block;
   width: 7px;
