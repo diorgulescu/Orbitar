@@ -233,7 +233,16 @@ async function bootstrapOrbitar(): Promise<void> {
     const activeId = selected?.data.id ?? 'sun';
 
     for (const [id, pill] of pillElements.entries()) {
-      pill.classList.toggle('is-active', id === activeId);
+      const isActive = id === activeId;
+      pill.classList.toggle('is-active', isActive);
+      if (isActive && bodiesListEl && pill.style.display !== 'none') {
+        const targetScrollLeft =
+          pill.offsetLeft - bodiesListEl.clientWidth * 0.38 + pill.offsetWidth * 0.5;
+        bodiesListEl.scrollTo({
+          left: Math.max(0, targetScrollLeft),
+          behavior: 'smooth',
+        });
+      }
     }
     for (const [id, lbl] of labelElements.entries()) {
       lbl.classList.toggle('is-selected', id === activeId);
