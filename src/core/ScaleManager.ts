@@ -169,7 +169,9 @@ export class ScaleManager {
     // În Scara Didactică, ordonăm sateliții/stațiile pe inele concentrice clare în jurul planetei-mamă
     const baseMultiplier =
       category === 'station' || category === 'telescope'
-        ? 1.55 + localOrbitOrder * 0.38
+        ? localOrbitOrder >= 3
+          ? 2.45 + localOrbitOrder * 0.42
+          : 1.55 + localOrbitOrder * 0.38
         : 2.15 + localOrbitOrder * 0.82;
     return dir.multiplyScalar(parentVisualRadius * baseMultiplier);
   }

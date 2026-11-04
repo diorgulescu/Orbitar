@@ -328,7 +328,21 @@ export class OrbitalEngine {
       return this.issTracker.getOffsetFromEarthAu(id, date);
     }
 
-    // Pentru Titan, Enceladus, ISS, Hubble și roverele marțiene
+    // Telescoapele din punctul Lagrange L2 Soare–Pământ (JWST și Euclid, la ~1,5 milioane km = 0,01 UA de Pământ)
+    if (id === 'jwst' || id === 'euclid') {
+      const days = (date.getTime() - J2000_EPOCH_MS) / 86400000;
+      const phase = id === 'jwst' ? 0.4 : 2.5;
+      const angle = ((days / 182.62) * Math.PI * 2 + phase) % (Math.PI * 2);
+      const radiusAu = id === 'jwst' ? 0.01 : 0.0108;
+      const incl = id === 'jwst' ? 0.22 : -0.26;
+      return new THREE.Vector3(
+        Math.cos(angle) * radiusAu,
+        Math.sin(angle) * Math.sin(incl) * radiusAu,
+        -Math.sin(angle) * radiusAu
+      );
+    }
+
+    // Pentru Titan, Enceladus și roverele marțiene
     const periodDays = Math.max(instance.data.orbitPeriodDays, 0.05);
     const order = instance.data.localOrbitOrder ?? 1;
     const days = (date.getTime() - J2000_EPOCH_MS) / 86400000;
@@ -522,7 +536,10 @@ export class OrbitalEngine {
 
       const offsetAu = this.computeLocalChildOffsetAu(instance, this.simulationDate);
       instance.heliocentricAu.copy(parent.heliocentricAu).add(offsetAu);
-      instance.distanceFromSunAu = parent.distanceFromSunAu;
+      instance.distanceFromSunAu =
+        instance.data.id === 'jwst' || instance.data.id === 'euclid'
+          ? parent.distanceFromSunAu + 0.01
+          : parent.distanceFromSunAu;
 
       const scaledOffset = this.scaleManager.scaleLocalChildOffset(
         offsetAu,
