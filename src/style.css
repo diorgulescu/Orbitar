@@ -318,12 +318,17 @@ body {
 
 .header-search-wrap {
   position: relative;
+  z-index: 1200;
   display: flex;
   align-items: center;
   gap: 8px;
   flex: 1 1 240px;
   max-width: 340px;
   min-height: 48px;
+}
+
+.header-search-wrap:focus-within {
+  z-index: 1250;
 }
 
 .hud-search-input {
@@ -352,7 +357,7 @@ body {
   flex-direction: column;
   gap: 4px;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.7);
-  z-index: 50;
+  z-index: 1250;
 }
 
 .search-result-item {
@@ -399,6 +404,8 @@ body {
 
 .header-filters,
 .header-tier-switch {
+  position: relative;
+  z-index: 10;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
