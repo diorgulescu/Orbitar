@@ -863,12 +863,18 @@ body {
   display: flex;
   flex-direction: column;
   gap: 3px;
+  min-width: 0;
+  max-width: 100%;
   font-size: 0.71rem;
   color: var(--text-muted);
 }
 
 .lab-field input,
 .lab-field select {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(0, 240, 255, 0.3);
   border-radius: 7px;
@@ -876,6 +882,9 @@ body {
   color: var(--text-main);
   font-size: 0.8rem;
   font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   outline: none;
 }
 
@@ -920,19 +929,21 @@ body {
   position: fixed;
   left: 12px;
   bottom: 126px;
-  width: 350px;
+  width: 380px;
   max-width: calc(100vw - 24px);
   z-index: 22;
   display: flex;
   flex-direction: column;
   gap: 8px;
   border-color: var(--accent-amber);
+  overflow: hidden;
 }
 
 .ruler-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 8px;
   font-size: 0.82rem;
   color: var(--accent-amber);
 }
@@ -944,8 +955,9 @@ body {
 
 .ruler-selectors {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 8px;
+  width: 100%;
 }
 
 .ruler-readouts {
