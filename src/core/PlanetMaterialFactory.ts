@@ -304,6 +304,8 @@ export class PlanetMaterialFactory {
     const sunShaderMat = new THREE.ShaderMaterial({
       uniforms,
       vertexShader: /* glsl */ `
+        #include <common>
+        #include <logdepthbuf_pars_vertex>
         varying vec2 vUv;
         varying vec3 vNormal;
         varying vec3 vPosition;
@@ -315,9 +317,12 @@ export class PlanetMaterialFactory {
           vec4 mvPos = modelViewMatrix * vec4(position, 1.0);
           vViewDir = normalize(-mvPos.xyz);
           gl_Position = projectionMatrix * mvPos;
+          #include <logdepthbuf_vertex>
         }
       `,
       fragmentShader: /* glsl */ `
+        #include <common>
+        #include <logdepthbuf_pars_fragment>
         uniform float uTime;
         uniform sampler2D uSunMap;
         uniform vec3 uColorCore;
@@ -333,6 +338,7 @@ export class PlanetMaterialFactory {
         }
 
         void main() {
+          #include <logdepthbuf_fragment>
           vec2 animUv = vec2(fract(vUv.x + uTime * 0.004), vUv.y);
           vec3 texCol = texture2D(uSunMap, animUv).rgb;
           float n1 = plasmaNoise(vPosition * 1.8);
@@ -363,6 +369,8 @@ export class PlanetMaterialFactory {
       blending: THREE.AdditiveBlending,
       side: THREE.BackSide,
       vertexShader: /* glsl */ `
+        #include <common>
+        #include <logdepthbuf_pars_vertex>
         varying vec3 vNormal;
         varying vec3 vViewDir;
         void main() {
@@ -370,14 +378,18 @@ export class PlanetMaterialFactory {
           vec4 mvPos = modelViewMatrix * vec4(position, 1.0);
           vViewDir = normalize(-mvPos.xyz);
           gl_Position = projectionMatrix * mvPos;
+          #include <logdepthbuf_vertex>
         }
       `,
       fragmentShader: /* glsl */ `
+        #include <common>
+        #include <logdepthbuf_pars_fragment>
         uniform float uTime;
         uniform vec3 uGlowColor;
         varying vec3 vNormal;
         varying vec3 vViewDir;
         void main() {
+          #include <logdepthbuf_fragment>
           float intensity = pow(clamp(0.76 - dot(vNormal, vViewDir), 0.0, 1.0), 2.1);
           float pulse = 0.93 + 0.07 * sin(uTime * 2.1);
           gl_FragColor = vec4(uGlowColor * pulse, intensity * 0.88);
@@ -630,6 +642,8 @@ export class PlanetMaterialFactory {
       depthWrite: false,
       blending: THREE.AdditiveBlending,
       vertexShader: /* glsl */ `
+        #include <common>
+        #include <logdepthbuf_pars_vertex>
         varying vec2 vUv;
         varying vec3 vWorldNormal;
         varying vec3 vWorldPos;
@@ -639,9 +653,12 @@ export class PlanetMaterialFactory {
           vec4 worldPosition = modelMatrix * vec4(position, 1.0);
           vWorldPos = worldPosition.xyz;
           gl_Position = projectionMatrix * viewMatrix * worldPosition;
+          #include <logdepthbuf_vertex>
         }
       `,
       fragmentShader: /* glsl */ `
+        #include <common>
+        #include <logdepthbuf_pars_fragment>
         uniform sampler2D uNightMap;
         uniform vec3 uSunWorldPos;
         varying vec2 vUv;
@@ -649,6 +666,7 @@ export class PlanetMaterialFactory {
         varying vec3 vWorldPos;
 
         void main() {
+          #include <logdepthbuf_fragment>
           vec3 sunDirection = normalize(uSunWorldPos - vWorldPos);
           float sunDot = dot(normalize(vWorldNormal), sunDirection);
           // Luminile orașelor se aprind DOAR pe emisfera de noapte (sunDot < 0.0) și se sting lin în zona de zi
@@ -750,6 +768,8 @@ export class PlanetMaterialFactory {
       blending: THREE.AdditiveBlending,
       side: THREE.BackSide,
       vertexShader: /* glsl */ `
+        #include <common>
+        #include <logdepthbuf_pars_vertex>
         varying vec3 vNormal;
         varying vec3 vViewDir;
         void main() {
@@ -757,14 +777,18 @@ export class PlanetMaterialFactory {
           vec4 mvPos = modelViewMatrix * vec4(position, 1.0);
           vViewDir = normalize(-mvPos.xyz);
           gl_Position = projectionMatrix * mvPos;
+          #include <logdepthbuf_vertex>
         }
       `,
       fragmentShader: /* glsl */ `
+        #include <common>
+        #include <logdepthbuf_pars_fragment>
         uniform vec3 uAtmosphereColor;
         uniform float uIntensity;
         varying vec3 vNormal;
         varying vec3 vViewDir;
         void main() {
+          #include <logdepthbuf_fragment>
           float viewDot = abs(dot(vNormal, vViewDir));
           float rim = pow(clamp(1.0 - viewDot, 0.0, 1.0), 2.4);
           gl_FragColor = vec4(uAtmosphereColor, rim * uIntensity);
@@ -830,6 +854,8 @@ export class PlanetMaterialFactory {
         side: THREE.DoubleSide,
         depthWrite: false,
         vertexShader: /* glsl */ `
+          #include <common>
+          #include <logdepthbuf_pars_vertex>
           varying vec2 vUv;
           varying vec3 vWorldPos;
           varying vec3 vPlanetCenter;
@@ -841,9 +867,12 @@ export class PlanetMaterialFactory {
             vPlanetCenter = (modelMatrix * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
             vPlanetRadius = length(modelMatrix[0].xyz);
             gl_Position = projectionMatrix * viewMatrix * worldPos;
+            #include <logdepthbuf_vertex>
           }
         `,
         fragmentShader: /* glsl */ `
+          #include <common>
+          #include <logdepthbuf_pars_fragment>
           uniform sampler2D uRingMap;
           uniform vec3 uSunWorldPos;
           varying vec2 vUv;
@@ -852,6 +881,7 @@ export class PlanetMaterialFactory {
           varying float vPlanetRadius;
 
           void main() {
+            #include <logdepthbuf_fragment>
             vec4 texSample = texture2D(uRingMap, vUv);
             if (texSample.a < 0.01) {
               discard;
