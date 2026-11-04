@@ -12,6 +12,7 @@
   --text-muted: #94a3b8;
   --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --hud-header-offset: 130px;
 }
 
 * {
@@ -102,7 +103,7 @@ body {
 #loading-screen {
   position: fixed;
   inset: 0;
-  z-index: 100;
+  z-index: 1400;
   background: radial-gradient(circle at center, #0c1428 0%, #05070d 75%);
   display: flex;
   align-items: center;
@@ -599,7 +600,7 @@ body {
 #hud-quality-toast,
 .quality-toast {
   position: fixed;
-  top: 76px;
+  top: var(--hud-header-offset, 130px);
   left: 50%;
   transform: translateX(-50%);
   z-index: 1100;
@@ -619,12 +620,12 @@ body {
 /* 2. PANOUL LATERAL DE STUDIU */
 .study-drawer {
   position: fixed;
-  top: 72px;
+  top: var(--hud-header-offset, 130px);
   right: 12px;
   bottom: 122px;
   width: 410px;
   max-width: calc(100vw - 24px);
-  z-index: 20;
+  z-index: 1002;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -1075,7 +1076,7 @@ body {
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  z-index: 90;
+  z-index: 1300;
   background: rgba(3, 6, 14, 0.78);
   backdrop-filter: blur(8px);
   display: flex;
@@ -1167,10 +1168,10 @@ body {
 .surface-marker-modal {
   position: fixed;
   left: 12px;
-  top: 72px;
+  top: var(--hud-header-offset, 130px);
   width: 350px;
   max-width: calc(100vw - 24px);
-  z-index: 26;
+  z-index: 1005;
   display: flex;
   flex-direction: column;
   gap: 7px;
@@ -1209,12 +1210,12 @@ body {
 .missions-floating-panel {
   position: fixed;
   left: 12px;
-  top: 72px;
+  top: var(--hud-header-offset, 130px);
   width: 390px;
   max-width: calc(100vw - 24px);
-  max-height: calc(100vh - 205px);
+  max-height: calc(100vh - var(--hud-header-offset, 130px) - 135px);
   overflow-y: auto;
-  z-index: 24;
+  z-index: 1004;
   display: flex;
   flex-direction: column;
   gap: 10px;

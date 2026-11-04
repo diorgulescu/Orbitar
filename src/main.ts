@@ -476,6 +476,25 @@ async function bootstrapOrbitar(): Promise<void> {
     }
   });
 
+  // Ajustare dinamică a variabilei CSS --hud-header-offset în funcție de înălțimea reală a barei superioare (.hud-header)
+  const hudHeaderEl = document.querySelector('.hud-header') as HTMLElement | null;
+  const syncHeaderOffsetCssVar = (): void => {
+    if (!hudHeaderEl) return;
+    const rect = hudHeaderEl.getBoundingClientRect();
+    if (rect.height > 0) {
+      const offsetPx = Math.max(72, Math.ceil(rect.bottom + 10));
+      document.documentElement.style.setProperty('--hud-header-offset', `${offsetPx}px`);
+    }
+  };
+  syncHeaderOffsetCssVar();
+  window.addEventListener('resize', syncHeaderOffsetCssVar);
+  if (hudHeaderEl && 'ResizeObserver' in window) {
+    const headerRo = new ResizeObserver(() => {
+      syncHeaderOffsetCssVar();
+    });
+    headerRo.observe(hudHeaderEl);
+  }
+
   window.__orbitar = {
     sceneManager,
     scaleManager,
