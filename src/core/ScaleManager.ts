@@ -100,11 +100,13 @@ export class ScaleManager {
     if (category === 'star') {
       return 6.2;
     }
+    if (category === 'rover') {
+      return 0.06;
+    }
     if (
       category === 'probe' ||
       category === 'station' ||
-      category === 'telescope' ||
-      category === 'rover'
+      category === 'telescope'
     ) {
       return 0.58;
     }

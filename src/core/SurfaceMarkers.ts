@@ -150,6 +150,7 @@ export class SurfaceMarkers {
 
       const pinGroup = new THREE.Group();
       pinGroup.name = `SurfacePin_${data.id}`;
+      pinGroup.userData = { markerId: data.id };
 
       // Convertim latitudinea și longitudinea în coordonate pe sfera unitară (raza = 1.0)
       const latRad = THREE.MathUtils.degToRad(data.latDeg);

@@ -7,6 +7,69 @@ import { OrbitarLab } from './OrbitarLab';
 
 const STORAGE_KEY_BADGES = 'orbitar_badges';
 
+const NASA_MEDIA_BY_BODY_ID: Record<string, { src: string; captionRo: string }> = {
+  perseverance: {
+    src: './textures/nasa/perseverance.jpg',
+    captionRo:
+      '📸 Fotografie reală NASA/JPL-Caltech (PIA24542): Roverul Perseverance și elicopterul Ingenuity în Craterul Jezero de pe Marte.',
+  },
+  curiosity: {
+    src: './textures/nasa/curiosity.jpg',
+    captionRo:
+      '📸 Autoportret real NASA/JPL-Caltech (PIA16239): Roverul Curiosity (MSL) fotografiat pe solul Craterului Gale de pe Marte.',
+  },
+  iss: {
+    src: './textures/nasa/iss.jpg',
+    captionRo:
+      '📸 Fotografie reală NASA (ISS056E201248): Stația Spațială Internațională pe orbita joasă a Pământului.',
+  },
+  jwst: {
+    src: './textures/nasa/jwst.jpg',
+    captionRo:
+      '📸 Fotografie oficială NASA/GSFC: Telescopul Spațial James Webb cu scutul termic în 5 straturi desfășurat.',
+  },
+  hubble: {
+    src: './textures/nasa/hubble.jpg',
+    captionRo:
+      '📸 Fotografie reală NASA (STS-125): Telescopul Spațial Hubble pe orbită deasupra Pământului.',
+  },
+  euclid: {
+    src: './textures/nasa/euclid.jpg',
+    captionRo:
+      '📸 Fotografie oficială NASA/ESA (PIA25783): Telescopul Spațial Euclid cu izolația termică aurită MLI.',
+  },
+  voyager1: {
+    src: './textures/nasa/voyager1.jpg',
+    captionRo:
+      '📸 Randare oficială NASA/JPL-Caltech (PIA17462): Sonda Voyager 1 în spațiul interstelar.',
+  },
+  voyager2: {
+    src: './textures/nasa/voyager2.jpg',
+    captionRo:
+      '📸 Randare oficială NASA/JPL-Caltech (PIA17462): Sonda Voyager 2 în spațiul interstelar.',
+  },
+  newhorizons: {
+    src: './textures/nasa/newhorizons.jpg',
+    captionRo:
+      '📸 Imagine oficială NASA/JHUAPL/SwRI: Misiunea interplanetară New Horizons în Centura Kuiper.',
+  },
+  parker: {
+    src: './textures/nasa/parker.jpg',
+    captionRo:
+      '📸 Imagine oficială NASA/JHUAPL: Sonda Parker Solar Probe în apropierea coroanei solare.',
+  },
+  rosetta: {
+    src: './textures/nasa/rosetta.jpg',
+    captionRo:
+      '📸 Fotografie oficială ESA/NASA (PIA18596): Cometa 67P/Ciuriumov-Gherasimenko fotografiată de sonda Rosetta.',
+  },
+  juice: {
+    src: './textures/nasa/juice.jpg',
+    captionRo:
+      '📸 Fotografie oficială NASA/JPL/ESA (PIA24024): Instrumentația radar a sondei interplanetare JUICE.',
+  },
+};
+
 /**
  * StudyDrawer gestionează Panoul Lateral de Studiu (Bento Dark Mode):
  * - Se deschide la selectarea unui corp ceresc
@@ -181,6 +244,22 @@ export class StudyDrawer {
     if (nameEl) nameEl.textContent = d.name;
     if (subtitleEl) subtitleEl.textContent = d.subtitle;
     if (catEl) catEl.textContent = body.meta.categoryNameRo;
+
+    // Afișăm fotografia / randarea oficială NASA pentru rovere, stații, sonde și telescoape
+    const mediaCard = document.getElementById('hud-target-media');
+    const mediaImg = document.getElementById('hud-target-img') as HTMLImageElement | null;
+    const mediaCaption = document.getElementById('hud-target-img-caption');
+    const nasaMedia = NASA_MEDIA_BY_BODY_ID[d.id];
+    if (mediaCard && mediaImg && mediaCaption) {
+      if (nasaMedia) {
+        mediaImg.src = nasaMedia.src;
+        mediaImg.alt = `${d.name} — Fotografie / Randare NASA`;
+        mediaCaption.textContent = nasaMedia.captionRo;
+        mediaCard.classList.remove('is-hidden');
+      } else {
+        mediaCard.classList.add('is-hidden');
+      }
+    }
 
     // Afișăm caseta de telemetrie SGP4 pentru ISS și Hubble
     const issCard = document.getElementById('lab-iss-telemetry-card');

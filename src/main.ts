@@ -204,10 +204,7 @@ async function bootstrapOrbitar(): Promise<void> {
     markerCardEl?.classList.remove('is-hidden');
 
     if (marker.linkedBodyId) {
-      const linkedBody = orbitalEngine.getBody(marker.linkedBodyId);
-      if (linkedBody) {
-        studyDrawer.showBody(linkedBody);
-      }
+      cameraController.focusBody(marker.linkedBodyId);
     }
   });
 
@@ -543,7 +540,7 @@ async function bootstrapOrbitar(): Promise<void> {
       const labelEl = labelElements.get(body.data.id);
       if (!labelEl) continue;
 
-      if (!body.rootGroup.visible) {
+      if (!body.rootGroup.visible || body.data.category === 'rover') {
         labelEl.style.display = 'none';
         continue;
       }

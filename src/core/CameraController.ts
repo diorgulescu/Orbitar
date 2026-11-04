@@ -85,6 +85,25 @@ export class CameraController {
 
     // Calculăm o distanță de observare confortabilă în funcție de raza vizuală a corpului
     const r = body.visualRadius;
+    const parent = body.data.parentId ? this.orbitalEngine.getBody(body.data.parentId) : undefined;
+
+    if (body.data.category === 'rover' && parent) {
+      const surfaceNormal = body.worldPosition.clone().sub(parent.worldPosition);
+      if (surfaceNormal.lengthSq() < 0.000001) {
+        surfaceNormal.set(0, 0.35, 1);
+      }
+      surfaceNormal.normalize();
+      const viewDir = surfaceNormal.clone().add(new THREE.Vector3(0, 0.22, 0)).normalize();
+      const roverDist = Math.max(parent.visualRadius * 1.18, 0.0035);
+      this.desiredCameraOffset.copy(viewDir).multiplyScalar(roverDist);
+      this.isTransitioning = true;
+
+      for (const cb of this.selectCallbacks) {
+        cb(body);
+      }
+      return;
+    }
+
     const viewDist =
       body.meta.id === 'sun'
         ? Math.max(r * 4.8, 12)
@@ -151,6 +170,25 @@ export class CameraController {
     // 2. Interpolare lină (exponential smooth lerp) pentru ținta OrbitControls și poziția camerei
     const lerpAlpha = 1 - Math.exp(-5.5 * Math.max(deltaSeconds, 0.008));
     this.controls.target.lerp(currentBodyPos, lerpAlpha);
+
+    // Pentru roverele ancorate ca pinpoint pe suprafața rotitoare a lui Marte, menținem camera deasupra orizontului local
+    if (this.trackedBody.data.category === 'rover' && this.trackedBody.data.parentId) {
+      const parent = this.orbitalEngine.getBody(this.trackedBody.data.parentId);
+      if (parent) {
+        const surfaceNormal = currentBodyPos.clone().sub(parent.worldPosition).normalize();
+        const roverDist = Math.max(parent.visualRadius * 1.18, 0.0035);
+        const viewDir = surfaceNormal.clone().add(new THREE.Vector3(0, 0.22, 0)).normalize();
+        this.desiredCameraOffset.copy(viewDir).multiplyScalar(roverDist);
+
+        // Prevenim pătrunderea camerei în interiorul sferei planetei Marte în timpul rotației acesteia
+        const camFromParent = this.camera.position.clone().sub(parent.worldPosition);
+        const minSafeRadius = parent.visualRadius * 1.32;
+        if (camFromParent.length() < minSafeRadius) {
+          camFromParent.normalize().multiplyScalar(minSafeRadius);
+          this.camera.position.copy(parent.worldPosition).add(camFromParent);
+        }
+      }
+    }
 
     if (this.isTransitioning) {
       const desiredCamPos = currentBodyPos.clone().add(this.desiredCameraOffset);
@@ -225,6 +263,7 @@ export class CameraController {
     const projected = new THREE.Vector3();
 
     for (const body of this.orbitalEngine.getBodies()) {
+      if (body.data.category === 'rover') continue;
       projected.copy(body.worldPosition).project(this.camera);
       if (projected.z < -1 || projected.z > 1) continue;
 

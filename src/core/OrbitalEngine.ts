@@ -217,12 +217,21 @@ export class OrbitalEngine {
 
     for (const instance of this.bodies.values()) {
       const modelType = instance.data.modelType ?? 'sphere';
-      const isQualityDependent =
-        instance.data.id === 'sun' || modelType === 'sphere' || modelType === 'asteroid';
-      if (!isQualityDependent) continue;
+      if (modelType === 'rover') continue;
 
       const prevRotY = instance.visualRoot.rotation.y;
       const prevRotZ = instance.visualRoot.rotation.z;
+
+      // Păstrăm pinii de suprafață (SurfaceMarkers) atașați de visualRoot
+      const preservedMarkers: THREE.Object3D[] = [];
+      for (const child of instance.visualRoot.children) {
+        if (child.userData?.markerId) {
+          preservedMarkers.push(child);
+        }
+      }
+      for (const markerObj of preservedMarkers) {
+        instance.visualRoot.remove(markerObj);
+      }
 
       // Eliberăm materialele vechiului visualRoot
       instance.visualRoot.traverse((obj) => {
@@ -248,6 +257,10 @@ export class OrbitalEngine {
       visualRoot.traverse((obj) => {
         obj.userData = { ...obj.userData, bodyId: instance.data.id };
       });
+
+      for (const markerObj of preservedMarkers) {
+        visualRoot.add(markerObj);
+      }
 
       instance.visualRoot = visualRoot;
       instance.updateShaderTime = updateShaderTime;
@@ -533,6 +546,27 @@ export class OrbitalEngine {
 
       const parent = this.bodies.get(instance.data.parentId);
       if (!parent) continue;
+
+      if (instance.data.category === 'rover') {
+        // Roverele marțiene sunt ancorate ca pinpoint-uri direct pe suprafața rotitoare a lui Marte
+        // la coordonatele reale de amartizare (Craterul Jezero 18.38°N 77.58°E / Craterul Gale -4.58°S 137.44°E)
+        const latDeg = instance.data.id === 'perseverance' ? 18.38 : -4.58;
+        const lonDeg = instance.data.id === 'perseverance' ? 77.58 : 137.44;
+        const latRad = THREE.MathUtils.degToRad(latDeg);
+        const lonRad = THREE.MathUtils.degToRad(lonDeg);
+        const surfacePinLocal = new THREE.Vector3(
+          Math.cos(latRad) * Math.cos(lonRad),
+          Math.sin(latRad),
+          -Math.cos(latRad) * Math.sin(lonRad)
+        ).multiplyScalar(1.03);
+
+        parent.visualRoot.updateWorldMatrix(true, false);
+        instance.worldPosition.copy(surfacePinLocal).applyMatrix4(parent.visualRoot.matrixWorld);
+        instance.rootGroup.position.copy(instance.worldPosition);
+        instance.heliocentricAu.copy(parent.heliocentricAu);
+        instance.distanceFromSunAu = parent.distanceFromSunAu;
+        continue;
+      }
 
       const offsetAu = this.computeLocalChildOffsetAu(instance, this.simulationDate);
       instance.heliocentricAu.copy(parent.heliocentricAu).add(offsetAu);
