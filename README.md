@@ -3,7 +3,7 @@
 [![Licență: GPL v3](https://img.shields.io/badge/Licen%C8%9B%C4%83-GPLv3-00f0ff.svg)](./LICENSE)
 [![Limba: Română](https://img.shields.io/badge/Limba-Rom%C3%A2n%C4%83%20(6--12%20ani)-ffb703.svg)](#)
 [![100% Offline PWA & Desktop](https://img.shields.io/badge/PWA%20%26%20Desktop-100%25%20Offline%20%26%20Zero%20Telemetrie-22c55e.svg)](#)
-[![Teste Automate CI](https://img.shields.io/badge/Teste%20Automate-40%20Unit%20%26%20Functional%20(GitHub%20Actions)-00f0ff.svg)](./.github/workflows/ci-tests.yml)
+[![Teste Automate CI](https://img.shields.io/badge/Teste%20Automate-40%20Unit%20%26%20Functional%20(GitHub%20Actions)-00f0ff.svg)](./.github/workflows/ci-tests.yml) [![Release Orbitar Desktop (Windows, macOS, Linux)](https://github.com/diorgulescu/Orbitar/actions/workflows/release-desktop.yml/badge.svg)](https://github.com/diorgulescu/Orbitar/actions/workflows/release-desktop.yml)
 
 **Orbitar** este un planetariu didactic interactiv 3D în limba română, conceput special pentru copiii cu vârste între **6 și 12 ani**, pentru orele de științe de la școală (la videoproiector sau tablă interactivă) și pentru explorare acasă pe tabletă, laptop sau PC.
 
