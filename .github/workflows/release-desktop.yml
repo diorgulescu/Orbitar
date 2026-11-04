@@ -63,6 +63,9 @@ jobs:
           npm run fetch:hd-textures
           node scripts/generate-tauri-icons.mjs
 
+      - name: Run Automated Unit & Functional Test Suite
+        run: npm test
+
       - name: Build and Publish Orbitar Desktop Release via Tauri Action
         uses: tauri-apps/tauri-action@v0
         env:

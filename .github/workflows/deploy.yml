@@ -29,8 +29,14 @@ jobs:
           node-version: 20
           cache: 'npm'
 
-      - name: Install dependencies and build production bundle
-        run: npm ci && npm run build
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Automated Unit & Functional Test Suite
+        run: npm test
+
+      - name: Build production bundle
+        run: npm run build
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
