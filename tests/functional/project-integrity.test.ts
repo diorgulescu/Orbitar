@@ -90,4 +90,18 @@ describe('Integritatea Proiectului, Resurse NASA/HD și Conformitate Licență G
     const hdFiles = fs.readdirSync(hdDir).filter((f: string) => f.endsWith('.jpg') || f.endsWith('.png'));
     assert.ok(hdFiles.length >= 26, `Trebuie să existe cel puțin 26 de hărți HD în public/textures/hd/ (găsite: ${hdFiles.length})`);
   });
+
+  it('toate cele 76 de fișiere audio narative pre-generate în limba română există în public/audio/tts/', () => {
+    const ttsDir = path.resolve(process.cwd(), 'public/audio/tts');
+    assert.ok(fs.existsSync(ttsDir), 'Directorul public/audio/tts trebuie să existe');
+    const mp3Files = fs.readdirSync(ttsDir).filter((f: string) => f.endsWith('.mp3'));
+    assert.equal(
+      mp3Files.length,
+      76,
+      `Trebuie să existe 76 de fișiere MP3 (38 corpuri × 2 niveluri) în public/audio/tts/ (găsite: ${mp3Files.length})`
+    );
+    assert.ok(fs.existsSync(path.join(ttsDir, 'mars_junior.mp3')));
+    assert.ok(fs.existsSync(path.join(ttsDir, 'voyager1_junior.mp3')));
+    assert.ok(fs.existsSync(path.join(ttsDir, 'manifest.json')));
+  });
 });

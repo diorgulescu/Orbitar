@@ -3,7 +3,6 @@ import * as THREE from 'three';
 import { CelestialBodyInstance, OrbitalEngine } from '../core/OrbitalEngine';
 import { ScaleManager } from '../core/ScaleManager';
 import { CameraController } from '../core/CameraController';
-import { SpaceAmbientEngine } from '../audio/SpaceAmbientEngine';
 
 export type SpacecraftId = 'vlaicu1' | 'coandax' | 'luceafarul';
 export type CockpitTheme = 'amber' | 'cyan' | 'violet';
@@ -131,9 +130,6 @@ export type BeltAlertCallback = (zone: 'asteroid_belt' | 'kuiper_belt', messageR
 export type ArrivalBriefingCallback = (report: ArrivalBriefingReport) => void;
 export type PilotModeChangeCallback = (active: boolean) => void;
 export type ShipChangeCallback = (ship: SpacecraftSpec) => void;
-
-const BELT_ALERT_COOLDOWN_MS = 22_000;
-const SHIELD_RESIDUAL_HOLD_SECONDS = 5.5;
 
 /**
  * Formatează didactic durata unei călătorii interplanetare în limba română
@@ -333,8 +329,6 @@ export class SpacecraftPilot {
   private autopilotTotalDistanceKm = 0;
   private autopilotTotalDurationHours = 0;
   private autopilotProgressPrev = 0;
-  private crossedAsteroidBeltInCurrentAutopilot = false;
-  private crossedKuiperBeltInCurrentAutopilot = false;
 
   // Cronometrul Pământului și distanța parcursă
   private earthDate: Date = new Date();
@@ -342,12 +336,9 @@ export class SpacecraftPilot {
   private lastTripDurationRo = '0 secunde';
   private lastArrivalReport: ArrivalBriefingReport | null = null;
 
-  // Scuturi Deflectoare și Centuri de Asteroizi
+  // Stare centură (alertele de scuturi sunt dezactivate pentru claritate didactică)
   private activeBeltZone: BeltHazardZone = 'none';
   private shieldActive = false;
-  private shieldResidualTimer = 0;
-  private lastAsteroidBeltAlertTimeMs = -999_999;
-  private lastKuiperBeltAlertTimeMs = -999_999;
 
   // Controale de la tastatură și joystick tactil
   private readonly pressedKeys: Set<string> = new Set();
@@ -743,13 +734,6 @@ export class SpacecraftPilot {
     this.autopilotElapsed = 0;
     this.autopilotDuration = 4.6;
     this.autopilotProgressPrev = 0;
-    this.crossedAsteroidBeltInCurrentAutopilot = false;
-    this.crossedKuiperBeltInCurrentAutopilot = false;
-
-    // Resetează cooldown-ul centurilor pentru noul zbor pe pilot automat, astfel încât
-    // traversarea centurii în timpul unui zbor Pământ -> Jupiter să fie mereu semnalizată clar
-    this.lastAsteroidBeltAlertTimeMs = -999_999;
-    this.lastKuiperBeltAlertTimeMs = -999_999;
 
     this.autopilotStartPos.copy(this.position);
     this.autopilotStartQuat.copy(this.quaternion);
@@ -823,10 +807,6 @@ export class SpacecraftPilot {
 
     const dt = Math.min(Math.max(deltaSeconds, 0.001), 0.25);
     this.prevHeliocentricAu = this.currentHeliocentricAu;
-
-    if (this.shieldResidualTimer > 0) {
-      this.shieldResidualTimer = Math.max(0, this.shieldResidualTimer - dt);
-    }
 
     if (this.isAutopilot && this.autopilotTarget) {
       this.updateAutopilotFlight(deltaSeconds);
@@ -1045,63 +1025,12 @@ export class SpacecraftPilot {
   }
 
   /**
-   * Monitorizează continuu dacă nava se află în sau traversează:
-   * a) Centura Principală de Asteroizi (~2.1 – 3.3 UA)
-   * b) Centura Kuiper (~30.0 – 50.0 UA)
+   * Alertele pentru scuturi deflectoare în Centura de Asteroizi / Centura Kuiper sunt dezactivate
+   * pentru a nu întrerupe sau deruta copiii în timpul zborului spre planete.
    */
-  private evaluateBeltProximity(prevAu: number, currAu: number): void {
-    const minAu = Math.min(prevAu, currAu);
-    const maxAu = Math.max(prevAu, currAu);
-    const nowMs = performance.now();
-
-    const inAsteroidBeltNow =
-      currAu >= ASTEROID_BELT_MIN_AU && currAu <= ASTEROID_BELT_MAX_AU;
-    const crossedAsteroidBelt =
-      minAu <= ASTEROID_BELT_MAX_AU && maxAu >= ASTEROID_BELT_MIN_AU;
-
-    const inKuiperBeltNow =
-      currAu >= KUIPER_BELT_MIN_AU && currAu <= KUIPER_BELT_MAX_AU;
-    const crossedKuiperBelt =
-      minAu <= KUIPER_BELT_MAX_AU && maxAu >= KUIPER_BELT_MIN_AU;
-
-    if (inAsteroidBeltNow || (crossedAsteroidBelt && !this.crossedAsteroidBeltInCurrentAutopilot)) {
-      this.activeBeltZone = 'asteroid_belt';
-      this.shieldActive = true;
-      this.shieldResidualTimer = SHIELD_RESIDUAL_HOLD_SECONDS;
-
-      if (nowMs - this.lastAsteroidBeltAlertTimeMs > BELT_ALERT_COOLDOWN_MS) {
-        this.lastAsteroidBeltAlertTimeMs = nowMs;
-        this.crossedAsteroidBeltInCurrentAutopilot = true;
-        SpaceAmbientEngine.getInstance().playDeflectorShieldResonance('asteroid');
-        for (const cb of this.beltAlertCallbacks) {
-          cb('asteroid_belt', ASTEROID_BELT_ALERT_RO);
-        }
-      }
-      return;
-    }
-
-    if (inKuiperBeltNow || (crossedKuiperBelt && !this.crossedKuiperBeltInCurrentAutopilot)) {
-      this.activeBeltZone = 'kuiper_belt';
-      this.shieldActive = true;
-      this.shieldResidualTimer = SHIELD_RESIDUAL_HOLD_SECONDS;
-
-      if (nowMs - this.lastKuiperBeltAlertTimeMs > BELT_ALERT_COOLDOWN_MS) {
-        this.lastKuiperBeltAlertTimeMs = nowMs;
-        this.crossedKuiperBeltInCurrentAutopilot = true;
-        SpaceAmbientEngine.getInstance().playDeflectorShieldResonance('kuiper');
-        for (const cb of this.beltAlertCallbacks) {
-          cb('kuiper_belt', KUIPER_BELT_ALERT_RO);
-        }
-      }
-      return;
-    }
-
-    if (this.shieldResidualTimer > 0) {
-      this.shieldActive = true;
-    } else {
-      this.activeBeltZone = 'none';
-      this.shieldActive = false;
-    }
+  private evaluateBeltProximity(_prevAu: number, _currAu: number): void {
+    this.activeBeltZone = 'none';
+    this.shieldActive = false;
   }
 
   /**

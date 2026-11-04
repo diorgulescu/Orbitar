@@ -206,20 +206,6 @@
         preserveAspectRatio="none"
         aria-hidden="true"
       >
-        <defs>
-          <radialGradient id="shield-glow-grad" cx="50%" cy="50%" r="52%">
-            <stop offset="68%" stop-color="rgba(0, 240, 255, 0)" />
-            <stop offset="92%" stop-color="rgba(0, 240, 255, 0.22)" />
-            <stop offset="100%" stop-color="rgba(0, 240, 255, 0.58)" />
-          </radialGradient>
-        </defs>
-        <g id="cockpit-shield-halo" class="cockpit-shield-halo">
-          <rect x="8" y="8" width="1584" height="884" rx="34" fill="url(#shield-glow-grad)" />
-          <path
-            class="shield-hex-border"
-            d="M 48 18 L 1552 18 L 1582 54 L 1582 846 L 1552 882 L 48 882 L 18 846 L 18 54 Z"
-          />
-        </g>
         <path
           class="cockpit-canopy-arch"
           d="M 0 0 L 1600 0 L 1600 84 L 1460 54 L 1120 34 L 480 34 L 140 54 L 0 84 Z"
@@ -245,9 +231,6 @@
           <strong id="cockpit-active-ship-title" class="cockpit-ship-title">🚀 Racheta "Vlaicu-1"</strong>
           <span id="cockpit-active-ship-propulsion" class="telemetry-tag">Propulsie Chimică • 50.000 km/h</span>
         </div>
-        <div id="cockpit-shield-banner-pill" class="bento-card cockpit-shield-pill">
-          <span id="cockpit-shield-status" class="shield-status-text">🛡️ SCUTURI DEFLECTOARE: STANDBY</span>
-        </div>
         <button
           id="btn-cockpit-exit"
           type="button"
@@ -256,26 +239,6 @@
         >
           🗗 Ieși din Mod Pilot (P)
         </button>
-      </div>
-
-      <div
-        id="cockpit-belt-alert"
-        class="bento-card cockpit-belt-alert is-hidden"
-        role="alert"
-        aria-live="assertive"
-      >
-        <div class="belt-alert-header">
-          <strong id="cockpit-belt-alert-title">🛡️ SCUTURI DEFLECTOARE: ACTIVE</strong>
-          <button
-            id="btn-cockpit-belt-alert-close"
-            type="button"
-            class="hud-icon-btn"
-            aria-label="Închide alerta centurii"
-          >
-            ✕
-          </button>
-        </div>
-        <p id="cockpit-belt-alert-text" class="belt-alert-body"></p>
       </div>
 
       <aside
@@ -401,9 +364,9 @@
             <span id="cockpit-speed-light" class="cockpit-inst-sub">0,0000% din viteza luminii (c)</span>
           </div>
           <div class="cockpit-instrument-cell">
-            <span class="cockpit-inst-label">🛡️ SCUT DEFLECTOR &amp; POZIȚIE</span>
-            <strong id="cockpit-inst-shield" class="cockpit-inst-value">ÎN AȘTEPTARE (STANDBY)</strong>
-            <span id="cockpit-helio-au" class="cockpit-inst-sub">Distanță de Soare: 1,00 UA</span>
+            <span class="cockpit-inst-label">☀️ POZIȚIE ÎN SISTEMUL SOLAR</span>
+            <strong id="cockpit-helio-au" class="cockpit-inst-value highlight-cyan">Distanță de Soare: 1,00 UA</strong>
+            <span id="cockpit-target-name-inst" class="cockpit-inst-sub">Țintă activă: —</span>
           </div>
           <div class="cockpit-instrument-cell">
             <span class="cockpit-inst-label">🌍 DATA CURENTĂ PE PĂMÂNT</span>

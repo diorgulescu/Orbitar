@@ -668,16 +668,26 @@ export function setupTestDomEnvironment(options: {
       return {
         ok: false,
         status: 404,
+        headers: {
+          get: () => null,
+        },
         json: async () => ({}),
         text: async () => '',
       };
     }
-    const raw = fs.readFileSync(filePath, 'utf8');
+    const contentType = filePath.endsWith('.mp3')
+      ? 'audio/mpeg'
+      : filePath.endsWith('.ogg')
+      ? 'audio/ogg'
+      : 'application/json';
     return {
       ok: true,
       status: 200,
-      json: async () => JSON.parse(raw),
-      text: async () => raw,
+      headers: {
+        get: (h: string) => (h.toLowerCase() === 'content-type' ? contentType : null),
+      },
+      json: async () => JSON.parse(fs.readFileSync(filePath, 'utf8')),
+      text: async () => fs.readFileSync(filePath, 'utf8'),
     };
   };
 

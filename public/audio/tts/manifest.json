@@ -1,0 +1,464 @@
+{
+  "version": "1.0.0",
+  "license": "GPL-3.0-or-later",
+  "engine": "macos-ioana",
+  "count": 76,
+  "entries": {
+    "sun_junior": {
+      "bodyId": "sun",
+      "tier": "junior",
+      "file": "./audio/tts/sun_junior.mp3",
+      "normalizedText": "Soarele. Steaua centrală a Sistemului Solar (Pitică Galbenă G2V). Soarele este o minge uriașă de foc și plasmă strălucitoare care ne dă lumină și căldură în fiecare zi. Fără el, pe Pământ ar fi întuneric și un frig de gheață! Analogie: Dacă Soarele ar fi cât o minge mare de plajă, Pământul ar fi doar cât un bob mic de mazăre! Știai că? În interiorul Soarelui ar încăpea aproximativ 1 virgulă 3 milioane de planete Pământ!"
+    },
+    "sun_cadet": {
+      "bodyId": "sun",
+      "tier": "cadet",
+      "file": "./audio/tts/sun_cadet.mp3",
+      "normalizedText": "Soarele. Steaua centrală a Sistemului Solar (Pitică Galbenă G2V). Soarele este o stea de tip spectral G2V care concentrează 99 virgulă 86% din masa totală a Sistemului Solar. În nucleul său, la temperaturi de 15 milioane grade C, fuziunea nucleară transformă 600 de milioane de tone de hidrogen în heliu în fiecare secundă. Istoricul explorării: Studiat de misiunile SOHO, Solar Dynamics Observatory (SDO), Solar Orbiter (ESA) și Sonda Solară Parcăr (NASA), care a pătruns direct în coroana solară."
+    },
+    "mercury_junior": {
+      "bodyId": "mercury",
+      "tier": "junior",
+      "file": "./audio/tts/mercury_junior.mp3",
+      "normalizedText": "Mercur. Cea mai apropiată și mai mică planetă de la Soare. Mercur este mesagerul rapid al Sistemului Solar! Fiind cel mai aproape de Soare, termină o tură completă în doar 88 de zile. Analogie: Mercur este doar puțin mai mare decât Luna noastră și arată aproape ca o nucă cenușie plină de gropițe. Știai că? Deși este cel mai aproape de Soare, noaptea pe Mercur îngheață totul la minus 180 grade Celsius pentru că nu are o pătură de aer!"
+    },
+    "mercury_cadet": {
+      "bodyId": "mercury",
+      "tier": "cadet",
+      "file": "./audio/tts/mercury_cadet.mp3",
+      "normalizedText": "Mercur. Cea mai apropiată și mai mică planetă de la Soare. Mercur este o planetă telurică densă, având un nucleu metalic uriaș din fier care ocupă 85% din raza planetei. Lipsa unei atmosfere substanțiale (are doar o exosferă subțire) provoacă cele mai mari variații termice din Sistemul Solar. Istoricul explorării: Vizitată de Mariner 10 (1974 până la 1975), cartografiată complet de sonda MESSENGER (2011 până la 2015) și explorată de misiunea europeo-japoneză BepiColombo."
+    },
+    "venus_junior": {
+      "bodyId": "venus",
+      "tier": "junior",
+      "file": "./audio/tts/venus_junior.mp3",
+      "normalizedText": "Venus. Luceafărul strălucitor cu efect de seră extrem. Venus este cel mai strălucitor obiect de pe cerul nopții după Lună! Este învelită în nori groși și gălbui care păstrează căldura ca într-un cuptor. Analogie: Venus are aproape aceeași mărime ca Pământul — ca două portocale așezate una lângă alta! Știai că? Pe Venus, Soarele răsare din vest și apune în est, deoarece planeta se învârte invers față de Pământ!"
+    },
+    "venus_cadet": {
+      "bodyId": "venus",
+      "tier": "cadet",
+      "file": "./audio/tts/venus_cadet.mp3",
+      "normalizedText": "Venus. Luceafărul strălucitor cu efect de seră extrem. Numită sora geamănă a Pământului datorită dimensiunii și masei similare, Venus are o atmosferă compusă în proporție de 96 virgulă 5% din dioxid de carbon, cu o presiune la sol de 92 de ori mai mare decât cea terestră. Istoricul explorării: Sondele sovietice Venera au reușit primele asolizări și fotografii de pe suprafață (1970 până la 1982), iar sonda NASA Magellan a cartografiat relieful prin radar."
+    },
+    "earth_junior": {
+      "bodyId": "earth",
+      "tier": "junior",
+      "file": "./audio/tts/earth_junior.mp3",
+      "normalizedText": "Pământul. Planeta Albastră — singura lume cunoscută care găzduiește viață. Pământul este casa noastră minunată din cosmos! Are oceane albastre, continente verzi, nori albi și o pătură de aer respirabil care ne apără. Analogie: Văzut din spațiu, Pământul seamănă cu o bilă de sticlă albastră cu vârtejuri albe de frișcă! Știai că? Pământul nu este perfect rotund: pentru că se învârte, este puțin turtit la poli ca o mandarină!"
+    },
+    "earth_cadet": {
+      "bodyId": "earth",
+      "tier": "cadet",
+      "file": "./audio/tts/earth_cadet.mp3",
+      "normalizedText": "Pământul. Planeta Albastră — singura lume cunoscută care găzduiește viață. A treia planetă de la Soare definește distanța etalon de 1 Unitate Astronomică (149597870 kilometri). Este singurul corp planetar cu tectonică a plăcilor activă, hidrosferă lichidă (71% din suprafață) și atmosferă bogată în azot (78%) și oxigen (21%). Istoricul explorării: Observată continuu de flote de sateliți meteorologici și științifici (programul european Copernicus Sentinel, NASA EOS) și de echipajele de pe Stația Spațială Internațională."
+    },
+    "mars_junior": {
+      "bodyId": "mars",
+      "tier": "junior",
+      "file": "./audio/tts/mars_junior.mp3",
+      "normalizedText": "Marte. Planeta Roșie a vulcanilor giganți și a roverelor exploratoare. Marte este numită Planeta Roșie deoarece solul ei este plin de praf de fier ruginit! Este singura planetă locuită exclusiv de roboți și rovere trimise de oameni. Analogie: Marte este cam pe jumătate cât Pământul — dacă Pământul e o portocală, Marte e o caisă roșiatică! Știai că? Pe Marte se află Olympus Mons, un vulcan stins de trei ori mai înalt decât vârful Everest!"
+    },
+    "mars_cadet": {
+      "bodyId": "mars",
+      "tier": "cadet",
+      "file": "./audio/tts/mars_cadet.mp3",
+      "normalizedText": "Marte. Planeta Roșie a vulcanilor giganți și a roverelor exploratoare. A patra planetă de la Soare are o zi solară (numită sol ) de 24 de ore și 39 de minute, foarte apropiată de cea terestră. Văile râurilor secate și mineralele hidratate demonstrează că Marte a avut oceane de apă lichidă acum peste 3 virgulă 5 miliarde de ani. Istoricul explorării: Explorată de sondele Viking, Mars Reconnaissance Orbiter, MAVEN și roverele Sojourner, Spirit, Opportunity, Chiuriositi și Perseverăns."
+    },
+    "jupiter_junior": {
+      "bodyId": "jupiter",
+      "tier": "junior",
+      "file": "./audio/tts/jupiter_junior.mp3",
+      "normalizedText": "Jupiter. Cel mai masiv gigant gazos din Sistemul Solar. Jupiter este uriașul protector al Sistemului Solar! Nu are un sol tare pe care să poți păși, fiind alcătuit aproape în întregime din nori și gaze. Analogie: Dacă Pământul ar fi un bob de strugure, Jupiter ar fi cât un pepene verde imens! Știai că? Marea Pată Roșie de pe Jupiter este o furtună gigantică ce suflă de sute de ani și e mai mare decât tot Pământul!"
+    },
+    "jupiter_cadet": {
+      "bodyId": "jupiter",
+      "tier": "cadet",
+      "file": "./audio/tts/jupiter_cadet.mp3",
+      "normalizedText": "Jupiter. Cel mai masiv gigant gazos din Sistemul Solar. Jupiter are o masă de 2 virgulă 5 ori mai mare decât a tuturor celorlalte planete la un loc. Se rotește în jurul axei sale în mai puțin de 10 ore, ceea ce creează benzi atmosferice spectaculoase (zone și centuri) și cel mai puternic câmp magnetic planetar. Istoricul explorării: Survolată de Pioneer 10/11, Voiager unu/2, Ulysses, Cassini și Niu Horaizăns; studiată pe orbită de sondele Galileo (1995 până la 2003) și Juno (din 2016)."
+    },
+    "saturn_junior": {
+      "bodyId": "saturn",
+      "tier": "junior",
+      "file": "./audio/tts/saturn_junior.mp3",
+      "normalizedText": "Saturn. Bijuteria Sistemului Solar, încoronată cu inele de gheață. Saturn este cea mai ușor de recunoscut planetă datorită inelelor sale strălucitoare! Aceste inele sunt făcute din miliarde de bulgări de gheață și praf cosmic. Analogie: Saturn este atât de ușor pentru mărimea lui încât, dacă am avea o cadă cu apă destul de mare, planeta ar pluti! Știai că? La polul nord al lui Saturn există un vârtej de nori cu o formă geometrică perfectă de hexagon!"
+    },
+    "saturn_cadet": {
+      "bodyId": "saturn",
+      "tier": "cadet",
+      "file": "./audio/tts/saturn_cadet.mp3",
+      "normalizedText": "Saturn. Bijuteria Sistemului Solar, încoronată cu inele de gheață. Al doilea gigant gazos ca mărime are o densitate medie de doar 0 virgulă 687 g/cm³ (mai mică decât a apei). Sistemul său principal de inele (A, B, C) are o lățime de 282000 kilometri, dar o grosime medie de numai 10 până la 30 de metri. Istoricul explorării: Vizitată de Pioneer 11 și Voiager unu/2, apoi explorată în detaliu timp de 13 ani de misiunea istorică Cassini-Huygens (2004 până la 2017)."
+    },
+    "uranus_junior": {
+      "bodyId": "uranus",
+      "tier": "junior",
+      "file": "./audio/tts/uranus_junior.mp3",
+      "normalizedText": "Uranus. Gigantul de gheață turcoaz care se rostogolește pe orbită. Uranus este o planetă de culoare bleu-turcoaz care face ceva unic: în loc să se învârtă ca un titirez drept, stă culcată pe o parte și se rostogolește ca o minge! Analogie: Dacă Pământul e o mărgea, Uranus e cât un măr mare de culoarea gheții! Știai că? Un anotimp pe Uranus durează 21 de ani pământești de lumină continuă sau de întuneric!"
+    },
+    "uranus_cadet": {
+      "bodyId": "uranus",
+      "tier": "cadet",
+      "file": "./audio/tts/uranus_cadet.mp3",
+      "normalizedText": "Uranus. Gigantul de gheață turcoaz care se rostogolește pe orbită. Prima planetă descoperită cu ajutorul telescopului (William Herschel, 1781), Uranus este clasificată drept gigant de gheață . Înclinarea axială extremă de 97 virgulă 77 grade este atribuită unei coliziuni cataclismice cu o protoplanetă în tinerețea Sistemului Solar. Istoricul explorării: Descoperită în 1781 și vizitată de o singură navă spațială până în prezent: Voiager doi în ianuarie 1986."
+    },
+    "neptune_junior": {
+      "bodyId": "neptune",
+      "tier": "junior",
+      "file": "./audio/tts/neptune_junior.mp3",
+      "normalizedText": "Neptun. Planeta albastră a vânturilor supersonice. Neptun este cea mai îndepărtată planetă mare de la Soare! Are culoarea unui ocean adânc și vânturi atât de rapide încât depășesc viteza sunetului. Analogie: Neptun este de 30 de ori mai departe de Soare decât Pământul — acolo Soarele pare doar o stea foarte strălucitoare! Știai că? De când a fost descoperit în anul 1846, Neptun a reușit să facă o singură tură completă în jurul Soarelui (în 2011)!"
+    },
+    "neptune_cadet": {
+      "bodyId": "neptune",
+      "tier": "cadet",
+      "file": "./audio/tts/neptune_cadet.mp3",
+      "normalizedText": "Neptun. Planeta albastră a vânturilor supersonice. Neptun a fost prima planetă a cărei existență a fost prezisă prin calcul matematic (Urbain Le Verrier și John Couch Adams) înainte de a fi observată prin telescop în 1846. Deși primește de 900 de ori mai puțină energie solară decât Pământul, are cea mai dinamică meteorologie dintre giganți. Istoricul explorării: Survolată de sonda Voiager doi în august 1989 și observată în infraroșu de Telescopul Spațial Geims Ueb."
+    },
+    "moon_junior": {
+      "bodyId": "moon",
+      "tier": "junior",
+      "file": "./audio/tts/moon_junior.mp3",
+      "normalizedText": "Luna. Singurul satelit natural al Pământului. Luna este tovarășa fidelă a Pământului! Ea nu are lumină proprie, ci strălucește pe cerul nopții pentru că reflectă lumina Soarelui ca o oglindă. Analogie: Dacă Pământul ar fi o minge de baschet, Luna ar fi cât o minge de tenis aflată la 7 metri distanță! Știai că? Pe Lună gravitația este de 6 ori mai slabă decât pe Pământ: acolo ai putea sări de 6 ori mai sus!"
+    },
+    "moon_cadet": {
+      "bodyId": "moon",
+      "tier": "cadet",
+      "file": "./audio/tts/moon_cadet.mp3",
+      "normalizedText": "Luna. Singurul satelit natural al Pământului. Formată acum aproximativ 4 virgulă 5 miliarde de ani în urma impactului dintre proto-Pământ și un corp de mărimea lui Marte (Theia), Luna se află în rotație sincronă (ne arată mereu aceeași față) și stabilizează înclinarea axei terestre. Istoricul explorării: Singurul corp ceresc pe care au pășit oamenii (12 astronauți în programul Apollo, 1969 până la 1972) și ținta programului actual Artemis."
+    },
+    "io_junior": {
+      "bodyId": "io",
+      "tier": "junior",
+      "file": "./audio/tts/io_junior.mp3",
+      "normalizedText": "Io. Luna vulcanică a lui Jupiter. Io este cea mai vulcanică lume din tot Sistemul Solar! Are sute de vulcani activi care aruncă fântâni uriașe de lavă și sulf până în spațiu. Analogie: Cu petele ei galbene, portocalii și roșii, Io arată exact ca o pizza uriașă cu multă brânză! Știai că? Jupiter și celelalte luni trag atât de tare de Io încât interiorul ei se frământă și se încălzește ca o bucată de plastilină!"
+    },
+    "io_cadet": {
+      "bodyId": "io",
+      "tier": "cadet",
+      "file": "./audio/tts/io_cadet.mp3",
+      "normalizedText": "Io. Luna vulcanică a lui Jupiter. Cel mai apropiat dintre cei patru sateliți galileeni ai lui Jupiter suferă o încălzire mareică extremă din cauza rezonanței orbitale 4:2:1 cu Europa și Ganimede. Are peste 400 de vulcani activi, iar jeturile sale eruptive se ridică până la 500 kilometri altitudine. Istoricul explorării: Descoperită de Galileo Galilei în 1610; vulcanismul ei activ a fost observat pentru prima dată de sonda Voiager unu în 1979."
+    },
+    "europa_junior": {
+      "bodyId": "europa",
+      "tier": "junior",
+      "file": "./audio/tts/europa_junior.mp3",
+      "normalizedText": "Europa. Luna înghețată a lui Jupiter cu un ocean ascuns. Europa este o lună acoperită cu un patinoar neted de gheață! Sub această coajă înghețată se ascunde un ocean uriaș de apă sărată. Analogie: Europa este ca un ou de ciocolată cu surprize: tare și înghețată la exterior, dar cu un ocean adânc înăuntru! Știai că? Deși Europa este mai mică decât Luna noastră, oceanul ei ascuns are de două ori mai multă apă decât toate oceanele Pământului!"
+    },
+    "europa_cadet": {
+      "bodyId": "europa",
+      "tier": "cadet",
+      "file": "./audio/tts/europa_cadet.mp3",
+      "normalizedText": "Europa. Luna înghețată a lui Jupiter cu un ocean ascuns. Europa are cea mai netedă suprafață din Sistemul Solar, brăzdată de fracturi roșiatice numite lineae . Sub crusta de gheață de 15 până la 25 kilometri grosime se află un ocean global de apă lichidă cu o adâncime estimată la 100 kilometri, fiind unul dintre principalele locuri căutate pentru viață extraterestră. Istoricul explorării: Studiată de Galileo și Juno, fiind ținta principală a misiunilor JUICE (ESA) și Europa Clipper (NASA)."
+    },
+    "ganymede_junior": {
+      "bodyId": "ganymede",
+      "tier": "junior",
+      "file": "./audio/tts/ganymede_junior.mp3",
+      "normalizedText": "Ganimede. Cel mai mare satelit natural din Sistemul Solar. Ganimede este campionul tuturor lunilor! Este atât de mare încât depășește chiar și planeta Mercur în dimensiune. Analogie: Dacă Ganimede s-ar învârti direct în jurul Soarelui în loc de Jupiter, ar fi numită fără îndoială o planetă! Știai că? Ganimede este singura lună din Sistemul Solar care are propriul ei scut magnetic și propriile aurore polare!"
+    },
+    "ganymede_cadet": {
+      "bodyId": "ganymede",
+      "tier": "cadet",
+      "file": "./audio/tts/ganymede_cadet.mp3",
+      "normalizedText": "Ganimede. Cel mai mare satelit natural din Sistemul Solar. Cu un diametru de 5 virgulă 262 kilometri, Ganimede este cel mai mare satelit din Sistemul Solar și singurul cunoscut care posedă o magnetosferă intrinsecă, generată de convecția din nucleul său de fier lichid. Istoricul explorării: Descoperită în 1610 de Galileo Galilei; sonda europeană JUICE va deveni în 2034 prima navă care va intra pe orbita lui Ganimede."
+    },
+    "callisto_junior": {
+      "bodyId": "callisto",
+      "tier": "junior",
+      "file": "./audio/tts/callisto_junior.mp3",
+      "normalizedText": "Calisto. Lumea străveche de gheață și cratere a lui Jupiter. Calisto este a patra lună mare a lui Jupiter și are cea mai veche suprafață din Sistemul Solar, plină de cratere strălucitoare de gheață! Analogie: Calisto arată ca un glob de Crăciun întunecat, presărat cu mii de scântei albe acolo unde au căzut meteoriți! Știai că? Fiind mai departe de radiațiile puternice ale lui Jupiter, Calisto este locul preferat de ingineri pentru o viitoare bază umană!"
+    },
+    "callisto_cadet": {
+      "bodyId": "callisto",
+      "tier": "cadet",
+      "file": "./audio/tts/callisto_cadet.mp3",
+      "normalizedText": "Calisto. Lumea străveche de gheață și cratere a lui Jupiter. Al treilea satelit ca mărime din Sistemul Solar (aproape cât Mercur) nu participă la rezonanța orbitală a celorlalte trei luni galileene, motiv pentru care nu a suferit încălzire mareică intensă, păstrând o arhivă geologică intactă de 4 miliarde de ani. Istoricul explorării: Fotografiată în detaliu de Voiager unu/2 și Galileo; va fi survolată de 21 de ori de sonda JUICE."
+    },
+    "titan_junior": {
+      "bodyId": "titan",
+      "tier": "junior",
+      "file": "./audio/tts/titan_junior.mp3",
+      "normalizedText": "Titan. Satelitul lui Saturn cu atmosferă densă și lacuri de metan. Titan este cea mai mare lună a lui Saturn și singura lună învelită într-o atmosferă groasă și portocalie, cu nori, ploi, râuri și mări! Analogie: Pe Titan atmosfera e atât de deasă și gravitația atât de mică încât, dacă ți-ai pune aripi pe brațe, ai putea zbura dând din mâini ca o pasăre! Știai că? Râurile și lacurile de pe Titan nu sunt din apă, ci din metan și etan lichid, la aproape minus 180 grade Celsius!"
+    },
+    "titan_cadet": {
+      "bodyId": "titan",
+      "tier": "cadet",
+      "file": "./audio/tts/titan_cadet.mp3",
+      "normalizedText": "Titan. Satelitul lui Saturn cu atmosferă densă și lacuri de metan. Al doilea satelit ca mărime din Sistemul Solar (mai mare decât Mercur), Titan este singurul satelit cu o atmosferă densă (97% azot, presiune de 1 virgulă 45 ori mai mare decât pe Pământ) și singurul corp în afară de Pământ cu lichid stabil la suprafață. Istoricul explorării: Sonda europeană Huygens a asolizat pe Titan în ianuarie 2005 (cea mai îndepărtată asolizare din istorie); NASA pregătește drona nucleară Dragonfly."
+    },
+    "enceladus_junior": {
+      "bodyId": "enceladus",
+      "tier": "junior",
+      "file": "./audio/tts/enceladus_junior.mp3",
+      "normalizedText": "Ențeladus. Luna albă ca zăpada a lui Saturn, cu gheizere cosmice. Ențeladus este un bulgăre strălucitor de gheață proaspătă! La polul său sudic, gheizere uriașe aruncă apă și cristale de gheață direct în spațiu. Analogie: Ențeladus este atât de mic încât ar încăpea cu ușurință deasupra României! Știai că? Cristalele de gheață aruncate de gheizerele lui Ențeladus formează unul dintre inelele lui Saturn (inelul E)!"
+    },
+    "enceladus_cadet": {
+      "bodyId": "enceladus",
+      "tier": "cadet",
+      "file": "./audio/tts/enceladus_cadet.mp3",
+      "normalizedText": "Ențeladus. Luna albă ca zăpada a lui Saturn, cu gheizere cosmice. Ențeladus are cel mai ridicat albedo (reflectivitate) din Sistemul Solar (aproximativ 0 virgulă 99). Sonda Cassini a zburat direct prin jeturile sale criovulcanice de la polul sud ( Dungile de Tigru ), detectând apă sărată, molecule organice complexe, hidrogen molecular și silice hidrotermală. Istoricul explorării: Descoperită de William Herschel în 1789; gheizerele sale au fost descoperite și analizate chimic de sonda Cassini în 2005 până la 2015."
+    },
+    "pluto_junior": {
+      "bodyId": "pluto",
+      "tier": "junior",
+      "file": "./audio/tts/pluto_junior.mp3",
+      "normalizedText": "Pluto. Regele planetelor pitice din Centura Kuiper. Pluto este o planetă pitică îndepărtată și înghețată care poartă pe pieptul ei o formă uriașă de inimă albă din gheață de azot! Analogie: Pluto este mai mic chiar și decât Luna noastră — cam cât jumătate din lățimea Europei! Știai că? Pluto și satelitul său cel mai mare, Charon, sunt atât de apropiați ca mărime încât dansează unul în jurul celuilalt!"
+    },
+    "pluto_cadet": {
+      "bodyId": "pluto",
+      "tier": "cadet",
+      "file": "./audio/tts/pluto_cadet.mp3",
+      "normalizedText": "Pluto. Regele planetelor pitice din Centura Kuiper. Descoperită de Clyde Tombaugh în 1930 și reclasificată în 2006 de UAI drept planetă pitică (obiect plutoid din Centura Kuiper), Pluto are o orbită excentrică și înclinată la 17 grade și o geologie surprinzător de activă, cu munți de gheață de apă și ghețari de azot. Istoricul explorării: Survolată în premieră istorică la 14 iulie 2015 de sonda NASA Niu Horaizăns, care a dezvăluit munți și câmpii de gheață tinere."
+    },
+    "ceres_junior": {
+      "bodyId": "ceres",
+      "tier": "junior",
+      "file": "./audio/tts/ceres_junior.mp3",
+      "normalizedText": "Ceres. Singura planetă pitică din Centura Principală de Asteroizi. Ceres este cea mai mare lume din Centura de Asteroizi dintre Marte și Jupiter! Este atât de mare încât propria ei gravitație a modelat-o într-o sferă. Analogie: Dacă toți asteroizii din centură ar fi adunați într-o găleată, Ceres singură ar umple o treime din găleată! Știai că? În craterul Occator de pe Ceres strălucesc pete albe misterioase, făcute din sare lăsată în urmă de izvoare sărate!"
+    },
+    "ceres_cadet": {
+      "bodyId": "ceres",
+      "tier": "cadet",
+      "file": "./audio/tts/ceres_cadet.mp3",
+      "normalizedText": "Ceres. Singura planetă pitică din Centura Principală de Asteroizi. Descoperită la 1 ianuarie 1801 de Giuseppe Piazzi, Ceres este singura planetă pitică situată în Sistemul Solar interior. Reprezintă o protoplanetă embrionară bogată în apă și argile amoniacale. Istoricul explorării: A fost prima planetă pitică vizitată și orbitată de o sondă spațială: misiunea NASA Dawn (2015 până la 2018)."
+    },
+    "eris_junior": {
+      "bodyId": "eris",
+      "tier": "junior",
+      "file": "./audio/tts/eris_junior.mp3",
+      "normalizedText": "Eris. Cea mai masivă planetă pitică cunoscută, din Discul Împrăștiat. Eris este o lume albă ca zăpada, aflată de peste două ori mai departe de Soare decât Neptun! Descoperirea ei i-a făcut pe astronomi să inventeze categoria de planetă pitică . Analogie: Eris este aproape geamănă ca mărime cu Pluto, dar cântărește puțin mai mult pentru că are mai multă piatră în interior! Știai că? Pe Eris este atât de frig încât toată atmosfera ei a înghețat și s-a așternut pe sol ca o pătură sclipitoare de promoroacă!"
+    },
+    "eris_cadet": {
+      "bodyId": "eris",
+      "tier": "cadet",
+      "file": "./audio/tts/eris_cadet.mp3",
+      "normalizedText": "Eris. Cea mai masivă planetă pitică cunoscută, din Discul Împrăștiat. Descoperită în 2005 de echipa lui Mike Brown la Observatorul Palomar, Eris este cu 27% mai masivă decât Pluto. Orbita sa puternic înclinată (44 grade ) o poartă până la 97 Unități Astronomice de Soare în Discul Împrăștiat, iar un an pe Eris durează 558 de ani terestri. Istoricul explorării: Studiată prin telescoapele Habăl, Keck și Geims Ueb, împreună cu satelitul său Dysnomia."
+    },
+    "haumea_junior": {
+      "bodyId": "haumea",
+      "tier": "junior",
+      "file": "./audio/tts/haumea_junior.mp3",
+      "normalizedText": "Ha-u-mea. Planeta pitică ovală cu inel propriu și rotație ultra-rapidă. Ha-u-mea este cel mai rapid titirez mare din Sistemul Solar! O zi pe Ha-u-mea durează mai puțin de 4 ore, iar din această cauză s-a alungit ca o minge de rugby! Analogie: Ha-u-mea are forma unei pietre plate de râu sau a unui ou alb de Paște care se învârte amețitor! Știai că? Ha-u-mea are două luni mici (Hiʻiaka și Namaka) și chiar și un inel subțire în jurul ei, ca un mini-Saturn!"
+    },
+    "haumea_cadet": {
+      "bodyId": "haumea",
+      "tier": "cadet",
+      "file": "./audio/tts/haumea_cadet.mp3",
+      "normalizedText": "Ha-u-mea. Planeta pitică ovală cu inel propriu și rotație ultra-rapidă. Situată în Centura Kuiper la aproximativ 43 Unități Astronomice, Ha-u-mea are forma unui elipsoid triaxial (aprox. 2 virgulă 100 ori 1 virgulă 680 ori 1 virgulă 070 kilometri) din cauza perioadei de rotație de doar 3 virgulă 9 ore. În 2017, printr-o ocultație stelară, s-a descoperit că posedă un sistem de inele. Istoricul explorării: Descoperită în 2004 și caracterizată prin ocultații stelare și observații ale telescoapelor spațiale."
+    },
+    "makemake_junior": {
+      "bodyId": "makemake",
+      "tier": "junior",
+      "file": "./audio/tts/makemake_junior.mp3",
+      "normalizedText": "Make-make. Lumea roșiatică de metan înghețat din Centura Kuiper. Make-make este unul dintre cele mai strălucitoare obiecte din Centura Kuiper, numit după zeul primăverii și al fertilității din Insula Paștelui! Analogie: Make-make este ca un bulgăre mare de înghețată de căpșuni la marginea Sistemului Solar! Știai că? A fost descoperită chiar în zilele de după Paște în anul 2005, așa că porecla ei inițială a fost Iepurașul de Paște (Easterbunny)!"
+    },
+    "makemake_cadet": {
+      "bodyId": "makemake",
+      "tier": "cadet",
+      "file": "./audio/tts/makemake_cadet.mp3",
+      "normalizedText": "Make-make. Lumea roșiatică de metan înghețat din Centura Kuiper. A doua planetă pitică ca strălucire din Centura Kuiper (după Pluto), Make-make orbitează la o distanță medie de 45 virgulă 4 Unități Astronomice în 306 ani terestri. Are o suprafață bogată în pelete de metan și etan înghețat și un mic satelit întunecat botezat MK 2. Istoricul explorării: Descoperită în martie 2005 la Observatorul Palomar; satelitul său MK 2 a fost descoperit cu Telescopul Habăl în 2016."
+    },
+    "vesta_junior": {
+      "bodyId": "vesta",
+      "tier": "junior",
+      "file": "./audio/tts/vesta_junior.mp3",
+      "normalizedText": "4 Vesta. Cel mai strălucitor asteroid și protoplanetă stâncoasă. Vesta este un asteroid uriaș din piatră, atât de luminos încât uneori poate fi văzut de pe Pământ chiar și fără telescop, într-o noapte foarte senină! Analogie: Vesta este ca un cartof uriaș din stâncă, cu un munte la polul sud aproape la fel de înalt ca cel de pe Marte! Știai că? Bucăți rupte din Vesta acum milioane de ani au căzut pe Pământ sub formă de meteoriți pe care îi putem vedea în muzee!"
+    },
+    "vesta_cadet": {
+      "bodyId": "vesta",
+      "tier": "cadet",
+      "file": "./audio/tts/vesta_cadet.mp3",
+      "normalizedText": "4 Vesta. Cel mai strălucitor asteroid și protoplanetă stâncoasă. Descoperită în 1807 de Heinrich Olbers, 4 Vesta este o protoplanetă diferențiată (cu nucleu metalic, manta și scoarță bazaltică). Bazinul de impact Rheasilvia de la polul sud are 500 kilometri diametru și un vârf central de 22 kilometri înălțime. Istoricul explorării: Orbitată și cartografiată în detaliu de sonda NASA Dawn între iulie 2011 și septembrie 2012."
+    },
+    "pallas_junior": {
+      "bodyId": "pallas",
+      "tier": "junior",
+      "file": "./audio/tts/pallas_junior.mp3",
+      "normalizedText": "2 Pallas. Al doilea asteroid descoperit, cu o orbită puternic înclinată. Pallas este unul dintre cei mai mari asteroizi din Sistemul Solar și are o suprafață atât de plină de cratere încât seamănă cu o minge de golf! Analogie: În timp ce majoritatea asteroizilor merg pe aceeași autostradă în jurul Soarelui, Pallas zboară pe o pistă înclinată ca un montagne-russe! Știai că? A fost al doilea asteroid descoperit vreodată, în anul 1802, la doar un an după Ceres!"
+    },
+    "pallas_cadet": {
+      "bodyId": "pallas",
+      "tier": "cadet",
+      "file": "./audio/tts/pallas_cadet.mp3",
+      "normalizedText": "2 Pallas. Al doilea asteroid descoperit, cu o orbită puternic înclinată. Cu un diametru mediu de 512 kilometri, 2 Pallas conține aproximativ 7% din masa Centurii de Asteroizi. Înclinarea orbitală neobișnuit de mare (34 virgulă 8 grade ) provoacă coliziuni la viteze medii mult mai ridicate decât la alți asteroizi, dându-i o morfologie intens craterizată. Istoricul explorării: Descoperită în 1802 de Heinrich Olbers; din cauza înclinării orbitale mari (34 virgulă 8 grade ), nicio sondă nu a putut încă să intre pe orbita sa."
+    },
+    "bennu_junior": {
+      "bodyId": "bennu",
+      "tier": "junior",
+      "file": "./audio/tts/bennu_junior.mp3",
+      "normalizedText": "101955 Benu. Asteroid în formă de titirez din care NASA a adus mostre pe Pământ. Benu este un mic asteroid în formă de titirez care trece pe lângă Pământ! O sondă spațială l-a atins și a adus acasă un pumn din pietricelele lui. Analogie: Benu este înalt cam cât o clădire zgârie-nori de 100 de etaje (aproximativ 500 de metri lățime)! Știai că? Benu nu este o piatră solidă, ci o grămadă de bolovani și pietriș ținuți împreună de o gravitație minusculă!"
+    },
+    "bennu_cadet": {
+      "bodyId": "bennu",
+      "tier": "cadet",
+      "file": "./audio/tts/bennu_cadet.mp3",
+      "normalizedText": "101955 Benu. Asteroid în formă de titirez din care NASA a adus mostre pe Pământ. Asteroid apropiat de Pământ (grupul Apollo) de tip carbonic B, format prin agregarea gravitațională a fragmentelor ( rubble-pile ). Este o capsulă a timpului chimică din primele 10 milioane de ani ale Sistemului Solar. Istoricul explorării: Explorat de misiunea NASA Osiris Recs (2018 până la 2021), care a colectat mostre din craterul Nightingale și le-a livrat pe Pământ în 2023."
+    },
+    "apophis_junior": {
+      "bodyId": "apophis",
+      "tier": "junior",
+      "file": "./audio/tts/apophis_junior.mp3",
+      "normalizedText": "99942 Apophis. Asteroidul care va trece în siguranță foarte aproape de Pământ în 2029. Apophis este un asteroid în formă de arahidă care în anul 2029 ne va face o vizită pașnică, trecând pe cer ca o steluță vizibilă cu ochiul liber! Analogie: Apophis are mărimea a trei terenuri de fotbal puse cap la cap (aproximativ 370 de metri)! Știai că? Pe 13 aprilie 2029, Apophis va trece în deplină siguranță la doar 32000 kilometri de Pământ — mai aproape decât unii sateliți TV!"
+    },
+    "apophis_cadet": {
+      "bodyId": "apophis",
+      "tier": "cadet",
+      "file": "./audio/tts/apophis_cadet.mp3",
+      "normalizedText": "99942 Apophis. Asteroidul care va trece în siguranță foarte aproape de Pământ în 2029. Asteroid de tip S (silicatic) din grupul Aten. Măsurătorile radar de înaltă precizie au confirmat că nu există niciun risc de impact cu Pământul pentru cel puțin următoarea sută de ani, dar survolul din 13 aprilie 2029 va fi o oportunitate științifică unică. Istoricul explorării: Va fi studiat de aproape în 2029 de sonda NASA OSIRIS-APEX (fosta Osiris Recs) și de misiunea europeană RAMSES (ESA)."
+    },
+    "psyche_junior": {
+      "bodyId": "psyche",
+      "tier": "junior",
+      "file": "./audio/tts/psyche_junior.mp3",
+      "normalizedText": "16 Psihe. Lumea metalică unică din Centura de Asteroizi. Psihe este un asteroid cu totul special: în timp ce majoritatea asteroizilor sunt din piatră sau gheață, Psihe este făcut în mare parte din metal (fier și nichel)! Analogie: Oamenii de știință cred că Psihe este inima de metal (nucleul) a unei planete străvechi care și-a pierdut învelișul de piatră! Știai că? Deoarece nu putem săpa până în nucleul de fier al Pământului nostru, am trimis o sondă spațială să viziteze un nucleu direct în spațiu — pe Psihe!"
+    },
+    "psyche_cadet": {
+      "bodyId": "psyche",
+      "tier": "cadet",
+      "file": "./audio/tts/psyche_cadet.mp3",
+      "normalizedText": "16 Psihe. Lumea metalică unică din Centura de Asteroizi. Descoperit în 1852 de Annibale de Gasparis, 16 Psihe este cel mai masiv asteroid de tip M (metalic), având un diametru mediu de 222 kilometri. Conține între 30% și 60% fier și nichel metalic amestecat cu silicați săraci în fier. Istoricul explorării: Sonda NASA Psihe a fost lansată în octombrie 2023 cu propulsie electrică solară cu efect Hall și va intra pe orbita asteroidului în august 2029."
+    },
+    "iss_junior": {
+      "bodyId": "iss",
+      "tier": "junior",
+      "file": "./audio/tts/iss_junior.mp3",
+      "normalizedText": "Stația Spațială Internațională (Stația Spațială Internațională). Laboratorul științific locuit permanent pe orbita joasă a Pământului. Stația Spațială Internațională este o casă și un laborator uriaș care zboară deasupra Pământului! Acolo astronauții plutesc în imponderabilitate și fac experimente pentru toată omenirea. Analogie: Stația Spațială Internațională este mare cât un teren de fotbal, cu aripi strălucitoare de panouri solare! Știai că? Stația Spațială Internațională zboară atât de repede (28000 kilometri pe oră) încât astronauții văd 16 răsărituri și 16 apusuri de Soare în fiecare zi!"
+    },
+    "iss_cadet": {
+      "bodyId": "iss",
+      "tier": "cadet",
+      "file": "./audio/tts/iss_cadet.mp3",
+      "normalizedText": "Stația Spațială Internațională (Stația Spațială Internațională). Laboratorul științific locuit permanent pe orbita joasă a Pământului. Construită începând din 1998 prin cooperarea dintre NASA, ESA, Roscosmos, JAXA și CSA, Stația Spațială Internațională orbitează la aproximativ 410 kilometri altitudine cu o viteză de 7 virgulă 66 kilometri pe secundă. Este locuită continuu de echipaje umane din noiembrie 2000. Istoricul explorării: Peste 270 de astronauți din peste 20 de țări au lucrat la bordul Stația Spațială Internațională în mai mult de două decenii de prezență umană neîntreruptă în spațiu."
+    },
+    "hubble_junior": {
+      "bodyId": "hubble",
+      "tier": "junior",
+      "file": "./audio/tts/hubble_junior.mp3",
+      "normalizedText": "Telescopul Spațial Habăl. Ochiul cosmic de pe orbita Pământului care a fotografiat Universul timp de peste 30 de ani. Telescopul Habăl este un aparat foto uriaș care plutește în spațiu, deasupra norilor Pământului, și ne trimite cele mai colorate imagini cu nebuloase, stele și galaxii! Analogie: Habăl are mărimea unui autobuz școlar argintiu cu două aripi solare! Știai că? Habăl are o vedere atât de precisă încât ar putea zări lumina unui licurici aflat la peste 10000 kilometri distanță!"
+    },
+    "hubble_cadet": {
+      "bodyId": "hubble",
+      "tier": "cadet",
+      "file": "./audio/tts/hubble_cadet.mp3",
+      "normalizedText": "Telescopul Spațial Habăl. Ochiul cosmic de pe orbita Pământului care a fotografiat Universul timp de peste 30 de ani. Lansat la 24 aprilie 1990 de naveta Discovery (NASA/ESA), Habăl observă în spectrul vizibil, ultraviolet și infraroșu apropiat de la o altitudine de aproximativ 535 kilometri, fără distorsiunile atmosferei terestre. Istoricul explorării: A fost reparat și modernizat direct pe orbită de astronauți în 5 misiuni ale navetelor spațiale (1993 până la 2009), realizând peste 1 virgulă 6 milioane de observații."
+    },
+    "jwst_junior": {
+      "bodyId": "jwst",
+      "tier": "junior",
+      "file": "./audio/tts/jwst_junior.mp3",
+      "normalizedText": "Telescopul Spațial Geims Ueb (Geims Ueb). Cel mai puternic observator spațial în infraroșu, cu oglindă aurită de tip fagure. Telescopul Geims Ueb este o bijuterie cosmică cu o oglindă mare cât o casă, formată din 18 plăci hexagonale acoperite cu aur adevărat! Analogie: Oglinda lui arată ca un fagure de miere uriaș, iar sub el are o umbrelă de soare cu 5 straturi cât un teren de tenis! Știai că? Pentru a încăpea în racheta Ariane 5, telescopul a fost împachetat ca un origami și s-a despăturit singur în spațiu!"
+    },
+    "jwst_cadet": {
+      "bodyId": "jwst",
+      "tier": "cadet",
+      "file": "./audio/tts/jwst_cadet.mp3",
+      "normalizedText": "Telescopul Spațial Geims Ueb (Geims Ueb). Cel mai puternic observator spațial în infraroșu, cu oglindă aurită de tip fagure. Dezvoltat de NASA, ESA și CSA și lansat la 25 decembrie 2021, Geims Ueb orbitează în jurul punctului Lagrange L2 Soare–Pământ (la 1 virgulă 5 milioane de kilometri de Pământ). Observă în infraroșu primele galaxii formate după Big Bang și analizează atmosferele exoplanetelor. Istoricul explorării: Lansat din Kourou cu o rachetă europeană Ariane 5 în decembrie 2021; a transmis primele imagini științifice revoluționare în iulie 2022."
+    },
+    "euclid_junior": {
+      "bodyId": "euclid",
+      "tier": "junior",
+      "file": "./audio/tts/euclid_junior.mp3",
+      "normalizedText": "Telescopul Spațial Euclid. Cartograful european al Universului Întunecat (în punctul Lagrange L2). Euclid este telescopul Agenției Spațiale Europene (ESA) trimis să deseneze cea mai mare hartă 3D a miliarde de galaxii din Univers! Analogie: Dacă Geims Ueb este o lupă super-puternică ce privește un singur detaliu, Euclid este un aparat foto panoramic care cuprinde o bucată uriașă de cer dintr-odată! Știai că? Numele lui vine de la Euclid din Alexandria, matematicianul antic numit părintele geometriei !"
+    },
+    "euclid_cadet": {
+      "bodyId": "euclid",
+      "tier": "cadet",
+      "file": "./audio/tts/euclid_cadet.mp3",
+      "normalizedText": "Telescopul Spațial Euclid. Cartograful european al Universului Întunecat (în punctul Lagrange L2). Lansat în iulie 2023 de ESA, Euclid operează în punctul Lagrange L2 pentru a investiga natura materiei întunecate și a energiei întunecate, cartografiind distribuția tridimensională a miliarde de galaxii pe o distanță de 10 miliarde de ani-lumină. Istoricul explorării: Lansat la 1 iulie 2023; primele sale imagini cosmice ( Early Release Observations ) au dezvăluit roiul Perseus și mii de galaxii necunoscute anterior."
+    },
+    "voyager1_junior": {
+      "bodyId": "voyager1",
+      "tier": "junior",
+      "file": "./audio/tts/voyager1_junior.mp3",
+      "normalizedText": "Voiager unu. Cel mai îndepărtat obiect creat de om, călătorind în spațiul interstelar. Voiager unu este cel mai curajos explorator construit vreodată de oameni! Zboară din anul 1977 și a ieșit deja din Sistemul Solar, în spațiul dintre stele. Analogie: Poartă cu ea un Disc de Aur cu saluturi în 55 de limbi (inclusiv în limba română: Salutări la toată lumea! ), muzică și sunete de pe Pământ! Știai că? Voiager unu este atât de departe încât un mesaj radio care merge cu viteza luminii face aproape o zi întreagă până ajunge la ea!"
+    },
+    "voyager1_cadet": {
+      "bodyId": "voyager1",
+      "tier": "cadet",
+      "file": "./audio/tts/voyager1_cadet.mp3",
+      "normalizedText": "Voiager unu. Cel mai îndepărtat obiect creat de om, călătorind în spațiul interstelar. Lansată la 5 septembrie 1977, Voiager unu a explorat sistemele lui Jupiter (1979) și Saturn (1980), iar la 25 august 2012 a traversat heliopauza, devenind primul artefact uman care pătrunde în mediul interstelar, la peste 24 de miliarde de kilometri de Pământ. Istoricul explorării: A realizat în 1990 celebra fotografie a Pământului Un punct albastru pal (Pale Blue Dot) de la 6 miliarde de kilometri distanță, la sugestia lui Carl Sagan."
+    },
+    "voyager2_junior": {
+      "bodyId": "voyager2",
+      "tier": "junior",
+      "file": "./audio/tts/voyager2_junior.mp3",
+      "normalizedText": "Voiager doi. Singura sondă din istorie care a vizitat toți cei 4 giganți: Jupiter, Saturn, Uranus și Neptun. Voiager doi este sora geamănă a lui Voiager unu și singura navă spațială care a făcut Marele Tur , vizitând toate cele patru planete uriașe: Jupiter, Saturn, Uranus și Neptun! Analogie: Folosind gravitația fiecărei planete ca pe o praștie cosmică, Voiager doi a sărit de la o planetă la alta! Știai că? Deși se numește Voiager doi, a fost lansată cu 16 zile ÎNAINTE de Voiager unu!"
+    },
+    "voyager2_cadet": {
+      "bodyId": "voyager2",
+      "tier": "cadet",
+      "file": "./audio/tts/voyager2_cadet.mp3",
+      "normalizedText": "Voiager doi. Singura sondă din istorie care a vizitat toți cei 4 giganți: Jupiter, Saturn, Uranus și Neptun. Lansată la 20 august 1977, Voiager doi a profitat de o aliniere planetară care apare doar o dată la 175 de ani ( Grand Tour ), survolând Jupiter (1979), Saturn (1981), Uranus (1986) și Neptun (1989). În noiembrie 2018 a intrat și ea în spațiul interstelar. Istoricul explorării: Rămâne până astăzi singura sondă care a explorat de aproape giganții de gheață Uranus și Neptun."
+    },
+    "newhorizons_junior": {
+      "bodyId": "newhorizons",
+      "tier": "junior",
+      "file": "./audio/tts/newhorizons_junior.mp3",
+      "normalizedText": "Niu Horaizăns. Sonda rapidă care ne-a dezvăluit inima înghețată a lui Pluto și Centura Kuiper. Niu Horaizăns este sonda spațială de mărimea unui pian cu coadă care a zburat timp de 9 ani și jumătate pentru a fotografia pentru prima oară de aproape planeta pitică Pluto! Analogie: A plecat de pe Pământ mai repede decât orice altă rachetă — a trecut de orbita Lunii în doar 9 ore (față de 3 zile cât le-a luat astronauților Apollo)! Știai că? După Pluto, a vizitat în 2019 și pe Arrokoth, un corp înghețat din Centura Kuiper care arată exact ca un om de zăpadă cosmic!"
+    },
+    "newhorizons_cadet": {
+      "bodyId": "newhorizons",
+      "tier": "cadet",
+      "file": "./audio/tts/newhorizons_cadet.mp3",
+      "normalizedText": "Niu Horaizăns. Sonda rapidă care ne-a dezvăluit inima înghețată a lui Pluto și Centura Kuiper. Lansată la 19 ianuarie 2006 cu cea mai mare viteză de evadare de pe Pământ (16 virgulă 26 kilometri pe secundă), Niu Horaizăns a survolat Jupiter în 2007, sistemul Pluto–Charon la 14 iulie 2015 și obiectul primordial din Centura Kuiper 486958 Arrokoth la 1 ianuarie 2019. Istoricul explorării: A realizat cel mai îndepărtat survol al unui corp ceresc din istorie (Arrokoth, la 43 virgulă 4 Unități Astronomice de Soare)."
+    },
+    "parker_junior": {
+      "bodyId": "parker",
+      "tier": "junior",
+      "file": "./audio/tts/parker_junior.mp3",
+      "normalizedText": "Sonda Solară Parcăr. Sonda ultra-rapidă care a atins Soarele, pătrunzând în coroana solară. Sonda Solară Parcăr este cea mai rapidă navă construită vreodată de oameni și singura care s-a apropiat atât de mult de Soare încât a zburat chiar prin atmosfera lui de foc! Analogie: Are în față un scut termic special, gros cât o carte, în spatele căruia instrumentele stau la o temperatură plăcută de cameră în timp ce afară sunt plus 1 virgulă 400 grade Celsius! Știai că? Atinge viteza incredibilă de 690000 kilometri pe oră — cu această viteză ai ajunge de la București la Oradea în mai puțin de 3 secunde!"
+    },
+    "parker_cadet": {
+      "bodyId": "parker",
+      "tier": "cadet",
+      "file": "./audio/tts/parker_cadet.mp3",
+      "normalizedText": "Sonda Solară Parcăr. Sonda ultra-rapidă care a atins Soarele, pătrunzând în coroana solară. Lansată în august 2018 și numită în onoarea astrofizicianului Eugene Parker (care a prezis existența vântului solar), sonda folosește 7 asistențe gravitaționale ale planetei Venus pentru a coborî periheliul până la aproximativ 6 virgulă 1 milioane de kilometri de fotosfera solară. Istoricul explorării: În 2021 a devenit prima navă care a traversat suprafața critică Alfvén, intrând oficial în atmosfera magnetică a Soarelui."
+    },
+    "rosetta_junior": {
+      "bodyId": "rosetta",
+      "tier": "junior",
+      "file": "./audio/tts/rosetta_junior.mp3",
+      "normalizedText": "Rosetta & File. Misiunea europeană istorică ce a însoțit o cometă și a asolizat pe nucleul ei. Rosetta a fost sonda Agenției Spațiale Europene care a urmărit timp de 10 ani cometa Ciuriumov-Gherasimenko și a coborât pe ea micul robot laborator File! Analogie: Cometa pe care a ajuns Rosetta are exact forma unei rățuște de baie din gheață și praf negru, lungă de 4 kilometri! Știai că? Aripile solare ale sondei Rosetta erau lungi de 32 de metri — cât o balenă albastră!"
+    },
+    "rosetta_cadet": {
+      "bodyId": "rosetta",
+      "tier": "cadet",
+      "file": "./audio/tts/rosetta_cadet.mp3",
+      "normalizedText": "Rosetta & File. Misiunea europeană istorică ce a însoțit o cometă și a asolizat pe nucleul ei. Lansată de ESA în martie 2004, Rosetta a devenit în august 2014 prima sondă care a intrat pe orbita unei comete (67P/Ciuriumov-Gherasimenko), iar la 12 noiembrie 2014 modulul său File a realizat prima asolizare moale pe nucleul unei comete. Istoricul explorării: Și-a încheiat misiunea la 30 septembrie 2016 coborând lent și așezându-se definitiv pe suprafața cometei 67P."
+    },
+    "juice_junior": {
+      "bodyId": "juice",
+      "tier": "junior",
+      "file": "./audio/tts/juice_junior.mp3",
+      "normalizedText": "JUICE (Jupiter Icy Moons Explorer). Exploratorul european al lunilor înghețate cu oceane ale lui Jupiter. JUICE este sonda Agenției Spațiale Europene aflată în drum spre Jupiter pentru a cerceta oceanele ascunse sub gheață de pe lunile Europa, Calisto și Ganimede! Analogie: Cele două aripi solare ale sale, în formă de cruce, sunt mari cât un teren de baschet! Știai că? Pe fuselajul sondei JUICE este gravat un desen realizat de o fetiță de 10 ani, ales dintr-un concurs la care au participat mii de copii!"
+    },
+    "juice_cadet": {
+      "bodyId": "juice",
+      "tier": "cadet",
+      "file": "./audio/tts/juice_cadet.mp3",
+      "normalizedText": "JUICE (Jupiter Icy Moons Explorer). Exploratorul european al lunilor înghețate cu oceane ale lui Jupiter. Lansată la 14 aprilie 2023 cu o rachetă Ariane 5, misiunea de clasă mare a ESA (JUICE) va ajunge în sistemul jovian în iulie 2031, va efectua 35 de survoluri ale lunilor Europa, Calisto și Ganimede, iar în 2034 va deveni prima sondă care orbitează o lună a altei planete (Ganimede). Istoricul explorării: În august 2024 a realizat prima manevră dublă din istorie de asistență gravitațională Lună–Pământ (LEGA)."
+    },
+    "perseverance_junior": {
+      "bodyId": "perseverance",
+      "tier": "junior",
+      "file": "./audio/tts/perseverance_junior.mp3",
+      "normalizedText": "Perseverăns & Ingeniuiti. Laboratorul astrobiologic pe roți și primul elicopter care a zburat pe Marte. Perseverăns ( Percy ) este un robot explorator pe 6 roți care caută urme de viață străveche în craterul Jezero de pe Marte, însoțit de micul elicopter Ingeniuiti ( Ginny )! Analogie: Roverul este mare cât o mașină de teren, iar elicopterul Ingeniuiti cântărește doar 1 virgulă 8 kg — cât o cutie mare de lapte! Știai că? Ingeniuiti a fost primul aparat din istorie care a zburat pe o altă planetă, reușind 72 de zboruri în aerul subțire al lui Marte!"
+    },
+    "perseverance_cadet": {
+      "bodyId": "perseverance",
+      "tier": "cadet",
+      "file": "./audio/tts/perseverance_cadet.mp3",
+      "normalizedText": "Perseverăns & Ingeniuiti. Laboratorul astrobiologic pe roți și primul elicopter care a zburat pe Marte. Amartizat la 18 februarie 2021 în craterul Jezero (delta unui râu antic marțian), Perseverăns caută biosemnături fosile, colectează carote de rocă în tuburi sigilate pentru viitoarea aducere pe Pământ și a demonstrat producerea de oxigen din atmosfera marțiană. Istoricul explorării: Coborât pe Marte prin spectaculoasa manevră Sky Crane (macara zburătoare cu rachete); Ingeniuiti a zburat de 72 de ori între 2021 și 2024."
+    },
+    "curiosity_junior": {
+      "bodyId": "curiosity",
+      "tier": "junior",
+      "file": "./audio/tts/curiosity_junior.mp3",
+      "normalizedText": "Chiuriositi (Mars Science Laboratory). Roverul veteran care urcă pe Muntele Sharp din craterul Gale de pe Marte. Chiuriositi este laboratorul chimic pe roți care explorează Marte încă din anul 2012! El a demonstrat că pe Marte au existat lacuri cu apă dulce în care ar fi putut trăi microbi. Analogie: Chiuriositi are un cap cu 17 camere foto și un braț robotic lung de 2 metri cu care găurește pietrele marțiene! Știai că? Roțile lui Chiuriositi au găuri speciale care lasă pe nisipul de pe Marte urme în codul Morse cu literele J P L (laboratorul care l-a construit)!"
+    },
+    "curiosity_cadet": {
+      "bodyId": "curiosity",
+      "tier": "cadet",
+      "file": "./audio/tts/curiosity_cadet.mp3",
+      "normalizedText": "Chiuriositi (Mars Science Laboratory). Roverul veteran care urcă pe Muntele Sharp din craterul Gale de pe Marte. Amartizat la 6 august 2012 în craterul Gale, Chiuriositi (900 kg, alimentat nuclear prin RTG) urcă treptat pe versanții muntelui Aeolis Mons (Mount Sharp, 5 virgulă 5 kilometri înălțime), citind în straturile sedimentare tranziția lui Marte de la o lume umedă la un deșert rece. Istoricul explorării: A parcurs peste 32 kilometri pe Marte în mai mult de 4 virgulă 300 de zile marțiene (soli), fiind încă activ."
+    }
+  }
+}

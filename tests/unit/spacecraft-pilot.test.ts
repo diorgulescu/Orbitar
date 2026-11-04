@@ -91,30 +91,30 @@ describe('SpacecraftPilot — Cele 3 Nave, Fizica Timpului, Centurile de Asteroi
     }
   });
 
-  it('activează Scuturile Deflectoare în Centura Principală de Asteroizi (2.1–3.3 UA) și în Centura Kuiper (30–50 UA)', () => {
+  it('zboară lin spre Jupiter și Pluto fără alerte derutante despre scuturi sau gheață în timpul zborului', () => {
     pilot.setPilotMode(true);
 
     const triggeredZones: string[] = [];
-    const triggeredMessages: string[] = [];
-    pilot.onBeltAlert((zone, msg) => {
+    pilot.onBeltAlert((zone) => {
       triggeredZones.push(zone);
-      triggeredMessages.push(msg);
     });
 
-    // Zbor Pământ -> Jupiter (traversează Centura Principală de Asteroizi 2.1–3.3 UA)
+    // Zbor Pământ -> Jupiter
     pilot.engageAutopilot('jupiter');
     for (let i = 0; i < 30; i++) {
       pilot.update(0.2);
     }
-    assert.ok(triggeredZones.includes('asteroid_belt'));
-    assert.ok(triggeredMessages.includes(ASTEROID_BELT_ALERT_RO));
+    assert.equal(triggeredZones.length, 0, 'Nu trebuie declanșate alerte de centură de asteroizi');
+    assert.equal(pilot.getTelemetry().shieldActive, false);
+    assert.equal(pilot.getAnchoredBody()?.data.id, 'jupiter');
 
-    // Zbor Jupiter -> Pluto (traversează Centura Kuiper 30–50 UA)
+    // Zbor Jupiter -> Pluto
     pilot.engageAutopilot('pluto');
     for (let i = 0; i < 30; i++) {
       pilot.update(0.2);
     }
-    assert.ok(triggeredZones.includes('kuiper_belt'));
-    assert.ok(triggeredMessages.includes(KUIPER_BELT_ALERT_RO));
+    assert.equal(triggeredZones.length, 0, 'Nu trebuie declanșate alerte de gheață în Centura Kuiper');
+    assert.equal(pilot.getTelemetry().shieldActive, false);
+    assert.equal(pilot.getAnchoredBody()?.data.id, 'pluto');
   });
 });

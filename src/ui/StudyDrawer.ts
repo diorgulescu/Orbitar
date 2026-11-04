@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import { CelestialBodyInstance, OrbitalEngine } from '../core/OrbitalEngine';
 import { PlanetMaterialFactory } from '../core/PlanetMaterialFactory';
-import { SpaceAmbientEngine } from '../audio/SpaceAmbientEngine';
+import { SpeechManager } from '../audio/SpeechManager';
 import { AgeTier } from '../types/celestial';
 import { OrbitarLab } from './OrbitarLab';
 
@@ -387,7 +387,7 @@ export class StudyDrawer {
   }
 
   private toggleSpeechRo(): void {
-    if (!('speechSynthesis' in window) || !this.currentBody) return;
+    if (!this.currentBody) return;
 
     const btnSpeak = document.getElementById('btn-speak-ro');
     if (this.isSpeaking) {
@@ -401,40 +401,27 @@ export class StudyDrawer {
         ? `${d.name}. ${d.subtitle}. ${d.junior.summary} Analogie: ${d.junior.analogy} Știai că? ${d.junior.funFact}`
         : `${d.name}. ${d.subtitle}. ${d.cadet.summary} Istoricul explorării: ${d.cadet.explorationHistory}`;
 
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(textToRead);
-    utterance.lang = 'ro-RO';
-    utterance.rate = 0.96;
-
-    const voices = window.speechSynthesis.getVoices();
-    const roVoice = voices.find((v) => v.lang.toLowerCase().startsWith('ro'));
-    if (roVoice) {
-      utterance.voice = roVoice;
-    }
-
     this.isSpeaking = true;
-    SpaceAmbientEngine.getInstance().setDucking(true);
     if (btnSpeak) {
       btnSpeak.textContent = '⏹ Oprește citirea';
       btnSpeak.classList.add('hud-btn-active-amber');
     }
 
-    utterance.onend = () => {
-      this.stopSpeech();
-    };
-    utterance.onerror = () => {
-      this.stopSpeech();
-    };
-
-    window.speechSynthesis.speak(utterance);
+    SpeechManager.getInstance().speakBodyNarration(d.id, this.currentTier, textToRead, {
+      onEnd: () => {
+        this.isSpeaking = false;
+        const btn = document.getElementById('btn-speak-ro');
+        if (btn) {
+          btn.textContent = '🔊 Citește-mi';
+          btn.classList.remove('hud-btn-active-amber');
+        }
+      },
+    });
   }
 
   public stopSpeech(): void {
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-    }
     this.isSpeaking = false;
-    SpaceAmbientEngine.getInstance().setDucking(false);
+    SpeechManager.getInstance().stop();
     const btnSpeak = document.getElementById('btn-speak-ro');
     if (btnSpeak) {
       btnSpeak.textContent = '🔊 Citește-mi';

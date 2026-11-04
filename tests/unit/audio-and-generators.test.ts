@@ -4,6 +4,16 @@ import assert from 'node:assert/strict';
 import { setupTestDomEnvironment } from '../setup/dom-env';
 import { SpaceAmbientEngine } from '../../src/audio/SpaceAmbientEngine';
 import {
+  RomanianSpeechNormalizer,
+  normalizeRomanianSpeechText,
+  splitIntoSpeechSentences,
+} from '../../src/audio/RomanianSpeechNormalizer';
+import {
+  SpeechManager,
+  scoreRomanianVoice,
+  selectBestRomanianVoice,
+} from '../../src/audio/SpeechManager';
+import {
   ColoringSvgGenerator,
   generateBodyColoringSvg,
   generateSolarSystemColoringSvg,
@@ -53,6 +63,88 @@ describe('SpaceAmbientEngine (Web Audio API Generative Synthesizer) — Unit Tes
     engine.setDucking(false);
 
     engine.setEnabled(false);
+  });
+});
+
+describe('RomanianSpeechNormalizer & SpeechManager — Unit Tests', () => {
+  beforeEach(() => {
+    setupTestDomEnvironment();
+  });
+
+  it('normalizează impecabil emoji-urile, temperaturile negative/pozitive, unitățile astronomice, zecimalele și numele misiunilor', () => {
+    const rawSample =
+      '🚀 🌡️ Temperatura pe Jupiter este -110 °C, iar pe Venus +460 °C! Voyager 1, James Webb (JWST), Hubble, Perseverance, Curiosity și Ingenuity zboară cu 50.000 km/h (14,5 km/s) la 24.6 mil. km (1,52 UA) sau 1c cu Vlaicu-1 și Coandă-X lângă Ganymede, Callisto, Enceladus, Makemake, Haumea, Bennu și Psyche.';
+
+    const normalized = normalizeRomanianSpeechText(rawSample);
+
+    assert.equal(normalized.includes('🚀'), false, 'Emoji-urile trebuie eliminate');
+    assert.equal(normalized.includes('🌡'), false, 'Emoji-ul termometru trebuie eliminat');
+    assert.ok(
+      normalized.includes('minus 110 grade Celsius'),
+      `Trebuie să conțină "minus 110 grade Celsius", primit: ${normalized}`
+    );
+    assert.ok(
+      normalized.includes('plus 460 de grade Celsius'),
+      `Trebuie să conțină "plus 460 de grade Celsius", primit: ${normalized}`
+    );
+    assert.ok(normalized.includes('Voiager unu'));
+    assert.ok(normalized.includes('Geims Ueb'));
+    assert.ok(normalized.includes('Habăl'));
+    assert.ok(normalized.includes('Perseverăns'));
+    assert.ok(normalized.includes('Chiuriositi'));
+    assert.ok(normalized.includes('Ingeniuiti'));
+    assert.ok(normalized.includes('kilometri pe oră'));
+    assert.ok(normalized.includes('14 virgulă 5 kilometri pe secundă'));
+    assert.ok(normalized.includes('24 virgulă 6 milioane de kilometri'));
+    assert.ok(normalized.includes('1 virgulă 52 Unități Astronomice'));
+    assert.ok(normalized.includes('viteza luminii'));
+    assert.ok(normalized.includes('Vlaicu unu'));
+    assert.ok(normalized.includes('Coandă Ics'));
+    assert.ok(normalized.includes('Ganimede'));
+    assert.ok(normalized.includes('Calisto'));
+    assert.ok(normalized.includes('Ențeladus'));
+    assert.ok(normalized.includes('Make-make'));
+    assert.ok(normalized.includes('Ha-u-mea'));
+    assert.ok(normalized.includes('Benu'));
+    assert.ok(normalized.includes('Psihe'));
+
+    const sentences = splitIntoSpeechSentences(normalized);
+    assert.equal(sentences.length, 2, 'Trebuie împărțit în 2 propoziții distincte');
+  });
+
+  it('selectează prioritar vocile neurale românești (Emil/Alina Natural, Google română, Ioana Enhanced) și aplică chunking pe propoziții', () => {
+    const mockVoices = [
+      { name: 'English US', lang: 'en-US', localService: true } as SpeechSynthesisVoice,
+      { name: 'Ioana', lang: 'ro-RO', localService: true } as SpeechSynthesisVoice,
+      {
+        name: 'Microsoft Emil Online (Natural) - Romanian (Romania)',
+        lang: 'ro-RO',
+        localService: false,
+      } as SpeechSynthesisVoice,
+    ];
+
+    assert.ok(scoreRomanianVoice(mockVoices[2]) > scoreRomanianVoice(mockVoices[1]));
+    assert.equal(scoreRomanianVoice(mockVoices[0]), -1);
+
+    const best = selectBestRomanianVoice(mockVoices);
+    assert.equal(best?.name, 'Microsoft Emil Online (Natural) - Romanian (Romania)');
+
+    const speechMgr = SpeechManager.getInstance();
+    let ended = false;
+    speechMgr.speak('Marte are -63 °C. Roverul Perseverance explorează craterul!', {
+      forceWebSpeech: true,
+      sentencePauseMs: 0,
+      onEnd: () => {
+        ended = true;
+      },
+    });
+
+    assert.equal(ended, true);
+    assert.ok(
+      speechMgr.getLastSpokenNormalizedText().includes('minus 63 grade Celsius') &&
+        speechMgr.getLastSpokenNormalizedText().includes('Perseverăns')
+    );
+    assert.equal(speechMgr.getLastSpokenSentences().length, 2);
   });
 });
 

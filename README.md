@@ -34,13 +34,14 @@ Proiectul este **100% Open-Source**, licențiat sub **GNU General Public License
      - **⚡ Sonda „Coandă-X” (Propulsie Ionică & Fuziune — `1.500.000 km/h`):** tehnologia viitorului apropiat; Pământ → Marte în ~2 zile, iar până la Jupiter în ~18 zile.
      - **✨ Nava „Luceafărul” (Motor Fotonic — Viteza Luminii `1c`, `1.079.252.848 km/h`):** limita supremă a fizicii universului; ~8 minute și 20 secunde de la Soare la Pământ și ~4 ore până la Neptun în timp real!
    - **Două moduri de zbor:**
-     - **Pilot Automat (`⚡ Zboară Aici!`):** rotește lin nava către ținta aleasă, accelerează de-a lungul traiectoriei 3D și frânează automat pe orbita de parcare în timp ce **Ceasul Pământesc de la Bord** derulează timpul real scurs pe Pământ.
+     - **Pilot Automat (`🔥 Zboară Acolo`):** rotește lin nava către ținta aleasă, accelerează de-a lungul traiectoriei 3D și frânează automat pe orbita de parcare în timp ce **Ceasul Pământesc de la Bord** derulează timpul real scurs pe Pământ.
      - **Zbor Liber din Tastatură / Mouse (`W/A/S/D`, săgeți, `Space`/`Shift`, `Q`/`E`):** explorare liberă prin Sistemul Solar.
-   - **Etichete de Realitate Augmentată (AR) pe parbriz** cu distanța în UA și kilometri, **Scuturi Deflectoare Automate** cu halou energetic cyan și explicații științifice la traversarea Centurii de Asteroizi (`2,1–3,3 UA`) și a Centurii Kuiper (`30–50 UA`), plus **Calculatorul de Bord Vorbitor** care rostește raportul misiunii la sosirea pe orbita destinației.
+   - **Etichete de Realitate Augmentată (AR) pe parbriz** cu distanța în UA și kilometri, indicator de poziție în Sistemul Solar și **Calculatorul de Bord Vorbitor** care rostește natural raportul misiunii la sosirea pe orbita destinației.
 
-3. **Două niveluri de studiu comutabile în timp real (`orbitar_age_tier`):**
-   - **Micul Explorator (6–8 ani):** explicații calde pe înțelesul copiilor, analogii vizuale, curiozități, tabel cu durata călătoriei (*cu mașina, avionul, racheta, viteza luminii*) și buton **„🔊 Citește-mi”** (sinteză vocală nativă în limba română `ro-RO`).
+3. **Două niveluri de studiu comutabile în timp real (`orbitar_age_tier`) & Citire cu Voce Neurală în Română (`SpeechManager.ts` + `RomanianSpeechNormalizer.ts`):**
+   - **Micul Explorator (6–8 ani):** explicații calde pe înțelesul copiilor, analogii vizuale, curiozități, tabel cu durata călătoriei (*cu mașina, avionul, racheta, viteza luminii*) și buton **„🔊 Citește-mi”**.
    - **Cadet Orbitar (9–12 ani):** date fizice exacte, structură internă pe straturi sau instrumente științifice la bord, istoricul explorării și întrebări grilă interactive (Quiz).
+   - **🎙️ Arhitectură Hibridă de Redare Vocală în Română:** include 76 de fișiere audio neurale pre-generate (`public/audio/tts/<bodyId>_<tier>.mp3`) cu voce naturală românească de studio, plus **Normalizator Fonetic și Științific (`RomanianSpeechNormalizer.ts`)** care elimină emoji-urile și transformă automat temperaturile negative (`-110 °C` &rarr; *„minus 110 grade Celsius”*), numerele zecimale (`24.6` &rarr; *„24 virgulă 6”*), unitățile astronomice (`km/h`, `UA`, `1c`) și numele misiunilor/corpurilor cerești (*Voyager* &rarr; *„Voiager”*, *James Webb* &rarr; *„Geims Ueb”*, *Perseverance* &rarr; *„Perseverăns”*, *Enceladus* &rarr; *„Ențeladus”*).
 
 4. **Scară Didactică vs. Scară Reală (`orbitar_scale_mode`) & Calitate Grafică Adaptivă (`orbitar_quality_mode`, Tasta `Q`):**
    - **Scara Didactică (implicită):** mărește logaritmic planetele și sondele pentru a fi ușor de găsit și selectat pe ecran tactil.

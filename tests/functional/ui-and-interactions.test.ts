@@ -17,6 +17,7 @@ import { PrintManager } from '../../src/ui/PrintManager';
 import { LicenseModal } from '../../src/ui/LicenseModal';
 import { SpacecraftPilot } from '../../src/game/SpacecraftPilot';
 import { CockpitHUD } from '../../src/ui/CockpitHUD';
+import { SpeechManager } from '../../src/audio/SpeechManager';
 
 describe('UI, CameraController & SurfaceMarkers — Functional Integration Tests', () => {
   let scene: THREE.Scene;
@@ -136,7 +137,23 @@ describe('UI, CameraController & SurfaceMarkers — Functional Integration Tests
     const weightRes = document.getElementById('lab-result-weight')!;
     assert.ok(weightRes.textContent?.includes('kg'));
 
-    // Comutăm în modul Cadet (9–12 ani) și răspundem corect la Quiz
+    // Apăsăm pe "🔊 Citește-mi" (#btn-speak-ro) pentru Marte și apoi pentru sonda Voyager 1
+    const btnSpeak = document.getElementById('btn-speak-ro')!;
+    btnSpeak.click();
+    assert.ok(SpeechManager.getInstance().getLastSpokenNormalizedText().includes('Marte'));
+    studyDrawer.stopSpeech();
+
+    const voyager1 = orbitalEngine.getBody('voyager1')!;
+    studyDrawer.showBody(voyager1);
+    btnSpeak.click();
+    assert.ok(
+      SpeechManager.getInstance().getLastSpokenNormalizedText().includes('Voiager unu'),
+      'Textul narativ pentru Voyager 1 trebuie normalizat fonetic în "Voiager unu"'
+    );
+    studyDrawer.stopSpeech();
+
+    // Revenim la Marte, comutăm în modul Cadet (9–12 ani) și răspundem corect la Quiz
+    studyDrawer.showBody(mars);
     studyDrawer.setTier('cadet');
     const quizOptions = document.getElementById('hud-quiz-options') as any;
     const correctIdx = mars.data.cadet.quiz.correctIndex;
@@ -214,7 +231,7 @@ describe('UI, CameraController & SurfaceMarkers — Functional Integration Tests
     assert.equal(gplModal.classList.contains('is-hidden'), true);
   });
 
-  it('SpacecraftPilot & CockpitHUD: zboară de la Pământ la Jupiter prin Centura de Asteroizi cu Scuturi Deflectoare și Briefing de Sosire', () => {
+  it('SpacecraftPilot & CockpitHUD: zboară de la Pământ la Jupiter fără alerte de scuturi și deschide Briefingul de Sosire', () => {
     const pilot = new SpacecraftPilot(scene, camera, orbitalEngine, scaleManager, cameraController);
     const cockpitHud = new CockpitHUD(camera, orbitalEngine, pilot, {
       onOpenStudySheet: () => {},
@@ -235,14 +252,10 @@ describe('UI, CameraController & SurfaceMarkers — Functional Integration Tests
     pilot.selectShip('vlaicu1');
     assert.equal(pilot.getCurrentShip().speedKmh, 50_000);
 
-    // 3. Zburăm pe Pilot Automat de la Pământ către Jupiter (trecând prin Centura de Asteroizi ~2.1–3.3 UA)
+    // 3. Zburăm pe Pilot Automat de la Pământ către Jupiter fără alerte derutante
     let beltAlertTriggered = false;
-    let beltAlertMsg = '';
-    pilot.onBeltAlert((zone, msg) => {
-      if (zone === 'asteroid_belt') {
-        beltAlertTriggered = true;
-        beltAlertMsg = msg;
-      }
+    pilot.onBeltAlert(() => {
+      beltAlertTriggered = true;
     });
 
     let arrivalReportReceived = false;
@@ -258,13 +271,20 @@ describe('UI, CameraController & SurfaceMarkers — Functional Integration Tests
       cockpitHud.update();
     }
 
-    assert.equal(beltAlertTriggered, true, 'Trebuie să se declanșeze alerta Centurii de Asteroizi');
-    assert.ok(beltAlertMsg.includes('Scuturile Deflectoare sunt active'));
+    assert.equal(beltAlertTriggered, false, 'Nu trebuie să apară alerte de scuturi/gheață în timpul zborului');
+    assert.equal(document.getElementById('cockpit-belt-alert'), null, 'Elementul #cockpit-belt-alert a fost eliminat din HUD');
     assert.equal(arrivalReportReceived, true, 'Trebuie să se deschidă raportul Calculatorului de Bord la sosirea lângă Jupiter');
 
     const briefingEl = document.getElementById('cockpit-arrival-briefing')!;
     assert.equal(briefingEl.classList.contains('is-hidden'), false);
     assert.ok(document.getElementById('briefing-headline')?.textContent?.includes('Jupiter'));
     assert.ok(document.getElementById('briefing-earth-clock')?.textContent?.includes('Vlaicu-1'));
+
+    // Verificăm că raportul vocal al Calculatorului de Bord transformă "-110" în "minus 110 grade Celsius" și "Vlaicu-1" în "Vlaicu unu"
+    document.getElementById('btn-briefing-repeat-audio')?.click();
+    const spokenBriefing = SpeechManager.getInstance().getLastSpokenNormalizedText();
+    assert.ok(spokenBriefing.includes('minus 110 grade Celsius'));
+    assert.ok(spokenBriefing.includes('Vlaicu unu'));
+    cockpitHud.stopCockpitSpeech();
   });
 });

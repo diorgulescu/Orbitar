@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import { CelestialBodyData } from '../types/celestial';
 import { SpaceAmbientEngine } from '../audio/SpaceAmbientEngine';
+import { SpeechManager } from '../audio/SpeechManager';
 
 /**
  * OrbitarLab gestionează secțiunea interactivă "Laboratorul Orbitar" din Panoul Lateral de Studiu:
@@ -139,24 +140,17 @@ export class OrbitarLab {
     SpaceAmbientEngine.getInstance().setDucking(true);
 
     const speakFallbackGreeting = () => {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const utter = new SpeechSynthesisUtterance(
-          'Salutări la toată lumea! Acesta este mesajul în limba română gravat pe Discul de Aur al sondelor Voyager în anul o mie nouă sute șaptezeci și șapte.'
-        );
-        utter.lang = 'ro-RO';
-        utter.rate = 0.95;
-        utter.onend = () => {
-          SpaceAmbientEngine.getInstance().setDucking(false);
-          if (statusEl) {
-            statusEl.textContent = '✅ Mesaj interstelar redat („Salutări la toată lumea!”)';
-          }
-        };
-        utter.onerror = () => {
-          SpaceAmbientEngine.getInstance().setDucking(false);
-        };
-        window.speechSynthesis.speak(utter);
-      }
+      SpeechManager.getInstance().speak(
+        'Salutări la toată lumea! Acesta este mesajul în limba română gravat pe Discul de Aur al sondelor Voyager în anul o mie nouă sute șaptezeci și șapte.',
+        {
+          forceWebSpeech: true,
+          onEnd: () => {
+            if (statusEl) {
+              statusEl.textContent = '✅ Mesaj interstelar redat („Salutări la toată lumea!”)';
+            }
+          },
+        }
+      );
     };
 
     try {

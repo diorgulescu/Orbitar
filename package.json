@@ -20,7 +20,9 @@
     "tauri:dev": "tauri dev",
     "tauri:build": "tauri build",
     "fetch:textures": "bash scripts/fetch-textures.sh",
-    "fetch:hd-textures": "bash scripts/fetch-hd-textures.sh"
+    "fetch:hd-textures": "bash scripts/fetch-hd-textures.sh",
+    "fetch:nasa-media": "bash scripts/fetch-nasa-media.sh",
+    "generate:tts": "node scripts/generate-tts-ro.mjs"
   },
   "dependencies": {
     "astronomy-engine": "^2.1.19",
