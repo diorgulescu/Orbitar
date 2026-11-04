@@ -194,6 +194,17 @@ describe('UI, CameraController & SurfaceMarkers — Functional Integration Tests
     );
     const studyHtml = printManager.populateStudySheet('perseverance');
     assert.ok(studyHtml.includes('Perseverance'));
+    assert.equal(
+      document.getElementById('btn-coloring-modal-open'),
+      null,
+      'Butonul Planșe de Colorat & Fișe nu trebuie să fie dublat în antetul de sus'
+    );
+    document.getElementById('btn-dock-coloring')?.click();
+    assert.equal(
+      document.getElementById('hud-coloring-modal')?.classList.contains('is-hidden'),
+      false,
+      'Butonul #btn-dock-coloring din bara de jos deschide fereastra Planșe de Colorat & Fișe'
+    );
 
     new LicenseModal();
     const gplModal = document.getElementById('hud-gpl-modal')!;

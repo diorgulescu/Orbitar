@@ -591,7 +591,6 @@ export class PrintManager {
    */
   private initModalUI(): void {
     const modal = document.getElementById('hud-coloring-modal');
-    const btnOpenHeader = document.getElementById('btn-coloring-modal-open');
     const btnOpenDock = document.getElementById('btn-dock-coloring');
     const btnClose = document.getElementById('btn-coloring-modal-close');
 
@@ -629,7 +628,6 @@ export class PrintManager {
       modal?.classList.add('is-hidden');
     };
 
-    btnOpenHeader?.addEventListener('click', () => openModal());
     btnOpenDock?.addEventListener('click', () => openModal());
     btnClose?.addEventListener('click', closeModal);
 
