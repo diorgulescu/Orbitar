@@ -20,6 +20,12 @@ const PHONETIC_DICTIONARY = [
   { pattern: /\bOSIRIS-REx\b/gi, replacement: 'Osiris Recs' },
   { pattern: /\bVlaicu-1\b/gi, replacement: 'Vlaicu unu' },
   { pattern: /\bCoandă-X\b/gi, replacement: 'Coandă Ics' },
+  { pattern: /\bProxima Centauri\b/gi, replacement: 'Procsima Centauri' },
+  { pattern: /\bTRAPPIST-1\b/gi, replacement: 'Trapist unu' },
+  { pattern: /Sagittarius\s+A\*/gi, replacement: 'Sagitarius A stea' },
+  { pattern: /\bSagittarius\b/gi, replacement: 'Sagitarius' },
+  { pattern: /\bBetelgeuse\b/gi, replacement: 'Betelgeuz' },
+  { pattern: /\bOort\b/gi, replacement: 'Ort' },
   { pattern: /\bVoyager\s+1\b/gi, replacement: 'Voiager unu' },
   { pattern: /\bVoyager\s+2\b/gi, replacement: 'Voiager doi' },
   { pattern: /\bVoyager\b/gi, replacement: 'Voiager' },
@@ -84,6 +90,8 @@ export function normalizeRomanianSpeechText(rawText) {
   text = text.replace(/\bmld\.\s*km\b/gi, 'miliarde de kilometri');
   text = text.replace(/\bmilioane\s+km\b/gi, 'milioane de kilometri');
   text = text.replace(/\bmiliarde\s+km\b/gi, 'miliarde de kilometri');
+  text = text.replace(/\ba\.l\.(?!\w)/gi, 'ani-lumină');
+  text = text.replace(/(\d+)\s+al\b/gi, '$1 ani-lumină');
   text = text.replace(/\bkm\s*\/\s*h\b/gi, 'kilometri pe oră');
   text = text.replace(/\bkm\s*\/\s*s\b/gi, 'kilometri pe secundă');
   text = text.replace(/\bkm\b/gi, 'kilometri');
@@ -208,13 +216,21 @@ async function main() {
   const rootDir = process.cwd();
   const solarPath = path.resolve(rootDir, 'public/data/solar-system-ro.json');
   const missionsPath = path.resolve(rootDir, 'public/data/missions-ro.json');
+  const deepSpacePath = path.resolve(rootDir, 'public/data/deep-space-ro.json');
   const outputDir = path.resolve(rootDir, 'public/audio/tts');
 
   fs.mkdirSync(outputDir, { recursive: true });
 
   const solarData = JSON.parse(fs.readFileSync(solarPath, 'utf8'));
   const missionsData = JSON.parse(fs.readFileSync(missionsPath, 'utf8'));
-  const allBodies = [...(solarData.bodies || []), ...(missionsData.missions || [])];
+  const deepSpaceData = fs.existsSync(deepSpacePath)
+    ? JSON.parse(fs.readFileSync(deepSpacePath, 'utf8'))
+    : { deepSpace: [] };
+  const allBodies = [
+    ...(solarData.bodies || []),
+    ...(missionsData.missions || []),
+    ...(deepSpaceData.objects || deepSpaceData.deepSpace || []),
+  ];
 
   const engine = await detectSynthesisEngine();
   console.log(`[Orbitar TTS] Motor de sinteză selectat: ${engine}`);
@@ -266,6 +282,14 @@ async function main() {
       const batch = tasks.slice(i, i + concurrency);
       await Promise.all(
         batch.map(async (t) => {
+          if (
+            process.env.ORBITAR_TTS_FORCE !== '1' &&
+            fs.existsSync(t.outputPath) &&
+            fs.statSync(t.outputPath).size > 1024
+          ) {
+            completed += 1;
+            return;
+          }
           await synthesizeToMp3(engine, t.normalizedText, t.outputPath);
           completed += 1;
         })

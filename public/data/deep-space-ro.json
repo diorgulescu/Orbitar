@@ -1,0 +1,730 @@
+{
+  "version": "1.0.0",
+  "language": "ro",
+  "objects": [
+    {
+      "id": "oort_cloud",
+      "name": "Norul lui Oort",
+      "category": "oort_cloud",
+      "subtitle": "Sfera uriașă de comete înghețate de la granița Sistemului Solar (~1 an-lumină)",
+      "color": "#7dd3fc",
+      "orbitColor": "#38bdf8",
+      "radiusKm": 9460730472580,
+      "massEarthRatio": 5.0,
+      "gravityRatio": 0.0001,
+      "orbitPeriodDays": 365250000,
+      "dayLengthHours": 24,
+      "meanTempC": -269,
+      "distanceFromSunAU": 63241,
+      "horizon": "interstellar",
+      "distanceLightYears": 1.0,
+      "distanceLightYearsLabelRo": "~1 an-lumină (63.241 UA)",
+      "sizeComparisonRo": "Înconjoară întregul Sistem Solar ca o bulă sferică de ~100.000 de ori mai departe de Soare decât Pământul!",
+      "sizeRatioToSun": 1000,
+      "lightDepartureHistoryRo": "Lumina de la marginea Norului lui Oort călătorește un an întreg până ajunge la ochii noștri pe Pământ!",
+      "deepSpacePosition": [0, 0, 0],
+      "modelType": "oort_cloud",
+      "junior": {
+        "summary": "La marginea cea mai îndepărtată a Sistemului nostru Solar, acolo unde căldura Soarelui abia se mai simte, plutește o bulă gigantică formată din miliarde de bulgări de gheață și praf cosmic. Acesta este Norul lui Oort — casa din care pornesc spre noi cometele cu coadă lungă și strălucitoare!",
+        "analogy": "Dacă Pământul ar fi la doar un pas de Soare, Norul lui Oort ar fi un balon uriaș de fulgi de zăpadă aflat la peste 50 de kilometri depărtare!",
+        "funFact": "Sondei Voyager 1 îi vor trebui încă 300 de ani doar ca să ajungă la marginea interioară a Norului lui Oort și aproximativ 30.000 de ani ca să îl traverseze complet!",
+        "travelTime": {
+          "car": "10,8 miliarde de ani",
+          "plane": "1,2 miliarde de ani",
+          "rocket": "21.600 de ani",
+          "light": "1 an"
+        }
+      },
+      "cadet": {
+        "summary": "Norul lui Oort este un rezervor sferic imens de corpuri înghețate (apă, metan, amoniac și monoxid de carbon înghețat), situat între 2.000 și 100.000 UA (~1 an-lumină) de Soare. El marchează limita sferei Hill a Sistemului Solar — frontiera până la care gravitația Soarelui mai poate reține obiecte pe orbită.",
+        "structure": [
+          {
+            "name": "Discul Interior (Norul Hills)",
+            "description": "Regiune în formă de tor (2.000 – 20.000 UA) care alimentează continuu norul exterior cu nuclee cometare."
+          },
+          {
+            "name": "Sfera Exterioară Oort",
+            "description": "Înveliș sferic (20.000 – 100.000 UA) conținând miliarde de nuclee de comete de perioadă lungă, ușor perturbate de stelele vecine."
+          }
+        ],
+        "explorationHistory": "Prezis teoretic de astronomul estonian Ernst Öpik (1932) și de astronomul olandez Jan Oort (1950) pentru a explica de unde vin cometele cu perioade de mii sau milioane de ani.",
+        "quiz": {
+          "question": "Ce se găsește în principal în Norul lui Oort, la ~1 an-lumină de Soare?",
+          "options": [
+            "Miliarde de nuclee înghețate de comete la granița Sistemului Solar",
+            "Planete gazoase fierbinți",
+            "Rovere marțiene",
+            "Doar sateliți artificiali"
+          ],
+          "correctIndex": 0,
+          "explanation": "Norul lui Oort este rezervorul sferic uriaș de comete înghețate aflat la limita atracției gravitaționale a Soarelui (~1 an-lumină)."
+        }
+      }
+    },
+    {
+      "id": "proxima_centauri",
+      "name": "Proxima Centauri & Proxima b",
+      "category": "exoplanet",
+      "subtitle": "Cea mai apropiată stea de Soare și exoplaneta ei stâncoasă (4,24 ani-lumină)",
+      "color": "#ff6b6b",
+      "orbitColor": "#fb7185",
+      "radiusKm": 107280,
+      "massEarthRatio": 40900,
+      "gravityRatio": 1.1,
+      "orbitPeriodDays": 11.186,
+      "dayLengthHours": 268.4,
+      "meanTempC": -39,
+      "distanceFromSunAU": 268332,
+      "horizon": "interstellar",
+      "distanceLightYears": 4.24,
+      "distanceLightYearsLabelRo": "4,24 ani-lumină",
+      "sizeComparisonRo": "Steaua Proxima Centauri are doar 15% din diametrul Soarelui (cât 1,5 planete Jupiter), iar exoplaneta Proxima b este puțin mai mare decât Pământul (1,07 raze terestre)!",
+      "sizeRatioToSun": 0.154,
+      "lightDepartureHistoryRo": "Lumina de la Proxima Centauri pe care o vedem azi a plecat acum mai bine de 4 ani și 3 luni — când erai cu 4 clase mai mic!",
+      "deepSpacePosition": [26, 4, -18],
+      "modelType": "star_system",
+      "junior": {
+        "summary": "Proxima Centauri este prima noastră vecină stelară din Univers! Este o stea pitică roșie, mai mică și mai blândă decât Soarele, iar în jurul ei se învârte Proxima Centauri b — cea mai apropiată exoplanetă (planetă din afara Sistemului Solar) de Pământ!",
+        "analogy": "Dacă Soarele ar fi un pepene mare și galben, Proxima Centauri ar fi o cireașă roșie strălucitoare, iar planeta Proxima b o bobiță de mazăre care face un tur complet în jurul ei în doar 11 zile!",
+        "funFact": "Pe planeta Proxima b, un an întreg durează doar 11 zile pământești! Acolo ai sărbători ziua ta de naștere de trei ori pe lună!",
+        "travelTime": {
+          "car": "48 de miliarde de ani",
+          "plane": "5,3 miliarde de ani",
+          "rocket": "75.000 de ani",
+          "light": "4 ani și 3 luni"
+        }
+      },
+      "cadet": {
+        "summary": "Situată la 4,24 ani-lumină în constelația Centaurul (parte a sistemului triplu Alpha Centauri), Proxima Centauri este o pitică roșie de clasă spectrală M5.5Ve. Exoplaneta Proxima Centauri b (descoperită în 2016) orbitează chiar în zona locuibilă (la 0,0485 UA de stea), unde temperatura ar permite existența apei lichide.",
+        "structure": [
+          {
+            "name": "Steaua Proxima Centauri (M5.5V)",
+            "description": "Pitică roșie cu temperatura la suprafață de ~3.042 K și o durată de viață de mii de miliarde de ani."
+          },
+          {
+            "name": "Exoplaneta Proxima Centauri b",
+            "description": "Planetă telurică cu masa minimă de 1,17 mase terestre, orbitând în 11,2 zile în zona locuibilă a stelei."
+          },
+          {
+            "name": "Proxima Centauri d",
+            "description": "Sub-Pământ foarte apropiat de stea (perioadă orbitală de doar 5,1 zile), descoperit în 2022."
+          }
+        ],
+        "explorationHistory": "Steaua a fost descoperită în 1915 de Robert Innes, iar exoplaneta Proxima b a fost confirmată în august 2016 de Observatorul European Austral (ESO) prin metoda vitezelor radiale (instrumentul HARPS).",
+        "quiz": {
+          "question": "La ce distanță de noi se află Proxima Centauri, cea mai apropiată stea de Sistemul Solar?",
+          "options": [
+            "4,24 ani-lumină",
+            "100 de kilometri",
+            "2,5 milioane de ani-lumină",
+            "1 Unitate Astronomică"
+          ],
+          "correctIndex": 0,
+          "explanation": "Proxima Centauri se află la 4,24 ani-lumină (~40.000 de miliarde de kilometri) de Sistemul nostru Solar."
+        }
+      }
+    },
+    {
+      "id": "sirius",
+      "name": "Sirius A & B (Luceafărul Câinelui)",
+      "category": "star",
+      "subtitle": "Cea mai strălucitoare stea de pe cerul nopții și pitica ei albă (8,6 ani-lumină)",
+      "color": "#93c5fd",
+      "orbitColor": "#60a5fa",
+      "radiusKm": 1190000,
+      "massEarthRatio": 673000,
+      "gravityRatio": 22.0,
+      "orbitPeriodDays": 18299,
+      "dayLengthHours": 16,
+      "meanTempC": 9667,
+      "distanceFromSunAU": 544000,
+      "horizon": "interstellar",
+      "distanceLightYears": 8.6,
+      "distanceLightYearsLabelRo": "8,6 ani-lumină",
+      "sizeComparisonRo": "Sirius A este de 1,71 ori mai mare în diametru decât Soarele și de 25 de ori mai strălucitoare, în timp ce companionul Sirius B (o pitică albă) are masa Soarelui comprimată într-un glob doar cât Pământul!",
+      "sizeRatioToSun": 1.71,
+      "lightDepartureHistoryRo": "Lumina albastră-albă de la Sirius pe care o vedem în această seară a plecat acum 8,6 ani — pe vremea când mulți dintre elevii de azi abia învățau să meargă!",
+      "deepSpacePosition": [-42, 10, 28],
+      "modelType": "star_system",
+      "junior": {
+        "summary": "Dacă privești cerul senin într-o seară de iarnă, sub centura constelației Orion vei vedea o stea care scânteiază în alb și albastru mai tare decât oricare alta: este Sirius! De fapt, Sirius ascunde un secret — nu este o singură stea, ci două stele care dansează împreună!",
+        "analogy": "Sirius A este ca un far uriaș alb-albăstrui de 25 de ori mai puternic decât Soarele, iar lângă el se rotește Sirius B („Cățelușul”), o stea pitică albă mică doar cât Pământul, dar grea cât un Soare întreg!",
+        "funFact": "Materia din pitica albă Sirius B este atât de deasă și grea, încât o singură linguriță din ea ar cântări pe Pământ aproximativ 5 tone — cât un elefant african matur!",
+        "travelTime": {
+          "car": "97 de miliarde de ani",
+          "plane": "10,8 miliarde de ani",
+          "rocket": "154.000 de ani",
+          "light": "8 ani și 7 luni"
+        }
+      },
+      "cadet": {
+        "summary": "Sirius (Alpha Canis Majoris), aflată la 8,6 ani-lumină, este un sistem binar format din Sirius A (stea albă de secvență principală, tip spectral A1V, ~9.940 K) și Sirius B (una dintre cele mai masive pitice albe cunoscute, cu temperatura de ~25.000 K), care se orbitează reciproc la fiecare 50,1 ani.",
+        "structure": [
+          {
+            "name": "Sirius A (Steaua Principală A1V)",
+            "description": "Stea alb-albăstruie cu masa de 2,06 mase solare și luminozitate de 25,4 ori mai mare decât a Soarelui."
+          },
+          {
+            "name": "Sirius B (Pitica Albă DA2)",
+            "description": "Nucleu stelar colapsat cu raza de ~5.840 km (aproape cât Pământul) și masa de 1,018 mase solare."
+          }
+        ],
+        "explorationHistory": "Friedrich Bessel a dedus în 1844 existența unui companion invizibil observând oscilațiile mișcării lui Sirius A, iar Alvan Graham Clark a observat direct pitica albă Sirius B în 1862.",
+        "quiz": {
+          "question": "Ce tip de stea este companionul Sirius B care orbitează în jurul strălucitoarei Sirius A?",
+          "options": [
+            "O pitică albă extrem de densă, de mărimea Pământului dar cu masa Soarelui",
+            "O planetă de gheață",
+            "O supergigantă roșie",
+            "Un asteroid metalic"
+          ],
+          "correctIndex": 0,
+          "explanation": "Sirius B este o pitică albă — nucleul dens rămas dintr-o stea străveche, având masa Soarelui strânsă într-un volum cât Pământul."
+        }
+      }
+    },
+    {
+      "id": "trappist1",
+      "name": "Sistemul TRAPPIST-1 (7 Exoplanete)",
+      "category": "exoplanet",
+      "subtitle": "Steaua pitică ultra-rece cu 7 planete stâncoase de mărimea Pământului (40 ani-lumină)",
+      "color": "#f43f5e",
+      "orbitColor": "#fb7185",
+      "radiusKm": 84180,
+      "massEarthRatio": 29800,
+      "gravityRatio": 0.93,
+      "orbitPeriodDays": 6.1,
+      "dayLengthHours": 146.4,
+      "meanTempC": -22,
+      "distanceFromSunAU": 2529640,
+      "horizon": "interstellar",
+      "distanceLightYears": 40.0,
+      "distanceLightYearsLabelRo": "40 de ani-lumină",
+      "sizeComparisonRo": "Steaua TRAPPIST-1 este abia puțin mai mare decât planeta Jupiter (12% din raza Soarelui), iar toate cele 7 planete ale sale încap pe o orbită mult mai strânsă decât orbita lui Mercur în jurul Soarelui!",
+      "sizeRatioToSun": 0.121,
+      "lightDepartureHistoryRo": "Lumina de la sistemul TRAPPIST-1 pe care o vedem azi a plecat acum 40 de ani (în 1986), pe vremea când părinții tăi erau copii și se lansa stația spațială Mir!",
+      "deepSpacePosition": [78, -12, 54],
+      "modelType": "trappist_system",
+      "junior": {
+        "summary": "TRAPPIST-1 este unul dintre cele mai uimitoare locuri din galaxie: o stea mică și roșiatică, înconjurată de o familie întreagă de 7 planete stâncoase, toate de mărimea Pământului! Trei dintre aceste planete (e, f și g) se află chiar în „zona potrivită”, unde ar putea exista oceane de apă lichidă!",
+        "analogy": "Dacă Sistemul nostru Solar este un teren mare de fotbal, întregul sistem TRAPPIST-1 cu toate cele 7 planete ale sale ar încăpea în cercul de la mijlocul terenului! Planetele sunt atât de aproape unele de altele, încât de pe una le-ai vedea pe celelalte pe cer mai mari decât vedem noi Luna!",
+        "funFact": "Toate cele 7 planete din sistemul TRAPPIST-1 sunt mai aproape de steaua lor decât este Mercur față de Soarele nostru, dar nu se ard fiindcă steaua lor este o pitică ultra-rece și blândă!",
+        "travelTime": {
+          "car": "450 de miliarde de ani",
+          "plane": "50 de miliarde de ani",
+          "rocket": "720.000 de ani",
+          "light": "40 de ani"
+        }
+      },
+      "cadet": {
+        "summary": "Aflat la ~40 de ani-lumină în constelația Vărsătorul, sistemul TRAPPIST-1 conține o pitică ultra-rece (clasă M8V, masa ~0,09 mase solare) și șapte exoplanete telurice (TRAPPIST-1 b, c, d, e, f, g, h) cu perioade orbitale între 1,5 și 18,7 zile, aflate într-un lanț stabil de rezonanțe orbitale.",
+        "structure": [
+          {
+            "name": "Planetele Interioare (b, c, d)",
+            "description": "Lumi stâncoase calde studiate în infraroșu de Telescopul Spațial James Webb (JWST) pentru detecția atmosferei."
+          },
+          {
+            "name": "Zona Locuibilă (TRAPPIST-1 e, f, g)",
+            "description": "Trei exoplanete de mărimea Pământului aflate la distanța ideală pentru a susține apă lichidă la suprafață."
+          },
+          {
+            "name": "Planeta Exterioară (TRAPPIST-1 h)",
+            "description": "Lume înghețată cu perioada orbitală de 18,77 zile, situată la marginea sistemului compact."
+          }
+        ],
+        "explorationHistory": "Descoperit în 2016–2017 de echipa condusă de Michaël Gillon cu telescopul TRAPPIST și telescopul spațial Spitzer; astăzi este ținta principală a Telescopului James Webb pentru studiul atmosferelor exoplanetare.",
+        "quiz": {
+          "question": "Câte planete stâncoase de mărimea Pământului orbitează în jurul stelei TRAPPIST-1?",
+          "options": [
+            "7 exoplanete stâncoase (dintre care 3 în zona locuibilă)",
+            "O singură planetă gazoasă",
+            "100 de planete",
+            "Nicio planetă"
+          ],
+          "correctIndex": 0,
+          "explanation": "Sistemul TRAPPIST-1 deține recordul pentru cele mai multe planete telurice de mărimea Pământului (7 planete: b, c, d, e, f, g, h) în jurul unei singure stele."
+        }
+      }
+    },
+    {
+      "id": "cancri55e",
+      "name": "Exoplaneta 55 Cancri e (Janssen)",
+      "category": "exoplanet",
+      "subtitle": "„Planeta de Lavă și Diamant” — Super-Pământ incandescent (41 ani-lumină)",
+      "color": "#fb923c",
+      "orbitColor": "#f97316",
+      "radiusKm": 11950,
+      "massEarthRatio": 7.99,
+      "gravityRatio": 2.2,
+      "orbitPeriodDays": 0.7365,
+      "dayLengthHours": 17.67,
+      "meanTempC": 2000,
+      "distanceFromSunAU": 2592880,
+      "horizon": "interstellar",
+      "distanceLightYears": 41.0,
+      "distanceLightYearsLabelRo": "41 de ani-lumină",
+      "sizeComparisonRo": "Este un „Super-Pământ” cu diametrul de aproape 2 ori mai mare decât al Pământului și de 8 ori mai masiv!",
+      "sizeRatioToSun": 0.017,
+      "lightDepartureHistoryRo": "Lumina de la sistemul 55 Cancri pe care o vedem azi a plecat acum 41 de ani (în 1985)!",
+      "deepSpacePosition": [-86, -15, -48],
+      "modelType": "lava_exoplanet",
+      "junior": {
+        "summary": "Imaginează-ți o planetă de aproape două ori mai mare decât Pământul, atât de apropiată de steaua ei încât un an întreg acolo durează doar 17 ore și jumătate! Pe partea îndreptată spre stea, stâncile s-au topit într-un ocean uriaș de lavă strălucitoare, iar în adâncuri carbonul presat poate forma straturi întregi de diamant!",
+        "analogy": "Dacă Pământul este o bilă albastră acoperită cu oceane de apă răcoroasă, 55 Cancri e este o bilă incandescentă acoperită cu oceane de magmă vulcanică și nori de rocă vaporizată!",
+        "funFact": "Pe 55 Cancri e, anul nou vine înainte să se termine o singură zi de pe Pământ: planeta dă ocol stelei sale în doar 17 ore și 40 de minute!",
+        "travelTime": {
+          "car": "460 de miliarde de ani",
+          "plane": "51 de miliarde de ani",
+          "rocket": "738.000 de ani",
+          "light": "41 de ani"
+        }
+      },
+      "cadet": {
+        "summary": "55 Cancri e (numită oficial Janssen) este o exoplanetă de tip Super-Pământ aflată la 41 de ani-lumină în constelația Racul. Orbitează la doar 0,015 UA de steaua 55 Cancri A, fiind blocată mareic: emisfera diurnă atinge ~2.000 °C (acoperită de un ocean global de magmă), iar observațiile JWST din 2024 au confirmat prezența unei atmosfere secundare bogate în CO și CO₂ degajate din oceanul de lavă.",
+        "structure": [
+          {
+            "name": "Ocean Global de Magmă",
+            "description": "Suprafață de silicați topiți pe emisfera diurnă, la temperaturi de peste 2.000 °C."
+          },
+          {
+            "name": "Manta Bogată în Carbon și Siliciu",
+            "description": "Presiunile extreme din interiorul unei planete de 8 mase terestre pot cristaliza carbonul sub formă de diamant."
+          },
+          {
+            "name": "Atmosferă Volatilă de Roci și Gaze",
+            "description": "Atmosferă densă de monoxid și dioxid de carbon detectată de Telescopul Spațial James Webb în 2024."
+          }
+        ],
+        "explorationHistory": "Descoperită în 2004 prin metoda vitezelor radiale și observată în tranzit de telescoapele Spitzer, Hubble, CHEOPS și James Webb (2024).",
+        "quiz": {
+          "question": "De ce este suprafața exoplanetei 55 Cancri e acoperită de un ocean de lavă topită?",
+          "options": [
+            "Pentru că orbitează extrem de aproape de steaua ei (un an durează doar ~18 ore), la ~2.000 °C",
+            "Pentru că este făcută din gheață",
+            "Pentru că nu are nicio stea în apropiere",
+            "Pentru că se află în Centura Kuiper"
+          ],
+          "correctIndex": 0,
+          "explanation": "Fiind la doar 0,015 UA de steaua ei, 55 Cancri e este încălzită la ~2.000 °C, topind rocile de la suprafață într-un ocean global de magmă."
+        }
+      }
+    },
+    {
+      "id": "pleiades",
+      "name": "Roiul Stelar Pleiadele („Cloșca cu Pui”)",
+      "category": "star_cluster",
+      "subtitle": "Roiul deschis M45 de stele tinere albastre din Taurul (444 ani-lumină)",
+      "color": "#38bdf8",
+      "orbitColor": "#38bdf8",
+      "radiusKm": 80000000000000,
+      "massEarthRatio": 266000000,
+      "gravityRatio": 1.0,
+      "orbitPeriodDays": 0,
+      "dayLengthHours": 24,
+      "meanTempC": 12000,
+      "distanceFromSunAU": 28078000,
+      "horizon": "interstellar",
+      "distanceLightYears": 444,
+      "distanceLightYearsLabelRo": "444 de ani-lumină",
+      "sizeComparisonRo": "Roiul Pleiadelor conține peste 1.000 de stele tinere răspândite pe o lățime de ~17 ani-lumină (de 17 ori mai mare decât întregul Nor al lui Oort)!",
+      "sizeRatioToSun": 8500,
+      "lightDepartureHistoryRo": "Lumina de la Pleiade („Cloșca cu Pui”) pe care o vedem azi pe cer a plecat acum 444 de ani — în anul 1582, pe vremea lui Mihai Viteazul!",
+      "deepSpacePosition": [125, 28, -95],
+      "modelType": "star_cluster",
+      "junior": {
+        "summary": "Când privești cerul nopții toamna sau iarna, poți vedea cu ochiul liber un buchet mic și sclipitor de 7 stele albastre care stau strânse împreună. În România, bunicii noștri le-au numit cu drag „Cloșca cu Pui” sau „Găinușa”! Prin telescop însă descoperim că acolo sunt peste 1.000 de stele tinere și fierbinți, învăluite într-un voal albastru de praf stelar!",
+        "analogy": "Pleiadele sunt ca o „grădiniță de stele-frați” născute din același nor cosmic acum 100 de milioane de ani — pe când pe Pământ încă se plimbau dinozaurii!",
+        "funFact": "Lumina albastră de la „Cloșca cu Pui” călătorește prin spațiu timp de 444 de ani până ajunge la noi: razele pe care le vezi diseară au plecat de acolo pe vremea lui Mihai Viteazul!",
+        "travelTime": {
+          "car": "5.000 de miliarde de ani",
+          "plane": "550 de miliarde de ani",
+          "rocket": "8 milioane de ani",
+          "light": "444 de ani"
+        }
+      },
+      "cadet": {
+        "summary": "Pleiadele (Messier 45 / „Cloșca cu Pui”), situate la ~444 de ani-lumină în constelația Taurul, reprezintă cel mai cunoscut roi stelar deschis de pe cer. Este dominat de gigante albastre extrem de luminoase (Alcyone, Atlas, Electra, Maia, Merope, Taygeta, Pleione) care iluminează o nebuloasă de reflexie albastră la trecerea printr-un nor interstelar de praf.",
+        "structure": [
+          {
+            "name": "Cele 7 Surori (Gigante Albastre B)",
+            "description": "Stele masive și tinere (~100 milioane de ani), fiecare de sute de ori mai luminoasă decât Soarele."
+          },
+          {
+            "name": "Nebuloasa de Reflexie Merope (NGC 1435)",
+            "description": "Nor fin de praf interstelar care împrăștie lumina albastră a stelelor din roi."
+          }
+        ],
+        "explorationHistory": "Cunoscute din antichitate în toate culturile lumii (și în astronomia populară românească drept „Cloșca cu Pui”), Pleiadele au fost desenate pentru prima dată prin telescop de Galileo Galilei în 1610 și catalogate de Charles Messier ca M45 în 1769.",
+        "quiz": {
+          "question": "Cum este numit roiul stelar Pleiadele (M45) în tradiția populară românească și acum câți ani a plecat lumina lui spre noi?",
+          "options": [
+            "„Cloșca cu Pui”, iar lumina a plecat acum ~444 de ani",
+            "„Carul Mare”, la 10 kilometri distanță",
+            "„Luceafărul de Dimineață”, la 8 minute-lumină",
+            "„Calea Robilor”, la 1 miliard de ani-lumină"
+          ],
+          "correctIndex": 0,
+          "explanation": "În tradiția românească, Pleiadele sunt numite „Cloșca cu Pui” (sau „Găinușa”), iar la distanța de 444 de ani-lumină, lumina lor a plecat spre Pământ în secolul al XVI-lea."
+        }
+      }
+    },
+    {
+      "id": "betelgeuse",
+      "name": "Betelgeuse (Supergiganta Roșie)",
+      "category": "star",
+      "subtitle": "Steaua colosală din Orion, de ~700 de ori mai mare decât Soarele (640 ani-lumină)",
+      "color": "#f97316",
+      "orbitColor": "#ea580c",
+      "radiusKm": 487000000,
+      "massEarthRatio": 5500000,
+      "gravityRatio": 0.0005,
+      "orbitPeriodDays": 0,
+      "dayLengthHours": 720,
+      "meanTempC": 3327,
+      "distanceFromSunAU": 40474000,
+      "horizon": "interstellar",
+      "distanceLightYears": 640,
+      "distanceLightYearsLabelRo": "640 de ani-lumină",
+      "sizeComparisonRo": "Betelgeuse are un diametru de ~700 de ori mai mare decât Soarele! Dacă am așeza-o în centrul Sistemului Solar, marginea ei ar înghiți Mercur, Venus, Pământul, Marte și ar ajunge până la orbita lui Jupiter!",
+      "sizeRatioToSun": 700,
+      "lightDepartureHistoryRo": "Lumina roșiatică de la Betelgeuse pe care o vedem azi a plecat acum 640 de ani — în anul 1386, chiar în anul în care a început domnia lui Mircea cel Bătrân în Țara Românească!",
+      "deepSpacePosition": [-135, 22, 110],
+      "modelType": "star_system",
+      "junior": {
+        "summary": "În umărul stâng al constelației Orion strălucește o stea portocalie-roșiatică de o mărime aproape de neimaginat: Betelgeuse! Este o supergigantă roșie atât de uriașă, încât înăuntrul ei ar încăpea sute de milioane de Sori! Dacă Betelgeuse ar fi pusă în locul Soarelui nostru, Pământul și chiar Marte s-ar afla în interiorul stelei!",
+        "analogy": "Dacă Soarele nostru ar fi o minge mică de ping-pong, supergiganta Betelgeuse ar fi un balon gonflabil înalt cât o clădire cu 9 etaje (28 de metri diametru)!",
+        "funFact": "În anul 2019, Betelgeuse s-a întunecat brusc pentru câteva luni, iar astronomii au descoperit cu telescopul Hubble că steaua „strănutase” un nor uriaș de praf cosmic care îi umbrea fața!",
+        "travelTime": {
+          "car": "7.200 de miliarde de ani",
+          "plane": "800 de miliarde de ani",
+          "rocket": "11,5 milioane de ani",
+          "light": "640 de ani"
+        }
+      },
+      "cadet": {
+        "summary": "Betelgeuse (Alpha Orionis), aflată la ~640 de ani-lumină, este o supergigantă roșie variabilă semiregulată (clasă spectrală M1–M2 Ia-ab) aflată în ultimele etape ale evoluției sale stelare. Cu o rază de ~700 raze solare și o luminozitate de ~100.000 de ori mai mare decât a Soarelui, Betelgeuse își fuzionează elementele grele din nucleu și va sfârși într-o supernovă spectaculoasă în următorii ~100.000 de ani.",
+        "structure": [
+          {
+            "name": "Fotosferă Convectivă Uriașă",
+            "description": "Celule gigantice de convecție (fiecare cât orbita Pământului) care fac suprafața stelei să pulseze și să își schimbe strălucirea."
+          },
+          {
+            "name": "Înveliș Circumstelar de Praf",
+            "description": "Nori extinși de silicați și alumină expulzați de vântul stelar puternic până la zeci de raze stelare."
+          }
+        ],
+        "explorationHistory": "În 1920, Betelgeuse a devenit prima stea (în afară de Soare) al cărei diametru unghiular a fost măsurat direct (de Michelson și Pease la Observatorul Mount Wilson); în 2019–2020 a trecut prin „Marea Întunecare” studiată de Hubble și VLT.",
+        "quiz": {
+          "question": "Până unde s-ar întinde supergiganta roșie Betelgeuse dacă ar fi așezată în locul Soarelui nostru?",
+          "options": [
+            "Ar înghiți Mercur, Venus, Pământul și Marte, ajungând aproape de orbita lui Jupiter",
+            "Ar fi mai mică decât Luna",
+            "Ar ajunge doar până la Stația Spațială Internațională",
+            "Ar fi de mărimea unui asteroid"
+          ],
+          "correctIndex": 0,
+          "explanation": "Având o rază de ~700 de ori mai mare decât a Soarelui (~3,5 UA), Betelgeuse ar depăși orbita lui Marte și Centura de Asteroizi, apropiindu-se de Jupiter."
+        }
+      }
+    },
+    {
+      "id": "orion_nebula",
+      "name": "Nebuloasa Orion (M42)",
+      "category": "nebula",
+      "subtitle": "Cea mai apropiată maternitate stelară masivă, studiată de James Webb (1.344 ani-lumină)",
+      "color": "#e879f9",
+      "orbitColor": "#c084fc",
+      "radiusKm": 113500000000000,
+      "massEarthRatio": 666000000,
+      "gravityRatio": 0.1,
+      "orbitPeriodDays": 0,
+      "dayLengthHours": 24,
+      "meanTempC": 9700,
+      "distanceFromSunAU": 85000000,
+      "horizon": "galactic",
+      "distanceLightYears": 1344,
+      "distanceLightYearsLabelRo": "1.344 de ani-lumină",
+      "sizeComparisonRo": "Nebuloasa Orion măsoară 24 de ani-lumină de la un capăt la altul — de 24 de ori mai lată decât întregul Sistem Solar cu Norul lui Oort!",
+      "sizeRatioToSun": 12000,
+      "lightDepartureHistoryRo": "Lumina de la Nebuloasa Orion pe care o vedem azi a plecat acum 1.344 de ani (în anul 682 d.Hr.), în secolele în care se forma poporul român și limba română!",
+      "deepSpacePosition": [52, -8, -42],
+      "modelType": "nebula",
+      "junior": {
+        "summary": "Sub cele trei stele din „Centura lui Orion” se află un nor cosmic uriaș, strălucitor în nuanțe de roz, violet și turcoaz: Nebuloasa Orion! Este o adevărată „maternitate de stele”, un loc fermecat în care din nori de gaz și praf cosmic se nasc chiar acum sute de sori noi și sisteme solare tinere!",
+        "analogy": "Nebuloasa Orion este ca un cuib luminos din vată de zahăr cosmică, lat de 24 de ani-lumină, în mijlocul căruia patru stele-bebeluș foarte puternice („Trapezul”) aprind întregul nor ca niște reflectoare!",
+        "funFact": "Telescopul Spațial James Webb a privit cu ochii săi în infraroșu în interiorul Nebuloasei Orion și a fotografiat discuri de praf („proplyde”) în jurul stelelor nou-născute, exact acolo unde se formează viitoare planete!",
+        "travelTime": {
+          "car": "15.000 de miliarde de ani",
+          "plane": "1.680 de miliarde de ani",
+          "rocket": "24 de milioane de ani",
+          "light": "1.344 de ani"
+        }
+      },
+      "cadet": {
+        "summary": "Nebuloasa Orion (Messier 42 / NGC 1976), situată la 1.344 de ani-lumină, este cea mai strălucitoare nebuloasă difuză de emisie și reflexie de pe cer (vizibilă chiar și cu ochiul liber, magnitudine 4,0). În centrul ei, roiul tânăr Trapezium ionizează hidrogenul și oxigenul din jur, iar observațiile JWST NIRCam au dezvăluit filamente moleculare, jeturi protostelare și discuri protoplanetare.",
+        "structure": [
+          {
+            "name": "Roiul Stelar Trapezium",
+            "description": "Grup compact de stele masive tinere (tip O și B) a căror radiație ultravioletă face întreaga nebuloasă să strălucească."
+          },
+          {
+            "name": "Bara Orion & Discurile Protoplanetare (Proplyds)",
+            "description": "Peste 150 de discuri de praf și gaz în jurul stelelor tinere, unde se nasc noi planete, fotografiate în detaliu de Hubble și James Webb."
+          }
+        ],
+        "explorationHistory": "Observată prin telescop în 1610 de Nicolas-Claude Fabri de Peiresc și desenată de Christiaan Huygens în 1656; în 2022–2023, Telescopul Spațial James Webb a realizat cele mai detaliate hărți în infraroșu ale regiunii.",
+        "quiz": {
+          "question": "Ce se întâmplă în interiorul Nebuloasei Orion (M42), studiată de Telescopul James Webb?",
+          "options": [
+            "Se nasc sute de stele noi și sisteme planetare tinere din nori de gaz și praf cosmic",
+            "Se află doar planete înghețate fără nicio stea",
+            "Este o stație spațială pe orbita Pământului",
+            "Este un crater de pe Luna noastră"
+          ],
+          "correctIndex": 0,
+          "explanation": "Nebuloasa Orion este cea mai apropiată regiune masivă de formare a stelelor („maternitate stelară”), unde JWST observă stele nou-născute și discuri protoplanetare."
+        }
+      }
+    },
+    {
+      "id": "pillars_of_creation",
+      "name": "Stâlpii Creației (Nebuloasa Vulturului M16)",
+      "category": "nebula",
+      "subtitle": "Coloanele gigantice de gaz și praf în care se nasc stele noi (6.500 ani-lumină)",
+      "color": "#fbbf24",
+      "orbitColor": "#f59e0b",
+      "radiusKm": 47300000000000,
+      "massEarthRatio": 200000000,
+      "gravityRatio": 0.1,
+      "orbitPeriodDays": 0,
+      "dayLengthHours": 24,
+      "meanTempC": 8000,
+      "distanceFromSunAU": 411000000,
+      "horizon": "galactic",
+      "distanceLightYears": 6500,
+      "distanceLightYearsLabelRo": "6.500 de ani-lumină",
+      "sizeComparisonRo": "Cel mai înalt stâlp are o lungime de ~4–5 ani-lumină — cât distanța de la Soarele nostru până la cea mai apropiată stea, Proxima Centauri!",
+      "sizeRatioToSun": 5000,
+      "lightDepartureHistoryRo": "Lumina de la Stâlpii Creației pe care o vedem azi a plecat acum 6.500 de ani (în jurul anului 4500 î.Hr.), pe vremea străvechii culturi Cucuteni de pe teritoriul României!",
+      "deepSpacePosition": [15, 6, -12],
+      "modelType": "nebula",
+      "junior": {
+        "summary": "Stâlpii Creației sunt trei turnuri uriașe de gaz și praf stelar din inima Nebuloasei Vulturului, devenite celebre în toată lumea datorită fotografiilor uimitoare realizate de telescoapele Hubble și James Webb! În vârful acestor coloane aurii și turcoaz, înalte de câțiva ani-lumină, se aprind stele noi-nouțe, roșii ca jarul!",
+        "analogy": "Stâlpii Creației seamănă cu trei munți de nori aurii ridicați în mijul cosmosului, atât de înalți încât o rază de lumină are nevoie de 5 ani întregi ca să urce de la baza unui stâlp până în vârful lui!",
+        "funFact": "Când Telescopul James Webb a privit Stâlpii Creației în lumină infraroșie, praful a devenit transparent și au apărut mii de stele tinere roșii ascunse chiar în interiorul coloanelor!",
+        "travelTime": {
+          "car": "73.000 de miliarde de ani",
+          "plane": "8.100 de miliarde de ani",
+          "rocket": "117 milioane de ani",
+          "light": "6.500 de ani"
+        }
+      },
+      "cadet": {
+        "summary": "Situați la ~6.500 de ani-lumină în Nebuloasa Vulturului (Messier 16, constelația Șarpele), Stâlpii Creației sunt trompe elefantine de hidrogen molecular rece și praf cosmic, sculptate prin fotoevaporare de vânturile stelare și radiația UV ale stelelor masive din roiul NGC 6611. Imaginile JWST (NIRCam și MIRI, 2022) au evidențiat protostele de clasă 0/I la extremitățile stâlpilor.",
+        "structure": [
+          {
+            "name": "Coloanele Moleculare (4–5 ani-lumină)",
+            "description": "Trei piloni denși de hidrogen molecular și praf cosmic care protejează gazul din spate de radiația ultravioletă."
+          },
+          {
+            "name": "Globule de Gaz în Evaporare (EGGs) & Protostele",
+            "description": "Noduri dense la vârful stâlpilor în care gravitația comprimă gazul, dând naștere unor stele tinere vizibile în infraroșu cu JWST."
+          }
+        ],
+        "explorationHistory": "Fotografia iconică realizată de Telescopul Spațial Hubble în 1995 (și refăcută în 2014) a fost completată în octombrie 2022 de imaginea în infraroșu apropiat și mediu a Telescopului Spațial James Webb.",
+        "quiz": {
+          "question": "Ce a reușit să vadă Telescopul Spațial James Webb în interiorul Stâlpilor Creației folosind lumina infraroșie?",
+          "options": [
+            "A privit prin perdeaua de praf și a dezvăluit stelele tinere roșii care se nasc în vârful coloanelor",
+            "A descoperit un ocean de apă înghețată pe Marte",
+            "A fotografiat Stația Spațială Internațională",
+            "A măsurat coada unei comete din Centura Kuiper"
+          ],
+          "correctIndex": 0,
+          "explanation": "Lumina infraroșie pătrunde prin norii opaci de praf cosmic, permițând telescopului James Webb să fotografieze protostelele roșii nou-născute din interiorul Stâlpilor Creației."
+        }
+      }
+    },
+    {
+      "id": "sagittarius_a",
+      "name": "Sagittarius A* (Gaura Neagră Supermasivă)",
+      "category": "black_hole",
+      "subtitle": "Inima gravitațională din centrul Căii Lactee (26.000 ani-lumină)",
+      "color": "#ff9e00",
+      "orbitColor": "#f59e0b",
+      "radiusKm": 12000000,
+      "massEarthRatio": 1430000000000,
+      "gravityRatio": 1000000,
+      "orbitPeriodDays": 0,
+      "dayLengthHours": 1,
+      "meanTempC": 1000000,
+      "distanceFromSunAU": 1644000000,
+      "horizon": "galactic",
+      "distanceLightYears": 26000,
+      "distanceLightYearsLabelRo": "26.000 de ani-lumină",
+      "sizeComparisonRo": "Orizontul evenimentelor lui Sagittarius A* are diametrul de ~24 milioane km (încape în interiorul orbitei lui Mercur), dar cântărește cât 4,3 milioane de Sori la un loc!",
+      "sizeRatioToSun": 17.2,
+      "lightDepartureHistoryRo": "Lumina discului din jurul găurii negre Sagittarius A* pe care o vedem azi a plecat acum 26.000 de ani — din Epoca de Gheață, când oamenii preistorici pictau peșterile și pe Pământ trăiau mamuții!",
+      "deepSpacePosition": [0, 0, 0],
+      "modelType": "black_hole",
+      "junior": {
+        "summary": "Chiar în mijlocul galaxiei noastre, Calea Lactee, se află un obiect cosmic fascinant: Sagittarius A*, o gaură neagră supermasivă! Nu este o „gaură” goală, ci un loc în care masa a 4 milioane de Sori este adunată într-un spațiu mic. Gravitația ei este atât de puternică încât înconjoară întunericul central cu un inel luminos și fierbinte de gaz numit „disc de acreție”, iar lumina din spate este îndoită ca printr-o lupă!",
+        "analogy": "Sagittarius A* este ca „ancora gravitațională” din centrul unui carusel gigantic: se află la 26.000 de ani-lumină depărtare, în siguranță totală față de noi, iar întregul Sistem Solar se rotește liniștit în jurul centrului galaxiei o dată la 230 de milioane de ani!",
+        "funFact": "În anul 2022, astronomii au unit radiotelescoape de pe tot Pământul (Event Horizon Telescope) și au făcut prima fotografie reală din istorie a inelului portocaliu strălucitor din jurul lui Sagittarius A*!",
+        "travelTime": {
+          "car": "290.000 de miliarde de ani",
+          "plane": "32.000 de miliarde de ani",
+          "rocket": "468 de milioane de ani",
+          "light": "26.000 de ani"
+        }
+      },
+      "cadet": {
+        "summary": "Sagittarius A* (Sgr A*), situată la ~26.000 de ani-lumină în direcția constelației Săgetătorul, este gaura neagră supermasivă din nucleul Căii Lactee. Are o masă de 4,3 milioane de mase solare și o rază Schwarzschild (orizontul evenimentelor — limita dincolo de care viteza de evadare depășește viteza luminii) de ~12 milioane km.",
+        "structure": [
+          {
+            "name": "Orizontul Evenimentelor (Raza Schwarzschild)",
+            "description": "Frontiera sferică (~12 milioane km rază) dincolo de care nici măcar fotonii de lumină nu mai pot scăpa de atracția gravitațională."
+          },
+          {
+            "name": "Discul de Acreție & Inelul Fotonic",
+            "description": "Gaz ionizat rotindu-se la viteze relativiste în jurul găurii negre, a cărui lumină este curbată de lentila gravitațională."
+          }
+        ],
+        "explorationHistory": "Existența ei a fost demonstrată prin urmărirea timp de 25 de ani a orbitelor stelelor „S” (în special steaua S2) de către Reinhard Genzel și Andrea Ghez (Premiul Nobel pentru Fizică 2020), iar în mai 2022 colaborarea Event Horizon Telescope (EHT) a publicat prima imagine directă a umbrei și a inelului său de acreție.",
+        "quiz": {
+          "question": "Ce este „orizontul evenimentelor” al găurii negre Sagittarius A* din centrul Căii Lactee?",
+          "options": [
+            "Limita în jurul găurii negre dincolo de care gravitația este atât de puternică încât nici lumina nu mai poate ieși",
+            "Un lanț de munți de pe planeta Marte",
+            "Numele unei sonde spațiale lansate spre Jupiter",
+            "Un strat de nori din atmosfera Pământului"
+          ],
+          "correctIndex": 0,
+          "explanation": "Orizontul evenimentelor este granița gravitațională a unei găuri negre unde viteza necesară pentru a scăpa depășește viteza luminii (300.000 km/s)."
+        }
+      }
+    },
+    {
+      "id": "milky_way",
+      "name": "Calea Lactee (Galaxia Noastră)",
+      "category": "galaxy",
+      "subtitle": "Galaxia noastră spirală cu ~200–400 miliarde de stele; Soarele se află în Brațul Orion (la 26.000 a.l. de centru)",
+      "color": "#38bdf8",
+      "orbitColor": "#00f0ff",
+      "radiusKm": 500000000000000000,
+      "massEarthRatio": 333000000000000000,
+      "gravityRatio": 1.0,
+      "orbitPeriodDays": 83950000000,
+      "dayLengthHours": 24,
+      "meanTempC": -270,
+      "distanceFromSunAU": 1644000000,
+      "horizon": "galactic",
+      "distanceLightYears": 26000,
+      "distanceLightYearsLabelRo": "Diametru ~100.000 ani-lumină (Soarele la 26.000 a.l. de centru)",
+      "sizeComparisonRo": "Calea Lactee are un diametru de ~100.000 de ani-lumină și adăpostește între 200 și 400 de miliarde de stele! Sistemul nostru Solar este doar un punct minuscul în Brațul Orion, la jumătatea distanței dintre centru și margine!",
+      "sizeRatioToSun": 100000,
+      "lightDepartureHistoryRo": "Lumina îi ia 100.000 de ani ca să traverseze Calea Lactee de la o margine la cealaltă, iar de la centrul galaxiei până la Pământ călătorește 26.000 de ani!",
+      "deepSpacePosition": [0, -2, 0],
+      "modelType": "spiral_galaxy",
+      "junior": {
+        "summary": "Calea Lactee este marea noastră casă din Univers — un oraș cosmic în formă de morișcă spiralată, format din peste 200 de miliarde de stele! Soarele nostru, împreună cu Pământul și toate planetele, locuiește într-un cartier liniștit numit „Brațul Orion”, la 26.000 de ani-lumină de centrul luminos al galaxiei!",
+        "analogy": "Dacă întreaga Cale Lactee ar fi cât un stadion mare de fotbal, tot Sistemul nostru Solar (cu Soarele și toate cele 8 planete) ar fi mai mic decât un singur fir de praf așezat pe iarbă, la jumătatea distanței dintre centrul terenului și tribună!",
+        "funFact": "Soarele și Pământul călătoresc prin galaxie cu 828.000 km/h, dar Calea Lactee este atât de mare încât ne trebuie 230 de milioane de ani ca să facem un singur tur complet („un an galactic”) — ultima dată când am fost în același loc pe orbită, primii dinozauri abia apăreau pe Pământ!",
+        "travelTime": {
+          "car": "1.100.000 de miliarde de ani (de la un capăt la altul)",
+          "plane": "120.000 de miliarde de ani",
+          "rocket": "1,8 miliarde de ani",
+          "light": "100.000 de ani (diametrul galaxiei)"
+        }
+      },
+      "cadet": {
+        "summary": "Calea Lactee este o galaxie spirală barată (tip morfologic SBbc) cu diametrul discului stelar de ~100.000 de ani-lumină, grosimea de ~1.000 de ani-lumină și o populație de 200–400 de miliarde de stele. Sistemul Solar este situat în Brațul Local (Orion-Cygnus), la ~26.000 de ani-lumină de nucleul galactic (Sagittarius A*), orbitând cu ~220–230 km/s.",
+        "structure": [
+          {
+            "name": "Nucleul Galactic & Bara Centrală",
+            "description": "Regiune centrală densă de stele bătrâne galben-aurii în jurul găurii negre supermasive Sagittarius A*."
+          },
+          {
+            "name": "Brațele Spirale (Perseu, Scutum-Centaurus, Sagittarius, Norma)",
+            "description": "Brațe bogate în gaz interstelar, nebuloase și stele tinere albastre fierbinți."
+          },
+          {
+            "name": "Brațul Orion — Casa Sistemului Solar",
+            "description": "Brațul spiral secundar aflat la 26.000 de ani-lumină de centru, unde se găsesc Soarele, Nebuloasa Orion și Pleiadele."
+          }
+        ],
+        "explorationHistory": "În 1610, Galileo Galilei a demonstrat cu luneta sa că banda lăptoasă de pe cer este compusă din nenumărate stele; în anii 1920, Harlow Shapley și Edwin Hubble au stabilit dimensiunile galaxiei noastre și existența altor galaxii, iar misiunea europeană Gaia (ESA) a cartografiat recent în 3D aproape 2 miliarde de stele din Calea Lactee.",
+        "quiz": {
+          "question": "Unde se află Sistemul nostru Solar în cadrul Galaxiei Calea Lactee?",
+          "options": [
+            "În Brațul Orion, la aproximativ 26.000 de ani-lumină de centrul galaxiei",
+            "Chiar în mijlocul găurii negre centrale",
+            "În afara galaxiei, lângă Andromeda",
+            "Pe suprafața stelei Betelgeuse"
+          ],
+          "correctIndex": 0,
+          "explanation": "Soarele și planetele noastre se află în Brațul Orion, la ~26.000 de ani-lumină de centrul Căii Lactee (cam la jumătatea razei discului galactic)."
+        }
+      }
+    },
+    {
+      "id": "andromeda",
+      "name": "Galaxia Andromeda (M31)",
+      "category": "galaxy",
+      "subtitle": "Cea mai apropiată galaxie spirală mare, cu ~1.000 de miliarde de stele (2,5 milioane ani-lumină)",
+      "color": "#c084fc",
+      "orbitColor": "#a855f7",
+      "radiusKm": 720000000000000000,
+      "massEarthRatio": 500000000000000000,
+      "gravityRatio": 1.0,
+      "orbitPeriodDays": 0,
+      "dayLengthHours": 24,
+      "meanTempC": -270,
+      "distanceFromSunAU": 160440000000,
+      "horizon": "galactic",
+      "distanceLightYears": 2537000,
+      "distanceLightYearsLabelRo": "2,54 milioane de ani-lumină",
+      "sizeComparisonRo": "Galaxia Andromeda are un diametru de ~150.000–220.000 de ani-lumină și aproximativ 1.000 de miliarde (un bilion) de stele — este chiar mai mare decât Calea Lactee!",
+      "sizeRatioToSun": 160000,
+      "lightDepartureHistoryRo": "Lumina de la Galaxia Andromeda pe care o vedem azi cu ochiul liber într-o noapte senină la munte a plecat acum 2,5 milioane de ani — de la începutul Cuaternarului, cu mult înainte să apară omul modern (Homo sapiens) pe Pământ!",
+      "deepSpacePosition": [-155, 42, -135],
+      "modelType": "spiral_galaxy",
+      "junior": {
+        "summary": "Galaxia Andromeda (M31) este „sora mai mare” a Căii Lactee și cel mai îndepărtat obiect din Univers pe care îl poți vedea cu ochiul liber, fără telescop, într-o noapte senină la munte! Este o galaxie spirală uriașă cu o mie de miliarde de stele, aflată la 2,5 milioane de ani-lumină de noi!",
+        "analogy": "Dacă Calea Lactee ar fi o farfurie mare pe masă, Galaxia Andromeda ar fi o farfurie și mai mare aflată la doar câțiva metri distanță — iar lumina de la ea călătorește spre noi de 2,5 milioane de ani!",
+        "funFact": "Calea Lactee și Galaxia Andromeda se apropie una de cealaltă cu 400.000 km/h! Peste aproximativ 4,5 miliarde de ani, cele două galaxii vor dansa împreună și se vor uni într-o singură galaxie gigantă fără ca stelele să se ciocnească între ele!",
+        "travelTime": {
+          "car": "28 de milioane de miliarde de ani",
+          "plane": "3,1 milioane de miliarde de ani",
+          "rocket": "45 de miliarde de ani",
+          "light": "2,54 milioane de ani"
+        }
+      },
+      "cadet": {
+        "summary": "Galaxia Andromeda (Messier 31 / NGC 224), aflată la 2,537 milioane de ani-lumină în constelația Andromeda, este cea mai mare galaxie din Grupul Local (care include și Calea Lactee și Galaxia Triunghiului M33). Cu un diametru de ~152.000–220.000 de ani-lumină și ~10¹² stele, Andromeda a jucat un rol decisiv în istoria științei când Edwin Hubble a demonstrat în 1924 că este o „insulă-univers” separată de Calea Lactee.",
+        "structure": [
+          {
+            "name": "Nucleu Dublu & Gaură Neagră de ~100 Milioane M☉",
+            "description": "Centru galactic masiv observat de telescopul Hubble, multă vreme mai masiv decât nucleul Căii Lactee."
+          },
+          {
+            "name": "Discul Spiral și Galaxiile Satelit (M32 & M110)",
+            "description": "Brațe spirale bogate în roiuri stelare și praf, însoțite de galaxiile pitice eliptice M32 și M110."
+          }
+        ],
+        "explorationHistory": "Menționată în anul 964 de astronomul persan Abd al-Rahman al-Sufi drept „un mic nor”; în 1924, Edwin Hubble a identificat stele variabile Cefeide în M31, demonstrând că Universul se întinde mult dincolo de Calea Lactee.",
+        "quiz": {
+          "question": "Care este cel mai îndepărtat obiect cosmic vizibil cu ochiul liber pe cerul nopții și la ce distanță se află?",
+          "options": [
+            "Galaxia Andromeda (M31), aflată la ~2,5 milioane de ani-lumină",
+            "Planeta Neptun, la 4 ore-lumină",
+            "Luna, la 1,3 secunde-lumină",
+            "Sonda Voyager 1, la 22 ore-lumină"
+          ],
+          "correctIndex": 0,
+          "explanation": "Galaxia Andromeda (M31), situată la 2,54 milioane de ani-lumină, poate fi văzută cu ochiul liber într-o noapte fără poluare luminoasă."
+        }
+      }
+    }
+  ]
+}

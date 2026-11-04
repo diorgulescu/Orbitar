@@ -338,19 +338,87 @@ export class CockpitHUD {
       )
       .join('');
 
-    const defaultId = this.pilot.getSelectedTarget()?.data.id ?? 'jupiter';
+    const currentSelected = this.pilot.getSelectedTarget()?.data.id;
+    const defaultId =
+      currentSelected && bodies.some((b) => b.data.id === currentSelected)
+        ? currentSelected
+        : bodies[0]?.data.id ?? 'jupiter';
     selectEl.value = defaultId;
+
+    this.populateQuickTargetsForHorizon();
+  }
+
+  private populateQuickTargetsForHorizon(): void {
+    const quickContainer = document.getElementById('cockpit-quick-targets');
+    if (!quickContainer) return;
+
+    const horizon = this.orbitalEngine.getActiveHorizon();
+    let pills: { id: string; label: string }[];
+
+    if (horizon === 'interstellar') {
+      pills = [
+        { id: 'oort_cloud', label: '❄️ Norul lui Oort' },
+        { id: 'proxima_centauri', label: '✨ Proxima Centauri' },
+        { id: 'sirius', label: '💎 Sirius A & B' },
+        { id: 'trappist1', label: '🪐 TRAPPIST-1 (7 Planete)' },
+        { id: 'cancri55e', label: '🌋 55 Cancri e' },
+        { id: 'pleiades', label: '✨ Pleiadele (Cloșca cu Pui)' },
+        { id: 'betelgeuse', label: '🔴 Betelgeuse' },
+      ];
+    } else if (horizon === 'galactic') {
+      pills = [
+        { id: 'orion_nebula', label: '🌸 Nebuloasa Orion (M42)' },
+        { id: 'pillars_of_creation', label: '🏛️ Stâlpii Creației (M16)' },
+        { id: 'sagittarius_a', label: '🕳️ Sagittarius A* (Gaura Neagră)' },
+        { id: 'milky_way', label: '🌀 Calea Lactee' },
+        { id: 'andromeda', label: '🌌 Galaxia Andromeda (M31)' },
+      ];
+    } else {
+      pills = [
+        { id: 'earth', label: '🌍 Pământ' },
+        { id: 'moon', label: '🌙 Lună' },
+        { id: 'mars', label: '🔴 Marte' },
+        { id: 'jupiter', label: '🟠 Jupiter' },
+        { id: 'saturn', label: '🪐 Saturn' },
+        { id: 'neptune', label: '🔵 Neptun' },
+        { id: 'pluto', label: '❄️ Pluto' },
+      ];
+    }
+
+    quickContainer.innerHTML = pills
+      .map(
+        (p) =>
+          `<button type="button" class="cockpit-dest-pill" data-quick-fly="${p.id}">${p.label}</button>`
+      )
+      .join('');
+
+    quickContainer.querySelectorAll<HTMLButtonElement>('[data-quick-fly]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const bodyId = btn.dataset.quickFly || btn.getAttribute('data-quick-fly');
+        if (bodyId) {
+          this.handleFlyToTarget(bodyId);
+        }
+      });
+    });
   }
 
   /**
-   * Creează etichetele AR pe parbriz pentru corpurile cerești și sondele din scenă.
+   * Reîmprospătează țintele din selectorul cabinei și modul Motorului Hiperspațial la schimbarea Orizontului Cosmic.
+   */
+  public refreshForHorizon(): void {
+    this.populateTargetSelectDropdown();
+    this.syncShipThemeAndButtons();
+  }
+
+  /**
+   * Creează etichetele AR pe parbriz pentru toate corpurile cerești, sondele și obiectele din Cosmosul Îndepărtat.
    */
   private buildArLabels(): void {
     if (!this.arLabelsContainer) return;
     this.arLabelsContainer.innerHTML = '';
     this.arLabels.clear();
 
-    for (const body of this.orbitalEngine.getBodies()) {
+    for (const body of this.orbitalEngine.getAllBodies()) {
       if (body.data.category === 'rover') continue;
 
       const root = document.createElement('div');
@@ -610,18 +678,36 @@ export class CockpitHUD {
 
   private syncShipThemeAndButtons(): void {
     const ship = this.pilot.getCurrentShip();
+    const horizon = this.orbitalEngine.getActiveHorizon();
+    const isDeepHorizon = horizon !== 'solar';
+
     this.rootEl?.setAttribute('data-cockpit-theme', ship.theme);
 
     const titleEl = document.getElementById('cockpit-active-ship-title');
     const propEl = document.getElementById('cockpit-active-ship-propulsion');
     const noteEl = document.getElementById('cockpit-ship-didactic-note');
+    const luceafarSubEl = document.querySelector(
+      '#btn-ship-luceafarul .ship-card-sub'
+    );
 
     if (titleEl) titleEl.textContent = ship.nameRo;
     if (propEl) {
-      propEl.textContent = `${ship.propulsionRo} • ${ship.speedKmh.toLocaleString('ro-RO')} km/h`;
+      if (isDeepHorizon && ship.id === 'luceafarul') {
+        propEl.textContent = '⚡ Motor Hiperspațial (Salt în Ani-Lumină) • Activ';
+      } else {
+        propEl.textContent = `${ship.propulsionRo} • ${ship.speedKmh.toLocaleString('ro-RO')} km/h`;
+      }
+    }
+    if (luceafarSubEl) {
+      luceafarSubEl.textContent = isDeepHorizon
+        ? '⚡ Motor Hiperspațial (Salt în Ani-Lumină)'
+        : 'Fotonică / Cuantică • 1c (Lumină)';
     }
     if (noteEl) {
-      noteEl.textContent = ship.didacticSummaryRo;
+      noteEl.textContent =
+        isDeepHorizon && ship.id === 'luceafarul'
+          ? '⚡ Motorul Hiperspațial al Astronavei Luceafărul este activ pentru salturi în Ani-Lumină!'
+          : ship.didacticSummaryRo;
     }
 
     const shipIds: SpacecraftId[] = ['vlaicu1', 'coandax', 'luceafarul'];
@@ -692,13 +778,27 @@ export class CockpitHUD {
       speedLightEl.textContent = `${pctStr}% din viteza luminii (c)`;
     }
 
-    // 2. Actualizăm Poziția în Sistemul Solar și Ținta Activă
+    // 2. Actualizăm Poziția în Sistemul Solar / Orizontul Cosmic și Ținta Activă
     const helioAuEl = document.getElementById('cockpit-helio-au');
     const targetNameInstEl = document.getElementById('cockpit-target-name-inst');
+    const activeHorizon = this.orbitalEngine.getActiveHorizon();
+    const anchoredOrSelected =
+      tel.autopilotTarget ?? tel.selectedTargetBody ?? tel.anchoredBody;
     if (helioAuEl) {
-      helioAuEl.textContent = `Distanță de Soare: ${tel.heliocentricDistanceAu
-        .toFixed(2)
-        .replace('.', ',')} UA`;
+      if (
+        activeHorizon !== 'solar' &&
+        anchoredOrSelected?.data.distanceLightYears &&
+        anchoredOrSelected.data.distanceLightYears > 0
+      ) {
+        const lyLabel =
+          anchoredOrSelected.data.distanceLightYearsLabelRo ??
+          `${anchoredOrSelected.data.distanceLightYears.toLocaleString('ro-RO')} ani-lumină`;
+        helioAuEl.textContent = `Distanță de Sistemul Solar: ${lyLabel}`;
+      } else {
+        helioAuEl.textContent = `Distanță de Soare: ${tel.heliocentricDistanceAu
+          .toFixed(2)
+          .replace('.', ',')} UA`;
+      }
     }
     if (targetNameInstEl) {
       const targetName =
@@ -732,14 +832,20 @@ export class CockpitHUD {
     const width = window.innerWidth || 1280;
     const height = window.innerHeight || 800;
     const shipPos = this.pilot.getPosition();
+    const activeHorizon = this.orbitalEngine.getActiveHorizon();
 
     this.camera.updateMatrixWorld();
 
-    for (const body of this.orbitalEngine.getBodies()) {
+    for (const body of this.orbitalEngine.getAllBodies()) {
       const entry = this.arLabels.get(body.data.id);
       if (!entry) continue;
 
-      if (!body.rootGroup.visible || body.data.category === 'rover') {
+      const bodyHorizon = body.data.horizon ?? 'solar';
+      if (
+        bodyHorizon !== activeHorizon ||
+        !body.rootGroup.visible ||
+        body.data.category === 'rover'
+      ) {
         entry.root.style.display = 'none';
         continue;
       }
@@ -772,21 +878,28 @@ export class CockpitHUD {
         continue;
       }
 
-      // Calculăm distanța astronomică reală dintre navă și corpul ceresc
-      const shipAu = this.pilot.getTelemetry().heliocentricDistanceAu;
-      const bodyAu = body.distanceFromSunAu;
-      const approxAu = Math.max(
-        0.0005,
-        Math.hypot(
-          bodyAu - shipAu,
-          shipPos.distanceTo(body.worldPosition) * 0.015
-        )
-      );
+      let distLabel: string;
+      if (body.data.distanceLightYears && body.data.distanceLightYears > 0) {
+        distLabel =
+          body.data.distanceLightYearsLabelRo ??
+          `${body.data.distanceLightYears.toLocaleString('ro-RO')} a.l.`;
+      } else {
+        // Calculăm distanța astronomică reală dintre navă și corpul ceresc
+        const shipAu = this.pilot.getTelemetry().heliocentricDistanceAu;
+        const bodyAu = body.distanceFromSunAu;
+        const approxAu = Math.max(
+          0.0005,
+          Math.hypot(
+            bodyAu - shipAu,
+            shipPos.distanceTo(body.worldPosition) * 0.015
+          )
+        );
 
-      const distLabel =
-        approxAu < 0.02
-          ? `${Math.round(approxAu * KM_PER_AU_CONST).toLocaleString('ro-RO')} km`
-          : `${approxAu.toFixed(2).replace('.', ',')} UA`;
+        distLabel =
+          approxAu < 0.02
+            ? `${Math.round(approxAu * KM_PER_AU_CONST).toLocaleString('ro-RO')} km`
+            : `${approxAu.toFixed(2).replace('.', ',')} UA`;
+      }
 
       entry.distSpan.textContent = distLabel;
       entry.root.style.display = 'inline-flex';

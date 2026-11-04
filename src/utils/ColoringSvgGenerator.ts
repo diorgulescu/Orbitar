@@ -100,6 +100,34 @@ export class ColoringSvgGenerator {
       case 'juice':
         artwork = this.drawDeepSpaceProbeLineArt(id);
         break;
+      case 'milky_way':
+      case 'andromeda':
+        artwork = this.drawSpiralGalaxyLineArt(id === 'milky_way');
+        break;
+      case 'trappist1':
+      case 'proxima_centauri':
+        artwork = this.drawTrappistExoplanetSystemLineArt(id === 'trappist1');
+        break;
+      case 'cancri55e':
+        artwork = this.drawLavaDiamondExoplanetLineArt();
+        break;
+      case 'sagittarius_a':
+        artwork = this.drawBlackHoleAccretionLineArt();
+        break;
+      case 'oort_cloud':
+        artwork = this.drawOortCloudLineArt();
+        break;
+      case 'sirius':
+      case 'betelgeuse':
+        artwork = this.drawStarComparisonLineArt(id === 'betelgeuse');
+        break;
+      case 'pleiades':
+        artwork = this.drawPleiadesClusterLineArt();
+        break;
+      case 'orion_nebula':
+      case 'pillars_of_creation':
+        artwork = this.drawCosmicNebulaLineArt(id === 'pillars_of_creation');
+        break;
       default:
         artwork = this.drawSaturnLineArt();
         break;
@@ -702,6 +730,226 @@ export class ColoringSvgGenerator {
       <polygon points="400,115 485,195 455,345 345,345 315,195" stroke-width="3.5"/>
       <circle cx="400" cy="235" r="46"/>
       <circle cx="400" cy="235" r="16"/>
+    </g>`;
+  }
+
+  /**
+   * Galaxie Spirală (Calea Lactee cu săgeata "📍 AICI SUNTEM NOI" sau Galaxia Andromeda M31)
+   */
+  private static drawSpiralGalaxyLineArt(withHereWeAreArrow: boolean): string {
+    const arrowMarkup = withHereWeAreArrow
+      ? `<g stroke="#000000" stroke-width="3" fill="#ffffff">
+          <circle cx="535" cy="285" r="14" stroke-width="3.5"/>
+          <circle cx="535" cy="285" r="5" fill="#000000"/>
+          <line x1="635" y1="365" x2="552" y2="298" stroke-width="3.5"/>
+          <polygon points="548,295 568,298 556,314" fill="#000000"/>
+          <rect x="485" y="370" width="285" height="52" rx="10" fill="#ffffff" stroke="#000000" stroke-width="3"/>
+          <text x="627" y="394" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="900" fill="#000000">📍 AICI SUNTEM NOI!</text>
+          <text x="627" y="413" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="700" fill="#000000">Brațul Orion (Sistemul Solar)</text>
+        </g>`
+      : `<g stroke="#000000" stroke-width="2.8" fill="#ffffff">
+          <ellipse cx="195" cy="145" rx="38" ry="18" transform="rotate(-20 195 145)"/>
+          <circle cx="195" cy="145" r="7"/>
+          <text x="195" y="182" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="800" fill="#000000">Galaxie Satelit M32</text>
+        </g>`;
+
+    return `<g stroke="#000000" stroke-width="3" fill="#ffffff" data-galaxy="${withHereWeAreArrow ? 'milky_way' : 'andromeda'}">
+      <g transform="translate(390, 235) rotate(-14)">
+        <!-- Haloul și discul galactic exterior -->
+        <ellipse cx="0" cy="0" rx="285" ry="132" stroke-dasharray="10 7" stroke-width="2.5"/>
+        <!-- Cele 4 brațe spirale galactice de colorat -->
+        <path d="M 45,0 C 95,-65 195,-75 265,-15" fill="none" stroke-width="3.5"/>
+        <path d="M 28,22 C 85,78 185,95 255,42" fill="none" stroke-width="3"/>
+        <path d="M -45,0 C -95,65 -195,75 -265,15" fill="none" stroke-width="3.5"/>
+        <path d="M -28,-22 C -85,-78 -185,-95 -255,-42" fill="none" stroke-width="3"/>
+        <path d="M 0,32 C -65,92 -165,112 -225,75" fill="none" stroke-width="2.8"/>
+        <path d="M 0,-32 C 65,-92 165,-112 225,-75" fill="none" stroke-width="2.8"/>
+        <!-- Bara și nucleul galactic strălucitor -->
+        <ellipse cx="0" cy="0" rx="86" ry="38" stroke-width="3.5"/>
+        <circle cx="0" cy="0" r="24" stroke-width="3.5"/>
+        <!-- Roiuri stelare pe brațele spirale -->
+        <circle cx="125" cy="-42" r="8"/>
+        <circle cx="-135" cy="45" r="9"/>
+        <circle cx="-110" cy="-52" r="7"/>
+        <circle cx="155" cy="52" r="8"/>
+      </g>
+      ${arrowMarkup}
+    </g>`;
+  }
+
+  /**
+   * Sistemul Exoplanetar TRAPPIST-1 (steaua centrală ultra-rece + cele 7 planete stâncoase b, c, d, e, f, g, h)
+   */
+  private static drawTrappistExoplanetSystemLineArt(isSevenPlanetTrappist: boolean): string {
+    if (!isSevenPlanetTrappist) {
+      return `<g stroke="#000000" stroke-width="3" fill="#ffffff" data-system="proxima_centauri">
+        <!-- Steaua pitică roșie Proxima Centauri -->
+        <circle cx="235" cy="245" r="86" stroke-width="3.5"/>
+        <circle cx="210" cy="220" r="14"/>
+        <path d="M 185,275 Q 235,305 285,275" fill="none" stroke-width="3"/>
+        <text x="235" y="362" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="900" fill="#000000">STEAUA PROXIMA CENTAURI</text>
+        <!-- Orbita și Exoplaneta Proxima Centauri b -->
+        <ellipse cx="235" cy="245" rx="320" ry="135" fill="none" stroke-dasharray="9 7" stroke-width="2.5"/>
+        <circle cx="555" cy="245" r="46" stroke-width="3.5"/>
+        <path d="M 525,232 Q 555,215 585,235 Q 565,265 525,232 Z"/>
+        <text x="555" y="318" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="900" fill="#000000">EXOPLANETA PROXIMA b (4,24 a.l.)</text>
+      </g>`;
+    }
+
+    const planets = [
+      { label: 'b', x: 205, y: 245, r: 16 },
+      { label: 'c', x: 268, y: 215, r: 17 },
+      { label: 'd', x: 332, y: 265, r: 14 },
+      { label: 'e (Zonă Locuibilă)', x: 408, y: 225, r: 19 },
+      { label: 'f', x: 492, y: 262, r: 20 },
+      { label: 'g', x: 578, y: 222, r: 22 },
+      { label: 'h', x: 665, y: 255, r: 15 },
+    ];
+
+    const planetNodes = planets
+      .map(
+        (p, idx) => `
+        <path d="M 115,${150 - idx * 12} A ${95 + idx * 88},${95 + idx * 42} 0 0,1 115,${340 + idx * 12}" fill="none" stroke="#000000" stroke-width="1.8" stroke-dasharray="6 6"/>
+        <circle cx="${p.x}" cy="${p.y}" r="${p.r}" fill="#ffffff" stroke="#000000" stroke-width="3"/>
+        <text x="${p.x}" y="${p.y + p.r + 22}" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="800" fill="#000000">${p.label}</text>
+      `
+      )
+      .join('\n');
+
+    return `<g stroke="#000000" stroke-width="3" fill="#ffffff" data-system="trappist1">
+      <!-- Zona Locuibilă (Habitable Zone) marcată punctat -->
+      <rect x="372" y="95" width="235" height="305" rx="14" fill="none" stroke="#000000" stroke-width="2.2" stroke-dasharray="8 6"/>
+      <text x="490" y="118" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="900" fill="#000000">💧 ZONA LOCUIBILĂ (e, f, g)</text>
+      <!-- Steaua TRAPPIST-1 în stânga -->
+      <circle cx="115" cy="245" r="54" stroke-width="3.5"/>
+      <circle cx="102" cy="230" r="9"/>
+      <circle cx="128" cy="260" r="11"/>
+      <text x="115" y="325" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" font-weight="900" fill="#000000">TRAPPIST-1</text>
+      <!-- Cele 7 planete stâncoase de mărimea Pământului -->
+      ${planetNodes}
+    </g>`;
+  }
+
+  /**
+   * Exoplaneta 55 Cancri e ("Planeta de Lavă și Diamant")
+   */
+  private static drawLavaDiamondExoplanetLineArt(): string {
+    return `<g stroke="#000000" stroke-width="3" fill="#ffffff" data-exoplanet="cancri55e">
+      <circle cx="400" cy="240" r="154" stroke-width="3.5"/>
+      <!-- Râuri de lavă pe emisfera de zi -->
+      <path d="M 275,180 Q 355,215 410,165 T 525,195" fill="none" stroke-width="3.5"/>
+      <path d="M 255,250 Q 345,285 425,240 T 545,265" fill="none" stroke-width="3.5"/>
+      <!-- Cristale de diamant stilizate în manta -->
+      <polygon points="400,275 432,315 400,355 368,315" stroke-width="3"/>
+      <polygon points="325,205 348,232 325,260 302,232" stroke-width="2.8"/>
+      <polygon points="475,205 498,232 475,260 452,232" stroke-width="2.8"/>
+    </g>`;
+  }
+
+  /**
+   * Gaura Neagră Supermasivă Sagittarius A* cu Orizontul Evenimentelor și Discul de Acreție Relativist
+   */
+  private static drawBlackHoleAccretionLineArt(): string {
+    return `<g stroke="#000000" stroke-width="3" fill="#ffffff" data-blackhole="sagittarius_a">
+      <!-- Arcul superior și inferior al lentilei gravitaționale (Einstein Ring) -->
+      <path d="M 210,235 A 190,155 0 0,1 590,235" fill="none" stroke-width="3.5"/>
+      <path d="M 235,235 A 165,128 0 0,1 565,235" fill="none" stroke-width="2.5" stroke-dasharray="10 6"/>
+      <path d="M 225,255 A 175,135 0 0,0 575,255" fill="none" stroke-width="3"/>
+      <!-- Discul de acreție în vârtej (planul ecuatorial) -->
+      <ellipse cx="400" cy="245" rx="295" ry="68" stroke-width="3.5"/>
+      <ellipse cx="400" cy="245" rx="245" ry="52" stroke-width="2.8"/>
+      <ellipse cx="400" cy="245" rx="192" ry="38" stroke-width="2.5" stroke-dasharray="12 6"/>
+      <!-- Orizontul Evenimentelor și Umbra Găurii Negre în centru -->
+      <circle cx="400" cy="245" r="88" fill="#ffffff" stroke="#000000" stroke-width="4"/>
+      <circle cx="400" cy="245" r="68" fill="#000000"/>
+      <!-- Etichete didactice pentru copii -->
+      <text x="400" y="250" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="900" fill="#ffffff" stroke="none">ORIZONTUL EVENIMENTELOR</text>
+      <text x="400" y="65" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="800" fill="#000000">DISCUL DE ACREȚIE &amp; LENTILA GRAVITAȚIONALĂ</text>
+    </g>`;
+  }
+
+  /**
+   * Norul lui Oort (Sfera uriașă de comete înghețate la 1 an-lumină în jurul Soarelui)
+   */
+  private static drawOortCloudLineArt(): string {
+    return `<g stroke="#000000" stroke-width="3" fill="#ffffff" data-oort="oort_cloud">
+      <circle cx="400" cy="245" r="195" fill="none" stroke-width="3.5" stroke-dasharray="12 8"/>
+      <circle cx="400" cy="245" r="145" fill="none" stroke-width="2.5" stroke-dasharray="8 8"/>
+      <!-- Soarele minuscul în centru -->
+      <circle cx="400" cy="245" r="22" stroke-width="3.5"/>
+      <text x="400" y="286" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="900" fill="#000000">☀️ SISTEMUL SOLAR</text>
+      <!-- Comete înghețate în Norul lui Oort -->
+      <circle cx="245" cy="145" r="12"/>
+      <path d="M 245,145 L 195,115" fill="none"/>
+      <circle cx="555" cy="150" r="12"/>
+      <path d="M 555,150 L 605,120" fill="none"/>
+      <circle cx="255" cy="340" r="12"/>
+      <path d="M 255,340 L 200,375" fill="none"/>
+      <circle cx="545" cy="345" r="12"/>
+      <path d="M 545,345 L 600,380" fill="none"/>
+    </g>`;
+  }
+
+  /**
+   * Comparație Stelară: Supergiganta Betelgeuse vs Soare sau Sirius A & Pitica Albă Sirius B
+   */
+  private static drawStarComparisonLineArt(isBetelgeuse: boolean): string {
+    if (isBetelgeuse) {
+      return `<g stroke="#000000" stroke-width="3" fill="#ffffff" data-star="betelgeuse">
+        <circle cx="345" cy="245" r="172" stroke-width="3.5" stroke-dasharray="14 6"/>
+        <circle cx="345" cy="245" r="156" stroke-width="3.5"/>
+        <circle cx="295" cy="205" r="28"/>
+        <circle cx="395" cy="275" r="34"/>
+        <text x="345" y="248" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="900" fill="#000000">SUPERGIGANTA BETELGEUSE</text>
+        <!-- Soarele nostru pentru comparație -->
+        <circle cx="635" cy="245" r="16" stroke-width="3"/>
+        <text x="635" y="282" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="900" fill="#000000">☀️ SOARELE NOSTRU</text>
+      </g>`;
+    }
+    return `<g stroke="#000000" stroke-width="3" fill="#ffffff" data-star="sirius">
+      <circle cx="330" cy="245" r="135" stroke-width="3.5"/>
+      <text x="330" y="250" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="900" fill="#000000">SIRIUS A</text>
+      <circle cx="595" cy="215" r="24" stroke-width="3.5"/>
+      <text x="595" y="262" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="900" fill="#000000">PITICA ALBĂ SIRIUS B</text>
+    </g>`;
+  }
+
+  /**
+   * Roiul Stelar Pleiadele ("Cloșca cu Pui" — Cele 7 Surori)
+   */
+  private static drawPleiadesClusterLineArt(): string {
+    const stars = [
+      [250, 210, 28, 'Alcyone'],
+      [355, 165, 24, 'Atlas'],
+      [455, 185, 22, 'Electra'],
+      [535, 235, 24, 'Maia'],
+      [465, 295, 22, 'Merope'],
+      [345, 290, 22, 'Taygeta'],
+      [285, 325, 20, 'Pleione'],
+    ] as const;
+
+    return `<g stroke="#000000" stroke-width="3" fill="#ffffff" data-cluster="pleiades">
+      <path d="M 185,235 Q 290,110 430,145 Q 595,160 595,265 Q 545,365 385,355 Q 205,365 185,235 Z" fill="none" stroke-dasharray="10 7"/>
+      ${stars
+        .map(
+          ([cx, cy, r, name]) => `
+        <polygon points="${cx},${cy - r} ${cx + r * 0.3},${cy - r * 0.3} ${cx + r},${cy} ${cx + r * 0.3},${cy + r * 0.3} ${cx},${cy + r} ${cx - r * 0.3},${cy + r * 0.3} ${cx - r},${cy} ${cx - r * 0.3},${cy - r * 0.3}"/>
+        <text x="${cx}" y="${cy + r + 18}" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="800" fill="#000000">${name}</text>
+      `
+        )
+        .join('\n')}
+    </g>`;
+  }
+
+  /**
+   * Nebuloasă Cosmică (Stâlpii Creației M16 sau Nebuloasa Orion M42)
+   */
+  private static drawCosmicNebulaLineArt(isPillars: boolean): string {
+    return `<g stroke="#000000" stroke-width="3" fill="#ffffff" data-nebula="${isPillars ? 'pillars' : 'orion'}">
+      <path d="M 215,395 C 210,285 235,155 275,125 C 315,155 320,265 335,345 C 355,235 375,105 415,95 C 455,115 462,245 475,345 C 495,255 515,165 550,155 C 585,175 590,295 585,395 Z" stroke-width="3.5"/>
+      <circle cx="275" cy="112" r="10"/>
+      <circle cx="415" cy="82" r="12"/>
+      <circle cx="550" cy="142" r="10"/>
     </g>`;
   }
 

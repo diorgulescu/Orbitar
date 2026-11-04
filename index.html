@@ -92,6 +92,38 @@
         <div id="hud-search-results" class="search-dropdown is-hidden" role="listbox"></div>
       </div>
 
+      <!-- Selectorul celor 3 Orizonturi Cosmice -->
+      <nav
+        id="hud-horizon-selector"
+        class="bento-card header-horizon-selector"
+        aria-label="Selector Orizont Cosmic"
+      >
+        <button
+          type="button"
+          class="hud-btn hud-btn-active-cyan"
+          data-cosmic-horizon="solar"
+          title="Explorează Sistemul Solar (scara în km / UA)"
+        >
+          ☀️ Sistemul Solar
+        </button>
+        <button
+          type="button"
+          class="hud-btn"
+          data-cosmic-horizon="interstellar"
+          title="Explorează Stelele Vecine și Exoplanetele (scara în Ani-Lumină)"
+        >
+          ✨ Stele &amp; Exoplanete
+        </button>
+        <button
+          type="button"
+          class="hud-btn"
+          data-cosmic-horizon="galactic"
+          title="Explorează Calea Lactee, Nebuloasele și Galaxiile (scara în Mii/Milioane de Ani-Lumină)"
+        >
+          🌀 Calea Lactee &amp; Galaxii
+        </button>
+      </nav>
+
       <!-- Filtre rapide pe straturi -->
       <nav class="bento-card header-filters" aria-label="Filtre pe straturi cosmice">
         <button type="button" class="hud-btn hud-btn-active-cyan" data-layer-filter="all">
@@ -482,6 +514,20 @@
 
       <!-- Rezumat adaptiv (Junior vs Cadet) -->
       <p id="hud-target-desc" class="target-desc"></p>
+
+      <!-- Casetă Didactică: Ce este un An-Lumină? + Comparator Vizual de Mărime (pentru Stele, Exoplanete & Galaxii) -->
+      <div id="hud-lightyear-explainer" class="subcard lightyear-explainer-card is-hidden">
+        <div class="didactic-callout">
+          <strong>💡 Ce este un An-Lumină?</strong>
+          <p id="hud-lightyear-definition">
+            Distanța pe care o parcurge lumina într-un an întreg, mergând cu 300.000 km pe secundă — adică aproximativ 9.460 de miliarde de kilometri!
+          </p>
+        </div>
+        <div class="didactic-callout callout-amber">
+          <strong>📏 Comparator de Mărime față de Soare / Pământ:</strong>
+          <p id="hud-size-comparator-text"></p>
+        </div>
+      </div>
 
       <!-- Conținut Micul Explorator (6–8 ani) -->
       <div id="hud-junior-box" class="tier-section">

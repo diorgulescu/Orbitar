@@ -70,8 +70,15 @@ export class PrintManager {
     this.lastTemplate = 'study';
     const d = body.data;
     const tier = this.getTier();
-    const diameterKm = (d.radiusKm * 2).toLocaleString('ro-RO');
-    const distAuStr = d.distanceFromSunAU.toFixed(2).replace('.', ',');
+    const isDeepSpace = Boolean(d.distanceLightYears && d.distanceLightYears > 0);
+    const diameterKm =
+      d.sizeComparisonRo && isDeepSpace
+        ? d.sizeComparisonRo
+        : `${(d.radiusKm * 2).toLocaleString('ro-RO')} km`;
+    const distAuStr = isDeepSpace
+      ? d.distanceLightYearsLabelRo ??
+        `${(d.distanceLightYears ?? 0).toLocaleString('ro-RO')} ani-lumină`
+      : `${d.distanceFromSunAU.toFixed(2).replace('.', ',')} UA`;
     const dayStr =
       d.dayLengthHours > 0
         ? `${d.dayLengthHours.toLocaleString('ro-RO')} ore`
@@ -140,8 +147,8 @@ export class PrintManager {
           </thead>
           <tbody>
             <tr>
-              <td><strong>${diameterKm} km</strong></td>
-              <td><strong>${distAuStr} UA</strong></td>
+              <td><strong>${diameterKm}</strong></td>
+              <td><strong>${distAuStr}</strong></td>
               <td>${dayStr}</td>
               <td>${yearStr}</td>
               <td><strong>${d.meanTempC} °C</strong></td>
@@ -727,7 +734,7 @@ export class PrintManager {
       });
       gridEl.appendChild(mapCard);
 
-      for (const body of this.orbitalEngine.getBodies()) {
+      for (const body of this.orbitalEngine.getAllBodies()) {
         const d = body.data;
         const card = document.createElement('div');
         card.className = 'coloring-grid-item';

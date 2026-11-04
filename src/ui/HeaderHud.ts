@@ -14,11 +14,20 @@ export function matchesLayerFilter(cat: CelestialCategory, filter: LayerFilter):
       cat === 'terrestrial' ||
       cat === 'gas_giant' ||
       cat === 'ice_giant' ||
-      cat === 'moon'
+      cat === 'moon' ||
+      cat === 'exoplanet' ||
+      cat === 'star_cluster' ||
+      cat === 'galaxy' ||
+      cat === 'black_hole'
     );
   }
   if (filter === 'dwarfs_asteroids') {
-    return cat === 'dwarf' || cat === 'asteroid';
+    return (
+      cat === 'dwarf' ||
+      cat === 'asteroid' ||
+      cat === 'oort_cloud' ||
+      cat === 'nebula'
+    );
   }
   return (
     cat === 'station' ||

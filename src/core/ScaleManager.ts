@@ -83,6 +83,12 @@ export class ScaleManager {
    * Calculează raza 3D a unui corp ceresc sau a unei sonde în unități de scenă în funcție de modul activ.
    */
   public scaleRadius(radiusKm: number, category: CelestialCategory): number {
+    if (category === 'galaxy') return 14.0;
+    if (category === 'oort_cloud') return 8.5;
+    if (category === 'nebula' || category === 'star_cluster') return 6.8;
+    if (category === 'black_hole') return 5.2;
+    if (category === 'exoplanet') return 4.2;
+
     if (this.mode === 'real') {
       const exactRadius = (radiusKm / KM_PER_AU) * REAL_UNITS_PER_AU;
       if (
@@ -98,7 +104,7 @@ export class ScaleManager {
 
     // Scară Didactică: mărire logaritmică pentru vizibilitate optimă (6–12 ani)
     if (category === 'star') {
-      return 6.2;
+      return radiusKm > 10_000_000 ? 7.8 : 6.2;
     }
     if (category === 'rover') {
       return 0.06;

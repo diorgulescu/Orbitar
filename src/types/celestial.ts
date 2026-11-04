@@ -2,6 +2,8 @@
 
 export type AgeTier = 'junior' | 'cadet';
 
+export type CosmicHorizon = 'solar' | 'interstellar' | 'galactic';
+
 export type CelestialCategory =
   | 'star'
   | 'terrestrial'
@@ -13,7 +15,13 @@ export type CelestialCategory =
   | 'station'
   | 'telescope'
   | 'probe'
-  | 'rover';
+  | 'rover'
+  | 'oort_cloud'
+  | 'exoplanet'
+  | 'star_cluster'
+  | 'nebula'
+  | 'black_hole'
+  | 'galaxy';
 
 export interface TravelTimeInfo {
   car: string;
@@ -75,7 +83,30 @@ export interface CelestialBodyData {
   axialTiltDeg?: number;
   localOrbitOrder?: number;
   keplerian?: KeplerianElements;
-  modelType?: 'sphere' | 'asteroid' | 'iss' | 'hubble' | 'jwst' | 'voyager' | 'probe' | 'rover';
+  modelType?:
+    | 'sphere'
+    | 'asteroid'
+    | 'iss'
+    | 'hubble'
+    | 'jwst'
+    | 'voyager'
+    | 'probe'
+    | 'rover'
+    | 'oort_cloud'
+    | 'star_system'
+    | 'trappist_system'
+    | 'lava_exoplanet'
+    | 'star_cluster'
+    | 'nebula'
+    | 'black_hole'
+    | 'spiral_galaxy';
+  horizon?: CosmicHorizon;
+  distanceLightYears?: number;
+  distanceLightYearsLabelRo?: string;
+  sizeComparisonRo?: string;
+  sizeRatioToSun?: number;
+  lightDepartureHistoryRo?: string;
+  deepSpacePosition?: [number, number, number];
   junior: JuniorContent;
   cadet: CadetContent;
 }
@@ -102,4 +133,10 @@ export interface MissionsDataset {
   version: string;
   language: 'ro';
   missions: CelestialBodyData[];
+}
+
+export interface DeepSpaceDataset {
+  version: string;
+  language: 'ro';
+  objects: CelestialBodyData[];
 }

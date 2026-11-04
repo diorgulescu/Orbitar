@@ -29,6 +29,15 @@ const PHONETIC_DICTIONARY: ReadonlyArray<{ pattern: RegExp; replacement: string 
   { pattern: /\bBennu\b/gi, replacement: 'Benu' },
   { pattern: /\bPsyche\b/gi, replacement: 'Psihe' },
   { pattern: /\bPhilae\b/gi, replacement: 'File' },
+  { pattern: /\bSagittarius\s+A\s*\*/gi, replacement: 'Sagitarius A stea' },
+  { pattern: /\bSgr\s+A\s*\*/gi, replacement: 'Sagitarius A stea' },
+  { pattern: /\bSagittarius\b/gi, replacement: 'Sagitarius' },
+  { pattern: /\bProxima\s+Centauri\b/gi, replacement: 'Procsima Centauri' },
+  { pattern: /\bProxima\b/gi, replacement: 'Procsima' },
+  { pattern: /\bBetelgeuse\b/gi, replacement: 'Betelgeuz' },
+  { pattern: /\bTRAPPIST-1\b/gi, replacement: 'Trapist unu' },
+  { pattern: /\bTRAPPIST\b/gi, replacement: 'Trapist' },
+  { pattern: /\bOort\b/gi, replacement: 'Ort' },
 ];
 
 /**
@@ -109,6 +118,8 @@ export function normalizeRomanianSpeechText(rawText: string): string {
   text = text.replace(/\bkm\s*\/\s*s\b/gi, 'kilometri pe secundă');
   text = text.replace(/\bkm\b/gi, 'kilometri');
   text = text.replace(/\b(?:UA|AU)\b/g, 'Unități Astronomice');
+  text = text.replace(/\ba\.l\.(?=\s|$|[.,;!?)]|\b)/gi, 'ani-lumină');
+  text = text.replace(/(\d+(?:\s+virgulă\s+\d+)?)\s+\bal\b/gi, '$1 ani-lumină');
   text = text.replace(/\b1c\b/gi, 'viteza luminii');
   text = text.replace(/×/g, ' ori ');
   text = text.replace(/~/g, 'aproximativ ');

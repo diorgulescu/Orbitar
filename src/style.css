@@ -1989,3 +1989,78 @@ body {
   }
 }
 
+/* ==========================================================================
+   9. SELECTORUL CELOR 3 ORIZONTURI COSMICE & INDICATORUL "ACASĂ" + AN-LUMINĂ
+   ========================================================================== */
+.header-horizon-selector {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 8px;
+  border-color: rgba(255, 183, 3, 0.35);
+}
+
+.horizon-btn {
+  min-height: 32px;
+  padding: 5px 10px;
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
+.home-solar-beacon-label {
+  position: absolute;
+  transform: translate(-50%, -150%);
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(15, 22, 38, 0.94);
+  border: 1.5px solid var(--accent-amber);
+  color: var(--accent-amber);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  pointer-events: auto;
+  cursor: pointer;
+  z-index: 25;
+  box-shadow: 0 0 18px rgba(255, 183, 3, 0.35);
+  transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+.home-solar-beacon-label:hover {
+  background: rgba(255, 183, 3, 0.22);
+  color: #ffffff;
+}
+
+.home-solar-beacon-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-amber);
+  box-shadow: 0 0 10px var(--accent-amber);
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+.lightyear-explainer-card {
+  border-color: rgba(0, 240, 255, 0.38);
+  background: linear-gradient(145deg, rgba(0, 240, 255, 0.08), rgba(255, 183, 3, 0.07));
+}
+
+.lightyear-size-comparator {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.16);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.lightyear-size-label {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: var(--accent-amber);
+  letter-spacing: 0.03em;
+}
+
+

@@ -188,14 +188,22 @@ export class StudyDrawer {
   public showBody(body: CelestialBodyInstance): void {
     this.stopSpeech();
     this.renderBody(body, true);
+    this.updateLiveDistance(body);
   }
 
   public updateLiveDistance(body: CelestialBodyInstance | null): void {
     if (!body) return;
     const distEl = document.getElementById('hud-target-dist');
     if (distEl) {
-      const distStr = body.distanceFromSunAu.toFixed(2).replace('.', ',');
-      distEl.textContent = `Distanță de Soare: ${distStr} UA`;
+      if (body.data.distanceLightYears && body.data.distanceLightYears > 0) {
+        const lyLabel =
+          body.data.distanceLightYearsLabelRo ??
+          `${body.data.distanceLightYears.toLocaleString('ro-RO')} ani-lumină`;
+        distEl.textContent = `Distanță: ${lyLabel}`;
+      } else {
+        const distStr = body.distanceFromSunAu.toFixed(2).replace('.', ',');
+        distEl.textContent = `Distanță de Soare: ${distStr} UA`;
+      }
     }
 
     // Actualizăm telemetria SGP4 dacă este selectată Stația Spațială Internațională (ISS) sau Hubble
@@ -274,6 +282,35 @@ export class StudyDrawer {
       btnVenusRadar.classList.toggle('is-hidden', d.id !== 'venus');
       if (d.id === 'venus') {
         this.syncVenusRadarButtonState(PlanetMaterialFactory.isVenusRadarMode());
+      }
+    }
+
+    // Caseta didactică "💡 Ce este un An-Lumină?" + Comparator vizual de mărime pentru Cosmosul Îndepărtat
+    let lyBox = document.getElementById('hud-lightyear-explainer');
+    if (!lyBox && drawerEl) {
+      lyBox = document.createElement('div');
+      lyBox.id = 'hud-lightyear-explainer';
+      lyBox.className = 'subcard lightyear-explainer-card is-hidden';
+      lyBox.innerHTML = `
+        <div class="didactic-callout">
+          <strong>💡 Ce este un An-Lumină?</strong>
+          <p id="hud-lightyear-definition">Distanța pe care o parcurge lumina într-un an întreg, mergând cu 300.000 km pe secundă — adică aproximativ 9.460 de miliarde de kilometri!</p>
+        </div>
+        <div class="didactic-callout callout-amber">
+          <strong>📏 Comparator de Mărime față de Soare / Pământ:</strong>
+          <p id="hud-size-comparator-text"></p>
+        </div>
+      `;
+      drawerEl.appendChild(lyBox);
+    }
+    const isDeepSpace = Boolean(d.distanceLightYears && d.distanceLightYears > 0);
+    if (lyBox) {
+      lyBox.classList.toggle('is-hidden', !isDeepSpace);
+      const sizeTextEl = document.getElementById('hud-size-comparator-text');
+      if (sizeTextEl && isDeepSpace) {
+        sizeTextEl.textContent =
+          d.sizeComparisonRo ??
+          `Distanță față de Sistemul Solar: ${d.distanceLightYearsLabelRo ?? `${d.distanceLightYears} ani-lumină`}.`;
       }
     }
 

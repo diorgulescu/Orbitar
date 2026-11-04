@@ -346,6 +346,30 @@ export class ProceduralModels {
     if (modelType === 'asteroid') {
       return { visualRoot: PlanetMaterialFactory.createDeformedAsteroidMesh(data, mode) };
     }
+    if (modelType === 'oort_cloud') {
+      return this.createOortCloudModel(mode);
+    }
+    if (modelType === 'star_system') {
+      return this.createDeepStarSystemModel(data, mode);
+    }
+    if (modelType === 'trappist_system') {
+      return this.createTrappistSystemModel(mode);
+    }
+    if (modelType === 'lava_exoplanet') {
+      return this.createLavaExoplanetModel(mode);
+    }
+    if (modelType === 'star_cluster') {
+      return this.createStarClusterModel(mode);
+    }
+    if (modelType === 'nebula') {
+      return this.createNebulaModel(data, mode);
+    }
+    if (modelType === 'black_hole') {
+      return this.createBlackHoleModel(mode);
+    }
+    if (modelType === 'spiral_galaxy') {
+      return this.createSpiralGalaxyModel(data, mode);
+    }
 
     // Corp sferic PBR (planete, sateliți majori, planete pitice, Pământul multi-layer cu lumini de noapte în HD)
     return PlanetMaterialFactory.createPlanetVisual(data, mode);
@@ -972,5 +996,690 @@ export class ProceduralModels {
       entry.mesh.setMatrixAt(i, dummy.matrix);
     }
     entry.mesh.instanceMatrix.needsUpdate = true;
+  }
+
+  /**
+   * 1. Norul lui Oort: Sferă gigantică de comete înghețate la ~1 an-lumină în jurul Sistemului Solar.
+   */
+  private static createOortCloudModel(mode: QualityMode): {
+    visualRoot: THREE.Object3D;
+    updateShaderTime: (elapsed: number) => void;
+  } {
+    const group = new THREE.Group();
+    const count = mode === 'eco' ? 1200 : 4200;
+    const positions = new Float32Array(count * 3);
+    const colors = new Float32Array(count * 3);
+
+    let seed = 41009;
+    const rand = (): number => {
+      seed = (seed * 1664525 + 1013904223) % 4294967296;
+      return seed / 4294967296;
+    };
+
+    const c1 = new THREE.Color('#7dd3fc');
+    const c2 = new THREE.Color('#e0f2fe');
+    const c3 = new THREE.Color('#38bdf8');
+
+    for (let i = 0; i < count; i++) {
+      // Distribuție în coajă sferică (shell) + disc interior Hills
+      const isInnerDisc = i < count * 0.25;
+      const r = isInnerDisc ? 0.45 + rand() * 0.35 : 0.78 + rand() * 0.65;
+      const theta = rand() * Math.PI * 2;
+      const u = rand() * 2 - 1;
+      const phi = Math.acos(isInnerDisc ? u * 0.28 : u);
+
+      positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+      positions[i * 3 + 1] = r * Math.cos(phi);
+      positions[i * 3 + 2] = r * Math.sin(phi) * Math.sin(theta);
+
+      const pick = rand();
+      const col = pick < 0.45 ? c1 : pick < 0.8 ? c2 : c3;
+      colors[i * 3] = col.r;
+      colors[i * 3 + 1] = col.g;
+      colors[i * 3 + 2] = col.b;
+    }
+
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+    const mat = new THREE.PointsMaterial({
+      size: mode === 'eco' ? 0.22 : 0.16,
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.72,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+
+    const points = new THREE.Points(geo, mat);
+    group.add(points);
+
+    // Soarele central ca reper luminos în mijlocul Norului lui Oort
+    const coreSun = new THREE.Mesh(
+      new THREE.SphereGeometry(0.14, 16, 16),
+      new THREE.MeshBasicMaterial({ color: 0xffd166 })
+    );
+    group.add(coreSun);
+
+    const haloRing = new THREE.Mesh(
+      new THREE.RingGeometry(0.95, 1.02, 48),
+      new THREE.MeshBasicMaterial({
+        color: 0x38bdf8,
+        side: THREE.DoubleSide,
+        transparent: true,
+        opacity: 0.28,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      })
+    );
+    haloRing.rotation.x = Math.PI * 0.5;
+    group.add(haloRing);
+
+    return {
+      visualRoot: group,
+      updateShaderTime: (elapsed: number) => {
+        points.rotation.y = elapsed * 0.025;
+      },
+    };
+  }
+
+  /**
+   * 2. Stele Vecine (Sirius A & B, Betelgeuse, Proxima Centauri & Proxima b) în culorile spectrale reale.
+   */
+  private static createDeepStarSystemModel(
+    data: CelestialBodyData,
+    mode: QualityMode
+  ): { visualRoot: THREE.Object3D; updateShaderTime: (elapsed: number) => void } {
+    const group = new THREE.Group();
+    const segs = mode === 'eco' ? 24 : 48;
+    const starColor = new THREE.Color(data.color);
+
+    const starRadius = data.id === 'betelgeuse' ? 1.35 : 0.82;
+    const starMesh = new THREE.Mesh(
+      new THREE.SphereGeometry(starRadius, segs, segs),
+      new THREE.MeshBasicMaterial({ color: starColor })
+    );
+    group.add(starMesh);
+
+    // Coroană stelară aditivă
+    const coronaMesh = new THREE.Mesh(
+      new THREE.SphereGeometry(starRadius * 1.38, segs, segs),
+      new THREE.MeshBasicMaterial({
+        color: starColor,
+        transparent: true,
+        opacity: 0.26,
+        blending: THREE.AdditiveBlending,
+        side: THREE.BackSide,
+        depthWrite: false,
+      })
+    );
+    group.add(coronaMesh);
+
+    const outerHalo = new THREE.Mesh(
+      new THREE.SphereGeometry(starRadius * 1.85, 24, 24),
+      new THREE.MeshBasicMaterial({
+        color: starColor,
+        transparent: true,
+        opacity: 0.11,
+        blending: THREE.AdditiveBlending,
+        side: THREE.BackSide,
+        depthWrite: false,
+      })
+    );
+    group.add(outerHalo);
+
+    const pivot = new THREE.Group();
+    group.add(pivot);
+
+    if (data.id === 'sirius') {
+      // Pitica albă Sirius B pe orbită în jurul lui Sirius A
+      const orbitRing = new THREE.Mesh(
+        new THREE.RingGeometry(1.75, 1.8, 64),
+        new THREE.MeshBasicMaterial({
+          color: 0x93c5fd,
+          side: THREE.DoubleSide,
+          transparent: true,
+          opacity: 0.35,
+          depthWrite: false,
+        })
+      );
+      orbitRing.rotation.x = Math.PI * 0.44;
+      group.add(orbitRing);
+
+      const siriusB = new THREE.Mesh(
+        new THREE.SphereGeometry(0.18, 20, 20),
+        new THREE.MeshBasicMaterial({ color: 0xffffff })
+      );
+      siriusB.position.set(1.78, 0, 0);
+      pivot.rotation.z = 0.18;
+      pivot.add(siriusB);
+    } else if (data.id === 'proxima_centauri') {
+      // Zona locuibilă (inel verde-smarald discret) + exoplaneta Proxima Centauri b
+      const hzRing = new THREE.Mesh(
+        new THREE.RingGeometry(1.55, 1.85, 64),
+        new THREE.MeshBasicMaterial({
+          color: 0x10b981,
+          side: THREE.DoubleSide,
+          transparent: true,
+          opacity: 0.25,
+          blending: THREE.AdditiveBlending,
+          depthWrite: false,
+        })
+      );
+      hzRing.rotation.x = Math.PI * 0.5;
+      group.add(hzRing);
+
+      const proximaB = new THREE.Mesh(
+        new THREE.SphereGeometry(0.24, 24, 24),
+        new THREE.MeshStandardMaterial({
+          color: 0x38bdf8,
+          emissive: 0x0ea5e9,
+          emissiveIntensity: 0.45,
+          roughness: 0.6,
+        })
+      );
+      proximaB.position.set(1.7, 0, 0);
+      pivot.add(proximaB);
+    }
+
+    return {
+      visualRoot: group,
+      updateShaderTime: (elapsed: number) => {
+        pivot.rotation.y = elapsed * 0.65;
+        const pulse = 1 + Math.sin(elapsed * 2.2) * 0.045;
+        coronaMesh.scale.setScalar(pulse);
+      },
+    };
+  }
+
+  /**
+   * 3. Sistemul TRAPPIST-1: Stea pitică roșie-rubinie + cele 7 exoplanete stâncoase (b, c, d, e, f, g, h).
+   */
+  private static createTrappistSystemModel(mode: QualityMode): {
+    visualRoot: THREE.Object3D;
+    updateShaderTime: (elapsed: number) => void;
+  } {
+    const group = new THREE.Group();
+    const segs = mode === 'eco' ? 20 : 36;
+
+    const starMesh = new THREE.Mesh(
+      new THREE.SphereGeometry(0.55, segs, segs),
+      new THREE.MeshBasicMaterial({ color: 0xf43f5e })
+    );
+    group.add(starMesh);
+
+    const starGlow = new THREE.Mesh(
+      new THREE.SphereGeometry(0.82, segs, segs),
+      new THREE.MeshBasicMaterial({
+        color: 0xfb7185,
+        transparent: true,
+        opacity: 0.28,
+        blending: THREE.AdditiveBlending,
+        side: THREE.BackSide,
+        depthWrite: false,
+      })
+    );
+    group.add(starGlow);
+
+    // Zona locuibilă (planetele e, f, g)
+    const habitableZone = new THREE.Mesh(
+      new THREE.RingGeometry(1.38, 1.98, 64),
+      new THREE.MeshBasicMaterial({
+        color: 0x22c55e,
+        side: THREE.DoubleSide,
+        transparent: true,
+        opacity: 0.16,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      })
+    );
+    habitableZone.rotation.x = Math.PI * 0.5;
+    group.add(habitableZone);
+
+    const planetColors = [
+      0xf97316, // b
+      0xfbbf24, // c
+      0xa3e635, // d
+      0x38bdf8, // e (locuibilă)
+      0x06b6d4, // f (locuibilă)
+      0x60a5fa, // g (locuibilă)
+      0xc084fc, // h (înghețată)
+    ];
+
+    const planetPivots: Array<{ pivot: THREE.Group; speed: number }> = [];
+
+    for (let i = 0; i < 7; i++) {
+      const orbitR = 0.82 + i * 0.24;
+      const ring = new THREE.Mesh(
+        new THREE.RingGeometry(orbitR - 0.012, orbitR + 0.012, 48),
+        new THREE.MeshBasicMaterial({
+          color: i >= 3 && i <= 5 ? 0x34d399 : 0xfda4af,
+          side: THREE.DoubleSide,
+          transparent: true,
+          opacity: 0.32,
+          depthWrite: false,
+        })
+      );
+      ring.rotation.x = Math.PI * 0.5;
+      group.add(ring);
+
+      const pivot = new THREE.Group();
+      pivot.rotation.y = i * 0.9;
+      const planetMesh = new THREE.Mesh(
+        new THREE.SphereGeometry(0.11, 16, 16),
+        new THREE.MeshBasicMaterial({ color: planetColors[i] })
+      );
+      planetMesh.position.set(orbitR, 0, 0);
+      pivot.add(planetMesh);
+      group.add(pivot);
+
+      planetPivots.push({ pivot, speed: 1.4 / Math.pow(i + 1, 0.65) });
+    }
+
+    return {
+      visualRoot: group,
+      updateShaderTime: (elapsed: number) => {
+        for (const p of planetPivots) {
+          p.pivot.rotation.y = elapsed * p.speed;
+        }
+      },
+    };
+  }
+
+  /**
+   * 4. Exoplaneta 55 Cancri e: „Planeta de Lavă și Diamant” cu oceane incandescente de magmă.
+   */
+  private static createLavaExoplanetModel(mode: QualityMode): {
+    visualRoot: THREE.Object3D;
+    updateShaderTime: (elapsed: number) => void;
+  } {
+    const group = new THREE.Group();
+    const segs = mode === 'eco' ? 24 : 48;
+
+    const coreLava = new THREE.Mesh(
+      new THREE.SphereGeometry(0.88, segs, segs),
+      new THREE.MeshStandardMaterial({
+        color: 0x450a0a,
+        emissive: new THREE.Color(0xf97316),
+        emissiveIntensity: 0.85,
+        roughness: 0.45,
+        metalness: 0.25,
+      })
+    );
+    group.add(coreLava);
+
+    const magmaHalo = new THREE.Mesh(
+      new THREE.SphereGeometry(1.12, 24, 24),
+      new THREE.MeshBasicMaterial({
+        color: 0xfb923c,
+        transparent: true,
+        opacity: 0.26,
+        blending: THREE.AdditiveBlending,
+        side: THREE.BackSide,
+        depthWrite: false,
+      })
+    );
+    group.add(magmaHalo);
+
+    return {
+      visualRoot: group,
+      updateShaderTime: (elapsed: number) => {
+        coreLava.rotation.y = elapsed * 0.35;
+        magmaHalo.scale.setScalar(1 + Math.sin(elapsed * 3.1) * 0.04);
+      },
+    };
+  }
+
+  /**
+   * 5. Roiul Stelar Pleiadele („Cloșca cu Pui” M45): Stele tinere albastre învăluite în nebuloasă de reflexie.
+   */
+  private static createStarClusterModel(mode: QualityMode): {
+    visualRoot: THREE.Object3D;
+    updateShaderTime: (elapsed: number) => void;
+  } {
+    const group = new THREE.Group();
+    const dustCount = mode === 'eco' ? 750 : 2800;
+    const positions = new Float32Array(dustCount * 3);
+    const colors = new Float32Array(dustCount * 3);
+
+    let seed = 55123;
+    const rand = (): number => {
+      seed = (seed * 1664525 + 1013904223) % 4294967296;
+      return seed / 4294967296;
+    };
+
+    const cBlue = new THREE.Color('#38bdf8');
+    const cWhite = new THREE.Color('#e0f2fe');
+    const cIndigo = new THREE.Color('#60a5fa');
+
+    for (let i = 0; i < dustCount; i++) {
+      const r = Math.pow(rand(), 0.7) * 1.75;
+      const theta = rand() * Math.PI * 2;
+      const phi = Math.acos(rand() * 2 - 1);
+      positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+      positions[i * 3 + 1] = r * Math.cos(phi) * 0.65;
+      positions[i * 3 + 2] = r * Math.sin(phi) * Math.sin(theta);
+
+      const c = i % 3 === 0 ? cWhite : i % 2 === 0 ? cBlue : cIndigo;
+      colors[i * 3] = c.r;
+      colors[i * 3 + 1] = c.g;
+      colors[i * 3 + 2] = c.b;
+    }
+
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+    const cloud = new THREE.Points(
+      geo,
+      new THREE.PointsMaterial({
+        size: mode === 'eco' ? 0.24 : 0.17,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.75,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      })
+    );
+    group.add(cloud);
+
+    // Cele 7 surori principale (Alcyone, Atlas, Electra, Maia, Merope, Taygeta, Pleione)
+    const brightOffsets: Array<[number, number, number, number]> = [
+      [0, 0, 0, 0.22],
+      [-0.65, 0.18, 0.32, 0.17],
+      [0.58, -0.14, -0.28, 0.16],
+      [-0.38, -0.24, -0.52, 0.16],
+      [0.42, 0.26, 0.48, 0.15],
+      [-0.82, -0.08, 0.12, 0.14],
+      [0.78, 0.12, -0.15, 0.14],
+    ];
+    for (const [x, y, z, r] of brightOffsets) {
+      const s = new THREE.Mesh(
+        new THREE.SphereGeometry(r, 16, 16),
+        new THREE.MeshBasicMaterial({ color: 0xe0f2fe })
+      );
+      s.position.set(x, y, z);
+      group.add(s);
+    }
+
+    return {
+      visualRoot: group,
+      updateShaderTime: (elapsed: number) => {
+        group.rotation.y = elapsed * 0.04;
+      },
+    };
+  }
+
+  /**
+   * 6. Nebuloase (Nebuloasa Orion M42 & Stâlpii Creației M16): Nori volumetrici din particule cu AdditiveBlending.
+   */
+  private static createNebulaModel(
+    data: CelestialBodyData,
+    mode: QualityMode
+  ): { visualRoot: THREE.Object3D; updateShaderTime: (elapsed: number) => void } {
+    const group = new THREE.Group();
+    const isPillars = data.id === 'pillars_of_creation';
+    const count = mode === 'eco' ? 1100 : 4200;
+    const positions = new Float32Array(count * 3);
+    const colors = new Float32Array(count * 3);
+
+    let seed = isPillars ? 77211 : 88321;
+    const rand = (): number => {
+      seed = (seed * 1664525 + 1013904223) % 4294967296;
+      return seed / 4294967296;
+    };
+
+    const colA = new THREE.Color(isPillars ? '#fbbf24' : '#e879f9');
+    const colB = new THREE.Color(isPillars ? '#38bdf8' : '#818cf8');
+    const colC = new THREE.Color(isPillars ? '#f97316' : '#2dd4bf');
+
+    for (let i = 0; i < count; i++) {
+      if (isPillars) {
+        // 3 coloane ascendente („Stâlpii Creației”)
+        const pillarIdx = i % 3;
+        const baseX = (pillarIdx - 1) * 0.65;
+        const h = (rand() - 0.45) * 2.1;
+        const spread = 0.24 + (1 - (h + 1) * 0.35) * 0.18;
+        positions[i * 3] = baseX + (rand() - 0.5) * spread + Math.sin(h * 1.8) * 0.12;
+        positions[i * 3 + 1] = h;
+        positions[i * 3 + 2] = (rand() - 0.5) * spread;
+      } else {
+        // Caverna luminoasă a Nebuloasei Orion (M42)
+        const r = Math.pow(rand(), 0.65) * 1.65;
+        const angle = rand() * Math.PI * 2;
+        positions[i * 3] = Math.cos(angle) * r;
+        positions[i * 3 + 1] = (rand() - 0.5) * 1.15;
+        positions[i * 3 + 2] = Math.sin(angle) * r;
+      }
+
+      const mix = rand();
+      const c = mix < 0.42 ? colA : mix < 0.78 ? colB : colC;
+      colors[i * 3] = c.r;
+      colors[i * 3 + 1] = c.g;
+      colors[i * 3 + 2] = c.b;
+    }
+
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+    const nebulaPoints = new THREE.Points(
+      geo,
+      new THREE.PointsMaterial({
+        size: mode === 'eco' ? 0.26 : 0.19,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.72,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      })
+    );
+    group.add(nebulaPoints);
+
+    return {
+      visualRoot: group,
+      updateShaderTime: (elapsed: number) => {
+        nebulaPoints.rotation.y = elapsed * 0.035;
+      },
+    };
+  }
+
+  /**
+   * 7. Sagittarius A* (Gaura Neagră Supermasivă): Sferă centrală neagră (orizontul evenimentelor),
+   * disc de acreție portocaliu-auriu în rotație și inel de lentilă gravitațională.
+   */
+  private static createBlackHoleModel(mode: QualityMode): {
+    visualRoot: THREE.Object3D;
+    updateShaderTime: (elapsed: number) => void;
+  } {
+    const group = new THREE.Group();
+    const segs = mode === 'eco' ? 24 : 48;
+
+    // 1. Orizontul evenimentelor (sferă neagră absolută)
+    const shadowSphere = new THREE.Mesh(
+      new THREE.SphereGeometry(0.58, segs, segs),
+      new THREE.MeshBasicMaterial({ color: 0x000000 })
+    );
+    group.add(shadowSphere);
+
+    // 2. Inel fotonic și efect de lentilă gravitațională verticală
+    const lensingRingVert = new THREE.Mesh(
+      new THREE.RingGeometry(0.6, 0.86, segs),
+      new THREE.MeshBasicMaterial({
+        color: 0xffb703,
+        side: THREE.DoubleSide,
+        transparent: true,
+        opacity: 0.78,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      })
+    );
+    group.add(lensingRingVert);
+
+    // 3. Discul de acreție relativist din particule în rotație
+    const diskCount = mode === 'eco' ? 1400 : 5200;
+    const positions = new Float32Array(diskCount * 3);
+    const colors = new Float32Array(diskCount * 3);
+
+    let seed = 90125;
+    const rand = (): number => {
+      seed = (seed * 1664525 + 1013904223) % 4294967296;
+      return seed / 4294967296;
+    };
+
+    const innerHot = new THREE.Color('#fef08a');
+    const midAmber = new THREE.Color('#ff9e00');
+    const outerRed = new THREE.Color('#dc2626');
+
+    for (let i = 0; i < diskCount; i++) {
+      const t = rand();
+      const r = 0.68 + Math.pow(t, 1.2) * 1.45;
+      const angle = rand() * Math.PI * 2;
+      const thickness = (rand() - 0.5) * 0.09 * (r - 0.5);
+
+      positions[i * 3] = Math.cos(angle) * r;
+      positions[i * 3 + 1] = thickness;
+      positions[i * 3 + 2] = Math.sin(angle) * r;
+
+      const c = t < 0.25 ? innerHot : t < 0.72 ? midAmber : outerRed;
+      colors[i * 3] = c.r;
+      colors[i * 3 + 1] = c.g;
+      colors[i * 3 + 2] = c.b;
+    }
+
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+    const accretionDisk = new THREE.Points(
+      geo,
+      new THREE.PointsMaterial({
+        size: mode === 'eco' ? 0.16 : 0.11,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.88,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      })
+    );
+    accretionDisk.rotation.x = 0.22;
+    group.add(accretionDisk);
+
+    return {
+      visualRoot: group,
+      updateShaderTime: (elapsed: number) => {
+        accretionDisk.rotation.y = elapsed * 0.55;
+      },
+    };
+  }
+
+  /**
+   * 8. Calea Lactee & Galaxia Andromeda: Generator de galaxii spirale cu THREE.Points
+   * (brațe spirale logaritmice, nucleu strălucitor cald și praf interstelar;
+   *  4.000 de particule în modul `eco` pentru 60 FPS garantat, 25.000 de particule în modul `hd`).
+   */
+  private static createSpiralGalaxyModel(
+    data: CelestialBodyData,
+    mode: QualityMode
+  ): { visualRoot: THREE.Object3D; updateShaderTime: (elapsed: number) => void } {
+    const group = new THREE.Group();
+    const isMilkyWay = data.id === 'milky_way';
+    const particleCount = mode === 'eco' ? 4000 : 25000;
+
+    const positions = new Float32Array(particleCount * 3);
+    const colors = new Float32Array(particleCount * 3);
+
+    let seed = isMilkyWay ? 104729 : 209715;
+    const rand = (): number => {
+      seed = (seed * 1664525 + 1013904223) % 4294967296;
+      return seed / 4294967296;
+    };
+
+    const coreColor = new THREE.Color(isMilkyWay ? '#fde68a' : '#fef3c7');
+    const armColor = new THREE.Color(isMilkyWay ? '#38bdf8' : '#c084fc');
+    const outerColor = new THREE.Color(isMilkyWay ? '#1d4ed8' : '#6366f1');
+    const nebulaKnotColor = new THREE.Color('#f472b6');
+    const tempColor = new THREE.Color();
+
+    const arms = 4;
+    const maxRadius = 2.6;
+    const spinFactor = isMilkyWay ? 3.8 : 4.2;
+
+    for (let i = 0; i < particleCount; i++) {
+      const ratio = Math.pow(rand(), 1.35);
+      const radius = ratio * maxRadius;
+      const armIndex = i % arms;
+      const baseAngle = (armIndex / arms) * Math.PI * 2;
+      const spinAngle = radius * spinFactor;
+
+      const scatterPower = 0.16 + (1 - ratio) * 0.22;
+      const randX = (rand() - 0.5) * scatterPower * maxRadius;
+      const randY = (rand() - 0.5) * (0.09 + (1 - ratio) * 0.18);
+      const randZ = (rand() - 0.5) * scatterPower * maxRadius;
+
+      const angle = baseAngle + spinAngle;
+      positions[i * 3] = Math.cos(angle) * radius + randX;
+      positions[i * 3 + 1] = randY;
+      positions[i * 3 + 2] = Math.sin(angle) * radius + randZ;
+
+      if (ratio < 0.22) {
+        tempColor.copy(coreColor).lerp(armColor, ratio / 0.22);
+      } else if (i % 29 === 0) {
+        tempColor.copy(nebulaKnotColor);
+      } else {
+        tempColor.copy(armColor).lerp(outerColor, (ratio - 0.22) / 0.78);
+      }
+
+      colors[i * 3] = tempColor.r;
+      colors[i * 3 + 1] = tempColor.g;
+      colors[i * 3 + 2] = tempColor.b;
+    }
+
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+    const galaxyPoints = new THREE.Points(
+      geo,
+      new THREE.PointsMaterial({
+        size: mode === 'eco' ? 0.085 : 0.048,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.86,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      })
+    );
+    if (!isMilkyWay) {
+      galaxyPoints.rotation.x = 0.42;
+      galaxyPoints.rotation.z = -0.25;
+    }
+    group.add(galaxyPoints);
+
+    // Pentru Calea Lactee, adăugăm inelul-reper în Brațul Orion (~la jumătatea razei)
+    if (isMilkyWay) {
+      const sunMarker = new THREE.Mesh(
+        new THREE.RingGeometry(0.11, 0.16, 32),
+        new THREE.MeshBasicMaterial({
+          color: 0x00f0ff,
+          side: THREE.DoubleSide,
+          transparent: true,
+          opacity: 0.92,
+          blending: THREE.AdditiveBlending,
+          depthWrite: false,
+        })
+      );
+      sunMarker.rotation.x = Math.PI * 0.5;
+      sunMarker.position.set(1.15, 0.05, 0.45);
+      group.add(sunMarker);
+    }
+
+    return {
+      visualRoot: group,
+      updateShaderTime: (elapsed: number) => {
+        galaxyPoints.rotation.y = elapsed * 0.022;
+      },
+    };
   }
 }

@@ -725,6 +725,15 @@ export class SpacecraftPilot {
       this.setPilotMode(true);
     }
 
+    // Dacă ținta aparține altui Orizont Cosmic, comutăm automat orizontul și activăm propulsia hiperspațială pe Luceafărul
+    const targetHorizon = targetBody.data.horizon ?? 'solar';
+    if (this.orbitalEngine.getActiveHorizon() !== targetHorizon) {
+      this.orbitalEngine.setActiveHorizon(targetHorizon);
+    }
+    if (targetHorizon !== 'solar' && this.currentShip.id !== 'luceafarul') {
+      this.selectShip('luceafarul');
+    }
+
     this.selectedTargetBody = targetBody;
     this.lastOriginBody = this.anchoredBody ?? this.findClosestBody();
     this.anchoredBody = null;
@@ -1135,13 +1144,40 @@ export class SpacecraftPilot {
         ? d.subtitle.charAt(0).toLowerCase() + d.subtitle.slice(1)
         : d.subtitle;
 
-    const headlineRo = `Am ajuns la ${d.name}! Privim ${subtitleClean} chiar prin parbrizul navei ${ship.shortNameRo}.`;
-    const temperatureLineRo = `🌡️ Temperatura afară: ${d.meanTempC} °C`;
-    const distancesLineRo = `☀️ Distanța față de Soare: ${sunDistMilKm} milioane km (${sunDistAuStr} UA) | 🌍 Distanța față de Pământ: ${earthDistMilKm} milioane km`;
-    const earthClockLineRo = `⏳ Cronometrul Pământului: Călătoria cu nava ${ship.shortNameRo} a durat ${tripDurationFormattedRo}. Pe Pământ a trecut acest timp și acum este anul ${earthYearCalculated}!`;
+    const isDeepSpace = Boolean(d.distanceLightYears && d.distanceLightYears > 0);
+    const lyValue = d.distanceLightYears ?? 0;
+    const lyLabel =
+      d.distanceLightYearsLabelRo ??
+      `${lyValue.toLocaleString('ro-RO')} ani-lumină`;
+
+    const currentCalendarYear = this.orbitalEngine.simulationDate.getFullYear();
+    const departureYear = Math.round(currentCalendarYear - lyValue);
+    const departureYearLabelRo =
+      departureYear > 0
+        ? `anul ${departureYear} d.Hr.`
+        : `anul ${Math.abs(departureYear)} î.Hr.`;
+    const historicalLightNote =
+      d.lightDepartureHistoryRo ??
+      `Lumina pe care o vedem azi de la ${d.name} a plecat spre Pământ acum ${lyLabel}, în ${departureYearLabelRo}!`;
+
+    const shipDisplayPropulsion =
+      isDeepSpace && ship.id === 'luceafarul'
+        ? `${ship.shortNameRo} cu ⚡ Motor Hiperspațial (Salt în Ani-Lumină)`
+        : ship.shortNameRo;
+
+    const headlineRo = `Am ajuns la ${d.name}! Privim ${subtitleClean} chiar prin parbrizul navei ${shipDisplayPropulsion}.`;
+    const temperatureLineRo = `🌡️ Temperatura caracteristică: ${d.meanTempC} °C`;
+    const distancesLineRo = isDeepSpace
+      ? `✨ Distanța față de Pământ și Sistemul Solar: ${lyLabel} (~${(lyValue * 9460.73).toLocaleString('ro-RO', { maximumFractionDigits: 0 })} miliarde km)`
+      : `☀️ Distanța față de Soare: ${sunDistMilKm} milioane km (${sunDistAuStr} UA) | 🌍 Distanța față de Pământ: ${earthDistMilKm} milioane km`;
+    const earthClockLineRo = isDeepSpace
+      ? `⏳ Mașina Timpului cu Viteza Luminii: ${historicalLightNote}`
+      : `⏳ Cronometrul Pământului: Călătoria cu nava ${ship.shortNameRo} a durat ${tripDurationFormattedRo}. Pe Pământ a trecut acest timp și acum este anul ${earthYearCalculated}!`;
     const observationLineRo = `💡 Observație de la bord: ${d.junior.funFact}`;
 
-    const fullSpeechTextRo = `${headlineRo} Temperatura afară este de ${d.meanTempC} grade Celsius. Distanța față de Soare este de ${sunDistMilKm} milioane de kilometri, adică ${sunDistAuStr} unități astronomice. Călătoria cu nava ${ship.shortNameRo} a durat ${tripDurationFormattedRo}. Pe Pământ a trecut acest timp și acum este anul ${earthYearCalculated}! Observație de la bord: ${d.junior.funFact}`;
+    const fullSpeechTextRo = isDeepSpace
+      ? `${headlineRo} Distanța față de Pământ este de ${lyLabel}. ${historicalLightNote} Observație de la bord: ${d.junior.funFact}`
+      : `${headlineRo} Temperatura afară este de ${d.meanTempC} grade Celsius. Distanța față de Soare este de ${sunDistMilKm} milioane de kilometri, adică ${sunDistAuStr} unități astronomice. Călătoria cu nava ${ship.shortNameRo} a durat ${tripDurationFormattedRo}. Pe Pământ a trecut acest timp și acum este anul ${earthYearCalculated}! Observație de la bord: ${d.junior.funFact}`;
 
     return {
       body: targetBody,

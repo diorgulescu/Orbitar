@@ -5,6 +5,8 @@ import {
   BeltConfig,
   CelestialBodyData,
   CelestialCategory,
+  CosmicHorizon,
+  DeepSpaceDataset,
   KeplerianElements,
   MissionsDataset,
   SolarSystemDataset,
@@ -48,6 +50,12 @@ export const ORBIT_CATEGORY_COLORS: Record<CelestialCategory, string> = {
   telescope: '#22c55e',
   probe: '#22c55e',
   rover: '#f97316',
+  oort_cloud: '#38bdf8',
+  exoplanet: '#fb7185',
+  star_cluster: '#38bdf8',
+  nebula: '#e879f9',
+  black_hole: '#ff9e00',
+  galaxy: '#c084fc',
 };
 
 export const CATEGORY_LABELS_RO: Record<CelestialCategory, string> = {
@@ -62,6 +70,12 @@ export const CATEGORY_LABELS_RO: Record<CelestialCategory, string> = {
   telescope: 'Telescop Spațial',
   probe: 'Sondă Interplanetară',
   rover: 'Rover Planetar',
+  oort_cloud: 'Granița Sistemului Solar',
+  exoplanet: 'Sistem Exoplanetar',
+  star_cluster: 'Roi Stelar Deschis',
+  nebula: 'Nebuloasă / Maternitate Stelară',
+  black_hole: 'Gaură Neagră Supermasivă',
+  galaxy: 'Galaxie Spirală',
 };
 
 const ASTRO_BODY_MAP: Record<string, Astronomy.Body> = {
@@ -79,9 +93,9 @@ const ASTRO_BODY_MAP: Record<string, Astronomy.Body> = {
 };
 
 /**
- * OrbitalEngine încarcă bazele de date didactice statice (`solar-system-ro.json` și `missions-ro.json`),
- * calculează pozițiile 3D reale ale planetelor, sateliților, planetelor pitice, asteroizilor și misiunilor
- * și randează elipsele orbitale pe categorii + centurile de asteroizi cu `THREE.InstancedMesh`.
+ * OrbitalEngine încarcă bazele de date didactice statice (`solar-system-ro.json`, `missions-ro.json` și `deep-space-ro.json`),
+ * calculează pozițiile 3D reale ale planetelor, sateliților, planetelor pitice, asteroizilor, misiunilor și obiectelor
+ * din Cosmosul Îndepărtat (Stele, Exoplanete, Nebuloase, Găuri Negre, Galaxii) pe 3 Orizonturi Cosmice.
  */
 export class OrbitalEngine {
   public simulationDate: Date;
@@ -95,10 +109,13 @@ export class OrbitalEngine {
   private readonly belts: InstancedBeltEntry[] = [];
   private beltConfigs: BeltConfig[] = [];
   private elapsedShaderTime = 0;
+  private activeHorizon: CosmicHorizon = 'solar';
 
   private readonly bodiesGroup: THREE.Group;
   private readonly orbitsGroup: THREE.Group;
   private readonly beltsGroup: THREE.Group;
+  private readonly interstellarGroup: THREE.Group;
+  private readonly galacticGroup: THREE.Group;
 
   constructor(scene: THREE.Scene, scaleManager: ScaleManager, initialDate: Date = new Date()) {
     this.scene = scene;
@@ -118,25 +135,42 @@ export class OrbitalEngine {
     this.beltsGroup.name = 'InstancedBeltsGroup';
     this.scene.add(this.beltsGroup);
 
+    this.interstellarGroup = new THREE.Group();
+    this.interstellarGroup.name = 'InterstellarHorizonGroup';
+    this.interstellarGroup.visible = false;
+    this.scene.add(this.interstellarGroup);
+
+    this.galacticGroup = new THREE.Group();
+    this.galacticGroup.name = 'GalacticHorizonGroup';
+    this.galacticGroup.visible = false;
+    this.scene.add(this.galacticGroup);
+
     this.scaleManager.onChange(() => {
       this.rebuildScaleAndOrbits();
     });
   }
 
   public async initialize(): Promise<void> {
-    const [solarRes, missionsRes] = await Promise.all([
+    const [solarRes, missionsRes, deepSpaceRes] = await Promise.all([
       fetch('./data/solar-system-ro.json'),
       fetch('./data/missions-ro.json'),
+      fetch('./data/deep-space-ro.json').catch(() => null),
       this.issTracker.initialize(),
     ]);
 
     const solarDataset = (await solarRes.json()) as SolarSystemDataset;
     const missionsDataset = (await missionsRes.json()) as MissionsDataset;
+    let deepSpaceObjects: CelestialBodyData[] = [];
+    if (deepSpaceRes && deepSpaceRes.ok) {
+      const ds = (await deepSpaceRes.json()) as DeepSpaceDataset;
+      deepSpaceObjects = ds.objects ?? [];
+    }
 
     this.beltConfigs = solarDataset.belts ?? [];
     const allItems: CelestialBodyData[] = [
       ...(solarDataset.bodies ?? []),
       ...(missionsDataset.missions ?? []),
+      ...deepSpaceObjects,
     ];
 
     const hitSphereGeo = new THREE.SphereGeometry(1, 16, 12);
@@ -170,7 +204,14 @@ export class OrbitalEngine {
       hitMesh.userData = { bodyId: data.id };
       rootGroup.add(hitMesh);
 
-      this.bodiesGroup.add(rootGroup);
+      const itemHorizon = data.horizon ?? 'solar';
+      if (itemHorizon === 'interstellar') {
+        this.interstellarGroup.add(rootGroup);
+      } else if (itemHorizon === 'galactic') {
+        this.galacticGroup.add(rootGroup);
+      } else {
+        this.bodiesGroup.add(rootGroup);
+      }
 
       const metaCompat = {
         ...data,
@@ -415,7 +456,12 @@ export class OrbitalEngine {
     }
 
     for (const instance of this.bodies.values()) {
-      if (instance.data.id === 'sun' || instance.data.category === 'rover') {
+      const itemHorizon = instance.data.horizon ?? 'solar';
+      if (
+        itemHorizon !== 'solar' ||
+        instance.data.id === 'sun' ||
+        instance.data.category === 'rover'
+      ) {
         instance.orbitLine = null;
         continue;
       }
@@ -509,6 +555,20 @@ export class OrbitalEngine {
 
       if (instance.data.parentId) continue;
 
+      if (instance.data.deepSpacePosition) {
+        const [dx, dy, dz] = instance.data.deepSpacePosition;
+        instance.worldPosition.set(dx, dy, dz);
+        instance.rootGroup.position.set(dx, dy, dz);
+        const distAu = instance.data.distanceFromSunAU || 63241;
+        const dir =
+          instance.worldPosition.lengthSq() > 0.001
+            ? instance.worldPosition.clone().normalize()
+            : new THREE.Vector3(1, 0, 0);
+        instance.heliocentricAu.copy(dir.multiplyScalar(distAu));
+        instance.distanceFromSunAu = distAu;
+        continue;
+      }
+
       if (instance.data.id === 'sun') {
         instance.heliocentricAu.set(0, 0, 0);
         instance.worldPosition.set(0, 0, 0);
@@ -601,7 +661,50 @@ export class OrbitalEngine {
   }
 
   public getBodies(): CelestialBodyInstance[] {
+    return this.getBodiesForHorizon(this.activeHorizon);
+  }
+
+  public getAllBodies(): CelestialBodyInstance[] {
     return Array.from(this.bodies.values());
+  }
+
+  public getBodiesForHorizon(horizon: CosmicHorizon): CelestialBodyInstance[] {
+    const list: CelestialBodyInstance[] = [];
+    for (const instance of this.bodies.values()) {
+      const h = instance.data.horizon ?? 'solar';
+      if (h === horizon) {
+        list.push(instance);
+      }
+    }
+    return list;
+  }
+
+  public getActiveHorizon(): CosmicHorizon {
+    return this.activeHorizon;
+  }
+
+  public setActiveHorizon(horizon: CosmicHorizon): void {
+    this.activeHorizon = horizon;
+    const isSolar = horizon === 'solar';
+    this.bodiesGroup.visible = isSolar;
+    this.orbitsGroup.visible = isSolar;
+    this.beltsGroup.visible = isSolar;
+    this.interstellarGroup.visible = horizon === 'interstellar';
+    this.galacticGroup.visible = horizon === 'galactic';
+  }
+
+  public getHorizonGroup(horizon: CosmicHorizon): THREE.Group {
+    if (horizon === 'interstellar') return this.interstellarGroup;
+    if (horizon === 'galactic') return this.galacticGroup;
+    return this.bodiesGroup;
+  }
+
+  public getHomeSolarWorldPosition(horizon: CosmicHorizon = this.activeHorizon): THREE.Vector3 {
+    if (horizon === 'galactic') {
+      // Poziția Soarelui în Brațul Orion al Căii Lactee (la 26.000 ani-lumină de centru)
+      return new THREE.Vector3(16.1, 1.4, 6.3);
+    }
+    return new THREE.Vector3(0, 0, 0);
   }
 
   public getBody(id: string): CelestialBodyInstance | undefined {
@@ -618,6 +721,11 @@ export class OrbitalEngine {
   public setCategoryVisibility(predicate: (cat: CelestialCategory, id: string) => boolean): void {
     const missionsActive = predicate('rover', 'perseverance');
     for (const instance of this.bodies.values()) {
+      const itemHorizon = instance.data.horizon ?? 'solar';
+      if (itemHorizon !== 'solar') {
+        instance.rootGroup.visible = true;
+        continue;
+      }
       // Soarele rămâne mereu vizibil, iar Marte/Pământul rămân vizibile când explorăm roverele și stațiile
       const isHostPlanetForMission =
         missionsActive && (instance.data.id === 'mars' || instance.data.id === 'earth');
@@ -634,7 +742,7 @@ export class OrbitalEngine {
 
   public getRaycastTargets(): THREE.Object3D[] {
     const targets: THREE.Object3D[] = [];
-    for (const instance of this.bodies.values()) {
+    for (const instance of this.getBodiesForHorizon(this.activeHorizon)) {
       if (!instance.rootGroup.visible) continue;
       targets.push(instance.hitMesh, instance.visualRoot);
     }

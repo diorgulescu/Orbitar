@@ -17,6 +17,7 @@ import { OrbitarMissions } from './ui/OrbitarMissions';
 import { PrintManager } from './ui/PrintManager';
 import { SpacecraftPilot } from './game/SpacecraftPilot';
 import { CockpitHUD } from './ui/CockpitHUD';
+import { CosmicScaleNavigator } from './core/CosmicScaleNavigator';
 
 interface OrbitarGlobalDebug {
   sceneManager: SceneManager;
@@ -25,6 +26,7 @@ interface OrbitarGlobalDebug {
   ambientEngine: SpaceAmbientEngine;
   orbitalEngine: OrbitalEngine;
   cameraController: CameraController;
+  cosmicNavigator: CosmicScaleNavigator;
   surfaceMarkers: SurfaceMarkers;
   headerHud: HeaderHud;
   studyDrawer: StudyDrawer;
@@ -85,20 +87,40 @@ async function bootstrapOrbitar(): Promise<void> {
   // Inițializăm Markerele Planetare (Marte & Lună)
   const surfaceMarkers = new SurfaceMarkers(orbitalEngine, labelsContainer);
 
-  // 2. Crearea etichetelor 2D și a pastilelor din Dock-ul Inferior
+  // Inițializăm Navigatorul celor 3 Orizonturi Cosmice (Sistemul Solar <-> Stele & Exoplanete <-> Calea Lactee & Galaxii)
+  const cosmicNavigator = new CosmicScaleNavigator(
+    orbitalEngine,
+    sceneManager.camera,
+    cameraController,
+    labelsContainer
+  );
+
+  // 2. Crearea etichetelor 2D și a pastilelor din Dock-ul Inferior pentru toate cele 3 Orizonturi Cosmice
   const labelElements = new Map<string, HTMLButtonElement>();
   const pillElements = new Map<string, HTMLButtonElement>();
   const bodiesListEl = document.getElementById('hud-bodies-list');
 
-  for (const body of orbitalEngine.getBodies()) {
+  const focusBodyAcrossHorizons = (bodyId: string): void => {
+    const body = orbitalEngine.getBody(bodyId);
+    if (!body) return;
+    const targetHorizon = body.data.horizon ?? 'solar';
+    if (cosmicNavigator.getHorizon() !== targetHorizon) {
+      cosmicNavigator.setHorizon(targetHorizon, { targetBodyId: bodyId });
+      return;
+    }
+    cameraController.focusBody(bodyId);
+  };
+
+  for (const body of orbitalEngine.getAllBodies()) {
     const labelBtn = document.createElement('button');
     labelBtn.type = 'button';
     labelBtn.className = 'celestial-label';
     labelBtn.dataset.bodyId = body.data.id;
+    labelBtn.dataset.horizon = body.data.horizon ?? 'solar';
     labelBtn.innerHTML = `<span class="label-dot" style="background:${body.data.color}"></span>${body.data.name}`;
     labelBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      cameraController.focusBody(body.data.id);
+      focusBodyAcrossHorizons(body.data.id);
     });
     labelsContainer.appendChild(labelBtn);
     labelElements.set(body.data.id, labelBtn);
@@ -108,9 +130,10 @@ async function bootstrapOrbitar(): Promise<void> {
       pillBtn.type = 'button';
       pillBtn.className = 'body-pill';
       pillBtn.dataset.bodyId = body.data.id;
+      pillBtn.dataset.horizon = body.data.horizon ?? 'solar';
       pillBtn.innerHTML = `<span class="body-pill-dot" style="background:${body.data.color}"></span>${body.data.name}`;
       pillBtn.addEventListener('click', () => {
-        cameraController.focusBody(body.data.id);
+        focusBodyAcrossHorizons(body.data.id);
       });
       bodiesListEl.appendChild(pillBtn);
       pillElements.set(body.data.id, pillBtn);
@@ -122,19 +145,29 @@ async function bootstrapOrbitar(): Promise<void> {
 
   const applyLayerFilter = (filter: LayerFilter): void => {
     activeLayerFilter = filter;
+    const activeHorizon = orbitalEngine.getActiveHorizon();
     orbitalEngine.setCategoryVisibility((cat) => matchesLayerFilter(cat, filter));
 
-    for (const body of orbitalEngine.getBodies()) {
+    for (const body of orbitalEngine.getAllBodies()) {
       const pill = pillElements.get(body.data.id);
+      const bodyHorizon = body.data.horizon ?? 'solar';
       if (pill) {
-        const visible = matchesLayerFilter(body.data.category, filter);
+        const visible =
+          bodyHorizon === activeHorizon &&
+          matchesLayerFilter(body.data.category, filter);
         pill.style.display = visible ? 'inline-flex' : 'none';
+      }
+      const lbl = labelElements.get(body.data.id);
+      if (lbl && bodyHorizon !== activeHorizon) {
+        lbl.style.display = 'none';
       }
     }
   };
 
+  applyLayerFilter('all');
+
   const orbitarMissions = new OrbitarMissions(orbitalEngine, (bodyId) => {
-    cameraController.focusBody(bodyId);
+    focusBodyAcrossHorizons(bodyId);
   });
 
   const studyDrawer = new StudyDrawer(
@@ -148,12 +181,19 @@ async function bootstrapOrbitar(): Promise<void> {
     }
   );
 
-  const headerHud = new HeaderHud(orbitalEngine.getBodies(), {
+  const headerHud = new HeaderHud(orbitalEngine.getAllBodies(), {
     onSelectBody: (bodyId) => {
       if (spacecraftPilot.isActive()) {
+        const body = orbitalEngine.getBody(bodyId);
+        const targetHorizon = body?.data.horizon ?? 'solar';
+        if (cosmicNavigator.getHorizon() !== targetHorizon) {
+          cosmicNavigator.setHorizon(targetHorizon, { skipAutoFocus: true });
+          applyLayerFilter(activeLayerFilter);
+          cockpitHud.refreshForHorizon();
+        }
         cockpitHud.handleFlyToTarget(bodyId);
       } else {
-        cameraController.focusBody(bodyId);
+        focusBodyAcrossHorizons(bodyId);
       }
     },
     onFilterChange: (filter) => {
@@ -201,6 +241,21 @@ async function bootstrapOrbitar(): Promise<void> {
   orbitarMissions.setOnGenerateDiploma(() => {
     orbitarMissions.setOpen(false);
     printManager.openDiplomaBuilder(true);
+  });
+
+  cosmicNavigator.onChange((newHorizon) => {
+    applyLayerFilter(activeLayerFilter);
+    if (newHorizon !== 'solar') {
+      spacecraftPilot.selectShip('luceafarul');
+    }
+    cockpitHud.refreshForHorizon();
+    const horizonToast =
+      newHorizon === 'interstellar'
+        ? '✨ Orizont Interstelar activat: Stele Vecine & Exoplanete (Scară în Ani-Lumină)'
+        : newHorizon === 'galactic'
+        ? '🌀 Orizont Galactic activat: Calea Lactee, Nebuloase & Galaxia Andromeda'
+        : '☀️ Orizont Sistemul Solar activat (Acasă)';
+    showQualityToast(horizonToast);
   });
 
   studyDrawer.setPrintHandlers({
@@ -628,6 +683,7 @@ async function bootstrapOrbitar(): Promise<void> {
     ambientEngine,
     orbitalEngine,
     cameraController,
+    cosmicNavigator,
     surfaceMarkers,
     headerHud,
     studyDrawer,
@@ -641,8 +697,10 @@ async function bootstrapOrbitar(): Promise<void> {
 
   // 5. Bucla de actualizare per cadru
   const tempProj = new THREE.Vector3();
+  let elapsedCosmicSeconds = 0;
 
   sceneManager.onUpdate((deltaSeconds) => {
+    elapsedCosmicSeconds += deltaSeconds;
     qualityManager.recordFrame(deltaSeconds);
     orbitalEngine.updatePositions(deltaSeconds);
 
@@ -653,6 +711,7 @@ async function bootstrapOrbitar(): Promise<void> {
     }
 
     cameraController.update(deltaSeconds);
+    cosmicNavigator.update(deltaSeconds, elapsedCosmicSeconds);
     lightSpeedRuler.update(deltaSeconds);
     bottomDock.updateDateReadout();
 
@@ -663,12 +722,18 @@ async function bootstrapOrbitar(): Promise<void> {
     const width = window.innerWidth;
     const height = window.innerHeight;
     const trackedId = tracked?.data.id;
+    const activeHorizon = orbitalEngine.getActiveHorizon();
 
-    for (const body of orbitalEngine.getBodies()) {
+    for (const body of orbitalEngine.getAllBodies()) {
       const labelEl = labelElements.get(body.data.id);
       if (!labelEl) continue;
 
-      if (!body.rootGroup.visible || body.data.category === 'rover') {
+      const bodyHorizon = body.data.horizon ?? 'solar';
+      if (
+        bodyHorizon !== activeHorizon ||
+        !body.rootGroup.visible ||
+        body.data.category === 'rover'
+      ) {
         labelEl.style.display = 'none';
         continue;
       }
