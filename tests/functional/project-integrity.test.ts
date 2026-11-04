@@ -150,5 +150,28 @@ describe('Integritatea Proiectului, Resurse NASA/HD și Conformitate Licență G
       'tauri.conf.json nu trebuie să conțină proprietatea rădăcină window în Tauri v2 (se folosește app.windows)'
     );
     assert.ok(Array.isArray(tauriConf.app?.windows) && tauriConf.app.windows.length >= 1);
+    assert.equal(
+      tauriConf.app?.withGlobalTauri,
+      true,
+      'tauri.conf.json trebuie să aibă app.withGlobalTauri: true pentru a expune API-ul nativ în fereastra Tauri'
+    );
+
+    const capPath = path.resolve(process.cwd(), 'src-tauri/capabilities/default.json');
+    const cap = JSON.parse(fs.readFileSync(capPath, 'utf8'));
+    assert.ok(
+      Array.isArray(cap.permissions) && cap.permissions.includes('core:webview:allow-print'),
+      'src-tauri/capabilities/default.json trebuie să includă permisiunea core:webview:allow-print'
+    );
+
+    const rustMainPath = path.resolve(process.cwd(), 'src-tauri/src/main.rs');
+    const rustMain = fs.readFileSync(rustMainPath, 'utf8');
+    assert.ok(
+      rustMain.includes('fn print_sheet') && rustMain.includes('window.print()'),
+      'src-tauri/src/main.rs trebuie să definească comanda nativă print_sheet pentru macOS WKWebView'
+    );
+    assert.ok(
+      rustMain.includes('fn save_export_file'),
+      'src-tauri/src/main.rs trebuie să definească comanda nativă save_export_file pentru descărcarea SVG/PNG'
+    );
   });
 });

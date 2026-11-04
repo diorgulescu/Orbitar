@@ -260,9 +260,11 @@ async function bootstrapOrbitar(): Promise<void> {
 
   studyDrawer.setPrintHandlers({
     onPrintStudy: (bodyId) => {
+      printManager.openModalForBody(bodyId, 'study');
       printManager.printStudySheet(bodyId);
     },
     onPrintColoring: (bodyId) => {
+      printManager.openModalForBody(bodyId, 'coloring');
       printManager.printColoringSheet(bodyId);
     },
     onSyncPrintPreview: (bodyId) => {

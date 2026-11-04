@@ -235,6 +235,35 @@ describe('UI, CameraController & SurfaceMarkers — Functional Integration Tests
       'Butonul #btn-dock-coloring din bara de jos deschide fereastra Planșe de Colorat & Fișe'
     );
 
+    // Verificăm că openModalForBody + printColoringSheet deschide fereastra pe corpul selectat și apelează print_sheet în Tauri
+    document.getElementById('hud-coloring-modal')?.classList.add('is-hidden');
+    let tauriPrintInvoked = false;
+    (window as any).__TAURI_INTERNALS__ = {
+      invoke: async (cmd: string) => {
+        if (cmd === 'print_sheet') {
+          tauriPrintInvoked = true;
+        }
+        return true;
+      },
+    };
+    printManager.openModalForBody('saturn', 'coloring');
+    printManager.printColoringSheet('saturn');
+    assert.equal(
+      document.getElementById('hud-coloring-modal')?.classList.contains('is-hidden'),
+      false,
+      'openModalForBody trebuie să deschidă fereastra modală de colorat pentru Saturn'
+    );
+    assert.ok(
+      document.getElementById('coloring-preview-title')?.textContent?.includes('Saturn'),
+      'Previzualizarea din fereastra modală trebuie să afișeze Saturn'
+    );
+    assert.equal(
+      tauriPrintInvoked,
+      true,
+      'În aplicația desktop Tauri (macOS .dmg), printColoringSheet trebuie să apeleze comanda nativă print_sheet'
+    );
+    delete (window as any).__TAURI_INTERNALS__;
+
     new LicenseModal();
     const gplModal = document.getElementById('hud-gpl-modal')!;
     document.getElementById('btn-gpl-modal')?.click();

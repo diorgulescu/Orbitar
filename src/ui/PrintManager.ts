@@ -401,12 +401,99 @@ export class PrintManager {
     return html;
   }
 
+  private getTauriInvoke():
+    | ((cmd: string, args?: Record<string, unknown>) => Promise<unknown>)
+    | null {
+    const w = window as unknown as {
+      __TAURI_INTERNALS__?: {
+        invoke?: (cmd: string, args?: Record<string, unknown>) => Promise<unknown>;
+      };
+      __TAURI__?: {
+        core?: {
+          invoke?: (cmd: string, args?: Record<string, unknown>) => Promise<unknown>;
+        };
+      };
+    };
+    const fn = w.__TAURI_INTERNALS__?.invoke ?? w.__TAURI__?.core?.invoke;
+    return typeof fn === 'function' ? fn.bind(w.__TAURI_INTERNALS__ ?? w.__TAURI__?.core) : null;
+  }
+
+  private showExportToast(messageRo: string): void {
+    const toastEl = document.getElementById('hud-quality-toast');
+    if (!toastEl) return;
+    toastEl.textContent = messageRo;
+    toastEl.classList.remove('is-hidden');
+    window.setTimeout(() => {
+      toastEl.classList.add('is-hidden');
+    }, 4200);
+  }
+
+  /**
+   * Declanșează dialogul nativ de imprimare:
+   * - În aplicația desktop Tauri (macOS WKWebView / Windows / Linux), apelează comanda Rust `print_sheet`
+   *   (`WebviewWindow::print()`), deoarece `window.print()` din JS este ignorat de WKWebView pe macOS.
+   * - În browser web standard, apelează `window.print()`.
+   */
+  public triggerNativePrint(): void {
+    const tauriInvoke = this.getTauriInvoke();
+    if (tauriInvoke) {
+      const invokePrint = (): void => {
+        tauriInvoke('print_sheet').catch(() => {
+          const w = window as unknown as {
+            __TAURI__?: {
+              webview?: {
+                getCurrentWebview?: () => { print?: () => Promise<void> };
+              };
+            };
+          };
+          const webviewPrint = w.__TAURI__?.webview?.getCurrentWebview?.()?.print;
+          if (typeof webviewPrint === 'function') {
+            webviewPrint().catch(() => {
+              window.print();
+            });
+          } else {
+            window.print();
+          }
+        });
+      };
+      invokePrint();
+      return;
+    }
+    window.print();
+  }
+
+  /**
+   * Deschide fereastra modală "🎨 Planșe de Colorat & Fișe" direct pe corpul ceresc selectat,
+   * derulând grila la acel corp și afișând previzualizarea planșei pe ecran.
+   */
+  public openModalForBody(
+    targetId: string,
+    template: 'coloring' | 'study' = 'coloring'
+  ): void {
+    const modal = document.getElementById('hud-coloring-modal');
+    this.selectGridTarget(targetId);
+    if (template === 'coloring') {
+      this.populateColoringSheet(targetId);
+    } else {
+      this.populateStudySheet(targetId);
+    }
+    modal?.classList.remove('is-hidden');
+
+    const gridEl = document.getElementById('coloring-bodies-grid');
+    const selectedItem = gridEl?.querySelector<HTMLElement>(
+      `.coloring-grid-item[data-target-id="${targetId}"]`
+    );
+    if (selectedItem && typeof selectedItem.scrollIntoView === 'function') {
+      selectedItem.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+  }
+
   /**
    * Populează #orbitar-print-sheet cu Șablonul A pentru corpul dat și deschide dialogul de imprimare
    */
   public printStudySheet(bodyId: string): void {
     this.populateStudySheet(bodyId);
-    window.print();
+    this.triggerNativePrint();
   }
 
   /**
@@ -414,7 +501,7 @@ export class PrintManager {
    */
   public printColoringSheet(targetId: string): void {
     this.populateColoringSheet(targetId);
-    window.print();
+    this.triggerNativePrint();
   }
 
   /**
@@ -422,7 +509,7 @@ export class PrintManager {
    */
   public printMissionLogTable(): void {
     this.populateMissionLogTable();
-    window.print();
+    this.triggerNativePrint();
   }
 
   /**
@@ -474,7 +561,7 @@ export class PrintManager {
    */
   public printDiplomaSheet(overrides: DiplomaOptions = {}): void {
     this.populateDiplomaSheet(overrides);
-    window.print();
+    this.triggerNativePrint();
   }
 
   /**
@@ -526,11 +613,30 @@ export class PrintManager {
    */
   public downloadSvg(targetId: string): void {
     const svgString = this.getSvgForTarget(targetId);
+    const filename = `orbitar-plansa-colorat-${targetId}.svg`;
+    const tauriInvoke = this.getTauriInvoke();
+    if (tauriInvoke && typeof TextEncoder !== 'undefined') {
+      const bytes = Array.from(new TextEncoder().encode(svgString));
+      tauriInvoke('save_export_file', { filename, bytes })
+        .then((savedPath) => {
+          this.showExportToast(
+            `✅ Planșa SVG a fost salvată în Downloads: ${String(savedPath)}`
+          );
+        })
+        .catch(() => {
+          this.triggerBrowserDownloadSvg(svgString, filename);
+        });
+      return;
+    }
+    this.triggerBrowserDownloadSvg(svgString, filename);
+  }
+
+  private triggerBrowserDownloadSvg(svgString: string, filename: string): void {
     const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `orbitar-plansa-colorat-${targetId}.svg`;
+    link.download = filename;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -542,6 +648,7 @@ export class PrintManager {
    */
   public async downloadPng(targetId: string): Promise<void> {
     const svgString = this.getSvgForTarget(targetId);
+    const filename = `orbitar-plansa-colorat-${targetId}.png`;
     const isLandscapeMap =
       targetId === 'solar-system' || targetId === 'diploma';
     const width = isLandscapeMap ? 2200 : 1600;
@@ -564,9 +671,39 @@ export class PrintManager {
           ctx.fillRect(0, 0, width, height);
           ctx.drawImage(img, 0, 0, width, height);
           const pngUrl = canvas.toDataURL('image/png');
+          const tauriInvoke = this.getTauriInvoke();
+          if (tauriInvoke && pngUrl.includes(',')) {
+            try {
+              const base64Part = pngUrl.split(',')[1] ?? '';
+              const binaryStr = window.atob(base64Part);
+              const bytes = new Array<number>(binaryStr.length);
+              for (let i = 0; i < binaryStr.length; i++) {
+                bytes[i] = binaryStr.charCodeAt(i);
+              }
+              tauriInvoke('save_export_file', { filename, bytes })
+                .then((savedPath) => {
+                  this.showExportToast(
+                    `✅ Planșa PNG a fost salvată în Downloads: ${String(savedPath)}`
+                  );
+                })
+                .catch(() => {
+                  const a = document.createElement('a');
+                  a.href = pngUrl;
+                  a.download = filename;
+                  document.body.appendChild(a);
+                  a.click();
+                  document.body.removeChild(a);
+                });
+              URL.revokeObjectURL(url);
+              resolve();
+              return;
+            } catch (_e) {
+              // Fallback la descărcarea din browser
+            }
+          }
           const a = document.createElement('a');
           a.href = pngUrl;
-          a.download = `orbitar-plansa-colorat-${targetId}.png`;
+          a.download = filename;
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);
@@ -661,7 +798,7 @@ export class PrintManager {
       if (previewFrame) {
         previewFrame.innerHTML = generateSolarSystemColoringSvg();
       }
-      window.print();
+      this.triggerNativePrint();
     });
 
     btnPreviewPrintColoring?.addEventListener('click', () => {
