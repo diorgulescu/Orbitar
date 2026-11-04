@@ -273,94 +273,69 @@ export class SpeechManager {
     this.speakSentencesWithWebSpeech(sentences, sessionId, options);
   }
 
-  private async tryPlayPreGeneratedAudio(
+  private tryPlayPreGeneratedAudio(
     bodyId: string,
     tier: AgeTier,
     sessionId: number,
     fallbackSentences: string[],
     options: SpeechPlaybackOptions
-  ): Promise<void> {
+  ): void {
+    if (typeof Audio === 'undefined') {
+      this.speakSentencesWithWebSpeech(fallbackSentences, sessionId, options);
+      return;
+    }
+
     const candidates = [
-      `./audio/tts/${bodyId}_${tier}.mp3`,
-      `./audio/tts/${bodyId}_${tier}.ogg`,
+      `./audio/tts/${bodyId}_${tier}.mp3?v=neural3`,
+      `./audio/tts/${bodyId}_${tier}.ogg?v=neural3`,
     ];
 
-    for (const url of candidates) {
+    const attemptCandidateAt = (idx: number): void => {
       if (sessionId !== this.playbackSessionId) return;
-
-      const exists = await this.checkAudioFileExists(url);
-      if (!exists) continue;
-      if (sessionId !== this.playbackSessionId) return;
-
-      const played = await this.playAudioUrl(url, sessionId);
-      if (played) {
-        return;
-      }
-    }
-
-    if (sessionId !== this.playbackSessionId) return;
-    this.speakSentencesWithWebSpeech(fallbackSentences, sessionId, options);
-  }
-
-  private async checkAudioFileExists(url: string): Promise<boolean> {
-    if (typeof fetch !== 'function') return false;
-    try {
-      const response = await fetch(url, { method: 'HEAD' });
-      if (!response.ok) return false;
-      const contentType = response.headers?.get?.('content-type') ?? '';
-      // Evităm fals-pozitivele când serverul SPA returnează index.html (text/html) pentru rute inexistente
-      if (contentType.includes('text/html')) {
-        return false;
-      }
-      return true;
-    } catch (_e) {
-      return false;
-    }
-  }
-
-  private playAudioUrl(url: string, sessionId: number): Promise<boolean> {
-    return new Promise<boolean>((resolve) => {
-      if (typeof Audio === 'undefined' || sessionId !== this.playbackSessionId) {
-        resolve(false);
+      if (idx >= candidates.length) {
+        this.speakSentencesWithWebSpeech(fallbackSentences, sessionId, options);
         return;
       }
 
+      const url = candidates[idx];
       try {
         const audio = new Audio(url);
+        audio.preload = 'auto';
         this.activeAudio = audio;
 
         let settled = false;
-        const finishSuccess = (): void => {
+        const handleEnded = (): void => {
           if (settled) return;
           settled = true;
           if (sessionId === this.playbackSessionId) {
             this.completeSession(sessionId);
           }
-          resolve(true);
         };
 
-        const finishFailure = (): void => {
+        const handleFailure = (): void => {
           if (settled) return;
           settled = true;
           if (this.activeAudio === audio) {
             this.activeAudio = null;
           }
-          resolve(false);
+          attemptCandidateAt(idx + 1);
         };
 
-        audio.onended = finishSuccess;
-        audio.onerror = finishFailure;
+        audio.onended = handleEnded;
+        audio.onerror = handleFailure;
 
         const playPromise = audio.play();
         if (playPromise && typeof playPromise.then === 'function') {
           playPromise.catch(() => {
-            finishFailure();
+            handleFailure();
           });
         }
       } catch (_e) {
-        resolve(false);
+        attemptCandidateAt(idx + 1);
       }
-    });
+    };
+
+    attemptCandidateAt(0);
   }
 
   private speakSentencesWithWebSpeech(

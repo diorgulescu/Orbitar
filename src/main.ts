@@ -400,7 +400,7 @@ async function bootstrapOrbitar(): Promise<void> {
     if (!btnQualityToggle) return;
     const profile = qualityManager.getProfile();
     btnQualityToggle.textContent =
-      profile.mode === 'eco' ? '⚡ Grafică: Rapidă (Eco)' : '✨ Grafică: Realistă HD';
+      profile.mode === 'eco' ? '⚡ Eco' : '✨ HD';
     btnQualityToggle.title = `${profile.tooltipRo} (Scurtătură: Tasta Q)`;
     btnQualityToggle.dataset.qualityMode = profile.mode;
     btnQualityToggle.classList.toggle('is-eco', profile.mode === 'eco');
@@ -494,7 +494,7 @@ async function bootstrapOrbitar(): Promise<void> {
     audioControlsEl.innerHTML = `
       <button id="orbitar-audio-toggle" type="button" class="hud-btn ambient-toggle-btn is-off" aria-pressed="false">
         <span class="ambient-wave" aria-hidden="true"><i></i><i></i><i></i></span>
-        <span id="orbitar-audio-label">🔇 Ambiental: Oprit</span>
+        <span id="orbitar-audio-label">🔇 Ambiental</span>
       </button>
       <input id="orbitar-audio-volume" class="ambient-volume-slider" type="range" min="0" max="100" step="1" value="35" aria-label="Volum muzică ambientală" />
       <span id="orbitar-audio-volume-label" class="ambient-volume-readout">35%</span>
@@ -516,7 +516,7 @@ async function bootstrapOrbitar(): Promise<void> {
       btnAudioToggle.setAttribute('aria-pressed', enabled ? 'true' : 'false');
     }
     if (audioLabelEl) {
-      audioLabelEl.textContent = enabled ? '🎵 Ambiental: Pornit' : '🔇 Ambiental: Oprit';
+      audioLabelEl.textContent = enabled ? '🎵 Ambiental' : '🔇 Ambiental';
     }
     if (audioVolumeSlider && document.activeElement !== audioVolumeSlider) {
       audioVolumeSlider.value = String(vol);
@@ -559,7 +559,7 @@ async function bootstrapOrbitar(): Promise<void> {
     btnPilotToggle.setAttribute('aria-pressed', 'false');
     btnPilotToggle.title =
       'Activează mini-jocul La Manșa Navei — pilotează 3 nave spațiale la persoana întâi prin Sistemul Solar (Tasta rapidă: P)';
-    btnPilotToggle.textContent = '🚀 Mod Pilot (La Manșă)';
+    btnPilotToggle.textContent = '🚀 Mod Pilot';
     audioControlsEl.insertAdjacentElement('afterend', btnPilotToggle);
   }
 
@@ -569,8 +569,8 @@ async function bootstrapOrbitar(): Promise<void> {
     btnPilotToggle.classList.toggle('hud-btn-active-amber', active);
     btnPilotToggle.setAttribute('aria-pressed', active ? 'true' : 'false');
     btnPilotToggle.textContent = active
-      ? '🗗 Ieși din Mod Pilot (P)'
-      : '🚀 Mod Pilot (La Manșă)';
+      ? '🗗 Ieși Pilot (P)'
+      : '🚀 Mod Pilot';
 
     if (active) {
       studyDrawer.stopSpeech();

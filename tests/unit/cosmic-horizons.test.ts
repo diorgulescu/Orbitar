@@ -55,6 +55,15 @@ describe('Cele 3 Orizonturi Cosmice (CosmicScaleNavigator, Deep Space 3D, Voce, 
     );
 
     assert.equal(navigator.getHorizon(), 'solar');
+    const horizonSelect = document.getElementById('hud-horizon-select') as HTMLSelectElement | null;
+    assert.ok(horizonSelect, 'Trebuie să existe dropdown-ul #hud-horizon-select în antet');
+    assert.equal(horizonSelect.value, 'solar', 'Dropdown-ul trebuie setat implicit pe Sistemul Solar');
+
+    const aboutBtn = document.getElementById('btn-about-orbitar');
+    assert.ok(aboutBtn, 'Trebuie să existe butonul discret de info #btn-about-orbitar');
+    assert.equal(aboutBtn.getAttribute('href'), 'https://orbitar.ro');
+    assert.equal(aboutBtn.getAttribute('aria-label'), 'Despre proiect (orbitar.ro)');
+
     const homeMarker = document.getElementById('hud-home-solar-marker');
     assert.ok(homeMarker, 'Trebuie să existe indicatorul #hud-home-solar-marker');
     assert.ok(homeMarker.classList.contains('is-hidden'));
@@ -62,13 +71,15 @@ describe('Cele 3 Orizonturi Cosmice (CosmicScaleNavigator, Deep Space 3D, Voce, 
     // Comutăm pe Orizontul Interstelar (Stele & Exoplanete)
     navigator.setHorizon('interstellar');
     assert.equal(navigator.getHorizon(), 'interstellar');
+    assert.equal(horizonSelect.value, 'interstellar');
     assert.equal(orbitalEngine.getActiveHorizon(), 'interstellar');
     assert.equal(orbitalEngine.getHorizonGroup('interstellar').visible, true);
     assert.equal(orbitalEngine.getHorizonGroup('solar').visible, false);
     assert.equal(homeMarker.classList.contains('is-hidden'), false);
 
-    // Comutăm pe Orizontul Galactic (Calea Lactee & Galaxii)
-    navigator.setHorizon('galactic');
+    // Comutăm pe Orizontul Galactic (Calea Lactee & Galaxii) direct din dropdown
+    horizonSelect.value = 'galactic';
+    horizonSelect.dispatchEvent({ type: 'change' } as unknown as Event);
     assert.equal(navigator.getHorizon(), 'galactic');
     assert.equal(orbitalEngine.getHorizonGroup('galactic').visible, true);
     assert.equal(orbitalEngine.getHorizonGroup('interstellar').visible, false);
@@ -143,8 +154,12 @@ describe('Cele 3 Orizonturi Cosmice (CosmicScaleNavigator, Deep Space 3D, Voce, 
 
     const lyCard = document.getElementById('hud-lightyear-explainer');
     const distEl = document.getElementById('hud-target-dist');
+    const mediaCard = document.getElementById('hud-target-media');
+    const mediaImg = document.getElementById('hud-target-img') as HTMLImageElement | null;
     assert.ok(lyCard && !lyCard.classList.contains('is-hidden'));
     assert.ok(distEl?.textContent?.includes('640') && distEl?.textContent?.includes('ani-lumină'));
+    assert.ok(mediaCard && !mediaCard.classList.contains('is-hidden'), 'Caseta foto NASA/ESA trebuie să fie vizibilă pentru Betelgeuse');
+    assert.equal(mediaImg?.src, './textures/nasa/betelgeuse.jpg');
 
     const milkyWaySvg = ColoringSvgGenerator.generateBodyColoringSvg('milky_way', 'Calea Lactee');
     assert.ok(milkyWaySvg.includes('AICI SUNTEM NOI'));

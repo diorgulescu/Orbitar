@@ -68,6 +68,66 @@ const NASA_MEDIA_BY_BODY_ID: Record<string, { src: string; captionRo: string }> 
     captionRo:
       '📸 Fotografie oficială NASA/JPL/ESA (PIA24024): Instrumentația radar a sondei interplanetare JUICE.',
   },
+  oort_cloud: {
+    src: './textures/nasa/oort_cloud.jpg',
+    captionRo:
+      '📸 Ilustrație științifică oficială NASA/JPL-Caltech (PIA17046): Sfera uriașă de comete înghețate a Norului lui Oort în jurul Sistemului Solar.',
+  },
+  proxima_centauri: {
+    src: './textures/nasa/proxima_centauri.jpg',
+    captionRo:
+      '📸 Fotografie reală NASA/ESA (Telescopul Spațial Hubble WFPC2): Steaua pitică roșie Proxima Centauri — cea mai apropiată stea de Sistemul nostru Solar (4,24 ani-lumină).',
+  },
+  sirius: {
+    src: './textures/nasa/sirius.jpg',
+    captionRo:
+      '📸 Fotografie reală NASA/ESA (Telescopul Spațial Hubble): Steaua strălucitoare Sirius A și pitica ei albă Sirius B (punctul luminos din stânga-jos).',
+  },
+  trappist1: {
+    src: './textures/nasa/trappist1.jpg',
+    captionRo:
+      '📸 Randare științifică oficială NASA/JPL-Caltech (PIA21422): Cele 7 planete stâncoase de mărimea Pământului din sistemul exoplanetar TRAPPIST-1.',
+  },
+  cancri55e: {
+    src: './textures/nasa/cancri55e.jpg',
+    captionRo:
+      '📸 Imagine științifică oficială NASA/JPL-Caltech (Telescopul Spitzer PIA20068): Exoplaneta incandescentă 55 Cancri e („Planeta de Lavă și Diamant”).',
+  },
+  pleiades: {
+    src: './textures/nasa/pleiades.jpg',
+    captionRo:
+      '📸 Fotografie reală NASA/JPL-Caltech/Hubble (PIA04225): Roiul stelar deschis Pleiadele (M45 — „Cloșca cu Pui”) învăluit în nori albaștri de praf interstelar.',
+  },
+  betelgeuse: {
+    src: './textures/nasa/betelgeuse.jpg',
+    captionRo:
+      '📸 Imagine reală NASA/ESA (Telescopul Spațial Hubble): Supergiganta roșie Betelgeuse din constelația Orion și atmosfera ei colosală.',
+  },
+  orion_nebula: {
+    src: './textures/nasa/orion_nebula.jpg',
+    captionRo:
+      '📸 Fotografie reală NASA/JPL-Caltech/ESA (Hubble & Spitzer PIA08653): Maternitatea stelară Nebuloasa Orion (M42), unde se nasc mii de stele noi.',
+  },
+  pillars_of_creation: {
+    src: './textures/nasa/pillars_of_creation.jpg',
+    captionRo:
+      '📸 Fotografie reală NASA/ESA/CSA/STScI (Telescopul Spațial James Webb — PIA25433): „Stâlpii Creației” din Nebuloasa Vulturului (M16) văzuți în infraroșu.',
+  },
+  sagittarius_a: {
+    src: './textures/nasa/sagittarius_a.jpg',
+    captionRo:
+      '📸 Imaginea istorică reală Event Horizon Telescope (EHT) & NASA (PIA25440): Inelul de plasmă din jurul găurii negre supermasive Sagittarius A* din centrul Căii Lactee.',
+  },
+  milky_way: {
+    src: './textures/nasa/milky_way.jpg',
+    captionRo:
+      '📸 Harta științifică oficială NASA/JPL-Caltech (Telescopul Spitzer PIA19341): Structura brațelor spirale ale galaxiei noastre, Calea Lactee, și poziția Soarelui.',
+  },
+  andromeda: {
+    src: './textures/nasa/andromeda.jpg',
+    captionRo:
+      '📸 Fotografie reală NASA/JPL-Caltech (GALEX & Spitzer PIA15416): Galaxia spirală Andromeda (M31), vecina noastră galactică aflată la 2,54 milioane de ani-lumină.',
+  },
 };
 
 /**

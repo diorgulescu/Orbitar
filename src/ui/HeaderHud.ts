@@ -113,7 +113,17 @@ export class HeaderHud {
       this.callbacks.onTierChange('cadet');
     });
 
-    // 2. Filtre rapide pe straturi
+    // 2. Filtre rapide pe straturi (Dropdown #hud-layer-filter-select + fallback butoane)
+    const filterSelect = document.getElementById('hud-layer-filter-select') as HTMLSelectElement | null;
+    if (filterSelect) {
+      filterSelect.addEventListener('change', () => {
+        const nextFilter = (filterSelect.value as LayerFilter) || 'all';
+        this.currentFilter = nextFilter;
+        this.syncUiState();
+        this.callbacks.onFilterChange(nextFilter);
+      });
+    }
+
     const filterBtns = document.querySelectorAll<HTMLButtonElement>('[data-layer-filter]');
     filterBtns.forEach((btn) => {
       btn.addEventListener('click', () => {
@@ -216,6 +226,11 @@ export class HeaderHud {
     const btnCadet = document.getElementById('btn-tier-cadet');
     btnJunior?.classList.toggle('hud-btn-active-cyan', this.currentTier === 'junior');
     btnCadet?.classList.toggle('hud-btn-active-amber', this.currentTier === 'cadet');
+
+    const filterSelect = document.getElementById('hud-layer-filter-select') as HTMLSelectElement | null;
+    if (filterSelect) {
+      filterSelect.value = this.currentFilter;
+    }
 
     const filterBtns = document.querySelectorAll<HTMLButtonElement>('[data-layer-filter]');
     filterBtns.forEach((btn) => {

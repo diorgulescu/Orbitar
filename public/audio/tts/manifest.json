@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "license": "GPL-3.0-or-later",
-  "engine": "macos-ioana",
+  "engine": "google-neural-ro",
   "count": 100,
   "entries": {
     "sun_junior": {
@@ -158,7 +158,7 @@
       "bodyId": "ganymede",
       "tier": "cadet",
       "file": "./audio/tts/ganymede_cadet.mp3",
-      "normalizedText": "Ganimede. Cel mai mare satelit natural din Sistemul Solar. Cu un diametru de 5 virgulă 262 kilometri, Ganimede este cel mai mare satelit din Sistemul Solar și singurul cunoscut care posedă o magnetosferă intrinsecă, generată de convecția din nucleul său de fier lichid. Istoricul explorării: Descoperită în 1610 de Galileo Galilei; sonda europeană JUICE va deveni în 2034 prima navă care va intra pe orbita lui Ganimede."
+      "normalizedText": "Ganimede. Cel mai mare satelit natural din Sistemul Solar. Cu un diametru de 5262 kilometri, Ganimede este cel mai mare satelit din Sistemul Solar și singurul cunoscut care posedă o magnetosferă intrinsecă, generată de convecția din nucleul său de fier lichid. Istoricul explorării: Descoperită în 1610 de Galileo Galilei; sonda europeană JUICE va deveni în 2034 prima navă care va intra pe orbita lui Ganimede."
     },
     "callisto_junior": {
       "bodyId": "callisto",
@@ -242,7 +242,7 @@
       "bodyId": "haumea",
       "tier": "cadet",
       "file": "./audio/tts/haumea_cadet.mp3",
-      "normalizedText": "Ha-u-mea. Planeta pitică ovală cu inel propriu și rotație ultra-rapidă. Situată în Centura Kuiper la aproximativ 43 Unități Astronomice, Ha-u-mea are forma unui elipsoid triaxial (aprox. 2 virgulă 100 ori 1 virgulă 680 ori 1 virgulă 070 kilometri) din cauza perioadei de rotație de doar 3 virgulă 9 ore. În 2017, printr-o ocultație stelară, s-a descoperit că posedă un sistem de inele. Istoricul explorării: Descoperită în 2004 și caracterizată prin ocultații stelare și observații ale telescoapelor spațiale."
+      "normalizedText": "Ha-u-mea. Planeta pitică ovală cu inel propriu și rotație ultra-rapidă. Situată în Centura Kuiper la aproximativ 43 Unități Astronomice, Ha-u-mea are forma unui elipsoid triaxial (aprox. 2100 ori 1680 ori 1070 kilometri) din cauza perioadei de rotație de doar 3 virgulă 9 ore. În 2017, printr-o ocultație stelară, s-a descoperit că posedă un sistem de inele. Istoricul explorării: Descoperită în 2004 și caracterizată prin ocultații stelare și observații ale telescoapelor spațiale."
     },
     "makemake_junior": {
       "bodyId": "makemake",
@@ -404,7 +404,7 @@
       "bodyId": "parker",
       "tier": "junior",
       "file": "./audio/tts/parker_junior.mp3",
-      "normalizedText": "Sonda Solară Parcăr. Sonda ultra-rapidă care a atins Soarele, pătrunzând în coroana solară. Sonda Solară Parcăr este cea mai rapidă navă construită vreodată de oameni și singura care s-a apropiat atât de mult de Soare încât a zburat chiar prin atmosfera lui de foc! Analogie: Are în față un scut termic special, gros cât o carte, în spatele căruia instrumentele stau la o temperatură plăcută de cameră în timp ce afară sunt plus 1 virgulă 400 grade Celsius! Știai că? Atinge viteza incredibilă de 690000 kilometri pe oră — cu această viteză ai ajunge de la București la Oradea în mai puțin de 3 secunde!"
+      "normalizedText": "Sonda Solară Parcăr. Sonda ultra-rapidă care a atins Soarele, pătrunzând în coroana solară. Sonda Solară Parcăr este cea mai rapidă navă construită vreodată de oameni și singura care s-a apropiat atât de mult de Soare încât a zburat chiar prin atmosfera lui de foc! Analogie: Are în față un scut termic special, gros cât o carte, în spatele căruia instrumentele stau la o temperatură plăcută de cameră în timp ce afară sunt plus 1400 de grade Celsius! Știai că? Atinge viteza incredibilă de 690000 kilometri pe oră — cu această viteză ai ajunge de la București la Oradea în mai puțin de 3 secunde!"
     },
     "parker_cadet": {
       "bodyId": "parker",
@@ -458,7 +458,7 @@
       "bodyId": "curiosity",
       "tier": "cadet",
       "file": "./audio/tts/curiosity_cadet.mp3",
-      "normalizedText": "Chiuriositi (Mars Science Laboratory). Roverul veteran care urcă pe Muntele Sharp din craterul Gale de pe Marte. Amartizat la 6 august 2012 în craterul Gale, Chiuriositi (900 kg, alimentat nuclear prin RTG) urcă treptat pe versanții muntelui Aeolis Mons (Mount Sharp, 5 virgulă 5 kilometri înălțime), citind în straturile sedimentare tranziția lui Marte de la o lume umedă la un deșert rece. Istoricul explorării: A parcurs peste 32 kilometri pe Marte în mai mult de 4 virgulă 300 de zile marțiene (soli), fiind încă activ."
+      "normalizedText": "Chiuriositi (Mars Science Laboratory). Roverul veteran care urcă pe Muntele Sharp din craterul Gale de pe Marte. Amartizat la 6 august 2012 în craterul Gale, Chiuriositi (900 kg, alimentat nuclear prin RTG) urcă treptat pe versanții muntelui Aeolis Mons (Mount Sharp, 5 virgulă 5 kilometri înălțime), citind în straturile sedimentare tranziția lui Marte de la o lume umedă la un deșert rece. Istoricul explorării: A parcurs peste 32 kilometri pe Marte în mai mult de 4300 de zile marțiene (soli), fiind încă activ."
     },
     "oort_cloud_junior": {
       "bodyId": "oort_cloud",
@@ -470,7 +470,7 @@
       "bodyId": "oort_cloud",
       "tier": "cadet",
       "file": "./audio/tts/oort_cloud_cadet.mp3",
-      "normalizedText": "Norul lui Ort. Sfera uriașă de comete înghețate de la granița Sistemului Solar (aproximativ 1 an-lumină). Norul lui Ort este un rezervor sferic imens de corpuri înghețate (apă, metan, amoniac și monoxid de carbon înghețat), situat între 2 virgulă 000 și 100000 Unități Astronomice (aproximativ 1 an-lumină) de Soare. El marchează limita sferei Hill a Sistemului Solar — frontiera până la care gravitația Soarelui mai poate reține obiecte pe orbită. Istoricul explorării: Prezis teoretic de astronomul estonian Ernst Öpik (1932) și de astronomul olandez Jan Ort (1950) pentru a explica de unde vin cometele cu perioade de mii sau milioane de ani."
+      "normalizedText": "Norul lui Ort. Sfera uriașă de comete înghețate de la granița Sistemului Solar (aproximativ 1 an-lumină). Norul lui Ort este un rezervor sferic imens de corpuri înghețate (apă, metan, amoniac și monoxid de carbon înghețat), situat între 2000 și 100000 Unități Astronomice (aproximativ 1 an-lumină) de Soare. El marchează limita sferei Hill a Sistemului Solar — frontiera până la care gravitația Soarelui mai poate reține obiecte pe orbită. Istoricul explorării: Prezis teoretic de astronomul estonian Ernst Öpik (1932) și de astronomul olandez Jan Ort (1950) pentru a explica de unde vin cometele cu perioade de mii sau milioane de ani."
     },
     "proxima_centauri_junior": {
       "bodyId": "proxima_centauri",
@@ -494,7 +494,7 @@
       "bodyId": "sirius",
       "tier": "cadet",
       "file": "./audio/tts/sirius_cadet.mp3",
-      "normalizedText": "Sirius A & B (Luceafărul Câinelui). Cea mai strălucitoare stea de pe cerul nopții și pitica ei albă (8 virgulă 6 ani-lumină). Sirius (Alpha Canis Majoris), aflată la 8 virgulă 6 ani-lumină, este un sistem binar format din Sirius A (stea albă de secvență principală, tip spectral A1V, aproximativ 9 virgulă 940 K) și Sirius B (una dintre cele mai masive pitice albe cunoscute, cu temperatura de aproximativ 25000 K), care se orbitează reciproc la fiecare 50 virgulă 1 ani. Istoricul explorării: Friedrich Bessel a dedus în 1844 existența unui companion invizibil observând oscilațiile mișcării lui Sirius A, iar Alvan Graham Clark a observat direct pitica albă Sirius B în 1862."
+      "normalizedText": "Sirius A & B (Luceafărul Câinelui). Cea mai strălucitoare stea de pe cerul nopții și pitica ei albă (8 virgulă 6 ani-lumină). Sirius (Alpha Canis Majoris), aflată la 8 virgulă 6 ani-lumină, este un sistem binar format din Sirius A (stea albă de secvență principală, tip spectral A1V, aproximativ 9940 K) și Sirius B (una dintre cele mai masive pitice albe cunoscute, cu temperatura de aproximativ 25000 K), care se orbitează reciproc la fiecare 50 virgulă 1 ani. Istoricul explorării: Friedrich Bessel a dedus în 1844 existența unui companion invizibil observând oscilațiile mișcării lui Sirius A, iar Alvan Graham Clark a observat direct pitica albă Sirius B în 1862."
     },
     "trappist1_junior": {
       "bodyId": "trappist1",
@@ -518,13 +518,13 @@
       "bodyId": "cancri55e",
       "tier": "cadet",
       "file": "./audio/tts/cancri55e_cadet.mp3",
-      "normalizedText": "Exoplaneta 55 Cancri e (Janssen). Planeta de Lavă și Diamant — Super-Pământ incandescent (41 ani-lumină). 55 Cancri e (numită oficial Janssen) este o exoplanetă de tip Super-Pământ aflată la 41 de ani-lumină în constelația Racul. Orbitează la doar 0 virgulă 015 Unități Astronomice de steaua 55 Cancri A, fiind blocată mareic: emisfera diurnă atinge aproximativ 2 virgulă 000 grade Celsius (acoperită de un ocean global de magmă), iar observațiile Geims Ueb din 2024 au confirmat prezența unei atmosfere secundare bogate în CO și CO₂ degajate din oceanul de lavă. Istoricul explorării: Descoperită în 2004 prin metoda vitezelor radiale și observată în tranzit de telescoapele Spitzer, Habăl, CHEOPS și Geims Ueb (2024)."
+      "normalizedText": "Exoplaneta 55 Cancri e (Janssen). Planeta de Lavă și Diamant — Super-Pământ incandescent (41 ani-lumină). 55 Cancri e (numită oficial Janssen) este o exoplanetă de tip Super-Pământ aflată la 41 de ani-lumină în constelația Racul. Orbitează la doar 0 virgulă 015 Unități Astronomice de steaua 55 Cancri A, fiind blocată mareic: emisfera diurnă atinge aproximativ 2000 grade Celsius (acoperită de un ocean global de magmă), iar observațiile Geims Ueb din 2024 au confirmat prezența unei atmosfere secundare bogate în CO și CO₂ degajate din oceanul de lavă. Istoricul explorării: Descoperită în 2004 prin metoda vitezelor radiale și observată în tranzit de telescoapele Spitzer, Habăl, CHEOPS și Geims Ueb (2024)."
     },
     "pleiades_junior": {
       "bodyId": "pleiades",
       "tier": "junior",
       "file": "./audio/tts/pleiades_junior.mp3",
-      "normalizedText": "Roiul Stelar Pleiadele ( Cloșca cu Pui ). Roiul deschis M45 de stele tinere albastre din Taurul (444 ani-lumină). Când privești cerul nopții toamna sau iarna, poți vedea cu ochiul liber un buchet mic și sclipitor de 7 stele albastre care stau strânse împreună. În România, bunicii noștri le-au numit cu drag Cloșca cu Pui sau Găinușa ! Prin telescop însă descoperim că acolo sunt peste 1 virgulă 000 de stele tinere și fierbinți, învăluite într-un voal albastru de praf stelar! Analogie: Pleiadele sunt ca o grădiniță de stele-frați născute din același nor cosmic acum 100 de milioane de ani — pe când pe Pământ încă se plimbau dinozaurii! Știai că? Lumina albastră de la Cloșca cu Pui călătorește prin spațiu timp de 444 de ani până ajunge la noi: razele pe care le vezi diseară au plecat de acolo pe vremea lui Mihai Viteazul!"
+      "normalizedText": "Roiul Stelar Pleiadele ( Cloșca cu Pui ). Roiul deschis M45 de stele tinere albastre din Taurul (444 ani-lumină). Când privești cerul nopții toamna sau iarna, poți vedea cu ochiul liber un buchet mic și sclipitor de 7 stele albastre care stau strânse împreună. În România, bunicii noștri le-au numit cu drag Cloșca cu Pui sau Găinușa ! Prin telescop însă descoperim că acolo sunt peste 1000 de stele tinere și fierbinți, învăluite într-un voal albastru de praf stelar! Analogie: Pleiadele sunt ca o grădiniță de stele-frați născute din același nor cosmic acum 100 de milioane de ani — pe când pe Pământ încă se plimbau dinozaurii! Știai că? Lumina albastră de la Cloșca cu Pui călătorește prin spațiu timp de 444 de ani până ajunge la noi: razele pe care le vezi diseară au plecat de acolo pe vremea lui Mihai Viteazul!"
     },
     "pleiades_cadet": {
       "bodyId": "pleiades",
@@ -548,25 +548,25 @@
       "bodyId": "orion_nebula",
       "tier": "junior",
       "file": "./audio/tts/orion_nebula_junior.mp3",
-      "normalizedText": "Nebuloasa Orion (M42). Cea mai apropiată maternitate stelară masivă, studiată de Geims Ueb (1 virgulă 344 ani-lumină). Sub cele trei stele din Centura lui Orion se află un nor cosmic uriaș, strălucitor în nuanțe de roz, violet și turcoaz: Nebuloasa Orion! Este o adevărată maternitate de stele , un loc fermecat în care din nori de gaz și praf cosmic se nasc chiar acum sute de sori noi și sisteme solare tinere! Analogie: Nebuloasa Orion este ca un cuib luminos din vată de zahăr cosmică, lat de 24 de ani-lumină, în mijlocul căruia patru stele-bebeluș foarte puternice ( Trapezul ) aprind întregul nor ca niște reflectoare! Știai că? Telescopul Spațial Geims Ueb a privit cu ochii săi în infraroșu în interiorul Nebuloasei Orion și a fotografiat discuri de praf ( proplyde ) în jurul stelelor nou-născute, exact acolo unde se formează viitoare planete!"
+      "normalizedText": "Nebuloasa Orion (M42). Cea mai apropiată maternitate stelară masivă, studiată de Geims Ueb (1344 ani-lumină). Sub cele trei stele din Centura lui Orion se află un nor cosmic uriaș, strălucitor în nuanțe de roz, violet și turcoaz: Nebuloasa Orion! Este o adevărată maternitate de stele , un loc fermecat în care din nori de gaz și praf cosmic se nasc chiar acum sute de sori noi și sisteme solare tinere! Analogie: Nebuloasa Orion este ca un cuib luminos din vată de zahăr cosmică, lat de 24 de ani-lumină, în mijlocul căruia patru stele-bebeluș foarte puternice ( Trapezul ) aprind întregul nor ca niște reflectoare! Știai că? Telescopul Spațial Geims Ueb a privit cu ochii săi în infraroșu în interiorul Nebuloasei Orion și a fotografiat discuri de praf ( proplyde ) în jurul stelelor nou-născute, exact acolo unde se formează viitoare planete!"
     },
     "orion_nebula_cadet": {
       "bodyId": "orion_nebula",
       "tier": "cadet",
       "file": "./audio/tts/orion_nebula_cadet.mp3",
-      "normalizedText": "Nebuloasa Orion (M42). Cea mai apropiată maternitate stelară masivă, studiată de Geims Ueb (1 virgulă 344 ani-lumină). Nebuloasa Orion (Messier 42 / NGC 1976), situată la 1 virgulă 344 de ani-lumină, este cea mai strălucitoare nebuloasă difuză de emisie și reflexie de pe cer (vizibilă chiar și cu ochiul liber, magnitudine 4 virgulă 0). În centrul ei, roiul tânăr Trapezium ionizează hidrogenul și oxigenul din jur, iar observațiile Geims Ueb NIRCam au dezvăluit filamente moleculare, jeturi protostelare și discuri protoplanetare. Istoricul explorării: Observată prin telescop în 1610 de Nicolas-Claude Fabri de Peiresc și desenată de Christiaan Huygens în 1656; în 2022 până la 2023, Telescopul Spațial Geims Ueb a realizat cele mai detaliate hărți în infraroșu ale regiunii."
+      "normalizedText": "Nebuloasa Orion (M42). Cea mai apropiată maternitate stelară masivă, studiată de Geims Ueb (1344 ani-lumină). Nebuloasa Orion (Messier 42 / NGC 1976), situată la 1344 de ani-lumină, este cea mai strălucitoare nebuloasă difuză de emisie și reflexie de pe cer (vizibilă chiar și cu ochiul liber, magnitudine 4 virgulă 0). În centrul ei, roiul tânăr Trapezium ionizează hidrogenul și oxigenul din jur, iar observațiile Geims Ueb NIRCam au dezvăluit filamente moleculare, jeturi protostelare și discuri protoplanetare. Istoricul explorării: Observată prin telescop în 1610 de Nicolas-Claude Fabri de Peiresc și desenată de Christiaan Huygens în 1656; în 2022 până la 2023, Telescopul Spațial Geims Ueb a realizat cele mai detaliate hărți în infraroșu ale regiunii."
     },
     "pillars_of_creation_junior": {
       "bodyId": "pillars_of_creation",
       "tier": "junior",
       "file": "./audio/tts/pillars_of_creation_junior.mp3",
-      "normalizedText": "Stâlpii Creației (Nebuloasa Vulturului M16). Coloanele gigantice de gaz și praf în care se nasc stele noi (6 virgulă 500 ani-lumină). Stâlpii Creației sunt trei turnuri uriașe de gaz și praf stelar din inima Nebuloasei Vulturului, devenite celebre în toată lumea datorită fotografiilor uimitoare realizate de telescoapele Habăl și Geims Ueb! În vârful acestor coloane aurii și turcoaz, înalte de câțiva ani-lumină, se aprind stele noi-nouțe, roșii ca jarul! Analogie: Stâlpii Creației seamănă cu trei munți de nori aurii ridicați în mijul cosmosului, atât de înalți încât o rază de lumină are nevoie de 5 ani întregi ca să urce de la baza unui stâlp până în vârful lui! Știai că? Când Telescopul Geims Ueb a privit Stâlpii Creației în lumină infraroșie, praful a devenit transparent și au apărut mii de stele tinere roșii ascunse chiar în interiorul coloanelor!"
+      "normalizedText": "Stâlpii Creației (Nebuloasa Vulturului M16). Coloanele gigantice de gaz și praf în care se nasc stele noi (6500 ani-lumină). Stâlpii Creației sunt trei turnuri uriașe de gaz și praf stelar din inima Nebuloasei Vulturului, devenite celebre în toată lumea datorită fotografiilor uimitoare realizate de telescoapele Habăl și Geims Ueb! În vârful acestor coloane aurii și turcoaz, înalte de câțiva ani-lumină, se aprind stele noi-nouțe, roșii ca jarul! Analogie: Stâlpii Creației seamănă cu trei munți de nori aurii ridicați în mijul cosmosului, atât de înalți încât o rază de lumină are nevoie de 5 ani întregi ca să urce de la baza unui stâlp până în vârful lui! Știai că? Când Telescopul Geims Ueb a privit Stâlpii Creației în lumină infraroșie, praful a devenit transparent și au apărut mii de stele tinere roșii ascunse chiar în interiorul coloanelor!"
     },
     "pillars_of_creation_cadet": {
       "bodyId": "pillars_of_creation",
       "tier": "cadet",
       "file": "./audio/tts/pillars_of_creation_cadet.mp3",
-      "normalizedText": "Stâlpii Creației (Nebuloasa Vulturului M16). Coloanele gigantice de gaz și praf în care se nasc stele noi (6 virgulă 500 ani-lumină). Situați la aproximativ 6 virgulă 500 de ani-lumină în Nebuloasa Vulturului (Messier 16, constelația Șarpele), Stâlpii Creației sunt trompe elefantine de hidrogen molecular rece și praf cosmic, sculptate prin fotoevaporare de vânturile stelare și radiația UV ale stelelor masive din roiul NGC 6611. Imaginile Geims Ueb (NIRCam și MIRI, 2022) au evidențiat protostele de clasă 0/I la extremitățile stâlpilor. Istoricul explorării: Fotografia iconică realizată de Telescopul Spațial Habăl în 1995 (și refăcută în 2014) a fost completată în octombrie 2022 de imaginea în infraroșu apropiat și mediu a Telescopului Spațial Geims Ueb."
+      "normalizedText": "Stâlpii Creației (Nebuloasa Vulturului M16). Coloanele gigantice de gaz și praf în care se nasc stele noi (6500 ani-lumină). Situați la aproximativ 6500 de ani-lumină în Nebuloasa Vulturului (Messier 16, constelația Șarpele), Stâlpii Creației sunt trompe elefantine de hidrogen molecular rece și praf cosmic, sculptate prin fotoevaporare de vânturile stelare și radiația UV ale stelelor masive din roiul NGC 6611. Imaginile Geims Ueb (NIRCam și MIRI, 2022) au evidențiat protostele de clasă 0/I la extremitățile stâlpilor. Istoricul explorării: Fotografia iconică realizată de Telescopul Spațial Habăl în 1995 (și refăcută în 2014) a fost completată în octombrie 2022 de imaginea în infraroșu apropiat și mediu a Telescopului Spațial Geims Ueb."
     },
     "sagittarius_a_junior": {
       "bodyId": "sagittarius_a",
@@ -590,19 +590,19 @@
       "bodyId": "milky_way",
       "tier": "cadet",
       "file": "./audio/tts/milky_way_cadet.mp3",
-      "normalizedText": "Calea Lactee (Galaxia Noastră). Galaxia noastră spirală cu aproximativ 200 până la 400 miliarde de stele; Soarele se află în Brațul Orion (la 26000 ani-lumină de centru). Calea Lactee este o galaxie spirală barată (tip morfologic SBbc) cu diametrul discului stelar de aproximativ 100000 de ani-lumină, grosimea de aproximativ 1 virgulă 000 de ani-lumină și o populație de 200 până la 400 de miliarde de stele. Sistemul Solar este situat în Brațul Local (Orion-Cygnus), la aproximativ 26000 de ani-lumină de nucleul galactic (Sagitarius A stea), orbitând cu aproximativ 220 până la 230 kilometri pe secundă. Istoricul explorării: În 1610, Galileo Galilei a demonstrat cu luneta sa că banda lăptoasă de pe cer este compusă din nenumărate stele; în anii 1920, Harlow Shapley și Edwin Habăl au stabilit dimensiunile galaxiei noastre și existența altor galaxii, iar misiunea europeană Gaia (ESA) a cartografiat recent în 3D aproape 2 miliarde de stele din Calea Lactee."
+      "normalizedText": "Calea Lactee (Galaxia Noastră). Galaxia noastră spirală cu aproximativ 200 până la 400 miliarde de stele; Soarele se află în Brațul Orion (la 26000 ani-lumină de centru). Calea Lactee este o galaxie spirală barată (tip morfologic SBbc) cu diametrul discului stelar de aproximativ 100000 de ani-lumină, grosimea de aproximativ 1000 de ani-lumină și o populație de 200 până la 400 de miliarde de stele. Sistemul Solar este situat în Brațul Local (Orion-Cygnus), la aproximativ 26000 de ani-lumină de nucleul galactic (Sagitarius A stea), orbitând cu aproximativ 220 până la 230 kilometri pe secundă. Istoricul explorării: În 1610, Galileo Galilei a demonstrat cu luneta sa că banda lăptoasă de pe cer este compusă din nenumărate stele; în anii 1920, Harlow Shapley și Edwin Habăl au stabilit dimensiunile galaxiei noastre și existența altor galaxii, iar misiunea europeană Gaia (ESA) a cartografiat recent în 3D aproape 2 miliarde de stele din Calea Lactee."
     },
     "andromeda_junior": {
       "bodyId": "andromeda",
       "tier": "junior",
       "file": "./audio/tts/andromeda_junior.mp3",
-      "normalizedText": "Galaxia Andromeda (M31). Cea mai apropiată galaxie spirală mare, cu aproximativ 1 virgulă 000 de miliarde de stele (2 virgulă 5 milioane ani-lumină). Galaxia Andromeda (M31) este sora mai mare a Căii Lactee și cel mai îndepărtat obiect din Univers pe care îl poți vedea cu ochiul liber, fără telescop, într-o noapte senină la munte! Este o galaxie spirală uriașă cu o mie de miliarde de stele, aflată la 2 virgulă 5 milioane de ani-lumină de noi! Analogie: Dacă Calea Lactee ar fi o farfurie mare pe masă, Galaxia Andromeda ar fi o farfurie și mai mare aflată la doar câțiva metri distanță — iar lumina de la ea călătorește spre noi de 2 virgulă 5 milioane de ani! Știai că? Calea Lactee și Galaxia Andromeda se apropie una de cealaltă cu 400000 kilometri pe oră! Peste aproximativ 4 virgulă 5 miliarde de ani, cele două galaxii vor dansa împreună și se vor uni într-o singură galaxie gigantă fără ca stelele să se ciocnească între ele!"
+      "normalizedText": "Galaxia Andromeda (M31). Cea mai apropiată galaxie spirală mare, cu aproximativ 1000 de miliarde de stele (2 virgulă 5 milioane ani-lumină). Galaxia Andromeda (M31) este sora mai mare a Căii Lactee și cel mai îndepărtat obiect din Univers pe care îl poți vedea cu ochiul liber, fără telescop, într-o noapte senină la munte! Este o galaxie spirală uriașă cu o mie de miliarde de stele, aflată la 2 virgulă 5 milioane de ani-lumină de noi! Analogie: Dacă Calea Lactee ar fi o farfurie mare pe masă, Galaxia Andromeda ar fi o farfurie și mai mare aflată la doar câțiva metri distanță — iar lumina de la ea călătorește spre noi de 2 virgulă 5 milioane de ani! Știai că? Calea Lactee și Galaxia Andromeda se apropie una de cealaltă cu 400000 kilometri pe oră! Peste aproximativ 4 virgulă 5 miliarde de ani, cele două galaxii vor dansa împreună și se vor uni într-o singură galaxie gigantă fără ca stelele să se ciocnească între ele!"
     },
     "andromeda_cadet": {
       "bodyId": "andromeda",
       "tier": "cadet",
       "file": "./audio/tts/andromeda_cadet.mp3",
-      "normalizedText": "Galaxia Andromeda (M31). Cea mai apropiată galaxie spirală mare, cu aproximativ 1 virgulă 000 de miliarde de stele (2 virgulă 5 milioane ani-lumină). Galaxia Andromeda (Messier 31 / NGC 224), aflată la 2 virgulă 537 milioane de ani-lumină în constelația Andromeda, este cea mai mare galaxie din Grupul Local (care include și Calea Lactee și Galaxia Triunghiului M33). Cu un diametru de aproximativ 152000 până la 220000 de ani-lumină și aproximativ 10¹² stele, Andromeda a jucat un rol decisiv în istoria științei când Edwin Habăl a demonstrat în 1924 că este o insulă-univers separată de Calea Lactee. Istoricul explorării: Menționată în anul 964 de astronomul persan Abd al-Rahman al-Sufi drept un mic nor ; în 1924, Edwin Habăl a identificat stele variabile Cefeide în M31, demonstrând că Universul se întinde mult dincolo de Calea Lactee."
+      "normalizedText": "Galaxia Andromeda (M31). Cea mai apropiată galaxie spirală mare, cu aproximativ 1000 de miliarde de stele (2 virgulă 5 milioane ani-lumină). Galaxia Andromeda (Messier 31 / NGC 224), aflată la 2 virgulă 537 milioane de ani-lumină în constelația Andromeda, este cea mai mare galaxie din Grupul Local (care include și Calea Lactee și Galaxia Triunghiului M33). Cu un diametru de aproximativ 152000 până la 220000 de ani-lumină și aproximativ 10¹² stele, Andromeda a jucat un rol decisiv în istoria științei când Edwin Habăl a demonstrat în 1924 că este o insulă-univers separată de Calea Lactee. Istoricul explorării: Menționată în anul 964 de astronomul persan Abd al-Rahman al-Sufi drept un mic nor ; în 1924, Edwin Habăl a identificat stele variabile Cefeide în M31, demonstrând că Universul se întinde mult dincolo de Calea Lactee."
     }
   }
 }

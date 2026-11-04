@@ -167,14 +167,26 @@ describe('UI, CameraController & SurfaceMarkers — Functional Integration Tests
     assert.equal(matchesLayerFilter('dwarf', 'dwarfs_asteroids'), true);
 
     let selectedFromHud: string | null = null;
+    let selectedLayerFilter: string = 'all';
     const headerHud = new HeaderHud(orbitalEngine.getBodies(), {
       onSelectBody: (id) => {
         selectedFromHud = id;
       },
-      onFilterChange: () => {},
+      onFilterChange: (filter) => {
+        selectedLayerFilter = filter;
+      },
       onTierChange: () => {},
     });
     assert.equal(headerHud.getTier(), 'junior');
+    assert.equal(headerHud.getFilter(), 'all');
+
+    const layerFilterSelect = document.getElementById('hud-layer-filter-select') as HTMLSelectElement | null;
+    assert.ok(layerFilterSelect, 'Trebuie să existe dropdown-ul #hud-layer-filter-select pentru filtrarea obiectelor');
+    assert.equal(layerFilterSelect.value, 'all');
+    layerFilterSelect.value = 'probes_telescopes';
+    layerFilterSelect.dispatchEvent({ type: 'change' } as unknown as Event);
+    assert.equal(headerHud.getFilter(), 'probes_telescopes');
+    assert.equal(selectedLayerFilter, 'probes_telescopes');
 
     // Căutare fără diacritice în bara de căutare
     const searchInput = document.getElementById('hud-search-input') as any;

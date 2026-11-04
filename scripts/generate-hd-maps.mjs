@@ -565,6 +565,51 @@ function generateBodyMap2K(fileName, spec) {
         r = 218 - crack * 62 + (nMicro - 0.5) * 18;
         g = 206 - crack * 88 + (nMicro - 0.5) * 18;
         b = 188 - crack * 105 + (nMicro - 0.5) * 18;
+      } else if (spec.type === 'betelgeuse') {
+        // Celule uriașe de convecție (observate de Hubble / ALMA pe supergiganta roșie Betelgeuse)
+        const cell = fbmSphere(nx, ny, nz, 2.4, 4, spec.seed);
+        const plume = Math.pow(Math.max(0, cell), 1.6);
+        r = 185 + plume * 70 + (nMicro - 0.5) * 24;
+        g = 38 + plume * 135 + (nMicro - 0.5) * 20;
+        b = 12 + plume * 48;
+      } else if (spec.type === 'red_dwarf') {
+        // Pitică roșie activă magnetic (Proxima Centauri / TRAPPIST-1) cu pete magnetice și erupții
+        const gran = fbmSphere(nx, ny, nz, 7.5, 4, spec.seed);
+        const flare = Math.pow(Math.max(0, nMacro - 0.58) * 2.4, 2.0);
+        r = 195 + gran * 55 + flare * 60;
+        g = 32 + gran * 52 + flare * 140;
+        b = 24 + gran * 28 + flare * 95;
+      } else if (spec.type === 'blue_star') {
+        // Fotosferă stelară alb-albastră de tip A/B (Sirius A & Pleiadele)
+        const gran = fbmSphere(nx, ny, nz, 11.0, 4, spec.seed);
+        r = 175 + gran * 75 + (nMicro - 0.5) * 20;
+        g = 208 + gran * 46 + (nMicro - 0.5) * 18;
+        b = 252 + (nMicro - 0.5) * 6;
+      } else if (spec.type === 'lava_exoplanet') {
+        // 55 Cancri e (harta termică Spitzer PIA20068: emisferă de zi cu ocean de magmă + emisferă de noapte cu fisuri incandescente)
+        const dayFactor = Math.max(0, Math.cos((uLon - 0.5) * Math.PI * 2.0) * Math.cos((vLat - 0.5) * Math.PI));
+        const fissure = Math.abs(Math.sin((nx * 8.0 + ny * 6.0 + nMacro * 5.0) * 5.5));
+        const crackGlow = fissure < 0.14 ? 1.0 - fissure / 0.14 : 0;
+        const lavaHeat = Math.min(1.0, dayFactor * 0.92 + crackGlow * 0.78);
+        r = 28 + lavaHeat * 227 + (nMicro - 0.5) * 18;
+        g = 16 + Math.pow(lavaHeat, 1.5) * 185;
+        b = 18 + Math.pow(lavaHeat, 2.8) * 75;
+      } else if (spec.type === 'exoplanet_habitable') {
+        // Exoplanetă stâncoasă/oceanică din zona locuibilă (Proxima Centauri b / TRAPPIST-1e, f, g)
+        const isLand = nMacro + (nMicro - 0.5) * 0.18 > 0.52;
+        if (Math.abs(ny) > 0.84 + (nMicro - 0.5) * 0.06) {
+          r = 236;
+          g = 244;
+          b = 252;
+        } else if (isLand) {
+          r = 148 + (nMicro - 0.5) * 42;
+          g = 112 + (nMacro - 0.5) * 38;
+          b = 76 + (nMicro - 0.5) * 25;
+        } else {
+          r = 18 + nMacro * 35;
+          g = 68 + nMacro * 65;
+          b = 142 + nMacro * 75;
+        }
       } else {
         // Corp stâncos / craterizat (Mercur, Lună, Vesta, Ganymede, Callisto, Enceladus, Venus Radar)
         const mare = nMacro < 0.44 ? -28 : 14;
@@ -625,6 +670,11 @@ const SCIENTIFIC_MAPS = [
   { file: 'pluto_newhorizons.jpg', type: 'pluto', baseRGB: [186, 152, 126], craters: 45, seed: 1001 },
   { file: 'ceres_dawn.jpg', type: 'ceres', baseRGB: [118, 115, 112], craters: 85, seed: 1002 },
   { file: 'vesta_dawn.jpg', type: 'rocky', baseRGB: [156, 150, 144], craters: 90, seed: 1003 },
+  { file: 'betelgeuse_convection.jpg', type: 'betelgeuse', baseRGB: [225, 78, 32], seed: 1101 },
+  { file: 'red_dwarf_flare.jpg', type: 'red_dwarf', baseRGB: [215, 48, 36], seed: 1102 },
+  { file: 'blue_star_sirius.jpg', type: 'blue_star', baseRGB: [195, 224, 255], seed: 1103 },
+  { file: 'cancri55e_lava.jpg', type: 'lava_exoplanet', baseRGB: [245, 92, 28], seed: 1104 },
+  { file: 'trappist_habitable.jpg', type: 'exoplanet_habitable', baseRGB: [42, 118, 196], seed: 1105 },
 ];
 
 for (const spec of SCIENTIFIC_MAPS) {

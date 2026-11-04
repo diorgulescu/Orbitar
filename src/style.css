@@ -270,50 +270,75 @@ body {
   color: var(--accent-amber);
 }
 
-/* 1. HEADER-UL ORBITAR */
+/* 1. HEADER-UL ORBITAR (Un singur rând compact pe desktop) */
 .hud-header {
   position: fixed;
-  top: 12px;
-  left: 12px;
-  right: 12px;
+  top: 10px;
+  left: 10px;
+  right: 10px;
   z-index: 1000;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
-  gap: 8px;
+  gap: 5px;
   pointer-events: none;
+}
+
+.hud-header > .bento-card {
+  padding: 4px 7px;
+  border-radius: 12px;
+  min-height: 38px;
+}
+
+.hud-header .hud-btn {
+  min-height: 29px;
+  padding: 4px 8px;
+  font-size: 0.72rem;
+  border-radius: 8px;
+  gap: 4px;
 }
 
 .header-brand {
   display: flex;
   align-items: center;
-  gap: 10px;
-  min-height: 48px;
+  gap: 6px;
+  flex-shrink: 0;
 }
 
 .brand-title {
   font-weight: 800;
-  font-size: 0.92rem;
+  font-size: 0.84rem;
   letter-spacing: 0.08em;
   color: var(--accent-cyan);
   text-shadow: 0 0 12px rgba(0, 240, 255, 0.35);
+  white-space: nowrap;
 }
 
 .brand-home-link {
   text-decoration: none;
-  font-size: 0.72rem;
-  min-height: 30px;
-  padding: 4px 10px;
-  border-radius: 8px;
+  width: 24px;
+  height: 24px;
+  min-height: 24px;
+  padding: 0;
+  border-radius: 50%;
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1;
   color: var(--text-muted);
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(0, 240, 255, 0.22);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(0, 240, 255, 0.28);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.18s ease;
 }
 
 .brand-home-link:hover {
   color: var(--accent-cyan);
   border-color: var(--accent-cyan);
-  background: rgba(0, 240, 255, 0.12);
+  background: rgba(0, 240, 255, 0.16);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
 }
 
 .header-search-wrap {
@@ -321,10 +346,10 @@ body {
   z-index: 1200;
   display: flex;
   align-items: center;
-  gap: 8px;
-  flex: 1 1 240px;
-  max-width: 340px;
-  min-height: 48px;
+  gap: 6px;
+  flex: 1 1 115px;
+  min-width: 110px;
+  max-width: 195px;
 }
 
 .header-search-wrap:focus-within {
@@ -337,7 +362,7 @@ body {
   border: none;
   outline: none;
   color: var(--text-main);
-  font-size: 0.82rem;
+  font-size: 0.75rem;
 }
 
 .hud-search-input::placeholder {
@@ -407,10 +432,21 @@ body {
   position: relative;
   z-index: 10;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   overflow: visible;
+  flex-shrink: 0;
+}
+
+@media (max-width: 1180px) {
+  .hud-header {
+    flex-wrap: wrap;
+  }
+  .header-filters,
+  .header-tier-switch {
+    flex-wrap: wrap;
+  }
 }
 
 /* Comutator Pill Switch pentru Calitate Grafică (#orbitar-quality-toggle) */
@@ -422,11 +458,11 @@ body {
   display: inline-flex !important;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  min-height: 36px;
-  padding: 6px 14px;
+  gap: 4px;
+  min-height: 29px;
+  padding: 4px 10px;
   border-radius: 999px;
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   font-weight: 800;
   letter-spacing: 0.02em;
   cursor: pointer;
@@ -482,11 +518,11 @@ body {
   display: inline-flex !important;
   align-items: center;
   justify-content: center;
-  gap: 5px;
-  min-height: 36px;
-  padding: 6px 12px;
+  gap: 4px;
+  min-height: 29px;
+  padding: 4px 8px;
   border-radius: 999px;
-  font-size: 0.76rem;
+  font-size: 0.72rem;
   font-weight: 800;
   background: rgba(15, 23, 42, 0.72);
   border: 1px solid rgba(0, 240, 255, 0.34);
@@ -514,9 +550,9 @@ body {
   flex-shrink: 0;
   display: inline-flex !important;
   align-items: center;
-  gap: 8px;
-  min-height: 36px;
-  padding: 3px 10px 3px 4px;
+  gap: 5px;
+  min-height: 29px;
+  padding: 2px 7px 2px 3px;
   border-radius: 999px;
   background: rgba(15, 23, 42, 0.72);
   border: 1px solid rgba(0, 240, 255, 0.28);
@@ -524,12 +560,12 @@ body {
 }
 
 .ambient-toggle-btn {
-  min-height: 30px;
-  padding: 4px 11px;
+  min-height: 25px;
+  padding: 2px 8px;
   border-radius: 999px;
-  font-size: 0.76rem;
+  font-size: 0.71rem;
   font-weight: 700;
-  gap: 6px;
+  gap: 4px;
 }
 
 .ambient-toggle-btn.is-on {
@@ -589,15 +625,15 @@ body {
 }
 
 .ambient-volume-slider {
-  width: 72px;
-  height: 5px;
+  width: 44px;
+  height: 4px;
   accent-color: var(--accent-cyan);
   cursor: pointer;
 }
 
 .ambient-volume-readout {
-  min-width: 32px;
-  font-size: 0.72rem;
+  min-width: 26px;
+  font-size: 0.68rem;
   font-weight: 700;
   color: var(--accent-cyan);
   text-align: right;
@@ -1990,20 +2026,62 @@ body {
 }
 
 /* ==========================================================================
-   9. SELECTORUL CELOR 3 ORIZONTURI COSMICE & INDICATORUL "ACASĂ" + AN-LUMINĂ
+   9. SELECTORUL CELOR 3 ORIZONTURI COSMICE (DROPDOWN) & INDICATORUL "ACASĂ" + AN-LUMINĂ
    ========================================================================== */
 .header-horizon-selector {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  padding: 5px 8px;
-  border-color: rgba(255, 183, 3, 0.35);
+  gap: 4px;
+  padding: 4px 6px;
+  border-color: rgba(255, 183, 3, 0.42);
+  flex-shrink: 0;
+}
+
+.hud-horizon-select {
+  appearance: none;
+  -webkit-appearance: none;
+  min-height: 29px;
+  padding: 4px 24px 4px 9px;
+  border-radius: 8px;
+  background-color: rgba(0, 240, 255, 0.14);
+  background-image: linear-gradient(45deg, transparent 50%, var(--accent-cyan) 50%),
+    linear-gradient(135deg, var(--accent-cyan) 50%, transparent 50%);
+  background-position:
+    calc(100% - 13px) 52%,
+    calc(100% - 8px) 52%;
+  background-size:
+    5px 5px,
+    5px 5px;
+  background-repeat: no-repeat;
+  border: 1px solid var(--accent-cyan);
+  color: var(--accent-cyan);
+  font-family: var(--font-sans);
+  font-size: 0.73rem;
+  font-weight: 700;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.16);
+  transition: all 0.18s ease;
+}
+
+.hud-horizon-select:hover,
+.hud-horizon-select:focus {
+  border-color: var(--accent-amber);
+  color: #ffffff;
+  background-color: rgba(0, 240, 255, 0.22);
+  box-shadow: 0 0 14px rgba(255, 183, 3, 0.28);
+}
+
+.hud-horizon-select option {
+  background: #070d1d;
+  color: var(--text-main);
+  font-weight: 600;
 }
 
 .horizon-btn {
-  min-height: 32px;
-  padding: 5px 10px;
-  font-size: 0.74rem;
+  min-height: 29px;
+  padding: 4px 8px;
+  font-size: 0.72rem;
   font-weight: 700;
 }
 

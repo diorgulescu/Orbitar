@@ -14,6 +14,14 @@ fetch_by_nasa_id() {
   local id="$1"
   local nasa_id="$2"
   local target="$NASA_DIR/${id}.jpg"
+  if [ "${ORBITAR_FORCE_FETCH:-0}" != "1" ] && [ -f "$target" ]; then
+    local existing_sz
+    existing_sz=$(wc -c < "$target" 2>/dev/null | tr -d ' ')
+    if [ "${existing_sz:-0}" -gt 10000 ]; then
+      echo "  [NASA] ${id}.jpg există deja (${existing_sz} bytes)"
+      return 0
+    fi
+  fi
   local tmp="${target}.tmp"
   local img_url="https://images-assets.nasa.gov/image/${nasa_id}/${nasa_id}~medium.jpg"
   local orig_url="https://images-assets.nasa.gov/image/${nasa_id}/${nasa_id}~orig.jpg"
@@ -44,6 +52,14 @@ search_and_fetch_spacecraft() {
   local query="$2"
   local must_match="$3"
   local target="$NASA_DIR/${id}.jpg"
+  if [ "${ORBITAR_FORCE_FETCH:-0}" != "1" ] && [ -f "$target" ]; then
+    local existing_sz
+    existing_sz=$(wc -c < "$target" 2>/dev/null | tr -d ' ')
+    if [ "${existing_sz:-0}" -gt 10000 ]; then
+      echo "  [NASA] ${id}.jpg există deja (${existing_sz} bytes)"
+      return 0
+    fi
+  fi
   local tmp="${target}.tmp"
 
   local api_url="https://images-api.nasa.gov/search?q=${query}&media_type=image"
@@ -124,3 +140,63 @@ search_and_fetch_spacecraft "rosetta" "Rosetta%20spacecraft%20comet%20artist" "r
 
 # 10. Telescopul Spațial Euclid
 search_and_fetch_spacecraft "euclid" "Euclid%20spacecraft%20telescope%20ESA" "euclid" || true
+
+# 11. Sonda JUICE (Jupiter Icy Moons Explorer)
+fetch_by_nasa_id "juice" "PIA24024" || search_and_fetch_spacecraft "juice" "JUICE%20Jupiter%20spacecraft%20ESA" "juice" || true
+
+echo "🌌 Descărcare fotografii oficiale NASA/ESA/JWST/Hubble pentru Cosmosul Îndepărtat ..."
+
+# 12. Stâlpii Creației (Nebuloasa Vulturului M16 — Telescopul James Webb / Hubble)
+search_and_fetch_spacecraft "pillars_of_creation" "Pillars%20of%20Creation%20Webb%20Eagle%20Nebula" "pillars" \
+  || fetch_by_nasa_id "pillars_of_creation" "GSFC_20171208_Archive_e000842" || true
+
+# 13. Nebuloasa Orion (M42 — Hubble & Spitzer PIA08653)
+fetch_by_nasa_id "orion_nebula" "PIA08653" \
+  || search_and_fetch_spacecraft "orion_nebula" "Orion%20Nebula%20Hubble%20M42" "orion" || true
+
+# 14. Galaxia Andromeda (M31 — GALEX / Spitzer / Hubble PIA15416)
+fetch_by_nasa_id "andromeda" "PIA15416" \
+  || fetch_by_nasa_id "andromeda" "PIA04921" \
+  || search_and_fetch_spacecraft "andromeda" "Andromeda%20Galaxy%20M31" "andromeda" || true
+
+# 15. Calea Lactee (Harta științifică NASA/JPL-Caltech Spitzer PIA19341 / PIA03654)
+fetch_by_nasa_id "milky_way" "PIA19341" \
+  || fetch_by_nasa_id "milky_way" "PIA03654" \
+  || search_and_fetch_spacecraft "milky_way" "Milky%20Way%20spiral%20arms%20Sun%20artist%20concept" "milky way" || true
+
+# 16. Sagittarius A* (Gaura Neagră Supermasivă din centrul Căii Lactee — EHT / NASA)
+search_and_fetch_spacecraft "sagittarius_a" "Sagittarius%20A%20black%20hole%20Event%20Horizon" "sagittarius" \
+  || fetch_by_nasa_id "sagittarius_a" "PIA25440" \
+  || fetch_by_nasa_id "sagittarius_a" "PIA16695" || true
+
+# 17. Sistemul Exoplanetar TRAPPIST-1 (Cele 7 planete stâncoase — NASA/JPL PIA21422 / PIA22093)
+fetch_by_nasa_id "trappist1" "PIA21422" \
+  || fetch_by_nasa_id "trappist1" "PIA22093" \
+  || search_and_fetch_spacecraft "trappist1" "TRAPPIST-1%20seven%20planets" "trappist" || true
+
+# 18. Proxima Centauri & Proxima Centauri b (NASA/ESA Hubble / ESO)
+search_and_fetch_spacecraft "proxima_centauri" "Proxima%20Centauri%20Hubble" "proxima" \
+  || fetch_by_nasa_id "proxima_centauri" "potw1343a" || true
+
+# 19. Sirius A și Pitica Albă Sirius B (Telescopul Spațial Hubble)
+search_and_fetch_spacecraft "sirius" "Sirius%20white%20dwarf%20Hubble" "sirius" \
+  || fetch_by_nasa_id "sirius" "STScI-PRC05-36a" || true
+
+# 20. Supergiganta Roșie Betelgeuse (Telescopul Spațial Hubble)
+search_and_fetch_spacecraft "betelgeuse" "Betelgeuse%20supergiant%20Hubble" "betelgeuse" \
+  || fetch_by_nasa_id "betelgeuse" "GSFC_20171208_Archive_e001283" || true
+
+# 21. Exoplaneta 55 Cancri e ("Planeta de Lavă și Diamant" — NASA/JPL PIA20068)
+fetch_by_nasa_id "cancri55e" "PIA20068" \
+  || fetch_by_nasa_id "cancri55e" "PIA15622" \
+  || search_and_fetch_spacecraft "cancri55e" "55%20Cancri%20e%20lava%20planet" "cancri" || true
+
+# 22. Roiul Stelar Pleiadele ("Cloșca cu Pui" M45 — NASA/JPL PIA04225 / Hubble)
+fetch_by_nasa_id "pleiades" "PIA04225" \
+  || fetch_by_nasa_id "pleiades" "PIA09262" \
+  || search_and_fetch_spacecraft "pleiades" "Pleiades%20Seven%20Sisters%20star%20cluster" "pleiades" || true
+
+# 23. Norul lui Oort (Granița Sistemului Solar — NASA/JPL PIA17046)
+fetch_by_nasa_id "oort_cloud" "PIA17046" \
+  || search_and_fetch_spacecraft "oort_cloud" "Oort%20Cloud%20solar%20system" "oort" || true
+

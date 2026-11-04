@@ -65,7 +65,7 @@ describe('Integritatea Proiectului, Resurse NASA/HD și Conformitate Licență G
     );
   });
 
-  it('toate cele 12 fotografii oficiale NASA pentru rovere, stații, sonde și telescoape există în public/textures/nasa/', () => {
+  it('toate cele 24 de fotografii oficiale NASA/ESA/JWST/Hubble/EHT (misiuni + Cosmosul Îndepărtat) există în public/textures/nasa/', () => {
     const expectedNasaPhotos = [
       'perseverance.jpg',
       'curiosity.jpg',
@@ -79,20 +79,37 @@ describe('Integritatea Proiectului, Resurse NASA/HD și Conformitate Licență G
       'parker.jpg',
       'rosetta.jpg',
       'juice.jpg',
+      'oort_cloud.jpg',
+      'proxima_centauri.jpg',
+      'sirius.jpg',
+      'trappist1.jpg',
+      'cancri55e.jpg',
+      'pleiades.jpg',
+      'betelgeuse.jpg',
+      'orion_nebula.jpg',
+      'pillars_of_creation.jpg',
+      'sagittarius_a.jpg',
+      'milky_way.jpg',
+      'andromeda.jpg',
     ];
 
     for (const filename of expectedNasaPhotos) {
       const fullPath = path.resolve(process.cwd(), 'public/textures/nasa', filename);
-      assert.ok(fs.existsSync(fullPath), `Lipsește fotografia NASA ${filename}`);
+      assert.ok(fs.existsSync(fullPath), `Lipsește fotografia NASA/ESA ${filename}`);
       const stat = fs.statSync(fullPath);
-      assert.ok(stat.size > 10000, `Fotografia NASA ${filename} este prea mică sau invalidă (${stat.size} bytes)`);
+      assert.ok(stat.size > 10000, `Fotografia NASA/ESA ${filename} este prea mică sau invalidă (${stat.size} bytes)`);
     }
   });
 
-  it('toate cele 26 de hărți planetare științifice HD există în public/textures/hd/', () => {
+  it('toate cele 31 de hărți planetare și stelare științifice HD există în public/textures/hd/', () => {
     const hdDir = path.resolve(process.cwd(), 'public/textures/hd');
     const hdFiles = fs.readdirSync(hdDir).filter((f: string) => f.endsWith('.jpg') || f.endsWith('.png'));
-    assert.ok(hdFiles.length >= 26, `Trebuie să existe cel puțin 26 de hărți HD în public/textures/hd/ (găsite: ${hdFiles.length})`);
+    assert.ok(hdFiles.length >= 31, `Trebuie să existe cel puțin 31 de hărți HD în public/textures/hd/ (găsite: ${hdFiles.length})`);
+    assert.ok(fs.existsSync(path.join(hdDir, 'betelgeuse_convection.jpg')));
+    assert.ok(fs.existsSync(path.join(hdDir, 'red_dwarf_flare.jpg')));
+    assert.ok(fs.existsSync(path.join(hdDir, 'blue_star_sirius.jpg')));
+    assert.ok(fs.existsSync(path.join(hdDir, 'cancri55e_lava.jpg')));
+    assert.ok(fs.existsSync(path.join(hdDir, 'trappist_habitable.jpg')));
   });
 
   it('toate cele 100 de fișiere audio narative pre-generate în limba română există în public/audio/tts/', () => {
@@ -109,5 +126,11 @@ describe('Integritatea Proiectului, Resurse NASA/HD și Conformitate Licență G
     assert.ok(fs.existsSync(path.join(ttsDir, 'proxima_centauri_junior.mp3')));
     assert.ok(fs.existsSync(path.join(ttsDir, 'sagittarius_a_cadet.mp3')));
     assert.ok(fs.existsSync(path.join(ttsDir, 'manifest.json')));
+
+    const manifest = JSON.parse(fs.readFileSync(path.join(ttsDir, 'manifest.json'), 'utf8'));
+    assert.ok(
+      manifest.engine !== 'macos-ioana',
+      'Fișierele MP3 trebuie generate cu voce neurală (nu cu vocea robotică macos-ioana)'
+    );
   });
 });

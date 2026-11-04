@@ -141,20 +141,21 @@ export class CosmicScaleNavigator {
   private ensureHorizonSelectorDom(): void {
     let navEl = document.getElementById('hud-horizon-selector');
     if (!navEl) {
-      navEl = document.createElement('nav');
+      navEl = document.createElement('div');
       navEl.id = 'hud-horizon-selector';
       navEl.className = 'bento-card header-horizon-selector';
       navEl.setAttribute('aria-label', 'Selector Orizont Cosmic');
       navEl.innerHTML = `
-        <button type="button" class="hud-btn hud-btn-active-cyan" data-cosmic-horizon="solar" title="Explorează Sistemul Solar (scara în km / UA)">
-          ☀️ Sistemul Solar
-        </button>
-        <button type="button" class="hud-btn" data-cosmic-horizon="interstellar" title="Explorează Stelele Vecine și Exoplanetele (scara în Ani-Lumină)">
-          ✨ Stele &amp; Exoplanete
-        </button>
-        <button type="button" class="hud-btn" data-cosmic-horizon="galactic" title="Explorează Calea Lactee, Nebuloasele și Galaxiile (scara în Mii/Milioane de Ani-Lumină)">
-          🌀 Calea Lactee &amp; Galaxii
-        </button>
+        <select
+          id="hud-horizon-select"
+          class="hud-horizon-select"
+          aria-label="Selectează Orizontul Cosmic"
+          title="Comută între Sistemul Solar, Stele și Exoplanete sau Calea Lactee și Galaxii"
+        >
+          <option value="solar" selected>☀️ Sistemul Solar</option>
+          <option value="interstellar">✨ Stele și exoplanete</option>
+          <option value="galactic">🌀 Calea Lactee și galaxii</option>
+        </select>
       `;
       const headerEl = document.querySelector('.hud-header');
       const filtersEl = document.querySelector('.header-filters');
@@ -188,6 +189,16 @@ export class CosmicScaleNavigator {
   }
 
   private bindEvents(): void {
+    const selectEl = document.getElementById('hud-horizon-select') as HTMLSelectElement | null;
+    if (selectEl) {
+      selectEl.addEventListener('change', () => {
+        const targetHorizon = selectEl.value as CosmicHorizon;
+        if (targetHorizon && COSMIC_HORIZONS[targetHorizon]) {
+          this.setHorizon(targetHorizon);
+        }
+      });
+    }
+
     const btns = document.querySelectorAll<HTMLButtonElement>('[data-cosmic-horizon]');
     btns.forEach((btn) => {
       btn.addEventListener('click', () => {
@@ -255,6 +266,11 @@ export class CosmicScaleNavigator {
   }
 
   private syncUiState(): void {
+    const selectEl = document.getElementById('hud-horizon-select') as HTMLSelectElement | null;
+    if (selectEl) {
+      selectEl.value = this.currentHorizon;
+    }
+
     const btns = document.querySelectorAll<HTMLButtonElement>('[data-cosmic-horizon]');
     btns.forEach((btn) => {
       const h = btn.dataset.cosmicHorizon || btn.getAttribute('data-cosmic-horizon');

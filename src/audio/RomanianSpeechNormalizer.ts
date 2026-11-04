@@ -75,10 +75,10 @@ export function normalizeRomanianSpeechText(rawText: string): string {
     text = text.replace(entry.pattern, entry.replacement);
   }
 
-  // 3. Normalizăm separatoarele de mii evidente (ex: 1.500.000 -> 1500000, 50.000 -> 50000)
+  // 3. Normalizăm separatoarele de mii evidente (ex: 1.500.000 -> 1500000, 50.000 -> 50000, 6.500 -> 6500, 1.344 -> 1344)
   text = text.replace(/\b(\d{1,3})\.(\d{3})\.(\d{3})\.(\d{3})\b/g, '$1$2$3$4');
   text = text.replace(/\b(\d{1,3})\.(\d{3})\.(\d{3})\b/g, '$1$2$3');
-  text = text.replace(/\b([1-9]\d{1,2})\.(000)\b/g, '$1$2');
+  text = text.replace(/\b([1-9]\d{0,2})\.(\d{3})\b/g, '$1$2');
 
   // 4. Temperaturi negative și pozitive:
   // -110 °C sau -110°C -> "minus 110 grade Celsius"

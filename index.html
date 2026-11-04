@@ -63,19 +63,20 @@
     <!-- Etichete 2D suprapuse pentru corpurile cerești și pini planetari -->
     <div id="labels-container" aria-hidden="true"></div>
 
-    <!-- 1. HEADER-UL "ORBITAR" (Bento Dark Mode) -->
+    <!-- 1. HEADER-UL "ORBITAR" (Bento Dark Mode — Un singur rând compact) -->
     <header class="hud-header" aria-label="Antet principal Orbitar">
-      <!-- Sigla / Titlul în stânga sus + Link discret către orbitar.ro -->
+      <!-- Sigla / Titlul în stânga sus + Buton info discret către orbitar.ro -->
       <div class="bento-card header-brand">
-        <span class="brand-title">ORBITAR // Planetariu Didactic</span>
+        <span class="brand-title" title="ORBITAR // Planetariu Didactic">ORBITAR</span>
         <a
           id="btn-about-orbitar"
           href="https://orbitar.ro"
-          class="hud-btn brand-home-link"
-          title="Deschide pagina oficială de prezentare a proiectului (orbitar.ro)"
-        >
-          🏠 Despre proiect (orbitar.ro)
-        </a>
+          target="_blank"
+          rel="noopener"
+          class="hud-icon-btn brand-home-link"
+          title="Despre proiect — Pagina oficială orbitar.ro"
+          aria-label="Despre proiect (orbitar.ro)"
+        >ⓘ</a>
       </div>
 
       <!-- Bară de căutare rapidă -->
@@ -86,59 +87,44 @@
           class="hud-search-input"
           type="search"
           autocomplete="off"
-          placeholder="Caută în Orbitar: planetă, asteroid, sondă..."
-          aria-label="Caută în Orbitar: planetă, asteroid, sondă"
+          placeholder="Caută planetă, stea, sondă..."
+          aria-label="Caută în Orbitar: planetă, stea, asteroid, sondă"
         />
         <div id="hud-search-results" class="search-dropdown is-hidden" role="listbox"></div>
       </div>
 
-      <!-- Selectorul celor 3 Orizonturi Cosmice -->
-      <nav
+      <!-- Selectorul celor 3 Orizonturi Cosmice (Dropdown compact) -->
+      <div
         id="hud-horizon-selector"
         class="bento-card header-horizon-selector"
         aria-label="Selector Orizont Cosmic"
       >
-        <button
-          type="button"
-          class="hud-btn hud-btn-active-cyan"
-          data-cosmic-horizon="solar"
-          title="Explorează Sistemul Solar (scara în km / UA)"
+        <select
+          id="hud-horizon-select"
+          class="hud-horizon-select"
+          aria-label="Selectează Orizontul Cosmic"
+          title="Comută între Sistemul Solar, Stele și Exoplanete sau Calea Lactee și Galaxii"
         >
-          ☀️ Sistemul Solar
-        </button>
-        <button
-          type="button"
-          class="hud-btn"
-          data-cosmic-horizon="interstellar"
-          title="Explorează Stelele Vecine și Exoplanetele (scara în Ani-Lumină)"
-        >
-          ✨ Stele &amp; Exoplanete
-        </button>
-        <button
-          type="button"
-          class="hud-btn"
-          data-cosmic-horizon="galactic"
-          title="Explorează Calea Lactee, Nebuloasele și Galaxiile (scara în Mii/Milioane de Ani-Lumină)"
-        >
-          🌀 Calea Lactee &amp; Galaxii
-        </button>
-      </nav>
+          <option value="solar" selected>☀️ Sistemul Solar</option>
+          <option value="interstellar">✨ Stele și exoplanete</option>
+          <option value="galactic">🌀 Calea Lactee și galaxii</option>
+        </select>
+      </div>
 
-      <!-- Filtre rapide pe straturi -->
-      <nav class="bento-card header-filters" aria-label="Filtre pe straturi cosmice">
-        <button type="button" class="hud-btn hud-btn-active-cyan" data-layer-filter="all">
-          Toate
-        </button>
-        <button type="button" class="hud-btn" data-layer-filter="planets_moons">
-          Planete &amp; Luni
-        </button>
-        <button type="button" class="hud-btn" data-layer-filter="dwarfs_asteroids">
-          Pitice &amp; Asteroizi
-        </button>
-        <button type="button" class="hud-btn" data-layer-filter="probes_telescopes">
-          Sonde &amp; Telescoape
-        </button>
-      </nav>
+      <!-- Filtre rapide pe straturi (Dropdown compact) -->
+      <div class="bento-card header-filters" aria-label="Filtre pe straturi cosmice">
+        <select
+          id="hud-layer-filter-select"
+          class="hud-horizon-select hud-layer-select"
+          aria-label="Filtrează obiectele pe categorii"
+          title="Filtrează obiectele cosmice afișate pe categorii"
+        >
+          <option value="all" selected>🔭 Toate obiectele</option>
+          <option value="planets_moons">🪐 Planete &amp; Luni</option>
+          <option value="dwarfs_asteroids">☄️ Pitice &amp; Asteroizi</option>
+          <option value="probes_telescopes">🛰️ Sonde &amp; Telescoape</option>
+        </select>
+      </div>
 
       <!-- Comutator de nivel salvat în localStorage (orbitar_age_tier) + Comutator Calitate Grafică (Eco/HD) + Misiuni -->
       <div class="bento-card header-tier-switch" role="group" aria-label="Nivel de studiu, Calitate Grafică și Misiuni">
@@ -146,17 +132,17 @@
           id="btn-tier-junior"
           type="button"
           class="hud-btn hud-btn-active-cyan"
-          title="Mod adaptat pentru copii de 6–8 ani"
+          title="Micul Explorator — Mod adaptat pentru copii de 6–8 ani"
         >
-          Micul Explorator: 6-8 ani
+          6–8 ani
         </button>
         <button
           id="btn-tier-cadet"
           type="button"
           class="hud-btn"
-          title="Mod avansat pentru copii de 9–12 ani"
+          title="Cadet Orbitar — Mod avansat pentru copii de 9–12 ani"
         >
-          Cadet Orbitar: 9-12 ani
+          9–12 ani
         </button>
         <button
           id="orbitar-quality-toggle"
@@ -164,7 +150,7 @@
           class="hud-btn quality-pill-switch is-hd"
           title="Comută calitatea grafică (Tasta rapidă: Q) — Texturi detaliate 2K, nori și luminile orașelor noaptea"
         >
-          ✨ Grafică: Realistă HD
+          ✨ HD
         </button>
         <button
           id="orbitar-fullscreen-toggle"
@@ -189,7 +175,7 @@
             title="Pornește sau oprește muzica ambientală cosmică generativă (Scurtătură: Tasta M)"
           >
             <span class="ambient-wave" aria-hidden="true"><i></i><i></i><i></i></span>
-            <span id="orbitar-audio-label">🔇 Ambiental: Oprit</span>
+            <span id="orbitar-audio-label">🔇 Ambiental</span>
           </button>
           <input
             id="orbitar-audio-volume"
@@ -211,7 +197,7 @@
           aria-pressed="false"
           title="Activează mini-jocul La Manșa Navei — pilotează 3 nave spațiale la persoana întâi prin Sistemul Solar (Tasta rapidă: P)"
         >
-          🚀 Mod Pilot (La Manșă)
+          🚀 Mod Pilot
         </button>
         <button
           id="btn-missions-toggle"

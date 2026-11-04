@@ -34,6 +34,54 @@ interface SpacecraftPbrTextures {
  */
 export class ProceduralModels {
   private static hdTexturesCache: SpacecraftPbrTextures | null = null;
+  private static readonly deepSpaceTexCache = new Map<string, THREE.Texture>();
+  private static softRadialAlphaMap: THREE.CanvasTexture | null = null;
+
+  private static loadDeepSpaceTexture(url: string): THREE.Texture | null {
+    if (this.deepSpaceTexCache.has(url)) {
+      return this.deepSpaceTexCache.get(url)!;
+    }
+    try {
+      const loader = new THREE.TextureLoader();
+      const tex = loader.load(
+        url,
+        (loaded) => {
+          loaded.colorSpace = THREE.SRGBColorSpace;
+          loaded.needsUpdate = true;
+        },
+        undefined,
+        () => {}
+      );
+      tex.colorSpace = THREE.SRGBColorSpace;
+      this.deepSpaceTexCache.set(url, tex);
+      return tex;
+    } catch (_e) {
+      return null;
+    }
+  }
+
+  private static getSoftRadialAlphaMap(): THREE.CanvasTexture | null {
+    if (this.softRadialAlphaMap) return this.softRadialAlphaMap;
+    if (typeof document === 'undefined') return null;
+    const canvas = document.createElement('canvas');
+    canvas.width = 256;
+    canvas.height = 256;
+    const ctx = canvas.getContext('2d');
+    if (ctx) {
+      ctx.fillStyle = '#000000';
+      ctx.fillRect(0, 0, 256, 256);
+      const grad = ctx.createRadialGradient(128, 128, 18, 128, 128, 124);
+      grad.addColorStop(0, '#ffffff');
+      grad.addColorStop(0.58, '#d8d8d8');
+      grad.addColorStop(0.84, '#484848');
+      grad.addColorStop(1, '#000000');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 256, 256);
+    }
+    const tex = new THREE.CanvasTexture(canvas);
+    this.softRadialAlphaMap = tex;
+    return tex;
+  }
 
   /**
    * Generează și memorează în cache texturile PBR de înaltă rezoluție (512×512)
@@ -1085,7 +1133,7 @@ export class ProceduralModels {
   }
 
   /**
-   * 2. Stele Vecine (Sirius A & B, Betelgeuse, Proxima Centauri & Proxima b) în culorile spectrale reale.
+   * 2. Stele Vecine (Sirius A & B, Betelgeuse, Proxima Centauri & Proxima b) cu texturi fotosferice 2K și culori spectrale reale.
    */
   private static createDeepStarSystemModel(
     data: CelestialBodyData,
@@ -1095,10 +1143,21 @@ export class ProceduralModels {
     const segs = mode === 'eco' ? 24 : 48;
     const starColor = new THREE.Color(data.color);
 
+    const starTexUrl =
+      data.id === 'betelgeuse'
+        ? './textures/hd/betelgeuse_convection.jpg'
+        : data.id === 'sirius'
+        ? './textures/hd/blue_star_sirius.jpg'
+        : './textures/hd/red_dwarf_flare.jpg';
+    const starMap = mode === 'hd' ? this.loadDeepSpaceTexture(starTexUrl) : this.loadDeepSpaceTexture('./textures/sun.jpg');
+
     const starRadius = data.id === 'betelgeuse' ? 1.35 : 0.82;
     const starMesh = new THREE.Mesh(
       new THREE.SphereGeometry(starRadius, segs, segs),
-      new THREE.MeshBasicMaterial({ color: starColor })
+      new THREE.MeshBasicMaterial({
+        color: starMap ? 0xffffff : starColor,
+        map: starMap,
+      })
     );
     group.add(starMesh);
 
@@ -1155,7 +1214,7 @@ export class ProceduralModels {
       pivot.rotation.z = 0.18;
       pivot.add(siriusB);
     } else if (data.id === 'proxima_centauri') {
-      // Zona locuibilă (inel verde-smarald discret) + exoplaneta Proxima Centauri b
+      // Zona locuibilă (inel verde-smarald discret) + exoplaneta Proxima Centauri b texturată
       const hzRing = new THREE.Mesh(
         new THREE.RingGeometry(1.55, 1.85, 64),
         new THREE.MeshBasicMaterial({
@@ -1170,13 +1229,16 @@ export class ProceduralModels {
       hzRing.rotation.x = Math.PI * 0.5;
       group.add(hzRing);
 
+      const habMap = mode === 'hd' ? this.loadDeepSpaceTexture('./textures/hd/trappist_habitable.jpg') : null;
       const proximaB = new THREE.Mesh(
         new THREE.SphereGeometry(0.24, 24, 24),
         new THREE.MeshStandardMaterial({
-          color: 0x38bdf8,
+          color: habMap ? 0xffffff : 0x38bdf8,
+          map: habMap,
           emissive: 0x0ea5e9,
-          emissiveIntensity: 0.45,
-          roughness: 0.6,
+          emissiveMap: habMap,
+          emissiveIntensity: 0.55,
+          roughness: 0.55,
         })
       );
       proximaB.position.set(1.7, 0, 0);
@@ -1186,6 +1248,7 @@ export class ProceduralModels {
     return {
       visualRoot: group,
       updateShaderTime: (elapsed: number) => {
+        starMesh.rotation.y = elapsed * 0.12;
         pivot.rotation.y = elapsed * 0.65;
         const pulse = 1 + Math.sin(elapsed * 2.2) * 0.045;
         coronaMesh.scale.setScalar(pulse);
@@ -1194,7 +1257,7 @@ export class ProceduralModels {
   }
 
   /**
-   * 3. Sistemul TRAPPIST-1: Stea pitică roșie-rubinie + cele 7 exoplanete stâncoase (b, c, d, e, f, g, h).
+   * 3. Sistemul TRAPPIST-1: Stea pitică roșie-rubinie texturată + cele 7 exoplanete stâncoase (b, c, d, e, f, g, h).
    */
   private static createTrappistSystemModel(mode: QualityMode): {
     visualRoot: THREE.Object3D;
@@ -1202,10 +1265,16 @@ export class ProceduralModels {
   } {
     const group = new THREE.Group();
     const segs = mode === 'eco' ? 20 : 36;
+    const redDwarfMap = mode === 'hd' ? this.loadDeepSpaceTexture('./textures/hd/red_dwarf_flare.jpg') : null;
+    const habMap = mode === 'hd' ? this.loadDeepSpaceTexture('./textures/hd/trappist_habitable.jpg') : null;
+    const rockyMap = mode === 'hd' ? this.loadDeepSpaceTexture('./textures/hd/mars_viking_albedo.jpg') : null;
 
     const starMesh = new THREE.Mesh(
       new THREE.SphereGeometry(0.55, segs, segs),
-      new THREE.MeshBasicMaterial({ color: 0xf43f5e })
+      new THREE.MeshBasicMaterial({
+        color: redDwarfMap ? 0xffffff : 0xf43f5e,
+        map: redDwarfMap,
+      })
     );
     group.add(starMesh);
 
@@ -1251,10 +1320,11 @@ export class ProceduralModels {
 
     for (let i = 0; i < 7; i++) {
       const orbitR = 0.82 + i * 0.24;
+      const isHabitable = i >= 3 && i <= 5;
       const ring = new THREE.Mesh(
         new THREE.RingGeometry(orbitR - 0.012, orbitR + 0.012, 48),
         new THREE.MeshBasicMaterial({
-          color: i >= 3 && i <= 5 ? 0x34d399 : 0xfda4af,
+          color: isHabitable ? 0x34d399 : 0xfda4af,
           side: THREE.DoubleSide,
           transparent: true,
           opacity: 0.32,
@@ -1266,9 +1336,13 @@ export class ProceduralModels {
 
       const pivot = new THREE.Group();
       pivot.rotation.y = i * 0.9;
+      const pMap = isHabitable ? habMap : rockyMap;
       const planetMesh = new THREE.Mesh(
         new THREE.SphereGeometry(0.11, 16, 16),
-        new THREE.MeshBasicMaterial({ color: planetColors[i] })
+        new THREE.MeshBasicMaterial({
+          color: planetColors[i],
+          map: pMap,
+        })
       );
       planetMesh.position.set(orbitR, 0, 0);
       pivot.add(planetMesh);
@@ -1280,6 +1354,7 @@ export class ProceduralModels {
     return {
       visualRoot: group,
       updateShaderTime: (elapsed: number) => {
+        starMesh.rotation.y = elapsed * 0.18;
         for (const p of planetPivots) {
           p.pivot.rotation.y = elapsed * p.speed;
         }
@@ -1288,7 +1363,7 @@ export class ProceduralModels {
   }
 
   /**
-   * 4. Exoplaneta 55 Cancri e: „Planeta de Lavă și Diamant” cu oceane incandescente de magmă.
+   * 4. Exoplaneta 55 Cancri e: „Planeta de Lavă și Diamant” cu harta 2K a oceanelor incandescente de magmă (Spitzer PIA20068).
    */
   private static createLavaExoplanetModel(mode: QualityMode): {
     visualRoot: THREE.Object3D;
@@ -1296,13 +1371,16 @@ export class ProceduralModels {
   } {
     const group = new THREE.Group();
     const segs = mode === 'eco' ? 24 : 48;
+    const lavaMap = mode === 'hd' ? this.loadDeepSpaceTexture('./textures/hd/cancri55e_lava.jpg') : null;
 
     const coreLava = new THREE.Mesh(
       new THREE.SphereGeometry(0.88, segs, segs),
       new THREE.MeshStandardMaterial({
-        color: 0x450a0a,
-        emissive: new THREE.Color(0xf97316),
-        emissiveIntensity: 0.85,
+        color: lavaMap ? 0xffffff : 0x450a0a,
+        map: lavaMap,
+        emissive: new THREE.Color(lavaMap ? 0xffffff : 0xf97316),
+        emissiveMap: lavaMap,
+        emissiveIntensity: lavaMap ? 0.95 : 0.85,
         roughness: 0.45,
         metalness: 0.25,
       })
@@ -1476,6 +1554,28 @@ export class ProceduralModels {
       })
     );
     group.add(nebulaPoints);
+
+    // Strat fotografic real NASA/ESA/JWST (Stâlpii Creației PIA25433 sau Nebuloasa Orion PIA08653) cu mascare radială fină
+    const nasaNebulaTex = this.loadDeepSpaceTexture(
+      isPillars ? './textures/nasa/pillars_of_creation.jpg' : './textures/nasa/orion_nebula.jpg'
+    );
+    const alphaMask = this.getSoftRadialAlphaMap();
+    if (nasaNebulaTex) {
+      const planeMat = new THREE.MeshBasicMaterial({
+        map: nasaNebulaTex,
+        alphaMap: alphaMask,
+        transparent: true,
+        opacity: 0.78,
+        blending: THREE.AdditiveBlending,
+        side: THREE.DoubleSide,
+        depthWrite: false,
+      });
+      const planeA = new THREE.Mesh(new THREE.PlaneGeometry(2.9, 2.9), planeMat);
+      const planeB = new THREE.Mesh(new THREE.PlaneGeometry(2.7, 2.7), planeMat);
+      planeB.rotation.y = Math.PI * 0.38;
+      group.add(planeA);
+      group.add(planeB);
+    }
 
     return {
       visualRoot: group,
@@ -1657,6 +1757,32 @@ export class ProceduralModels {
     }
     group.add(galaxyPoints);
 
+    // Disc galactic texturat cu imaginea oficială NASA/JPL Spitzer/GALEX (Calea Lactee PIA19341 / Andromeda PIA15416)
+    const galaxyTex = this.loadDeepSpaceTexture(
+      isMilkyWay ? './textures/nasa/milky_way.jpg' : './textures/nasa/andromeda.jpg'
+    );
+    const alphaMask = this.getSoftRadialAlphaMap();
+    let galaxyDiscMesh: THREE.Mesh | null = null;
+    if (galaxyTex) {
+      galaxyDiscMesh = new THREE.Mesh(
+        new THREE.PlaneGeometry(4.8, 4.8),
+        new THREE.MeshBasicMaterial({
+          map: galaxyTex,
+          alphaMap: alphaMask,
+          transparent: true,
+          opacity: 0.58,
+          blending: THREE.AdditiveBlending,
+          side: THREE.DoubleSide,
+          depthWrite: false,
+        })
+      );
+      galaxyDiscMesh.rotation.x = Math.PI * 0.5 + (isMilkyWay ? 0 : 0.42);
+      if (!isMilkyWay) {
+        galaxyDiscMesh.rotation.z = -0.25;
+      }
+      group.add(galaxyDiscMesh);
+    }
+
     // Pentru Calea Lactee, adăugăm inelul-reper în Brațul Orion (~la jumătatea razei)
     if (isMilkyWay) {
       const sunMarker = new THREE.Mesh(
@@ -1679,6 +1805,9 @@ export class ProceduralModels {
       visualRoot: group,
       updateShaderTime: (elapsed: number) => {
         galaxyPoints.rotation.y = elapsed * 0.022;
+        if (galaxyDiscMesh && isMilkyWay) {
+          galaxyDiscMesh.rotation.z = -elapsed * 0.022;
+        }
       },
     };
   }
