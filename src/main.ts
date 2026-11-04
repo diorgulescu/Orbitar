@@ -476,23 +476,33 @@ async function bootstrapOrbitar(): Promise<void> {
     }
   });
 
-  // Ajustare dinamică a variabilei CSS --hud-header-offset în funcție de înălțimea reală a barei superioare (.hud-header)
+  // Ajustare dinamică a variabilelor CSS --hud-header-offset și --hud-bottom-offset în funcție de înălțimea reală a barelor HUD
   const hudHeaderEl = document.querySelector('.hud-header') as HTMLElement | null;
+  const hudBottomDockEl = document.getElementById('hud-bottom-dock');
   const syncHeaderOffsetCssVar = (): void => {
-    if (!hudHeaderEl) return;
-    const rect = hudHeaderEl.getBoundingClientRect();
-    if (rect.height > 0) {
-      const offsetPx = Math.max(72, Math.ceil(rect.bottom + 10));
-      document.documentElement.style.setProperty('--hud-header-offset', `${offsetPx}px`);
+    if (hudHeaderEl) {
+      const rect = hudHeaderEl.getBoundingClientRect();
+      if (rect.height > 0) {
+        const offsetPx = Math.max(72, Math.ceil(rect.bottom + 10));
+        document.documentElement.style.setProperty('--hud-header-offset', `${offsetPx}px`);
+      }
+    }
+    if (hudBottomDockEl) {
+      const dockRect = hudBottomDockEl.getBoundingClientRect();
+      if (dockRect.height > 0) {
+        const bottomOffsetPx = Math.max(118, Math.ceil(window.innerHeight - dockRect.top + 10));
+        document.documentElement.style.setProperty('--hud-bottom-offset', `${bottomOffsetPx}px`);
+      }
     }
   };
   syncHeaderOffsetCssVar();
   window.addEventListener('resize', syncHeaderOffsetCssVar);
-  if (hudHeaderEl && 'ResizeObserver' in window) {
-    const headerRo = new ResizeObserver(() => {
+  if ('ResizeObserver' in window) {
+    const hudRo = new ResizeObserver(() => {
       syncHeaderOffsetCssVar();
     });
-    headerRo.observe(hudHeaderEl);
+    if (hudHeaderEl) hudRo.observe(hudHeaderEl);
+    if (hudBottomDockEl) hudRo.observe(hudBottomDockEl);
   }
 
   window.__orbitar = {

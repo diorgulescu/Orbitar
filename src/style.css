@@ -13,6 +13,7 @@
   --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   --hud-header-offset: 130px;
+  --hud-bottom-offset: 122px;
 }
 
 * {
@@ -622,7 +623,7 @@ body {
   position: fixed;
   top: var(--hud-header-offset, 130px);
   right: 12px;
-  bottom: 122px;
+  bottom: var(--hud-bottom-offset, 122px);
   width: 410px;
   max-width: calc(100vw - 24px);
   z-index: 1002;
@@ -929,7 +930,7 @@ body {
 .ruler-floating-panel {
   position: fixed;
   left: 12px;
-  bottom: 126px;
+  bottom: var(--hud-bottom-offset, 126px);
   width: 380px;
   max-width: calc(100vw - 24px);
   z-index: 22;
@@ -1026,17 +1027,23 @@ body {
 
 .dock-controls-bar {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: space-between;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+  overflow-x: auto;
 }
 
 .dock-group {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
-  gap: 7px;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+#btn-time-pause {
+  min-width: 92px;
 }
 
 .dock-slider-group {
@@ -1047,29 +1054,36 @@ body {
 .control-label {
   font-size: 0.74rem;
   color: var(--text-muted);
+  white-space: nowrap;
 }
 
 .hud-speed-slider {
-  width: 130px;
+  width: 104px;
   accent-color: var(--accent-cyan);
   cursor: pointer;
 }
 
 .speed-badge {
   font-family: var(--font-mono);
-  font-size: 0.74rem;
+  font-size: 0.73rem;
   padding: 3px 8px;
   border-radius: 6px;
   background: rgba(0, 240, 255, 0.12);
   color: var(--accent-cyan);
+  min-width: 114px;
+  text-align: center;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 .sim-date-readout {
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   color: var(--accent-amber);
   font-weight: 700;
   min-width: 145px;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 /* Fereastra modală GPLv3 */
