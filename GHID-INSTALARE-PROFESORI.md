@@ -52,13 +52,26 @@ Când proiectați Sistemul Solar în fața clasei, pe videoproiector sau pe o ta
 
 Toate materialele printabile din Orbitar sunt desenate în **alb-negru clar (format A4, Eco-Toner)**, fără fundaluri închise la culoare, astfel încât să consume cât mai puțină cerneală la imprimanta școlii și să poată fi colorate de copii cu creioane sau carioci:
 
-1. **Din bara de sus (sau de jos)**, apăsați pe butonul portocaliu/cyan **„🎨 Planșe de Colorat & Fișe”**.
+1. **Din bara de control de jos**, apăsați pe butonul portocaliu **„🎨 Planșe de Colorat & Fișe”**.
 2. În fereastra care se deschide puteți alege cu un singur click:
    - **🪐 Fișa de Studiu & Quiz A4 pentru orice planetă sau sondă:** conține căsuță pentru numele elevului și dată, tabelul cu informații pe înțelesul vârstei alese (*6–8 ani* sau *9–12 ani*), desenul mare de colorat și o întrebare grilă cu căsuțe de bifat cu creionul.
    - **🗺️ Harta Sistemului Solar de Colorat (A4 Landscape):** o planșă mare pe orizontală cu Soarele și toate cele 8 planete în ordine, perfectă pentru lucrul la clasă.
    - **📊 Tabelul Comparativ al Planetelor:** toate planetele pe o singură pagină de sinteză.
    - **🎓 Diploma de Explorator / Cadet Spațial Orbitar (A4 Landscape):** scrieți numele copilului (sau lăsați câmpul liber ca să-l completați de mână cu stiloul după imprimare), alegeți titlul (*Micul Explorator*, *Cadet Spațial Orbitar* sau *Comandant de Navă*) și apăsați **„🖨️ Printează Diploma A4”**!
 3. Puteți fie să trimiteți foaia direct la imprimantă, fie să alegeți **„Save as PDF / Salvează ca PDF”** din fereastra de imprimare ori **„⬇️ Descarcă SVG / PNG”** pentru a pune fișele pe un stick USB.
+
+---
+
+## 5. 🚀 Cum folosim mini-jocul „La Manșa Navei (Mod Pilot)” la lecția despre distanțe și viteza luminii
+
+În bara de sus a planetariului găsiți butonul **„🚀 Mod Pilot (La Manșă)”** (sau apăsați tasta **`P`** de pe tastatură):
+- Imaginea se transformă în **cabina de comandă a unei nave spațiale**, cu parbriz panoramic și etichete de Realitate Augmentată (AR) care arată distanța în timp real până la fiecare planetă.
+- Din consola de jos a cabinei, elevii pot alege o destinație (de exemplu *Marte*, *Jupiter* sau *Neptun*) și pot apăsa pe **„⚡ Zboară Aici!”** (Pilot Automat) sau pot pilota liber nava cu tastele **`W / A / S / D`** și săgețile.
+- **Experiment didactic la clasă cu cele 3 nave spațiale:**
+  1. **🚀 Racheta „Vlaicu-1” (`50.000 km/h` — propulsie chimică):** arată cât durează călătoria cu rachetele din zilele noastre (~5 luni până la Marte, ~10 ani până la Neptun pe *Ceasul Pământesc de la Bord*).
+  2. **⚡ Sonda „Coandă-X” (`1.500.000 km/h` — propulsie ionică & fuziune):** arată cum motoarele viitorului scurtează drumul până la Marte la ~2 zile.
+  3. **✨ Nava „Luceafărul” (Viteza Luminii `1c` — `1.079.252.848 km/h`):** elevii văd că până și la viteza luminii — cea mai mare viteză din Univers — ne ia ~8 minute de la Soare la Pământ și peste 4 ore până la Neptun!
+- La traversarea Centurii de Asteroizi sau a Centurii Kuiper se aprind automat **Scuturile Deflectoare**, iar la sosirea pe orbita planetei, **Calculatorul de Bord Vorbitor** prezintă cu voce tare raportul științific al destinației!
 
 ---
 

@@ -47,6 +47,7 @@ const PHONETIC_DICTIONARY: ReadonlyArray<{ pattern: RegExp; replacement: string 
 export function stripEmojisAndDecorativeSymbols(input: string): string {
   return input
     .replace(
+      // biome-ignore lint/suspicious/noMisleadingCharacterClass: intervalul de simboluri/emoji (inclusiv ZWJ) este intenționat pentru eliminarea emoji-urilor
       /[\p{Extended_Pictographic}\p{Emoji_Presentation}\uFE0E\uFE0F\u200D\u2600-\u27BF]/gu,
       ' '
     )

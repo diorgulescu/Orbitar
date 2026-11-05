@@ -227,6 +227,10 @@ export class SceneManager {
     this.stop();
     window.removeEventListener('resize', this.handleResize);
     this.controls.dispose();
+    this.starfield.geometry.dispose();
+    const starMat = this.starfield.material as THREE.PointsMaterial;
+    starMat.map?.dispose();
+    starMat.dispose();
     this.renderer.dispose();
   }
 }

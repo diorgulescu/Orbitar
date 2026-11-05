@@ -6,14 +6,20 @@
   "author": "Dragoş Iorgulescu <32508790+diorgulescu@users.noreply.github.com>",
   "contributors": [
     "Dragoş Iorgulescu <32508790+diorgulescu@users.noreply.github.com>",
-    "Google Antigravity (Gemini) <176961590+gemini-code-assist[bot]@users.noreply.github.com>"
+    "Google Antigravity (Gemini) <176961590+gemini-code-assist[bot]@users.noreply.github.com>",
+    "Mistral Vibe <vibe@mistral.ai>"
   ],
   "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "dev": "vite",
     "test": "node scripts/run-tests.mjs",
+    "lint": "biome lint src tests scripts public vite.config.ts",
+    "test:smoke": "node scripts/smoke-test.mjs",
     "build": "tsc && vite build",
-    "build:landing": "rm -rf dist-landing && mkdir -p dist-landing && cp -R landing/. dist-landing/",
+    "build:landing": "rm -rf dist-landing && mkdir -p dist-landing && cp -R landing/. dist-landing/ && cp GHID-INSTALARE-PROFESORI.md dist-landing/",
     "build:all": "npm run build && npm run build:landing",
     "preview": "vite preview",
     "tauri": "tauri",
@@ -30,8 +36,10 @@
     "three": "^0.170.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.6.5",
     "@tauri-apps/cli": "^2.1.0",
     "@types/three": "^0.170.0",
+    "playwright-core": "^1.64.1",
     "typescript": "^5.6.3",
     "vite": "^5.4.11"
   }

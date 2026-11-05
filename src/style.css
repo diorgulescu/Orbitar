@@ -68,6 +68,10 @@ body {
 
 .celestial-label {
   position: absolute;
+  /* Poziționarea efectivă se face din JS prin `transform: translate3d(x, y, 0) translate(-50%, -140%)`,
+     doar când coordonatele se schimbă — evităm layout-ul declanșat de left/top la fiecare cadru. */
+  left: 0;
+  top: 0;
   transform: translate(-50%, -140%);
   padding: 4px 10px;
   border-radius: 999px;
@@ -197,6 +201,16 @@ body {
 .loading-status {
   font-size: 0.8rem;
   color: var(--text-muted);
+}
+
+/* Stare de eroare la bootstrap: mesaj vizibil în locul ecranului de încărcare blocat */
+.loading-status.is-error {
+  color: #ff6b81;
+  font-weight: 600;
+}
+
+.loading-bar-fill.is-error {
+  background: linear-gradient(90deg, #ff6b81, var(--accent-amber));
 }
 
 /* Carduri de bază Bento Dark Mode (sticlă mată) */

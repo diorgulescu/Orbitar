@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: GPL-3.0-or-later // SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: GPL-3.0-or-later
 #!/usr/bin/env bash
 # ==============================================================================
 # Orbitar — Script de descărcare și pregătire a texturilor planetare 2K Open-Source

@@ -1,17 +1,25 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-const CACHE_NAME = 'orbitar-pwa-v2.4.0';
+// Versiunea cache-ului este definită o singură dată în ./app-version.js (partajată și de index.html).
+importScripts('./app-version.js');
+
+const CACHE_NAME = self.ORBITAR_CACHE_NAME;
 const PRECACHE_ASSETS = [
   './',
   './index.html',
+  './app-version.js',
   './manifest.webmanifest',
   './icons/orbitar-icon.svg',
   './data/solar-system-ro.json',
   './data/missions-ro.json',
+  './data/deep-space-ro.json',
   './data/tle-iss.json',
-  './data/bodies.json',
   './audio/salut-voyager-ro.ogg',
 ];
+
+// Notă: cele 100 de fișiere TTS (~29 MB din public/audio/tts/) NU sunt pre-cachuite la instalare —
+// sunt salvate automat în cache la prima redare online (vezi handler-ul fetch de mai jos).
+// În scenariul complet offline de la prima utilizare, SpeechManager revine la sinteza vocală ro-RO.
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();

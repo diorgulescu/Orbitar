@@ -419,9 +419,6 @@ function generateSaturnRingsRgbaIfNeeded() {
       alpha = 0.52;
     }
 
-    const cr = clampByte(r);
-    const cg = clampByte(g);
-    const cb = clampByte(b);
     const ca = clampByte(alpha * 255);
 
     for (let y = 0; y < rh; y++) {

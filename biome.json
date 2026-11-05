@@ -1,0 +1,77 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.6.5/schema.json",
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true
+	},
+	"files": {
+		"includes": [
+			"src/**",
+			"tests/**",
+			"scripts/**",
+			"public/**/*.js",
+			"vite.config.ts"
+		]
+	},
+	"formatter": {
+		"enabled": false
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"preset": "none",
+			"correctness": {
+				"preset": "recommended",
+				"noUnusedVariables": "error",
+				"noUnusedImports": "error"
+			},
+			"suspicious": {
+				"preset": "recommended",
+				"noExplicitAny": "off"
+			},
+			"security": {
+				"preset": "recommended"
+			},
+			"performance": {
+				"preset": "recommended"
+			},
+			"style": {
+				"preset": "none"
+			},
+			"complexity": {
+				"preset": "none"
+			}
+		}
+	},
+	"javascript": {
+		"globals": ["ORBITAR_CACHE_NAME"]
+	},
+	"overrides": [
+		{
+			"includes": ["public/sw.js", "public/app-version.js"],
+			"javascript": {
+				"globals": [
+					"ORBITAR_CACHE_NAME",
+					"self",
+					"caches",
+					"clients",
+					"fetch",
+					"URL",
+					"importScripts"
+				]
+			}
+		},
+		{
+			"includes": ["tests/setup/**"],
+			"linter": {
+				"rules": {
+					"suspicious": {
+						"noAssignInExpressions": "off",
+						"useIterableCallbackReturn": "off"
+					}
+				}
+			}
+		}
+	]
+}

@@ -9,13 +9,15 @@
     <link rel="icon" type="image/svg+xml" href="./icons/orbitar-icon.svg" />
     <link rel="apple-touch-icon" href="./icons/orbitar-icon.svg" />
     <title>Orbitar — Planetariu Didactic Interactiv</title>
+    <!-- Versiunea cache-ului PWA, partajată cu sw.js (sursă unică în public/app-version.js) -->
+    <script src="./app-version.js"></script>
     <script>
       (function () {
         try {
           if ("caches" in window) {
             caches.keys().then(function (keys) {
               for (var i = 0; i < keys.length; i++) {
-                if (keys[i] !== "orbitar-pwa-v2.4.0") {
+                if (keys[i] !== ORBITAR_CACHE_NAME) {
                   caches.delete(keys[i]);
                 }
               }

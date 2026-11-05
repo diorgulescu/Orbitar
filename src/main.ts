@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-import * as THREE from 'three';
 import { SceneManager } from './core/SceneManager';
 import { ScaleManager } from './core/ScaleManager';
 import { CelestialBodyInstance, OrbitalEngine } from './core/OrbitalEngine';
@@ -18,6 +17,8 @@ import { PrintManager } from './ui/PrintManager';
 import { SpacecraftPilot } from './game/SpacecraftPilot';
 import { CockpitHUD } from './ui/CockpitHUD';
 import { CosmicScaleNavigator } from './core/CosmicScaleNavigator';
+import { LabelProjector } from './ui/LabelProjector';
+import { ToolbarControls } from './ui/ToolbarControls';
 
 interface OrbitarGlobalDebug {
   sceneManager: SceneManager;
@@ -36,6 +37,8 @@ interface OrbitarGlobalDebug {
   printManager: PrintManager;
   spacecraftPilot: SpacecraftPilot;
   cockpitHud: CockpitHUD;
+  toolbar: ToolbarControls;
+  labelProjector: LabelProjector;
 }
 
 declare global {
@@ -66,6 +69,7 @@ async function bootstrapOrbitar(): Promise<void> {
 
   const sceneManager = new SceneManager(canvasContainer);
   sceneManager.applyQualityProfile(qualityManager.getMode());
+  const ambientEngine = SpaceAmbientEngine.getInstance();
   const scaleManager = new ScaleManager('didactic');
   const orbitalEngine = new OrbitalEngine(sceneManager.scene, scaleManager, new Date());
   const cameraController = new CameraController(
@@ -157,14 +161,20 @@ async function bootstrapOrbitar(): Promise<void> {
           matchesLayerFilter(body.data.category, filter);
         pill.style.display = visible ? 'inline-flex' : 'none';
       }
-      const lbl = labelElements.get(body.data.id);
-      if (lbl && bodyHorizon !== activeHorizon) {
-        lbl.style.display = 'none';
-      }
     }
   };
 
   applyLayerFilter('all');
+
+  // Proiecția etichetelor 2D este centralizată în LabelProjector: doar `transform` (fără layout),
+  // iar vizibilitatea pe orizont este evaluată aici, în bucla de randare, ca unică sursă de adevăr.
+  const labelProjector = new LabelProjector({
+    labels: labelElements,
+    getBodies: () => orbitalEngine.getAllBodies(),
+    getActiveHorizon: () => orbitalEngine.getActiveHorizon(),
+    getTrackedId: () => cameraController.getTrackedBody()?.data.id,
+    getLayerFilter: () => activeLayerFilter,
+  });
 
   const orbitarMissions = new OrbitarMissions(orbitalEngine, (bodyId) => {
     focusBodyAcrossHorizons(bodyId);
@@ -224,6 +234,15 @@ async function bootstrapOrbitar(): Promise<void> {
     cameraController
   );
 
+  // Bara de controale din antet: calitate Eco/HD, fullscreen F11, muzică ambientală, Mod Pilot,
+  // toast-uri și scurtăturile de tastatură (Q / F11 / P / M) — extrase în src/ui/ToolbarControls.ts
+  const toolbar = new ToolbarControls({
+    qualityManager,
+    ambientEngine,
+    spacecraftPilot,
+    studyDrawer,
+  });
+
   const cockpitHud = new CockpitHUD(
     sceneManager.camera,
     orbitalEngine,
@@ -233,7 +252,7 @@ async function bootstrapOrbitar(): Promise<void> {
         studyDrawer.showBody(body);
       },
       onExitPilotMode: () => {
-        syncPilotToggleUI(false);
+        toolbar.syncPilotToggleUI(false);
       },
     }
   );
@@ -255,7 +274,7 @@ async function bootstrapOrbitar(): Promise<void> {
         : newHorizon === 'galactic'
         ? '🌀 Orizont Galactic activat: Calea Lactee, Nebuloase & Galaxia Andromeda'
         : '☀️ Orizont Sistemul Solar activat (Acasă)';
-    showQualityToast(horizonToast);
+    toolbar.showToast(horizonToast);
   });
 
   studyDrawer.setPrintHandlers({
@@ -356,297 +375,11 @@ async function bootstrapOrbitar(): Promise<void> {
 
   cameraController.resetToOverview();
 
-  // Comutator Grafică (#orbitar-quality-toggle): Rapidă (Eco) <-> Realistă HD + Tasta Q + Watchdog FPS
-  let btnQualityToggle = document.getElementById('orbitar-quality-toggle') as HTMLButtonElement | null;
-  if (!btnQualityToggle) {
-    btnQualityToggle = document.createElement('button');
-    btnQualityToggle.id = 'orbitar-quality-toggle';
-    btnQualityToggle.type = 'button';
-    btnQualityToggle.className = 'hud-btn quality-pill-switch';
-    const btnCadet = document.getElementById('btn-tier-cadet');
-    const tierContainer = document.querySelector('.header-tier-switch') ?? document.querySelector('.hud-header');
-    if (btnCadet && btnCadet.parentElement) {
-      btnCadet.insertAdjacentElement('afterend', btnQualityToggle);
-    } else if (tierContainer) {
-      tierContainer.appendChild(btnQualityToggle);
-    } else {
-      document.body.appendChild(btnQualityToggle);
-    }
-  }
-
-  let qualityToastEl = document.getElementById('hud-quality-toast');
-  if (!qualityToastEl) {
-    qualityToastEl = document.createElement('div');
-    qualityToastEl.id = 'hud-quality-toast';
-    qualityToastEl.className = 'bento-card quality-toast is-hidden';
-    qualityToastEl.setAttribute('role', 'status');
-    qualityToastEl.setAttribute('aria-live', 'polite');
-    document.body.appendChild(qualityToastEl);
-  }
-
-  let toastTimeoutId: number | null = null;
-
-  const showQualityToast = (messageRo: string): void => {
-    if (!qualityToastEl) return;
-    qualityToastEl.textContent = messageRo;
-    qualityToastEl.classList.remove('is-hidden');
-    if (toastTimeoutId !== null) {
-      window.clearTimeout(toastTimeoutId);
-    }
-    toastTimeoutId = window.setTimeout(() => {
-      qualityToastEl?.classList.add('is-hidden');
-    }, 3600);
-  };
-
-  const syncQualityButtonUI = (): void => {
-    if (!btnQualityToggle) return;
-    const profile = qualityManager.getProfile();
-    btnQualityToggle.textContent =
-      profile.mode === 'eco' ? '⚡ Eco' : '✨ HD';
-    btnQualityToggle.title = `${profile.tooltipRo} (Scurtătură: Tasta Q)`;
-    btnQualityToggle.dataset.qualityMode = profile.mode;
-    btnQualityToggle.classList.toggle('is-eco', profile.mode === 'eco');
-    btnQualityToggle.classList.toggle('is-hd', profile.mode === 'hd');
-  };
-
-  syncQualityButtonUI();
-
-  btnQualityToggle.addEventListener('click', () => {
-    qualityManager.toggleMode();
-  });
-
-  // Buton Ecran Complet (#orbitar-fullscreen-toggle — ⛶ F11) pentru proiecția la clasă / Tauri Desktop
-  let btnFullscreenToggle = document.getElementById(
-    'orbitar-fullscreen-toggle'
-  ) as HTMLButtonElement | null;
-  if (!btnFullscreenToggle) {
-    btnFullscreenToggle = document.createElement('button');
-    btnFullscreenToggle.id = 'orbitar-fullscreen-toggle';
-    btnFullscreenToggle.type = 'button';
-    btnFullscreenToggle.className = 'hud-btn fullscreen-pill-btn';
-    btnFullscreenToggle.setAttribute('aria-pressed', 'false');
-    btnFullscreenToggle.title =
-      'Mod Proiecție la Clasă pe tot ecranul pentru videoproiector sau tablă interactivă (Tasta F11)';
-    btnFullscreenToggle.textContent = '⛶ F11';
-    btnQualityToggle.insertAdjacentElement('afterend', btnFullscreenToggle);
-  }
-
-  let isTauriFullscreen = false;
-
-  const syncFullscreenUI = (active: boolean): void => {
-    if (!btnFullscreenToggle) return;
-    btnFullscreenToggle.classList.toggle('is-fullscreen', active);
-    btnFullscreenToggle.setAttribute('aria-pressed', active ? 'true' : 'false');
-    btnFullscreenToggle.textContent = active ? '🗗 Ieșire F11' : '⛶ F11';
-  };
-
-  const toggleOrbitarFullscreen = async (): Promise<void> => {
-    const tauriWindow = window as unknown as {
-      __TAURI_INTERNALS__?: { invoke?: (cmd: string) => Promise<boolean> };
-      __TAURI__?: { core?: { invoke?: (cmd: string) => Promise<boolean> } };
-    };
-    const tauriInvoke =
-      tauriWindow.__TAURI_INTERNALS__?.invoke ?? tauriWindow.__TAURI__?.core?.invoke;
-
-    if (typeof tauriInvoke === 'function') {
-      try {
-        isTauriFullscreen = await tauriInvoke('toggle_fullscreen');
-        syncFullscreenUI(isTauriFullscreen);
-        showQualityToast(
-          isTauriFullscreen
-            ? '🖥️ Mod Proiecție la Clasă: Ecran Complet Activat (F11)'
-            : '🗗 Mod Fereastră Normală (F11)'
-        );
-        return;
-      } catch (_e) {
-        // Fallback la API-ul Fullscreen standard din browser
-      }
-    }
-
-    try {
-      if (!document.fullscreenElement) {
-        await document.documentElement.requestFullscreen();
-        syncFullscreenUI(true);
-        showQualityToast('🖥️ Mod Proiecție la Clasă: Ecran Complet Activat (F11)');
-      } else {
-        await document.exitFullscreen();
-        syncFullscreenUI(false);
-        showQualityToast('🗗 Mod Fereastră Normală (F11)');
-      }
-    } catch (_e) {
-      // Unele medii restricționează requestFullscreen
-    }
-  };
-
-  btnFullscreenToggle.addEventListener('click', () => {
-    toggleOrbitarFullscreen();
-  });
-
-  document.addEventListener('fullscreenchange', () => {
-    syncFullscreenUI(Boolean(document.fullscreenElement));
-  });
-
-  // Modulul de Muzică Ambientală Generativă (#orbitar-audio-controls) + Tasta M
-  const ambientEngine = SpaceAmbientEngine.getInstance();
-  let audioControlsEl = document.getElementById('orbitar-audio-controls');
-  if (!audioControlsEl) {
-    audioControlsEl = document.createElement('div');
-    audioControlsEl.id = 'orbitar-audio-controls';
-    audioControlsEl.className = 'ambient-audio-controls';
-    audioControlsEl.innerHTML = `
-      <button id="orbitar-audio-toggle" type="button" class="hud-btn ambient-toggle-btn is-off" aria-pressed="false">
-        <span class="ambient-wave" aria-hidden="true"><i></i><i></i><i></i></span>
-        <span id="orbitar-audio-label">🔇 Ambiental</span>
-      </button>
-      <input id="orbitar-audio-volume" class="ambient-volume-slider" type="range" min="0" max="100" step="1" value="35" aria-label="Volum muzică ambientală" />
-      <span id="orbitar-audio-volume-label" class="ambient-volume-readout">35%</span>
-    `;
-    btnQualityToggle.insertAdjacentElement('afterend', audioControlsEl);
-  }
-
-  const btnAudioToggle = document.getElementById('orbitar-audio-toggle') as HTMLButtonElement | null;
-  const audioLabelEl = document.getElementById('orbitar-audio-label');
-  const audioVolumeSlider = document.getElementById('orbitar-audio-volume') as HTMLInputElement | null;
-  const audioVolumeLabel = document.getElementById('orbitar-audio-volume-label');
-
-  const syncAmbientAudioUI = (): void => {
-    const enabled = ambientEngine.isEnabled();
-    const vol = ambientEngine.getVolumePercent();
-    if (btnAudioToggle) {
-      btnAudioToggle.classList.toggle('is-on', enabled);
-      btnAudioToggle.classList.toggle('is-off', !enabled);
-      btnAudioToggle.setAttribute('aria-pressed', enabled ? 'true' : 'false');
-    }
-    if (audioLabelEl) {
-      audioLabelEl.textContent = enabled ? '🎵 Ambiental' : '🔇 Ambiental';
-    }
-    if (audioVolumeSlider && document.activeElement !== audioVolumeSlider) {
-      audioVolumeSlider.value = String(vol);
-      audioVolumeSlider.title = `Volum muzică ambientală: ${vol}%`;
-    }
-    if (audioVolumeLabel) {
-      audioVolumeLabel.textContent = `${vol}%`;
-    }
-  };
-
-  syncAmbientAudioUI();
-  ambientEngine.onChange(() => {
-    syncAmbientAudioUI();
-  });
-
-  btnAudioToggle?.addEventListener('click', () => {
-    const nowEnabled = ambientEngine.toggle();
-    showQualityToast(
-      nowEnabled
-        ? `🎵 Muzică ambientală cosmică: Pornită (${ambientEngine.getVolumePercent()}%)`
-        : '🔇 Muzică ambientală cosmică: Oprită'
-    );
-  });
-
-  audioVolumeSlider?.addEventListener('input', () => {
-    const val = Number(audioVolumeSlider.value);
-    ambientEngine.setVolumePercent(val);
-    if (audioVolumeLabel) {
-      audioVolumeLabel.textContent = `${ambientEngine.getVolumePercent()}%`;
-    }
-  });
-
-  // Butonul "🚀 Mod Pilot (La Manșă)" (#btn-pilot-mode-toggle) + Tasta rapidă P
-  let btnPilotToggle = document.getElementById('btn-pilot-mode-toggle') as HTMLButtonElement | null;
-  if (!btnPilotToggle) {
-    btnPilotToggle = document.createElement('button');
-    btnPilotToggle.id = 'btn-pilot-mode-toggle';
-    btnPilotToggle.type = 'button';
-    btnPilotToggle.className = 'hud-btn hud-btn-pilot';
-    btnPilotToggle.setAttribute('aria-pressed', 'false');
-    btnPilotToggle.title =
-      'Activează mini-jocul La Manșa Navei — pilotează 3 nave spațiale la persoana întâi prin Sistemul Solar (Tasta rapidă: P)';
-    btnPilotToggle.textContent = '🚀 Mod Pilot';
-    audioControlsEl.insertAdjacentElement('afterend', btnPilotToggle);
-  }
-
-  const syncPilotToggleUI = (active: boolean): void => {
-    if (!btnPilotToggle) return;
-    btnPilotToggle.classList.toggle('is-active', active);
-    btnPilotToggle.classList.toggle('hud-btn-active-amber', active);
-    btnPilotToggle.setAttribute('aria-pressed', active ? 'true' : 'false');
-    btnPilotToggle.textContent = active
-      ? '🗗 Ieși Pilot (P)'
-      : '🚀 Mod Pilot';
-
-    if (active) {
-      studyDrawer.stopSpeech();
-      document.getElementById('hud-study-drawer')?.classList.add('is-collapsed');
-    }
-  };
-
-  spacecraftPilot.onModeChange((active) => {
-    syncPilotToggleUI(active);
-  });
-
-  btnPilotToggle.addEventListener('click', () => {
-    const nowActive = spacecraftPilot.togglePilotMode();
-    showQualityToast(
-      nowActive
-        ? `🚀 La Manșa Navei activat! Nava curentă: ${spacecraftPilot.getCurrentShip().shortNameRo}`
-        : '🌌 Ai revenit la vederea orbitală a planetariului Orbitar'
-    );
-  });
-
-  // Scurtături de tastatură: Tasta P (Mod Pilot), Tasta Q (Quality în afara Modului Pilot) și Tasta M (Mute / Unmute Muzică Ambientală)
-  window.addEventListener('keydown', (e) => {
-    if (e.ctrlKey || e.metaKey || e.altKey) return;
-    const target = e.target as HTMLElement | null;
-    if (
-      target &&
-      (target.tagName === 'INPUT' ||
-        target.tagName === 'TEXTAREA' ||
-        target.tagName === 'SELECT' ||
-        target.isContentEditable)
-    ) {
-      return;
-    }
-    if (e.key === 'F11' || e.code === 'F11') {
-      e.preventDefault();
-      toggleOrbitarFullscreen();
-      return;
-    }
-    if (e.key === 'p' || e.key === 'P' || e.code === 'KeyP') {
-      e.preventDefault();
-      const nowActive = spacecraftPilot.togglePilotMode();
-      showQualityToast(
-        nowActive
-          ? `🚀 La Manșa Navei activat! Nava curentă: ${spacecraftPilot.getCurrentShip().shortNameRo}`
-          : '🌌 Ai revenit la vederea orbitală a planetariului Orbitar'
-      );
-      return;
-    }
-    // În Modul Pilot, tasta Q este folosită pentru înclinarea navei (Roll Left)
-    if (!spacecraftPilot.isActive() && (e.key === 'q' || e.key === 'Q' || e.code === 'KeyQ')) {
-      e.preventDefault();
-      qualityManager.toggleMode();
-    } else if (e.key === 'm' || e.key === 'M' || e.code === 'KeyM') {
-      e.preventDefault();
-      const nowEnabled = ambientEngine.toggle();
-      showQualityToast(
-        nowEnabled
-          ? `🎵 Muzică ambientală cosmică: Pornită (${ambientEngine.getVolumePercent()}%)`
-          : '🔇 Muzică ambientală cosmică: Oprită'
-      );
-    }
-  });
-
-  qualityManager.onChange((newMode, isAutoFallback) => {
+  // La schimbarea modului grafic, doar re-aplicăm profilul pe scenă și pe corpuri;
+  // butonul și toast-urile sunt gestionate de ToolbarControls (înregistrat mai sus).
+  qualityManager.onChange((newMode) => {
     sceneManager.applyQualityProfile(newMode);
     orbitalEngine.applyQualityMode(newMode);
-    syncQualityButtonUI();
-    if (isAutoFallback) {
-      showQualityToast('Am activat Modul Rapid pentru ca Orbitar să se miște lin pe dispozitivul tău!');
-    } else if (newMode === 'eco') {
-      showQualityToast('Mod Grafic activat: Rapid (Eco)');
-    } else {
-      showQualityToast('Mod Grafic activat: Realist HD (Texturi 2K)');
-    }
   });
 
   // Ajustare dinamică a variabilelor CSS --hud-header-offset și --hud-bottom-offset în funcție de înălțimea reală a barelor HUD
@@ -695,10 +428,11 @@ async function bootstrapOrbitar(): Promise<void> {
     printManager,
     spacecraftPilot,
     cockpitHud,
+    toolbar,
+    labelProjector,
   };
 
   // 5. Bucla de actualizare per cadru
-  const tempProj = new THREE.Vector3();
   let elapsedCosmicSeconds = 0;
 
   sceneManager.onUpdate((deltaSeconds) => {
@@ -721,53 +455,8 @@ async function bootstrapOrbitar(): Promise<void> {
     studyDrawer.updateLiveDistance(tracked);
     surfaceMarkers.update(sceneManager.camera, tracked);
 
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-    const trackedId = tracked?.data.id;
-    const activeHorizon = orbitalEngine.getActiveHorizon();
-
-    for (const body of orbitalEngine.getAllBodies()) {
-      const labelEl = labelElements.get(body.data.id);
-      if (!labelEl) continue;
-
-      const bodyHorizon = body.data.horizon ?? 'solar';
-      if (
-        bodyHorizon !== activeHorizon ||
-        !body.rootGroup.visible ||
-        body.data.category === 'rover'
-      ) {
-        labelEl.style.display = 'none';
-        continue;
-      }
-
-      if (body.data.parentId && body.data.id !== trackedId && body.data.parentId !== trackedId) {
-        const distToCam = sceneManager.camera.position.distanceTo(body.worldPosition);
-        if (distToCam > 55 && activeLayerFilter === 'all') {
-          labelEl.style.display = 'none';
-          continue;
-        }
-      }
-
-      tempProj.copy(body.worldPosition);
-      tempProj.y += body.visualRadius * 1.25;
-      tempProj.project(sceneManager.camera);
-
-      if (tempProj.z < -1 || tempProj.z > 1) {
-        labelEl.style.display = 'none';
-        continue;
-      }
-
-      const x = (tempProj.x * 0.5 + 0.5) * width;
-      const y = (-tempProj.y * 0.5 + 0.5) * height;
-
-      if (x < -80 || x > width + 80 || y < -40 || y > height + 40) {
-        labelEl.style.display = 'none';
-      } else {
-        labelEl.style.display = 'block';
-        labelEl.style.left = `${x.toFixed(1)}px`;
-        labelEl.style.top = `${y.toFixed(1)}px`;
-      }
-    }
+    // Proiecția etichetelor 2D (doar `transform`, fără layout) — vezi src/ui/LabelProjector.ts
+    labelProjector.update(sceneManager.camera);
   });
 
   sceneManager.start();
@@ -781,6 +470,14 @@ async function bootstrapOrbitar(): Promise<void> {
 
 bootstrapOrbitar().catch((err) => {
   console.error('Eroare la inițializarea planetariului Orbitar:', err);
+  // Afișăm eroarea în ecranul de încărcare în loc să lăsăm bara blocată — altfel utilizatorul nu înțelege ce s-a întâmplat
+  const statusEl = document.getElementById('loading-status');
+  if (statusEl) {
+    statusEl.textContent =
+      'A apărut o eroare la încărcarea planetariului. Reîncărcați pagina (Ctrl+R / Cmd+R) — dacă problema persistă, verificați conexiunea la internet.';
+    statusEl.classList.add('is-error');
+  }
+  document.getElementById('loading-bar-fill')?.classList.add('is-error');
 });
 
 // Înregistrăm Service Worker-ul în producție; în dev local (localhost/127.0.0.1) dezactivăm SW-urile vechi

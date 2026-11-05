@@ -38,8 +38,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Lint (Biome)
+        run: npm run lint
+
       - name: Run Automated Unit & Functional Test Suite
         run: npm test
 
       - name: Verify Production TypeScript & Vite Bundle Build
         run: npm run build
+
+      - name: Browser smoke test (headless Chrome împotriva build-ului de producție)
+        run: npm run test:smoke

@@ -3,7 +3,7 @@
 [![Licență: GPL v3](https://img.shields.io/badge/Licen%C8%9B%C4%83-GPLv3-00f0ff.svg)](./LICENSE)
 [![Limba: Română](https://img.shields.io/badge/Limba-Rom%C3%A2n%C4%83%20(6--12%20ani)-ffb703.svg)](#)
 [![100% Offline PWA & Desktop](https://img.shields.io/badge/PWA%20%26%20Desktop-100%25%20Offline%20%26%20Zero%20Telemetrie-22c55e.svg)](#)
-[![Teste Automate CI](https://img.shields.io/badge/Teste%20Automate-40%20Unit%20%26%20Functional%20(GitHub%20Actions)-00f0ff.svg)](./.github/workflows/ci-tests.yml) [![Release Orbitar Desktop (Windows, macOS, Linux)](https://github.com/diorgulescu/Orbitar/actions/workflows/release-desktop.yml/badge.svg)](https://github.com/diorgulescu/Orbitar/actions/workflows/release-desktop.yml)
+[![Teste Automate CI](https://img.shields.io/badge/Teste%20Automate-44%20Unit%20%26%20Functional%20(GitHub%20Actions)-00f0ff.svg)](./.github/workflows/ci-tests.yml) [![Release Orbitar Desktop (Windows, macOS, Linux)](https://github.com/diorgulescu/Orbitar/actions/workflows/release-desktop.yml/badge.svg)](https://github.com/diorgulescu/Orbitar/actions/workflows/release-desktop.yml)
 
 **Orbitar** este un planetariu didactic interactiv 3D în limba română, conceput special pentru copiii cu vârste între **6 și 12 ani**, pentru orele de științe de la școală (la videoproiector sau tablă interactivă) și pentru explorare acasă pe tabletă, laptop sau PC.
 
@@ -171,15 +171,18 @@ Aplicația va porni la adresa `http://localhost:5173/` (sau `http://127.0.0.1:51
 
 ### 3. Rularea suitei de teste automate (Unitare & Funcționale)
 ```bash
-npm test
+npm test            # 44 de teste în 14 suite (node:test + DOM shim, cross-platform)
+npm run lint        # Lint Biome (correctness/suspicious/security/performance) pe src, tests, scripts, public
+npm run test:smoke  # Smoke test în browser real (Chromium headless via playwright-core, după `npm run build`)
 ```
-Suita execută **40 de teste automate grupate în 13 suite** (`tests/unit/` și `tests/functional/` prin runner-ul cross-platform `scripts/run-tests.mjs`), rulată automat și în **GitHub Actions** (`.github/workflows/ci-tests.yml`, `deploy.yml` și `release-desktop.yml`):
+Suita execută **44 de teste automate grupate în 14 suite** (`tests/unit/` și `tests/functional/` prin runner-ul cross-platform `scripts/run-tests.mjs`), rulată automat și în **GitHub Actions** (`.github/workflows/ci-tests.yml`, `deploy.yml` și `release-desktop.yml`), împreună cu lint-ul Biome, build-ul de producție și smoke test-ul în browser:
 - **`ScaleManager` & `QualityManager`:** transformări de scară Didactică/Reală, detecție hardware HD/Eco și Watchdog FPS;
 - **`OrbitalEngine`, `CosmicScaleNavigator` & `ISSTracker`:** efemeride 3D, propagare SGP4 (`satellite.js`), ancorarea roverelor marțiene pe suprafața rotitoare a lui Marte, orbita L2 pentru JWST/Euclid, filtrele pe categorii și tranziția 3D între cele 3 orizonturi cosmice (*Sistemul Solar, Stele și exoplanete, Calea Lactee și galaxii*);
 - **`PlanetMaterialFactory` & `ProceduralModels`:** suport Logarithmic Depth Buffer în shaderele GLSL, Radarul Magellan pe Venus, modelele PBR HD (JWST cu 18 segmente hexagonale, ISS, Hubble, Voyager, galaxii spirale, găuri negre și nebuloase) și centurile `THREE.InstancedMesh`;
 - **`SpacecraftPilot` & `CockpitHUD`:** cele 3 nave spațiale (*Vlaicu-1, Coandă-X, Luceafărul*), fizica timpului pe ceasul pământesc, **Saltul Hiperspațial (`⚡ Salt Hiperspațial`)** către stele și galaxii și raportul Calculatorului de Bord la sosire;
 - **`RomanianSpeechNormalizer` & `SpeechManager`:** normalizarea numerelor cu separator de mii, a temperaturilor negative și a termenilor astronomici + verificarea celor 100 de fișiere MP3 neurale pre-generate;
 - **`SpaceAmbientEngine`, `ColoringSvgGenerator` & `DiplomaGenerator`:** sintetizatorul Web Audio API, planșele SVG alb-negru A4 (inclusiv pentru exoplanete, găuri negre și galaxii) și diplomele personalizate;
+- **`LabelProjector`:** proiecția optimizată a etichetelor 2D (doar `translate3d`, fără layout per frame; scrieri DOM doar la schimbare; vizibilitatea pe orizont centralizată);
 - **`SurfaceMarkers`, `CameraController`, `StudyDrawer`, `OrbitarLab`, `HeaderHud`, `BottomDock`, `LightSpeedRuler`, `OrbitarMissions`, `PrintManager` & `LicenseModal`:** teste funcționale de integrare UI/DOM/3D;
 - **Integritatea proiectului, Tauri v2 & Conformitate GPLv3:** verificarea antetului `SPDX-License-Identifier: GPL-3.0-or-later` pe toate fișierele sursă, validitatea schemei `src-tauri/tauri.conf.json`, a bazelor de date JSON, prezența celor **24 de fotografii oficiale NASA / ESA / JWST / Hubble / EHT** (`public/textures/nasa/`), a celor **31 de hărți științifice 2K HD** (`public/textures/hd/`) și a celor **100 de fișiere audio neurale** (`public/audio/tts/`).
 
@@ -203,6 +206,8 @@ npm run tauri:build   # Împachetare instalatoare native (.exe/.msi, .dmg, .deb/
 ```
 La crearea unui tag de versiune (ex. `v1.0.0`), workflow-ul GitHub Actions `.github/workflows/release-desktop.yml` rulează suita de teste și construiește automat pachetele native pentru Windows, macOS Universal și Linux.
 
+> **Notă de securitate:** aplicația desktop Tauri rulează cu un **CSP restrictiv** (vezi `app.security.csp` în `src-tauri/tauri.conf.json`): `default-src 'self'`, fără nicio sursă externă — doar `data:`/`blob:` pentru texturi, audio și exporturi, plus protocoalele interne Tauri/IPC (`ipc:`, `tauri:`, `http://tauri.localhost`, `http://ipc.localhost`). Scripturile inline (`'unsafe-inline'` în `script-src`) sunt permise doar pentru scriptul de curățare a cache-ului din `index.html`; întreaga aplicație rămâne 100% offline.
+
 ### 6. Actualizarea hărților științifice HD, a fotografiilor NASA și a vocii neurale (opțional)
 ```bash
 npm run fetch:hd-textures   # Descarcă/regenerează cele 31 de hărți planetare și stelare 2K în public/textures/hd/
@@ -216,6 +221,7 @@ npm run generate:tts        # Generează cele 100 de fișiere audio neurale în 
 
 - **Dragoş Iorgulescu** (`@diorgulescu`) — Concept, arhitectură și coordonare proiect
 - **Google Antigravity (Gemini)** — Dezvoltare asistată în pereche (Pair Programming)
+- **Mistral Vibe (Mistral AI)** — Revizuire arhitecturală a doua opinie, optimizări de performanță (proiecția etichetelor 2D), hardening PWA/Tauri (CSP, cache unic) și tooling (lint Biome, smoke test în browser)
 - **Atribuire Hărți Științifice, Fototeca NASA / ESA / JWST și Texturi Planetare HD (2K):** **NASA / JPL-Caltech / STScI / JWST / Hubble / Event Horizon Telescope (EHT) / ESO / USGS Astrogeology / SDO / LRO / MOLA / Magellan / Cassini / New Horizons / Dawn / ESA (Public Domain & CC-BY 4.0), CelestiaContent (GNU GPLv2+) & Solar System Scope (CC-BY 4.0)** (`npm run fetch:hd-textures` & `npm run fetch:nasa-media`)
 
 ---

@@ -4,7 +4,6 @@ import assert from 'node:assert/strict';
 import { setupTestDomEnvironment } from '../setup/dom-env';
 import { SpaceAmbientEngine } from '../../src/audio/SpaceAmbientEngine';
 import {
-  RomanianSpeechNormalizer,
   normalizeRomanianSpeechText,
   splitIntoSpeechSentences,
 } from '../../src/audio/RomanianSpeechNormalizer';

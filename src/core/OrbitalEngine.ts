@@ -155,8 +155,9 @@ export class OrbitalEngine {
       fetch('./data/solar-system-ro.json'),
       fetch('./data/missions-ro.json'),
       fetch('./data/deep-space-ro.json').catch(() => null),
-      this.issTracker.initialize(),
     ]);
+    // TLE-urile SGP4 au propriul fallback intern (set încorporat în ISSTracker), deci le așteptăm separat
+    await this.issTracker.initialize();
 
     const solarDataset = (await solarRes.json()) as SolarSystemDataset;
     const missionsDataset = (await missionsRes.json()) as MissionsDataset;
@@ -278,7 +279,9 @@ export class OrbitalEngine {
       instance.visualRoot.traverse((obj) => {
         if (obj instanceof THREE.Mesh) {
           if (Array.isArray(obj.material)) {
-            obj.material.forEach((m) => m.dispose());
+            obj.material.forEach((m) => {
+              m.dispose();
+            });
           } else if (obj.material instanceof THREE.Material) {
             obj.material.dispose();
           }

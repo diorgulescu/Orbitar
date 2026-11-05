@@ -8,8 +8,6 @@ import { ScaleManager } from '../../src/core/ScaleManager';
 import { OrbitalEngine } from '../../src/core/OrbitalEngine';
 import { CameraController } from '../../src/core/CameraController';
 import {
-  ASTEROID_BELT_ALERT_RO,
-  KUIPER_BELT_ALERT_RO,
   SPACECRAFT_SPECS,
   SPEED_OF_LIGHT_KMH,
   SpacecraftPilot,
