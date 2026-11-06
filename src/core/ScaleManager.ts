@@ -151,7 +151,7 @@ export class ScaleManager {
       return posAu.clone().multiplyScalar(REAL_UNITS_PER_AU);
     }
 
-    const scaledDist = 8.0 + 20.0 * Math.pow(distAu, 0.62);
+    const scaledDist = 12.0 + 44.0 * Math.pow(distAu, 0.65);
     return posAu.clone().normalize().multiplyScalar(scaledDist);
   }
 
@@ -166,10 +166,10 @@ export class ScaleManager {
       return sceneDist / REAL_UNITS_PER_AU;
     }
 
-    if (sceneDist <= 8.0) {
+    if (sceneDist <= 12.0) {
       return 0;
     }
-    return Math.pow((sceneDist - 8.0) / 20.0, 1 / 0.62);
+    return Math.pow((sceneDist - 12.0) / 44.0, 1 / 0.65);
   }
 
   /**
@@ -208,13 +208,14 @@ export class ScaleManager {
       return dir.multiplyScalar(Math.max(realDist, minOrbit));
     }
 
-    // În Scara Didactică, ordonăm sateliții/stațiile pe inele concentrice clare în jurul planetei-mamă
+    // În Scara Didactică, ordonăm sateliții/stațiile pe inele concentrice clare în jurul planetei-mamă,
+    // calibrate astfel încât să nu atingă nici inelele planetare (ex. Saturn), nici orbitele planetelor vecine.
     const baseMultiplier =
       category === 'station' || category === 'telescope'
         ? localOrbitOrder >= 3
-          ? 2.45 + localOrbitOrder * 0.42
-          : 1.55 + localOrbitOrder * 0.38
-        : 2.15 + localOrbitOrder * 0.82;
+          ? 1.47 + localOrbitOrder * 0.57
+          : 0.88 + localOrbitOrder * 0.57
+        : 2.60 + (localOrbitOrder - 1) * 0.56;
     return dir.multiplyScalar(parentVisualRadius * baseMultiplier);
   }
 

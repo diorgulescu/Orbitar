@@ -137,4 +137,89 @@ describe('OrbitalEngine — Unit & Integration Tests', () => {
     assert.equal(engine.getBody('sun')?.rootGroup.visible, true);
     assert.equal(engine.getBody('jupiter')?.rootGroup.visible, false);
   });
+
+  it('în Scara Didactică niciun corp ceresc, inel sau satelit nu trece prin altul (culoare orbitale disjuncte)', () => {
+    scaleManager.setMode('didactic');
+    const solarBodies = engine.getBodiesForHorizon('solar');
+
+    // 1. Calculăm anvelopa radială maximă (inclusiv inele și cel mai îndepărtat satelit/telescop)
+    // pentru fiecare corp heliocentric din Sistemul Solar în Scara Didactică
+    const childrenByParent = new Map<string, typeof solarBodies>();
+    for (const b of solarBodies) {
+      if (!b.data.parentId || b.data.category === 'rover') continue;
+      const list = childrenByParent.get(b.data.parentId) ?? [];
+      list.push(b);
+      childrenByParent.set(b.data.parentId, list);
+    }
+
+    // Verificăm că sateliții aceleiași planete sunt pe inele concentrice separate și nu ating planeta-mamă sau inelele ei
+    for (const [parentId, children] of childrenByParent.entries()) {
+      const parent = engine.getBody(parentId)!;
+      const parentRingFactor = parentId === 'saturn' ? 2.32 : parentId === 'uranus' ? 1.85 : 1.05;
+      const parentOuter = parent.visualRadius * parentRingFactor;
+
+      const sortedChildren = children
+        .map((c) => ({
+          id: c.data.id,
+          dist: c.worldPosition.distanceTo(parent.worldPosition),
+          radius: c.visualRadius,
+        }))
+        .sort((a, b) => a.dist - b.dist);
+
+      for (let i = 0; i < sortedChildren.length; i++) {
+        const cur = sortedChildren[i];
+        assert.ok(
+          cur.dist - cur.radius > parentOuter,
+          `Satelitul ${cur.id} (${cur.dist - cur.radius}) nu trebuie să intersecteze planeta/inelele lui ${parentId} (${parentOuter})`
+        );
+        if (i > 0) {
+          const prev = sortedChildren[i - 1];
+          assert.ok(
+            cur.dist - cur.radius > prev.dist + prev.radius,
+            `Orbitele locale ${prev.id} și ${cur.id} în jurul lui ${parentId} trebuie să fie clar separate`
+          );
+        }
+      }
+    }
+
+    // 2. Verificăm că toate corpurile heliocentrice (cu întregul lor sistem de inele + sateliți)
+    // au culoare radiale complet disjuncte chiar și la conjuncție directă
+    const helioEnvelopes = solarBodies
+      .filter((b) => !b.data.parentId)
+      .map((b) => {
+        const dist = b.worldPosition.length();
+        const ringFactor =
+          b.data.id === 'saturn'
+            ? 2.32
+            : b.data.id === 'uranus'
+            ? 1.85
+            : b.data.id === 'haumea'
+            ? 1.74
+            : b.data.id === 'sun'
+            ? 1.56
+            : 1.05;
+        let systemRadius = b.visualRadius * ringFactor;
+        const kids = childrenByParent.get(b.data.id) ?? [];
+        for (const k of kids) {
+          const kDist = k.worldPosition.distanceTo(b.worldPosition) + k.visualRadius;
+          if (kDist > systemRadius) systemRadius = kDist;
+        }
+        return {
+          id: b.data.id,
+          dist,
+          innerEdge: dist - systemRadius * 1.015,
+          outerEdge: dist + systemRadius * 1.015,
+        };
+      })
+      .sort((a, b) => a.dist - b.dist);
+
+    for (let i = 1; i < helioEnvelopes.length; i++) {
+      const prev = helioEnvelopes[i - 1];
+      const cur = helioEnvelopes[i];
+      assert.ok(
+        cur.innerEdge > prev.outerEdge,
+        `În Scara Didactică, culoarul lui ${cur.id} [${cur.innerEdge.toFixed(1)}, ${cur.outerEdge.toFixed(1)}] nu trebuie să se suprapună cu ${prev.id} [${prev.innerEdge.toFixed(1)}, ${prev.outerEdge.toFixed(1)}]`
+      );
+    }
+  });
 });

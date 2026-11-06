@@ -3,7 +3,75 @@
 
 use std::fs;
 use std::path::PathBuf;
+use std::process::Command;
 use tauri::Manager;
+
+#[derive(serde::Serialize)]
+#[serde(rename_all = "camelCase")]
+struct AppInfo {
+    name: String,
+    version: String,
+    os: String,
+    arch: String,
+    repository: String,
+    releases_url: String,
+}
+
+/// Returnează metadatele aplicației desktop (versiune, sistem de operare, arhitectură și link-uri GitHub)
+/// pentru caseta „Despre Orbitar” (Help -> About) și verificatorul de actualizări.
+#[tauri::command]
+fn get_app_info() -> AppInfo {
+    AppInfo {
+        name: "Orbitar".to_string(),
+        version: env!("CARGO_PKG_VERSION").to_string(),
+        os: std::env::consts::OS.to_string(),
+        arch: std::env::consts::ARCH.to_string(),
+        repository: "https://github.com/diorgulescu/Orbitar".to_string(),
+        releases_url: "https://github.com/diorgulescu/Orbitar/releases".to_string(),
+    }
+}
+
+/// Deschide o adresă URL oficială (GitHub Releases sau orbitar.ro) în browserul implicit al sistemului
+/// (Linux `xdg-open`, Windows `rundll32 url.dll,FileProtocolHandler`, macOS `open`).
+#[tauri::command]
+fn open_external_url(url: String) -> Result<(), String> {
+    let trimmed = url.trim();
+    let is_allowed_domain = trimmed.starts_with("https://github.com/diorgulescu/Orbitar")
+        || trimmed.starts_with("https://orbitar.ro");
+    let has_unsafe_chars = trimmed
+        .chars()
+        .any(|c| c.is_control() || c.is_whitespace() || c == '"' || c == '\'');
+
+    if !is_allowed_domain || has_unsafe_chars {
+        return Err("URL extern nepermis din motive de securitate.".to_string());
+    }
+
+    #[cfg(target_os = "macos")]
+    {
+        Command::new("open")
+            .arg(trimmed)
+            .spawn()
+            .map_err(|e| e.to_string())?;
+    }
+
+    #[cfg(target_os = "windows")]
+    {
+        Command::new("rundll32")
+            .args(["url.dll,FileProtocolHandler", trimmed])
+            .spawn()
+            .map_err(|e| e.to_string())?;
+    }
+
+    #[cfg(not(any(target_os = "macos", target_os = "windows")))]
+    {
+        Command::new("xdg-open")
+            .arg(trimmed)
+            .spawn()
+            .map_err(|e| e.to_string())?;
+    }
+
+    Ok(())
+}
 
 /// Comandă nativă Tauri pentru comutarea modului Fullscreen (F11) pentru proiecția la clasă.
 #[tauri::command]
@@ -70,7 +138,9 @@ fn main() {
         .invoke_handler(tauri::generate_handler![
             toggle_fullscreen,
             print_sheet,
-            save_export_file
+            save_export_file,
+            get_app_info,
+            open_external_url
         ])
         .setup(|app| {
             if let Some(main_window) = app.get_webview_window("main") {

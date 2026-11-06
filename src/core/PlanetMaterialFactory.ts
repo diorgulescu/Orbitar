@@ -495,7 +495,7 @@ export class PlanetMaterialFactory {
 
     // Sistemele de inele cu UV-uri recalculate radial
     if (data.id === 'saturn') {
-      group.add(this.createRadialRingMesh(1.32, 2.45, 'saturn', mode));
+      group.add(this.createRadialRingMesh(1.32, 2.32, 'saturn', mode));
     } else if (data.id === 'uranus') {
       group.add(this.createRadialRingMesh(1.38, 1.85, 'uranus', mode));
     } else if (data.id === 'haumea') {

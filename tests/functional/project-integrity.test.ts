@@ -173,5 +173,13 @@ describe('Integritatea Proiectului, Resurse NASA/HD și Conformitate Licență G
       rustMain.includes('fn save_export_file'),
       'src-tauri/src/main.rs trebuie să definească comanda nativă save_export_file pentru descărcarea SVG/PNG'
     );
+    assert.ok(
+      rustMain.includes('fn get_app_info') && rustMain.includes('fn open_external_url'),
+      'src-tauri/src/main.rs trebuie să definească comenzile native get_app_info și open_external_url pentru caseta Despre și actualizările GitHub'
+    );
+    assert.ok(
+      String(tauriConf.app?.security?.csp || '').includes('https://api.github.com'),
+      'tauri.conf.json trebuie să permită https://api.github.com în connect-src pentru verificarea release-urilor noi'
+    );
   });
 });

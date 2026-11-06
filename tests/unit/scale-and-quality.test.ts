@@ -73,7 +73,7 @@ describe('ScaleManager — Unit Tests', () => {
     assert.equal(zero.length(), 0);
 
     const oneAuDidactic = sm.scaleHeliocentricPosition(new THREE.Vector3(1, 0, 0));
-    assert.ok(Math.abs(oneAuDidactic.x - 28.0) < 0.001);
+    assert.ok(Math.abs(oneAuDidactic.x - 56.0) < 0.001);
 
     // Offset pentru sateliți, stații (LEO vs L2) și rovere
     const parentRadius = 2.0;

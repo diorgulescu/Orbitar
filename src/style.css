@@ -1191,6 +1191,118 @@ body {
   border-color: var(--accent-cyan);
 }
 
+.about-modal-card {
+  max-width: 620px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.about-identity-box {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(15, 23, 42, 0.72);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+}
+
+.about-identity-main {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.about-logo-badge {
+  font-size: 1.7rem;
+  line-height: 1;
+}
+
+.about-app-title {
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: #f8fafc;
+}
+
+.about-app-subtitle {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+}
+
+.about-meta-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.about-update-box {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 11px 13px;
+  border-radius: 10px;
+  background: rgba(8, 15, 32, 0.85);
+  border: 1px solid rgba(255, 183, 3, 0.35);
+}
+
+.about-update-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.about-update-head strong {
+  color: var(--accent-cyan);
+  font-size: 0.85rem;
+}
+
+.about-update-status {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--text-main);
+}
+
+.about-update-banner {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: rgba(255, 183, 3, 0.12);
+  border: 1px solid var(--accent-amber);
+}
+
+.about-update-release-title {
+  font-weight: 800;
+  color: var(--accent-amber);
+  font-size: 0.86rem;
+}
+
+.about-update-release-notes {
+  font-size: 0.77rem;
+  color: #e2e8f0;
+}
+
+.about-update-install-hint {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.about-release-download-btn {
+  align-self: flex-start;
+  font-weight: 700;
+}
+
+.about-actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 2px;
+}
+
 .modal-header {
   display: flex;
   justify-content: space-between;

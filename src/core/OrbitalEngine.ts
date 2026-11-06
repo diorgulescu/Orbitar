@@ -93,6 +93,39 @@ const ASTRO_BODY_MAP: Record<string, Astronomy.Body> = {
 };
 
 /**
+ * Culoare orbitale radiale calibrate strict pentru „Scara Didactică” (în UA echivalente),
+ * astfel încât sferele mărite ale planetelor, inelele, sateliții lor naturali/artificiali,
+ * planetele pitice, asteroizii și sondele să nu se intersecteze niciodată vizual.
+ * În „Scara Reală” sunt folosite exclusiv coordonatele și excentricitățile fizice exacte.
+ */
+const DIDACTIC_ORBIT_AU: Record<string, number> = {
+  parker: 0.12,
+  mercury: 0.26,
+  venus: 0.46,
+  apophis: 0.60,
+  earth: 1.0,
+  bennu: 1.46,
+  mars: 1.76,
+  vesta: 2.28,
+  ceres: 2.62,
+  pallas: 2.92,
+  psyche: 3.22,
+  juice: 3.58,
+  rosetta: 3.95,
+  jupiter: 5.45,
+  saturn: 9.582,
+  uranus: 19.218,
+  neptune: 30.11,
+  pluto: 36.5,
+  haumea: 41.2,
+  makemake: 45.8,
+  newhorizons: 50.5,
+  voyager2: 55.5,
+  voyager1: 61.0,
+  eris: 67.86,
+};
+
+/**
  * OrbitalEngine încarcă bazele de date didactice statice (`solar-system-ro.json`, `missions-ro.json` și `deep-space-ro.json`),
  * calculează pozițiile 3D reale ale planetelor, sateliților, planetelor pitice, asteroizilor, misiunilor și obiectelor
  * din Cosmosul Îndepărtat (Stele, Exoplanete, Nebuloase, Găuri Negre, Galaxii) pe 3 Orizonturi Cosmice.
@@ -481,6 +514,32 @@ export class OrbitalEngine {
     this.updatePositions(0);
   }
 
+  /**
+   * În „Scara Didactică”, regularizează raza heliocentrică pe culoarul dedicat fiecărui corp
+   * (păstrând neschimbate direcția 3D, faza orbitală și înclinația ecliptică), astfel încât
+   * orbitele excentrice și sistemele de sateliți să nu treacă niciodată unele prin altele.
+   * În „Scara Reală” returnează vectorul astronomic nemodificat.
+   */
+  private adjustDidacticHelioAu(
+    instance: CelestialBodyInstance,
+    rawPosAu: THREE.Vector3
+  ): THREE.Vector3 {
+    if (this.scaleManager.getMode() === 'real' || rawPosAu.lengthSq() === 0) {
+      return rawPosAu;
+    }
+    const targetAu = DIDACTIC_ORBIT_AU[instance.data.id] ?? instance.data.distanceFromSunAU;
+    if (!targetAu || targetAu <= 0) {
+      return rawPosAu;
+    }
+    const nominalAu =
+      instance.data.keplerian?.semiMajorAxisAU ||
+      instance.data.distanceFromSunAU ||
+      rawPosAu.length();
+    const rawRatio = nominalAu > 0 ? rawPosAu.length() / nominalAu : 1;
+    const dampedRatio = 1 + THREE.MathUtils.clamp(rawRatio - 1, -0.012, 0.012);
+    return rawPosAu.clone().normalize().multiplyScalar(targetAu * dampedRatio);
+  }
+
   private buildOrbitEllipse(instance: CelestialBodyInstance): THREE.LineLoop {
     const samples = instance.data.parentId ? 96 : 180;
     const points: THREE.Vector3[] = [];
@@ -508,7 +567,8 @@ export class OrbitalEngine {
         const tDate = new Date(baseTimeMs + (i / samples) * periodDays * 86400000);
         const helioVec = Astronomy.HelioVector(instance.astroBody, tDate);
         const posAu = this.eqjToThreeEclipticAu(helioVec);
-        points.push(this.scaleManager.scaleHeliocentricPosition(posAu));
+        const adjustedAu = this.adjustDidacticHelioAu(instance, posAu);
+        points.push(this.scaleManager.scaleHeliocentricPosition(adjustedAu));
       }
     } else if (instance.data.keplerian) {
       const periodDays = Math.max(instance.data.orbitPeriodDays, 80);
@@ -519,7 +579,8 @@ export class OrbitalEngine {
           periodDays,
           tDate
         );
-        points.push(this.scaleManager.scaleHeliocentricPosition(posAu));
+        const adjustedAu = this.adjustDidacticHelioAu(instance, posAu);
+        points.push(this.scaleManager.scaleHeliocentricPosition(adjustedAu));
       }
     }
 
@@ -587,7 +648,8 @@ export class OrbitalEngine {
         instance.heliocentricAu.copy(posAu);
         instance.distanceFromSunAu = posAu.length();
 
-        const scaledPos = this.scaleManager.scaleHeliocentricPosition(posAu);
+        const adjustedAu = this.adjustDidacticHelioAu(instance, posAu);
+        const scaledPos = this.scaleManager.scaleHeliocentricPosition(adjustedAu);
         instance.worldPosition.copy(scaledPos);
         instance.rootGroup.position.copy(scaledPos);
       } else if (instance.data.keplerian) {
@@ -599,7 +661,8 @@ export class OrbitalEngine {
         instance.heliocentricAu.copy(posAu);
         instance.distanceFromSunAu = instance.data.distanceFromSunAU || posAu.length();
 
-        const scaledPos = this.scaleManager.scaleHeliocentricPosition(posAu);
+        const adjustedAu = this.adjustDidacticHelioAu(instance, posAu);
+        const scaledPos = this.scaleManager.scaleHeliocentricPosition(adjustedAu);
         instance.worldPosition.copy(scaledPos);
         instance.rootGroup.position.copy(scaledPos);
       }

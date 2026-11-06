@@ -66,6 +66,34 @@ jobs:
           node scripts/generate-hd-maps.mjs
           node scripts/generate-tauri-icons.mjs
 
+      - name: Sync version from Git tag into package.json, tauri.conf.json & Cargo.toml
+        shell: bash
+        env:
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          node -e '
+            const fs = require("fs");
+            const raw = process.env.REF_NAME || "";
+            const m = /^v?(\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?)$/.exec(raw.trim());
+            if (m) {
+              const ver = m[1];
+              const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
+              pkg.version = ver;
+              fs.writeFileSync("package.json", JSON.stringify(pkg, null, 2) + "\n");
+
+              const tauriConf = JSON.parse(fs.readFileSync("src-tauri/tauri.conf.json", "utf8"));
+              tauriConf.version = ver;
+              fs.writeFileSync("src-tauri/tauri.conf.json", JSON.stringify(tauriConf, null, 2) + "\n");
+
+              const cargo = fs.readFileSync("src-tauri/Cargo.toml", "utf8");
+              fs.writeFileSync(
+                "src-tauri/Cargo.toml",
+                cargo.replace(/^version\s*=\s*"[^"]*"/m, `version = "${ver}"`)
+              );
+              console.log("Synced Orbitar Desktop version to", ver);
+            }
+          '
+
       - name: Run Automated Unit & Functional Test Suite
         run: npm test
 

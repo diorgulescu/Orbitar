@@ -15,6 +15,11 @@ import { LightSpeedRuler } from '../../src/ui/LightSpeedRuler';
 import { OrbitarMissions } from '../../src/ui/OrbitarMissions';
 import { PrintManager } from '../../src/ui/PrintManager';
 import { LicenseModal } from '../../src/ui/LicenseModal';
+import {
+  compareSemver,
+  formatPlatformLabelRo,
+  isNewerVersionAvailable,
+} from '../../src/utils/UpdateChecker';
 import { SpacecraftPilot } from '../../src/game/SpacecraftPilot';
 import { CockpitHUD } from '../../src/ui/CockpitHUD';
 import { SpeechManager } from '../../src/audio/SpeechManager';
@@ -350,5 +355,86 @@ describe('UI, CameraController & SurfaceMarkers — Functional Integration Tests
     assert.ok(spokenBriefing.includes('minus 110 grade Celsius'));
     assert.ok(spokenBriefing.includes('Vlaicu unu'));
     cockpitHud.stopCockpitSpeech();
+  });
+
+  it('Caseta „Despre Orbitar” (Help -> About) afișează versiunea, verifică release-urile pe GitHub și deschide browserul pe Desktop', async () => {
+    assert.equal(compareSemver('1.0.0', '1.0.0'), 0);
+    assert.equal(compareSemver('1.0.0', 'v1.1.0'), -1);
+    assert.equal(compareSemver('1.2.0', '1.1.9'), 1);
+    assert.equal(isNewerVersionAvailable('1.0.0', 'v1.2.0'), true);
+    assert.equal(isNewerVersionAvailable('1.2.0', 'v1.2.0'), false);
+    assert.ok(formatPlatformLabelRo('macos', 'aarch64', true).includes('Apple Silicon'));
+    assert.ok(formatPlatformLabelRo('windows', 'x86_64', true).includes('Windows'));
+    assert.ok(formatPlatformLabelRo('linux', 'x86_64', true).includes('Linux'));
+
+    let openedExternalUrl = '';
+    (window as any).__TAURI_INTERNALS__ = {
+      invoke: async (cmd: string, args?: Record<string, any>) => {
+        if (cmd === 'get_app_info') {
+          return {
+            name: 'Orbitar',
+            version: '1.0.0',
+            os: 'linux',
+            arch: 'x86_64',
+            repository: 'https://github.com/diorgulescu/Orbitar',
+            releasesUrl: 'https://github.com/diorgulescu/Orbitar/releases',
+          };
+        }
+        if (cmd === 'open_external_url') {
+          openedExternalUrl = String(args?.url ?? '');
+          return;
+        }
+      },
+    };
+
+    const mockFetch = (async () => ({
+      ok: true,
+      status: 200,
+      json: async () => ({
+        tag_name: 'v1.3.0',
+        name: 'Orbitar Desktop v1.3.0',
+        html_url: 'https://github.com/diorgulescu/Orbitar/releases/tag/v1.3.0',
+        published_at: '2026-11-06T12:00:00Z',
+        body: '## Noutăți\n- Caseta Despre Orbitar și verificare actualizări pe GitHub.',
+      }),
+    })) as unknown as typeof fetch;
+
+    const aboutModal = new LicenseModal({ fetchImpl: mockFetch });
+    await aboutModal.initAppMetadata();
+
+    assert.equal(
+      document.getElementById('about-app-version')?.textContent,
+      'Versiune: v1.0.0'
+    );
+    assert.ok(
+      document.getElementById('about-app-platform')?.textContent?.includes('Linux (64-biți (x86_64))')
+    );
+
+    // Tasta F1 deschide caseta „Despre Orbitar” (Help -> About)
+    (document as any).dispatchEvent({ type: 'keydown', key: 'F1', preventDefault: () => {} });
+    const gplModal = document.getElementById('hud-gpl-modal')!;
+    assert.equal(gplModal.classList.contains('is-hidden'), false);
+
+    // Verificarea actualizărilor pe GitHub detectează versiunea mai nouă v1.3.0
+    const checkResult = await aboutModal.checkForUpdates();
+    assert.ok(checkResult);
+    assert.equal(checkResult.status, 'update-available');
+    assert.equal(checkResult.hasUpdate, true);
+    assert.equal(checkResult.latestVersion, '1.3.0');
+    assert.equal(
+      document.getElementById('about-update-banner')?.classList.contains('is-hidden'),
+      false,
+      'Bannerul cu noua versiune trebuie să devină vizibil'
+    );
+
+    // Click pe butonul de descărcare deschide URL-ul release-ului în browserul sistemului prin Tauri
+    document.getElementById('btn-open-release-browser')?.click();
+    await new Promise((r) => setTimeout(r, 10));
+    assert.equal(
+      openedExternalUrl,
+      'https://github.com/diorgulescu/Orbitar/releases/tag/v1.3.0'
+    );
+
+    delete (window as any).__TAURI_INTERNALS__;
   });
 });

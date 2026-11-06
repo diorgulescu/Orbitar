@@ -782,9 +782,9 @@
             id="btn-gpl-modal"
             type="button"
             class="hud-btn hud-btn-gpl"
-            title="Despre licența liberă GNU GPLv3 a proiectului Orbitar"
+            title="Despre Orbitar (Help -> About), versiune, verificare actualizări GitHub și licența liberă GNU GPLv3 (Tasta F1)"
           >
-            ⓘ GPLv3
+            ⓘ Despre / GPLv3
           </button>
         </div>
       </div>
@@ -884,26 +884,75 @@
       </div>
     </div>
 
-    <!-- Fereastră modală pentru licența liberă GNU GPLv3 -->
+    <!-- Fereastră modală „Despre Orbitar” (Help -> About), Verificare Actualizări GitHub & Licența GNU GPLv3 -->
     <div id="hud-gpl-modal" class="modal-backdrop is-hidden" role="dialog" aria-modal="true" aria-labelledby="gpl-modal-title">
-      <div class="bento-card modal-card">
+      <div class="bento-card modal-card about-modal-card">
         <div class="modal-header">
-          <h2 id="gpl-modal-title">ⓘ Orbitar — Software 100% Liber (GNU GPLv3)</h2>
+          <h2 id="gpl-modal-title">🪐 Despre Orbitar — Planetariu Didactic Interactiv</h2>
           <button id="btn-gpl-close" type="button" class="hud-icon-btn" aria-label="Închide fereastra">✕</button>
         </div>
         <div class="modal-body">
+          <!-- Antet de identitate și versiune (Help -> About) -->
+          <div class="about-identity-box">
+            <div class="about-identity-main">
+              <div class="about-logo-badge" aria-hidden="true">🪐</div>
+              <div>
+                <div class="about-app-title">ORBITAR // Planetariu Didactic 3D în Limba Română</div>
+                <div class="about-app-subtitle">Program educațional liber pentru copii de 6–12 ani, școli și planetarii</div>
+              </div>
+            </div>
+            <div class="about-meta-badges">
+              <span id="about-app-version" class="telemetry-tag">Versiune: v1.0.0</span>
+              <span id="about-app-platform" class="telemetry-tag">Platformă: Desktop / Web</span>
+              <span class="telemetry-tag">Licență: GNU GPLv3</span>
+            </div>
+          </div>
+
+          <!-- Secțiune Verificare Actualizări pe GitHub Releases -->
+          <div id="about-update-section" class="about-update-box">
+            <div class="about-update-head">
+              <strong>🔄 Actualizări de Versiune (GitHub Releases)</strong>
+              <span id="about-update-badge" class="telemetry-tag">Verificare disponibilă</span>
+            </div>
+            <p id="about-update-status" class="about-update-status">
+              Verifică pe GitHub dacă a apărut o versiune mai nouă a programului decât cea instalată pe sistemul tău.
+            </p>
+            <div id="about-update-banner" class="about-update-banner is-hidden">
+              <div id="about-update-release-title" class="about-update-release-title"></div>
+              <div id="about-update-release-notes" class="about-update-release-notes"></div>
+              <p class="about-update-install-hint">
+                Pentru actualizare, deschide pagina oficială de release-uri în browser, descarcă instalatorul pentru sistemul tău (Windows <code>.exe/.msi</code>, macOS <code>.dmg</code>, Linux <code>.deb/.rpm/.AppImage</code>) și instalează noua versiune.
+              </p>
+              <button id="btn-open-release-browser" type="button" class="hud-btn hud-btn-active-amber about-release-download-btn">
+                🌐 Deschide pagina de descărcare în Browser (GitHub Releases)
+              </button>
+            </div>
+            <div class="about-actions-row">
+              <button id="btn-check-updates" type="button" class="hud-btn hud-btn-active-cyan">
+                🔄 Verifică actualizări pe GitHub
+              </button>
+              <button id="btn-open-github-releases" type="button" class="hud-btn">
+                📦 GitHub Releases
+              </button>
+              <button id="btn-open-official-site" type="button" class="hud-btn">
+                🌐 Site oficial (orbitar.ro)
+              </button>
+            </div>
+          </div>
+
           <p>
             <strong>Orbitar — Planetariu Didactic Interactiv</strong> este un proiect educațional deschis,
             licențiat integral sub <strong>GNU General Public License v3.0 (GPL-3.0-or-later)</strong>.
           </p>
           <ul class="gpl-freedoms-list">
             <li><strong>Libertatea de utilizare:</strong> Poate fi folosit gratuit în școli, acasă sau în planetarii.</li>
-            <li><strong>Libertatea de studiu și modificare:</strong> Codul sursă (TypeScript, Three.js, GLSL) și baza de date didactică în limba română (<code>/public/data/</code>) sunt complet deschise.</li>
+            <li><strong>Libertatea de studiu și modificare:</strong> Codul sursă (TypeScript, Three.js, GLSL, Tauri Rust) și baza de date didactică în limba română (<code>/public/data/</code>) sunt complet deschise.</li>
             <li><strong>Zero Telemetrie &amp; 100% Autonom:</strong> Nu folosește cookies de urmărire, analytics sau CDN-uri externe. Funcționează complet offline.</li>
             <li><strong>Libertatea de partajare (Copyleft):</strong> Orice versiune derivată păstrează aceleași libertăți pentru toți elevii și profesorii.</li>
           </ul>
           <p class="modal-footer-note">
-            Dependențe Open-Source: <code>three</code> (MIT), <code>astronomy-engine</code> (MIT), <code>satellite.js</code> (MIT), <code>vite</code> (MIT).<br />
+            Autor: <strong>Dragoș Iorgulescu</strong> • Depozit oficial: <code>github.com/diorgulescu/Orbitar</code><br />
+            Dependențe Open-Source: <code>three</code> (MIT), <code>astronomy-engine</code> (MIT), <code>satellite.js</code> (MIT), <code>tauri</code> (MIT / Apache-2.0).<br />
             Atribuire texturi științifice HD (2K): <strong>NASA / JPL-Caltech / USGS Astrogeology / SDO / LRO / MOLA / Magellan / Cassini / New Horizons / Dawn (Public Domain), CelestiaContent (GNU GPLv2+) &amp; Solar System Scope (CC-BY 4.0)</strong>.
           </p>
         </div>
