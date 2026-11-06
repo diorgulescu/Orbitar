@@ -88,6 +88,12 @@ export class ScaleManager {
     if (category === 'nebula' || category === 'star_cluster') return 6.8;
     if (category === 'black_hole') return 5.2;
     if (category === 'exoplanet') return 4.2;
+    // Stelele din Orizontul Interstelar (ex. Sirius, Betelgeuse; radiusKm > 1.000.000 km)
+    // folosesc coordonate fixe în ani-lumină (deepSpacePosition), deci păstrează raza vizuală
+    // calibrată didactic în ambele moduri de scară pentru a nu înghiți scena în „Scară Reală”.
+    if (category === 'star' && radiusKm > 1_000_000) {
+      return radiusKm > 10_000_000 ? 7.8 : 6.2;
+    }
 
     if (this.mode === 'real') {
       const exactRadius = (radiusKm / KM_PER_AU) * REAL_UNITS_PER_AU;

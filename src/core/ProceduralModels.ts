@@ -1133,6 +1133,54 @@ export class ProceduralModels {
   }
 
   /**
+   * Creează un material de halou stelar cu `THREE.FrontSide` și atenuare radială fină,
+   * astfel încât haloul să nu coloreze niciodată fundalul negru al spațiului dacă
+   * utilizatorul apropie camera în interiorul razei coroanei.
+   */
+  private static createSafeHaloMaterial(
+    color: THREE.Color | number,
+    opacity: number
+  ): THREE.ShaderMaterial {
+    return new THREE.ShaderMaterial({
+      uniforms: {
+        uColor: { value: new THREE.Color(color) },
+        uOpacity: { value: opacity },
+      },
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+      side: THREE.FrontSide,
+      vertexShader: /* glsl */ `
+        #include <common>
+        #include <logdepthbuf_pars_vertex>
+        varying vec3 vNormal;
+        varying vec3 vViewDir;
+        void main() {
+          vNormal = normalize(normalMatrix * normal);
+          vec4 mvPos = modelViewMatrix * vec4(position, 1.0);
+          vViewDir = normalize(-mvPos.xyz);
+          gl_Position = projectionMatrix * mvPos;
+          #include <logdepthbuf_vertex>
+        }
+      `,
+      fragmentShader: /* glsl */ `
+        #include <common>
+        #include <logdepthbuf_pars_fragment>
+        uniform vec3 uColor;
+        uniform float uOpacity;
+        varying vec3 vNormal;
+        varying vec3 vViewDir;
+        void main() {
+          #include <logdepthbuf_fragment>
+          float facing = max(dot(vNormal, vViewDir), 0.0);
+          float alpha = pow(facing, 2.2) * uOpacity;
+          gl_FragColor = vec4(uColor, alpha);
+        }
+      `,
+    });
+  }
+
+  /**
    * 2. Stele Vecine (Sirius A & B, Betelgeuse, Proxima Centauri & Proxima b) cu texturi fotosferice 2K și culori spectrale reale.
    */
   private static createDeepStarSystemModel(
@@ -1161,30 +1209,16 @@ export class ProceduralModels {
     );
     group.add(starMesh);
 
-    // Coroană stelară aditivă
+    // Coroană stelară aditivă (FrontSide cu atenuare radială pentru a păstra fundalul spațiului negru)
     const coronaMesh = new THREE.Mesh(
-      new THREE.SphereGeometry(starRadius * 1.38, segs, segs),
-      new THREE.MeshBasicMaterial({
-        color: starColor,
-        transparent: true,
-        opacity: 0.26,
-        blending: THREE.AdditiveBlending,
-        side: THREE.BackSide,
-        depthWrite: false,
-      })
+      new THREE.SphereGeometry(starRadius * 1.32, segs, segs),
+      this.createSafeHaloMaterial(starColor, 0.38)
     );
     group.add(coronaMesh);
 
     const outerHalo = new THREE.Mesh(
-      new THREE.SphereGeometry(starRadius * 1.85, 24, 24),
-      new THREE.MeshBasicMaterial({
-        color: starColor,
-        transparent: true,
-        opacity: 0.11,
-        blending: THREE.AdditiveBlending,
-        side: THREE.BackSide,
-        depthWrite: false,
-      })
+      new THREE.SphereGeometry(starRadius * 1.68, 24, 24),
+      this.createSafeHaloMaterial(starColor, 0.18)
     );
     group.add(outerHalo);
 
@@ -1280,14 +1314,7 @@ export class ProceduralModels {
 
     const starGlow = new THREE.Mesh(
       new THREE.SphereGeometry(0.82, segs, segs),
-      new THREE.MeshBasicMaterial({
-        color: 0xfb7185,
-        transparent: true,
-        opacity: 0.28,
-        blending: THREE.AdditiveBlending,
-        side: THREE.BackSide,
-        depthWrite: false,
-      })
+      this.createSafeHaloMaterial(0xfb7185, 0.36)
     );
     group.add(starGlow);
 
@@ -1389,14 +1416,7 @@ export class ProceduralModels {
 
     const magmaHalo = new THREE.Mesh(
       new THREE.SphereGeometry(1.12, 24, 24),
-      new THREE.MeshBasicMaterial({
-        color: 0xfb923c,
-        transparent: true,
-        opacity: 0.26,
-        blending: THREE.AdditiveBlending,
-        side: THREE.BackSide,
-        depthWrite: false,
-      })
+      this.createSafeHaloMaterial(0xfb923c, 0.36)
     );
     group.add(magmaHalo);
 

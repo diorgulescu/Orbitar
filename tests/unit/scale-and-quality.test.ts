@@ -61,6 +61,9 @@ describe('ScaleManager — Unit Tests', () => {
     assert.ok(sunReal > earthReal * 90, 'În Scara Reală Soarele este de ~109 ori mai mare decât Pământul');
     assert.equal(sm.scaleRadius(0.003, 'rover'), 0.0012);
     assert.equal(sm.scaleRadius(0.05, 'probe'), 0.0012);
+    // Stelele din Orizontul Interstelar (Sirius, Betelgeuse) păstrează raza vizuală calibrată și în Scara Reală
+    assert.equal(sm.scaleRadius(1190000, 'star'), 6.2);
+    assert.equal(sm.scaleRadius(487000000, 'star'), 7.8);
   });
 
   it('scaleHeliocentricPosition și scaleLocalChildOffset transformă corect coordonatele orbitale', () => {

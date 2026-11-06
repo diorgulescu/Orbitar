@@ -121,6 +121,24 @@ describe('Cele 3 Orizonturi Cosmice (CosmicScaleNavigator, Deep Space 3D, Voce, 
 
     const trappist = ProceduralModels.createCelestialVisual(trappistData, 'hd');
     assert.ok(trappist.visualRoot.children.length >= 7);
+
+    // Verificăm că în Orizontul Interstelar (inclusiv în Scara Reală) nicio stea nu se extinde peste scenă
+    // și niciun halou nu folosește THREE.BackSide (pentru a nu colora maroniu fundalul negru al spațiului)
+    scaleManager.setMode('real');
+    for (const body of orbitalEngine.getBodiesForHorizon('interstellar')) {
+      assert.ok(
+        body.visualRadius <= 10,
+        `Raza vizuală a lui ${body.data.id} în Orizontul Interstelar trebuie să fie <= 10 (este ${body.visualRadius})`
+      );
+      body.visualRoot.traverse((obj: THREE.Object3D) => {
+        if (obj instanceof THREE.Mesh && obj.material instanceof THREE.Material) {
+          assert.ok(
+            obj.material.side !== THREE.BackSide,
+            `Mesh-ul din ${body.data.id} nu trebuie să folosească THREE.BackSide în Orizontul Interstelar`
+          );
+        }
+      });
+    }
   });
 
   it('RomanianSpeechNormalizer pronunță fonetic corect Proxima Centauri, Betelgeuse, TRAPPIST-1, Sagittarius A* și ani-lumină', () => {
