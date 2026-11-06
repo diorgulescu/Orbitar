@@ -96,19 +96,13 @@ export class ScaleManager {
     }
 
     if (this.mode === 'real') {
+      // În Scara Reală, toate corpurile cerești, sateliții lor, asteroizii și obiectele artificiale
+      // (ISS, telescoape, sonde, rovere) respectă strict proporțiile fizice exacte (1 UA = 100 unități 3D).
       const exactRadius = (radiusKm / KM_PER_AU) * REAL_UNITS_PER_AU;
-      if (
-        category === 'probe' ||
-        category === 'station' ||
-        category === 'telescope' ||
-        category === 'rover'
-      ) {
-        return 0.0012;
-      }
-      return Math.max(exactRadius, 0.0004);
+      return Math.max(exactRadius, 1e-10);
     }
 
-    // Scară Didactică: mărire logaritmică pentru vizibilitate optimă (6–12 ani)
+    // Scară Didactică: mărire logaritmică armonioasă cu păstrarea strictă a ierarhiei de mărimi (6–12 ani)
     if (category === 'star') {
       return radiusKm > 10_000_000 ? 7.8 : 6.2;
     }
@@ -120,15 +114,16 @@ export class ScaleManager {
       category === 'station' ||
       category === 'telescope'
     ) {
-      return 0.58;
+      const craftLog = Math.log10(Math.max(radiusKm, 0.001));
+      return 0.16 + Math.max(0, (craftLog + 3.0) / 1.8) * 0.12;
     }
     if (category === 'moon') {
-      const moonLog = Math.log10(Math.max(radiusKm, 150));
-      return 0.34 + Math.max(0, (moonLog - 2.2) / 1.3) * 0.36;
+      const moonLog = Math.log10(Math.max(radiusKm, 5));
+      return 0.18 + Math.max(0, (moonLog - 0.7) / 2.75) * 0.52;
     }
     if (category === 'asteroid') {
-      const astLog = Math.log10(Math.max(radiusKm, 0.2));
-      return 0.48 + Math.max(0, (astLog + 0.7) / 3.2) * 0.45;
+      const astLog = Math.log10(Math.max(radiusKm, 0.15));
+      return 0.22 + Math.max(0, (astLog + 0.8) / 3.25) * 0.34;
     }
 
     // Planete și planete pitice
@@ -185,7 +180,8 @@ export class ScaleManager {
 
   /**
    * Scalează poziția unui satelit natural, stații orbitale sau rover relativ la planeta-mamă,
-   * astfel încât în Scara Didactică orbitele locale să fie clar separate în jurul planetei.
+   * astfel încât în Scara Didactică orbitele locale să fie clar separate în jurul planetei,
+   * iar în Scara Reală să fie respectate distanțele orbitale fizice reale (inclusiv orbita joasă LEO pentru ISS/Hubble).
    */
   public scaleLocalChildOffset(
     offsetAu: THREE.Vector3,
@@ -204,7 +200,11 @@ export class ScaleManager {
 
     if (this.mode === 'real') {
       const realDist = offsetAu.length() * REAL_UNITS_PER_AU;
-      const minOrbit = parentVisualRadius * (1.45 + localOrbitOrder * 0.45);
+      const minSafeMultiplier =
+        category === 'station' || category === 'telescope'
+          ? 1.055 + (localOrbitOrder - 1) * 0.025
+          : 1.35;
+      const minOrbit = parentVisualRadius * minSafeMultiplier;
       return dir.multiplyScalar(Math.max(realDist, minOrbit));
     }
 
@@ -221,7 +221,7 @@ export class ScaleManager {
 
   /**
    * Returnează raza zonei invizibile de click (raycasting) pentru ca orice corp ceresc sau sondă
-   * să poată fi selectată fără frustrare de către copii, chiar și de la distanță.
+   * să poată fi selectată fără frustrare de către copii, fără a înghiți sateliții vecini în Scara Reală.
    */
   public getHitSphereRadius(visualRadius: number, category: CelestialCategory): number {
     if (this.mode === 'real') {
@@ -230,11 +230,12 @@ export class ScaleManager {
         category === 'moon' ||
         category === 'station' ||
         category === 'telescope' ||
-        category === 'rover'
+        category === 'rover' ||
+        category === 'probe'
       ) {
-        return 0.18;
+        return Math.max(visualRadius * 2.8, 0.00012);
       }
-      return 1.8;
+      return Math.max(visualRadius * 2.5, 0.0015);
     }
     if (category === 'star') return visualRadius * 1.3;
     if (

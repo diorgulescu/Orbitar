@@ -34,10 +34,10 @@ export class SceneManager {
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x05070d);
 
-    // 2. Camera cu frustum larg și suport pentru atât Scara Didactică, cât și Scara Reală
+    // 2. Camera cu frustum larg și suport pentru atât Scara Didactică, cât și Scara Reală 1:1
     const width = container.clientWidth || window.innerWidth;
     const height = container.clientHeight || window.innerHeight;
-    this.camera = new THREE.PerspectiveCamera(48, width / height, 0.0001, 60000);
+    this.camera = new THREE.PerspectiveCamera(48, width / height, 1e-9, 60000);
     this.camera.position.set(0, 75, 135);
 
     // 3. Renderer WebGL cu buffer de adâncime logaritmic pentru precizie la scări extreme
@@ -60,7 +60,7 @@ export class SceneManager {
     this.controls.rotateSpeed = 0.75;
     this.controls.zoomSpeed = 1.15;
     this.controls.panSpeed = 0.8;
-    this.controls.minDistance = 0.0005;
+    this.controls.minDistance = 1e-9;
     this.controls.maxDistance = 25000;
     this.controls.target.set(0, 0, 0);
 

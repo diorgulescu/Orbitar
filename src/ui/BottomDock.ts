@@ -17,10 +17,13 @@ const SPEED_STEPS: SpeedStep[] = [
   { scale: 15768000, labelRo: '6 luni / sec' },
 ];
 
+export const STORAGE_KEY_SIM_SPEED = 'orbitar_sim_speed';
+
 /**
  * BottomDock gestionează Dock-ul Inferior de Navigație (Bento Dark Mode):
  * - Controlul timpului: Play/Pause, buton "Timp Real (Acum)", slider de viteză orbitală și afișarea datei
  * - Comutatorul "Scară Didactică" <-> "Scară Reală"
+ * - Persistența vitezei simulării în `localStorage` (`orbitar_sim_speed`) pentru lansările următoare
  */
 export class BottomDock {
   private readonly orbitalEngine: OrbitalEngine;
@@ -38,9 +41,36 @@ export class BottomDock {
       minute: '2-digit',
     });
 
+    this.restoreSavedSpeed();
     this.bindEvents();
     this.syncScaleButton();
     this.syncSpeedReadout();
+  }
+
+  private restoreSavedSpeed(): void {
+    try {
+      const raw = window.localStorage.getItem(STORAGE_KEY_SIM_SPEED);
+      if (!raw) return;
+      const parsed = Number.parseInt(raw, 10);
+      const validStep = SPEED_STEPS.find((s) => s.scale === parsed);
+      if (!validStep) return;
+
+      if (validStep.scale === 1) {
+        this.orbitalEngine.syncToRealTimeNow();
+      } else {
+        this.orbitalEngine.timeScale = validStep.scale;
+      }
+    } catch (_e) {
+      // Ignorăm eventualele restricții LocalStorage
+    }
+  }
+
+  private saveSpeed(scale: number): void {
+    try {
+      window.localStorage.setItem(STORAGE_KEY_SIM_SPEED, String(scale));
+    } catch (_e) {
+      // Ignorăm eventualele restricții LocalStorage
+    }
   }
 
   private bindEvents(): void {
@@ -56,6 +86,7 @@ export class BottomDock {
 
     btnNow?.addEventListener('click', () => {
       this.orbitalEngine.syncToRealTimeNow();
+      this.saveSpeed(1);
       if (speedSlider) {
         speedSlider.value = '0';
       }
@@ -75,6 +106,7 @@ export class BottomDock {
         this.orbitalEngine.timeScale = nextScale;
         this.orbitalEngine.isPaused = false;
       }
+      this.saveSpeed(nextScale);
       this.syncPauseButton();
       this.syncSpeedReadout();
     });

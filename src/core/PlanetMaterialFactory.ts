@@ -120,10 +120,35 @@ export class PlanetMaterialFactory {
   private static venusAtmosphereMaterial: THREE.ShaderMaterial | null = null;
 
   /**
-   * Inițializează anisotropia maximă suportată de GPU-ul curent.
+   * Inițializează anisotropia maximă suportată de GPU-ul curent și calibrează
+   * precizia bufferului de adâncime logaritmic (Logarithmic Depth Buffer) în Three.js
+   * astfel încât atât corpurile galactice (60.000 unități), cât și stațiile/sondele
+   * la scară astronomică 1:1 (sub 10^-8 unități) să fie randate fără Z-fighting.
    */
   public static configureRenderer(renderer: THREE.WebGLRenderer): void {
     this.maxAnisotropy = Math.max(1, renderer.capabilities.getMaxAnisotropy());
+    THREE.ShaderChunk.logdepthbuf_vertex = /* glsl */ `
+#ifdef USE_LOGDEPTHBUF
+	vFragDepth = 1.0 + max( 0.0, gl_Position.w ) * 100000000.0;
+	vIsPerspective = float( isPerspectiveMatrix( projectionMatrix ) );
+#endif
+`;
+    THREE.ShaderChunk.logdepthbuf_fragment = /* glsl */ `
+#if defined( USE_LOGDEPTHBUF )
+	gl_FragDepth = vIsPerspective == 0.0 ? gl_FragCoord.z : log2( vFragDepth ) / log2( 60000.0 * 100000000.0 + 1.0 );
+#endif
+`;
+    if (THREE.ShaderChunk.bumpmap_pars_fragment) {
+      THREE.ShaderChunk.bumpmap_pars_fragment = THREE.ShaderChunk.bumpmap_pars_fragment
+        .replace(
+          'normalize( dFdx( surf_pos.xyz ) )',
+          'normalize( dFdx( surf_pos.xyz ) * 1000000.0 )'
+        )
+        .replace(
+          'normalize( dFdy( surf_pos.xyz ) )',
+          'normalize( dFdy( surf_pos.xyz ) * 1000000.0 )'
+        );
+    }
   }
 
   public static setQualityMode(mode: QualityMode): void {

@@ -220,12 +220,29 @@ describe('UI, CameraController & SurfaceMarkers — Functional Integration Tests
     searchDropdown.children[0]?.click();
     assert.equal(selectedFromHud, 'earth');
 
-    // BottomDock: verificare viteză implicită "1 min / sec" și buton Pauză
+    // BottomDock: verificare viteză implicită "1 min / sec", buton Pauză și persistența vitezei în localStorage
     const bottomDock = new BottomDock(orbitalEngine, scaleManager);
     bottomDock.updateDateReadout();
     assert.equal(document.getElementById('hud-speed-label')?.textContent, '1 min / sec');
     document.getElementById('btn-time-pause')?.click();
     assert.equal(orbitalEngine.isPaused, true);
+
+    const speedSlider = document.getElementById('hud-speed-slider') as any;
+    speedSlider.value = '3'; // 1 zi / sec (86400)
+    speedSlider.dispatchEvent({ type: 'input' });
+    assert.equal(window.localStorage.getItem('orbitar_sim_speed'), '86400');
+
+    // CameraController: zoom-out mai amplu pentru grupa de vârstă Cadet (9–12+ ani) față de Junior (6–8 ani)
+    cameraController.setAgeTier('junior', false);
+    cameraController.resetToOverview(true);
+    const juniorDist = camera.position.length();
+    cameraController.setAgeTier('cadet', false);
+    cameraController.resetToOverview(true);
+    const cadetDist = camera.position.length();
+    assert.ok(
+      cadetDist > juniorDist * 2.0,
+      `În modul Cadet (${cadetDist.toFixed(1)}), camera cuprinde Sistemul Solar de mai departe decât în modul Junior (${juniorDist.toFixed(1)})`
+    );
 
     // LightSpeedRuler: activare și calcul distanță Pământ -> Marte
     const ruler = new LightSpeedRuler(scene, orbitalEngine);

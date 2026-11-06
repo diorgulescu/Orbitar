@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { AgeTier } from '../types/celestial';
 import { CelestialBodyInstance, OrbitalEngine } from './OrbitalEngine';
 import { ScaleManager } from './ScaleManager';
 
@@ -12,6 +13,8 @@ export type BodySelectCallback = (body: CelestialBodyInstance | null) => void;
  * - Tranziție lină (smooth lerp) către corpul ceresc selectat
  * - Urmărire orbitală continuă (camera călătorește împreună cu planeta pe orbită,
  *   permițând în același timp rotația și zoom-ul liber cu OrbitControls în jurul țintei)
+ * - Încadrarea panoramică adaptată grupei de vârstă (apropiată pentru Micul Explorator 6–8 ani,
+ *   zoom-out „de departe” peste întregul Sistem Solar pentru Cadet Orbitar 9–12+ ani)
  */
 export class CameraController {
   private readonly camera: THREE.PerspectiveCamera;
@@ -30,6 +33,7 @@ export class CameraController {
   private lastParentRotY = 0;
   private isTransitioning = false;
   private enabled = true;
+  private ageTier: AgeTier = 'junior';
   private readonly desiredCameraOffset = new THREE.Vector3(0, 75, 135);
   private readonly selectCallbacks: Set<BodySelectCallback> = new Set();
 
@@ -58,12 +62,27 @@ export class CameraController {
 
     // La schimbarea scării (Didactică <-> Reală), reîncadrăm lin corpul urmărit
     this.scaleManager.onChange(() => {
-      if (this.trackedBody) {
+      if (this.trackedBody && this.trackedBody.meta.id !== 'sun') {
         this.focusBody(this.trackedBody.meta.id);
       } else {
         this.resetToOverview();
       }
     });
+  }
+
+  public getAgeTier(): AgeTier {
+    return this.ageTier;
+  }
+
+  /**
+   * Actualizează grupa de vârstă activă și, dacă ne aflăm în vederea de ansamblu (Soare),
+   * ajustează automat zoom-ul panoramic (apropiat pentru Junior 6–8 ani, vedere largă de departe pentru Cadet 9–12 ani).
+   */
+  public setAgeTier(tier: AgeTier, updateOverviewIfAtSun = true): void {
+    this.ageTier = tier;
+    if (updateOverviewIfAtSun && (!this.trackedBody || this.trackedBody.meta.id === 'sun')) {
+      this.resetToOverview();
+    }
   }
 
   public onSelect(callback: BodySelectCallback): () => void {
@@ -115,7 +134,8 @@ export class CameraController {
       }
       surfaceNormal.normalize();
       const viewDir = surfaceNormal.clone().add(new THREE.Vector3(0, 0.22, 0)).normalize();
-      const roverDist = Math.max(parent.visualRadius * 1.45, 0.004);
+      const roverDist = parent.visualRadius * 1.45;
+      this.controls.minDistance = Math.max(parent.visualRadius * 1.15, 1e-9);
       this.desiredCameraOffset.copy(viewDir).multiplyScalar(roverDist);
       this.isTransitioning = true;
 
@@ -125,10 +145,20 @@ export class CameraController {
       return;
     }
 
+    const isSpacecraft =
+      body.data.category === 'station' ||
+      body.data.category === 'telescope' ||
+      body.data.category === 'probe';
     const viewDist =
       body.meta.id === 'sun'
-        ? Math.max(r * 4.8, 12)
-        : Math.max(r * 4.5, 0.0025);
+        ? this.scaleManager.getMode() === 'real'
+          ? r * 4.8
+          : Math.max(r * 4.8, 12)
+        : isSpacecraft
+        ? r * 5.2
+        : r * 4.5;
+
+    this.controls.minDistance = Math.max(r * 1.25, 1e-9);
 
     // Alegem o direcție de privire care să pună în valoare emisfera iluminată de Soare
     const sunToBody = body.worldPosition.clone();
@@ -156,19 +186,35 @@ export class CameraController {
   }
 
   /**
-   * Readuce camera la o vedere panoramică asupra întregului Sistem Solar.
+   * Readuce camera la o vedere panoramică asupra întregului Sistem Solar,
+   * adaptată scării active (Didactică vs Reală) și grupei de vârstă:
+   * - Pentru Micul Explorator (6–8 ani, `junior`): cadru mai apropiat și prietenos asupra planetelor.
+   * - Pentru Cadet Orbitar (9–12+ ani, `cadet`): zoom-out „de departe” care cuprinde întregul Sistem Solar.
    */
-  public resetToOverview(): void {
+  public resetToOverview(snapImmediately = false): void {
     const sun = this.orbitalEngine.getBody('sun') ?? null;
     this.trackedBody = sun;
     this.lastTrackedWorldPos.set(0, 0, 0);
 
     if (this.scaleManager.getMode() === 'real') {
-      this.desiredCameraOffset.set(0, 165, 290);
+      if (this.ageTier === 'cadet') {
+        this.desiredCameraOffset.set(0, 380, 680);
+      } else {
+        this.desiredCameraOffset.set(0, 165, 290);
+      }
+    } else if (this.ageTier === 'cadet') {
+      this.desiredCameraOffset.set(0, 195, 360);
     } else {
       this.desiredCameraOffset.set(0, 75, 135);
     }
-    this.isTransitioning = true;
+
+    if (snapImmediately) {
+      this.controls.target.set(0, 0, 0);
+      this.camera.position.copy(this.desiredCameraOffset);
+      this.isTransitioning = false;
+    } else {
+      this.isTransitioning = true;
+    }
 
     for (const cb of this.selectCallbacks) {
       cb(sun);
@@ -200,7 +246,7 @@ export class CameraController {
         this.lastParentRotY = parent.visualRoot.rotation.y;
 
         const surfaceNormal = currentBodyPos.clone().sub(parent.worldPosition).normalize();
-        const roverDist = Math.max(parent.visualRadius * 1.45, 0.004);
+        const roverDist = parent.visualRadius * 1.45;
         const viewDir = surfaceNormal.clone().add(new THREE.Vector3(0, 0.22, 0)).normalize();
         this.desiredCameraOffset.copy(viewDir).multiplyScalar(roverDist);
 
@@ -229,7 +275,7 @@ export class CameraController {
 
       if (
         this.camera.position.distanceTo(desiredCamPos) <
-        Math.max(this.trackedBody.visualRadius * 0.08, 0.0005)
+        Math.max(this.trackedBody.visualRadius * 0.04, 1e-10)
       ) {
         this.isTransitioning = false;
       }

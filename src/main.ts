@@ -217,10 +217,12 @@ async function bootstrapOrbitar(): Promise<void> {
     },
     onTierChange: (tier) => {
       studyDrawer.setTier(tier);
+      cameraController.setAgeTier(tier, true);
     },
   });
 
   studyDrawer.setTier(headerHud.getTier());
+  cameraController.setAgeTier(headerHud.getTier(), false);
 
   const bottomDock = new BottomDock(orbitalEngine, scaleManager);
   const lightSpeedRuler = new LightSpeedRuler(sceneManager.scene, orbitalEngine);
@@ -380,7 +382,7 @@ async function bootstrapOrbitar(): Promise<void> {
     handleBodySelection(body);
   });
 
-  cameraController.resetToOverview();
+  cameraController.resetToOverview(true);
 
   // La schimbarea modului grafic, doar re-aplicăm profilul pe scenă și pe corpuri;
   // butonul și toast-urile sunt gestionate de ToolbarControls (înregistrat mai sus).

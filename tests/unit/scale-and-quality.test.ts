@@ -41,26 +41,55 @@ describe('ScaleManager — Unit Tests', () => {
     const sm = new ScaleManager('didactic');
 
     assert.equal(sm.scaleRadius(696340, 'star'), 6.2);
-    assert.equal(sm.scaleRadius(0.05, 'probe'), 0.58);
-    assert.equal(sm.scaleRadius(0.05, 'station'), 0.58);
-    assert.equal(sm.scaleRadius(0.05, 'telescope'), 0.58);
     assert.equal(sm.scaleRadius(0.003, 'rover'), 0.06);
 
+    const voyagerDidactic = sm.scaleRadius(0.002, 'probe');
+    const hubbleDidactic = sm.scaleRadius(0.0066, 'telescope');
+    const jwstDidactic = sm.scaleRadius(0.011, 'telescope');
+    const issDidactic = sm.scaleRadius(0.055, 'station');
+    const deimosDidactic = sm.scaleRadius(6.2, 'moon');
+    const phobosDidactic = sm.scaleRadius(11.27, 'moon');
+    const moonDidactic = sm.scaleRadius(1737.4, 'moon');
     const earthDidactic = sm.scaleRadius(6371, 'terrestrial');
     const jupiterDidactic = sm.scaleRadius(69911, 'gas_giant');
-    const moonDidactic = sm.scaleRadius(1737, 'moon');
     const astDidactic = sm.scaleRadius(262, 'asteroid');
 
+    assert.ok(
+      voyagerDidactic < hubbleDidactic &&
+        hubbleDidactic < jwstDidactic &&
+        jwstDidactic < issDidactic &&
+        issDidactic < moonDidactic,
+      'În Scara Didactică, sondele, telescoapele și ISS respectă ierarhia de mărime și sunt mai mici decât Luna'
+    );
+    assert.ok(
+      deimosDidactic < phobosDidactic && phobosDidactic < moonDidactic,
+      'În Scara Didactică, Deimos < Phobos < Luna'
+    );
     assert.ok(jupiterDidactic > earthDidactic, 'Jupiter trebuie să fie mai mare decât Pământul');
     assert.ok(earthDidactic > moonDidactic, 'Pământul trebuie să fie mai mare decât Luna');
-    assert.ok(astDidactic >= 0.48, 'Asteroizii au rază didactică vizibilă');
+    assert.ok(astDidactic >= 0.45, 'Asteroizii mari au rază didactică vizibilă');
 
     sm.setMode('real');
     const earthReal = sm.scaleRadius(6371, 'terrestrial');
     const sunReal = sm.scaleRadius(696340, 'star');
-    assert.ok(sunReal > earthReal * 90, 'În Scara Reală Soarele este de ~109 ori mai mare decât Pământul');
-    assert.equal(sm.scaleRadius(0.003, 'rover'), 0.0012);
-    assert.equal(sm.scaleRadius(0.05, 'probe'), 0.0012);
+    const moonReal = sm.scaleRadius(1737.4, 'moon');
+    const marsReal = sm.scaleRadius(3389.5, 'terrestrial');
+    const phobosReal = sm.scaleRadius(11.27, 'moon');
+    const deimosReal = sm.scaleRadius(6.2, 'moon');
+    const issReal = sm.scaleRadius(0.055, 'station');
+    const jwstReal = sm.scaleRadius(0.011, 'telescope');
+    const hubbleReal = sm.scaleRadius(0.0066, 'telescope');
+    const voyagerReal = sm.scaleRadius(0.002, 'probe');
+
+    // În Scara Reală, toate rapoartele fizice sunt respectate cu precizie matematică
+    assert.ok(Math.abs(sunReal / earthReal - 696340 / 6371) < 1e-6, 'Raportul Soare / Pământ este exact 109,3');
+    assert.ok(Math.abs(earthReal / moonReal - 6371 / 1737.4) < 1e-6, 'Raportul Pământ / Lună este exact 3,667');
+    assert.ok(Math.abs(marsReal / phobosReal - 3389.5 / 11.27) < 1e-6, 'Raportul Marte / Phobos este exact 300,75');
+    assert.ok(Math.abs(marsReal / deimosReal - 3389.5 / 6.2) < 1e-6, 'Raportul Marte / Deimos este exact 546,69');
+    assert.ok(Math.abs(earthReal / issReal - 6371 / 0.055) < 1e-3, 'Raportul Pământ / ISS este exact (~115.836:1)');
+    assert.ok(Math.abs(issReal / jwstReal - 0.055 / 0.011) < 1e-6, 'Raportul ISS / JWST este exact 5:1');
+    assert.ok(Math.abs(jwstReal / hubbleReal - 0.011 / 0.0066) < 1e-6, 'Raportul JWST / Hubble este exact');
+    assert.ok(hubbleReal > voyagerReal, 'Hubble este mai mare decât sonda Voyager în Scara Reală');
     // Stelele din Orizontul Interstelar (Sirius, Betelgeuse) păstrează raza vizuală calibrată și în Scara Reală
     assert.equal(sm.scaleRadius(1190000, 'star'), 6.2);
     assert.equal(sm.scaleRadius(487000000, 'star'), 7.8);
@@ -93,11 +122,11 @@ describe('ScaleManager — Unit Tests', () => {
     const sm = new ScaleManager('didactic');
     assert.ok(sm.getHitSphereRadius(6.2, 'star') > 7.5);
     assert.ok(sm.getHitSphereRadius(1.5, 'terrestrial') >= 2.6);
-    assert.ok(sm.getHitSphereRadius(0.58, 'telescope') >= 0.85);
+    assert.ok(sm.getHitSphereRadius(0.28, 'telescope') >= 0.85);
 
     sm.setMode('real');
-    assert.equal(sm.getHitSphereRadius(0.0012, 'telescope'), 0.18);
-    assert.equal(sm.getHitSphereRadius(0.004, 'terrestrial'), 1.8);
+    assert.ok(sm.getHitSphereRadius(0.00000004, 'telescope') >= 0.00012);
+    assert.ok(sm.getHitSphereRadius(0.00426, 'terrestrial') > 0.01);
   });
 });
 

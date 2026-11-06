@@ -376,19 +376,34 @@ export class ProceduralModels {
     }
 
     if (modelType === 'iss') {
-      return { visualRoot: this.createISSModel(mode) };
+      return { visualRoot: this.normalizeGroupToUnitRadius(this.createISSModel(mode), 1.65) };
     }
     if (modelType === 'jwst') {
-      return { visualRoot: this.createJWSTModel(mode) };
+      return { visualRoot: this.normalizeGroupToUnitRadius(this.createJWSTModel(mode), 1.63) };
     }
     if (modelType === 'hubble') {
-      return { visualRoot: this.createHubbleModel(data.id, data.color, mode) };
+      return {
+        visualRoot: this.normalizeGroupToUnitRadius(
+          this.createHubbleModel(data.id, data.color, mode),
+          1.02
+        ),
+      };
     }
     if (modelType === 'voyager') {
-      return { visualRoot: this.createVoyagerModel(data.color, mode) };
+      return {
+        visualRoot: this.normalizeGroupToUnitRadius(
+          this.createVoyagerModel(data.color, mode),
+          1.65
+        ),
+      };
     }
     if (modelType === 'probe') {
-      return { visualRoot: this.createSpaceProbeModel(data, mode) };
+      return {
+        visualRoot: this.normalizeGroupToUnitRadius(
+          this.createSpaceProbeModel(data, mode),
+          1.65
+        ),
+      };
     }
     if (modelType === 'rover') {
       // Roverele sunt afișate ca pinpoint-uri ancorate direct pe suprafața planetei Marte (SurfaceMarkers)
@@ -424,6 +439,20 @@ export class ProceduralModels {
 
     // Corp sferic PBR (planete, sateliți majori, planete pitice, Pământul multi-layer cu lumini de noapte în HD)
     return PlanetMaterialFactory.createPlanetVisual(data, mode);
+  }
+
+  /**
+   * Normalizează sub-componentele unui model 3D de stație, telescop sau sondă spațială astfel încât
+   * raza sferei sale de încadrare în coordonate locale să fie 1.0 (identic cu sferele planetelor/sateliților).
+   */
+  private static normalizeGroupToUnitRadius(group: THREE.Group, localMaxExtent: number): THREE.Group {
+    if (localMaxExtent <= 0) return group;
+    const inv = 1.0 / localMaxExtent;
+    for (const child of group.children) {
+      child.position.multiplyScalar(inv);
+      child.scale.multiplyScalar(inv);
+    }
+    return group;
   }
 
   /**
