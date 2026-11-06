@@ -161,6 +161,11 @@ interface MarkerInstance {
   pinGroup: THREE.Group;
   pinHead: THREE.Mesh;
   badgeEl: HTMLButtonElement;
+  isHidden: boolean;
+  isActive: boolean;
+  isBehindLimb: boolean;
+  x: number;
+  y: number;
 }
 
 export type MarkerSelectCallback = (marker: SurfaceMarkerData) => void;
@@ -274,6 +279,11 @@ export class SurfaceMarkers {
         pinGroup,
         pinHead,
         badgeEl,
+        isHidden: true,
+        isActive: false,
+        isBehindLimb: false,
+        x: Number.NaN,
+        y: Number.NaN,
       });
     }
   }
@@ -281,6 +291,16 @@ export class SurfaceMarkers {
   public triggerMarkerSelect(data: SurfaceMarkerData): void {
     for (const cb of this.selectCallbacks) {
       cb(data);
+    }
+  }
+
+  private hideMarkerBadge(m: MarkerInstance): void {
+    if (m.pinGroup.visible) {
+      m.pinGroup.visible = false;
+    }
+    if (!m.isHidden) {
+      m.isHidden = true;
+      m.badgeEl.classList.add('is-hidden');
     }
   }
 
@@ -296,8 +316,7 @@ export class SurfaceMarkers {
     for (const m of this.markers) {
       const planet = this.orbitalEngine.getBody(m.data.planetId);
       if (!planet || !planet.rootGroup.visible) {
-        m.pinGroup.visible = false;
-        m.badgeEl.classList.add('is-hidden');
+        this.hideMarkerBadge(m);
         continue;
       }
 
@@ -314,17 +333,21 @@ export class SurfaceMarkers {
       const shouldShow = isFocusedOnSystem || camDist <= proximityThreshold;
 
       if (!shouldShow) {
-        m.pinGroup.visible = false;
-        m.badgeEl.classList.add('is-hidden');
+        this.hideMarkerBadge(m);
         continue;
       }
 
-      m.pinGroup.visible = true;
+      if (!m.pinGroup.visible) {
+        m.pinGroup.visible = true;
+      }
       m.pinHead.getWorldPosition(this.tempWorldPos);
 
       const isRoverPin = Boolean(m.data.linkedBodyId);
       const isThisRoverSelected = Boolean(m.data.linkedBodyId && trackedId === m.data.linkedBodyId);
-      m.badgeEl.classList.toggle('is-active', isThisRoverSelected);
+      if (m.isActive !== isThisRoverSelected) {
+        m.isActive = isThisRoverSelected;
+        m.badgeEl.classList.toggle('is-active', isThisRoverSelected);
+      }
 
       // Verificăm dacă pinul se află pe emisfera orientată spre cameră
       this.tempNormal.copy(this.tempWorldPos).sub(this.tempPlanetPos).normalize();
@@ -333,7 +356,10 @@ export class SurfaceMarkers {
 
       if (facingDot < -0.1) {
         if (!isRoverPin) {
-          m.badgeEl.classList.add('is-hidden');
+          if (!m.isHidden) {
+            m.isHidden = true;
+            m.badgeEl.classList.add('is-hidden');
+          }
           continue;
         }
         // Pentru pinii roverelor (Perseverance și Curiosity), chiar dacă Marte s-a rotit cu roverul pe
@@ -345,23 +371,37 @@ export class SurfaceMarkers {
         this.tempWorldPos
           .copy(this.tempPlanetPos)
           .addScaledVector(this.tempLimbPos, planet.visualRadius * 1.22);
-        m.badgeEl.classList.add('is-behind-limb');
-      } else {
+        if (!m.isBehindLimb) {
+          m.isBehindLimb = true;
+          m.badgeEl.classList.add('is-behind-limb');
+        }
+      } else if (m.isBehindLimb) {
+        m.isBehindLimb = false;
         m.badgeEl.classList.remove('is-behind-limb');
       }
 
       this.tempProj.copy(this.tempWorldPos).project(camera);
       if (this.tempProj.z < -1 || this.tempProj.z > 1) {
-        m.badgeEl.classList.add('is-hidden');
+        if (!m.isHidden) {
+          m.isHidden = true;
+          m.badgeEl.classList.add('is-hidden');
+        }
         continue;
       }
 
-      const x = (this.tempProj.x * 0.5 + 0.5) * width;
-      const y = (-this.tempProj.y * 0.5 + 0.5) * height;
+      const rx = Math.round((this.tempProj.x * 0.5 + 0.5) * width * 10) / 10;
+      const ry = Math.round((-this.tempProj.y * 0.5 + 0.5) * height * 10) / 10;
 
-      m.badgeEl.classList.remove('is-hidden');
-      m.badgeEl.style.left = `${x.toFixed(1)}px`;
-      m.badgeEl.style.top = `${y.toFixed(1)}px`;
+      if (m.isHidden) {
+        m.isHidden = false;
+        m.badgeEl.classList.remove('is-hidden');
+      }
+      if (m.x !== rx || m.y !== ry) {
+        m.x = rx;
+        m.y = ry;
+        m.badgeEl.style.left = `${rx.toFixed(1)}px`;
+        m.badgeEl.style.top = `${ry.toFixed(1)}px`;
+      }
     }
   }
 }

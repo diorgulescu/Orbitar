@@ -35,6 +35,14 @@ export class CameraController {
   private enabled = true;
   private ageTier: AgeTier = 'junior';
   private readonly desiredCameraOffset = new THREE.Vector3(0, 75, 135);
+  private readonly tempOrbitalDelta = new THREE.Vector3();
+  private readonly tempSurfaceNormal = new THREE.Vector3();
+  private readonly tempViewDir = new THREE.Vector3();
+  private readonly tempSpinAxis = new THREE.Vector3();
+  private readonly tempCamRel = new THREE.Vector3();
+  private readonly tempCamFromParent = new THREE.Vector3();
+  private readonly tempDesiredCamPos = new THREE.Vector3();
+  private readonly tempSpinEuler = new THREE.Euler();
   private readonly selectCallbacks: Set<BodySelectCallback> = new Set();
 
   constructor(
@@ -230,8 +238,8 @@ export class CameraController {
     const currentBodyPos = this.trackedBody.worldPosition;
 
     // 1. Deplasăm camera cu exact vectorul parcurs de planetă pe orbită în acest cadru
-    const orbitalDelta = currentBodyPos.clone().sub(this.lastTrackedWorldPos);
-    this.camera.position.add(orbitalDelta);
+    this.tempOrbitalDelta.copy(currentBodyPos).sub(this.lastTrackedWorldPos);
+    this.camera.position.add(this.tempOrbitalDelta);
     this.lastTrackedWorldPos.copy(currentBodyPos);
 
     // 2. Interpolare lină (exponential smooth lerp) pentru ținta OrbitControls și poziția camerei
@@ -245,36 +253,37 @@ export class CameraController {
         const deltaRotY = parent.visualRoot.rotation.y - this.lastParentRotY;
         this.lastParentRotY = parent.visualRoot.rotation.y;
 
-        const surfaceNormal = currentBodyPos.clone().sub(parent.worldPosition).normalize();
+        this.tempSurfaceNormal.copy(currentBodyPos).sub(parent.worldPosition).normalize();
         const roverDist = parent.visualRadius * 1.45;
-        const viewDir = surfaceNormal.clone().add(new THREE.Vector3(0, 0.22, 0)).normalize();
-        this.desiredCameraOffset.copy(viewDir).multiplyScalar(roverDist);
+        this.tempViewDir.copy(this.tempSurfaceNormal);
+        this.tempViewDir.y += 0.22;
+        this.tempViewDir.normalize();
+        this.desiredCameraOffset.copy(this.tempViewDir).multiplyScalar(roverDist);
 
         if (!this.isTransitioning && Math.abs(deltaRotY) > 0.000001) {
-          const spinAxis = new THREE.Vector3(0, 1, 0).applyEuler(
-            new THREE.Euler(0, 0, parent.visualRoot.rotation.z)
-          );
-          const camRel = this.camera.position.clone().sub(currentBodyPos);
-          camRel.applyAxisAngle(spinAxis, deltaRotY);
-          this.camera.position.copy(currentBodyPos).add(camRel);
+          this.tempSpinEuler.set(0, 0, parent.visualRoot.rotation.z);
+          this.tempSpinAxis.set(0, 1, 0).applyEuler(this.tempSpinEuler);
+          this.tempCamRel.copy(this.camera.position).sub(currentBodyPos);
+          this.tempCamRel.applyAxisAngle(this.tempSpinAxis, deltaRotY);
+          this.camera.position.copy(currentBodyPos).add(this.tempCamRel);
         }
 
         // Prevenim pătrunderea camerei în interiorul sferei planetei Marte în timpul rotației acesteia
-        const camFromParent = this.camera.position.clone().sub(parent.worldPosition);
+        this.tempCamFromParent.copy(this.camera.position).sub(parent.worldPosition);
         const minSafeRadius = parent.visualRadius * 1.38;
-        if (camFromParent.length() < minSafeRadius) {
-          camFromParent.normalize().multiplyScalar(minSafeRadius);
-          this.camera.position.copy(parent.worldPosition).add(camFromParent);
+        if (this.tempCamFromParent.length() < minSafeRadius) {
+          this.tempCamFromParent.normalize().multiplyScalar(minSafeRadius);
+          this.camera.position.copy(parent.worldPosition).add(this.tempCamFromParent);
         }
       }
     }
 
     if (this.isTransitioning) {
-      const desiredCamPos = currentBodyPos.clone().add(this.desiredCameraOffset);
-      this.camera.position.lerp(desiredCamPos, lerpAlpha);
+      this.tempDesiredCamPos.copy(currentBodyPos).add(this.desiredCameraOffset);
+      this.camera.position.lerp(this.tempDesiredCamPos, lerpAlpha);
 
       if (
-        this.camera.position.distanceTo(desiredCamPos) <
+        this.camera.position.distanceTo(this.tempDesiredCamPos) <
         Math.max(this.trackedBody.visualRadius * 0.04, 1e-10)
       ) {
         this.isTransitioning = false;

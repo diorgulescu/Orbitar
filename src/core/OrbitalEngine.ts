@@ -139,10 +139,23 @@ export class OrbitalEngine {
   private readonly scene: THREE.Scene;
   private readonly scaleManager: ScaleManager;
   private readonly bodies: Map<string, CelestialBodyInstance> = new Map();
+  private allBodiesCache: CelestialBodyInstance[] = [];
+  private readonly horizonBodiesCache: Map<CosmicHorizon, CelestialBodyInstance[]> = new Map();
   private readonly belts: InstancedBeltEntry[] = [];
   private beltConfigs: BeltConfig[] = [];
   private elapsedShaderTime = 0;
   private activeHorizon: CosmicHorizon = 'solar';
+
+  // Cache per-timestamp pentru sateliții galileeni ai lui Jupiter (evită 4 calcule identice per cadru)
+  private cachedJupiterMoonsTimeMs = Number.NaN;
+  private cachedJupiterMoons: ReturnType<typeof Astronomy.JupiterMoons> | null = null;
+  private readonly tempSurfacePin = new THREE.Vector3();
+  private readonly tempDir = new THREE.Vector3();
+  private readonly tempPosAu = new THREE.Vector3();
+  private readonly tempAdjustedAu = new THREE.Vector3();
+  private readonly tempScaledPos = new THREE.Vector3();
+  private readonly tempOffsetAu = new THREE.Vector3();
+  private readonly tempScaledOffset = new THREE.Vector3();
 
   private readonly bodiesGroup: THREE.Group;
   private readonly orbitsGroup: THREE.Group;
@@ -270,6 +283,8 @@ export class OrbitalEngine {
 
       this.bodies.set(data.id, instance);
     }
+
+    this.rebuildBodyCaches();
 
     // Construim Centura de Asteroizi și Centura Kuiper cu THREE.InstancedMesh
     for (const beltCfg of this.beltConfigs) {
@@ -401,11 +416,14 @@ export class OrbitalEngine {
     }
   }
 
-  public eqjToThreeEclipticAu(vec: { x: number; y: number; z: number }): THREE.Vector3 {
+  public eqjToThreeEclipticAu(
+    vec: { x: number; y: number; z: number },
+    target: THREE.Vector3 = new THREE.Vector3()
+  ): THREE.Vector3 {
     const xEcl = vec.x;
     const yEcl = vec.y * COS_OBL + vec.z * SIN_OBL;
     const zEcl = -vec.y * SIN_OBL + vec.z * COS_OBL;
-    return new THREE.Vector3(xEcl, zEcl, -yEcl);
+    return target.set(xEcl, zEcl, -yEcl);
   }
 
   /**
@@ -415,7 +433,8 @@ export class OrbitalEngine {
   public keplerianToHeliocentricAu(
     kep: KeplerianElements,
     orbitPeriodDays: number,
-    date: Date
+    date: Date,
+    target: THREE.Vector3 = new THREE.Vector3()
   ): THREE.Vector3 {
     const daysSinceJ2000 = (date.getTime() - J2000_EPOCH_MS) / 86400000;
     const nDegPerDay = orbitPeriodDays > 0 ? 360 / orbitPeriodDays : 0.9856 / Math.pow(kep.semiMajorAxisAU, 1.5);
@@ -445,29 +464,37 @@ export class OrbitalEngine {
       r * (Math.sin(omegaRad) * Math.cos(u) + Math.cos(omegaRad) * Math.sin(u) * Math.cos(iRad));
     const zEcl = r * (Math.sin(u) * Math.sin(iRad));
 
-    return new THREE.Vector3(xEcl, zEcl, -yEcl);
+    return target.set(xEcl, zEcl, -yEcl);
   }
 
   /**
    * Calculează vectorul local (în UA) al unui satelit natural, stații spațiale sau rover față de planeta-mamă.
    */
-  private computeLocalChildOffsetAu(instance: CelestialBodyInstance, date: Date): THREE.Vector3 {
+  private computeLocalChildOffsetAu(
+    instance: CelestialBodyInstance,
+    date: Date,
+    target: THREE.Vector3 = new THREE.Vector3()
+  ): THREE.Vector3 {
     const id = instance.data.id;
 
     if (id === 'moon') {
       const geoMoon = Astronomy.GeoMoon(date);
-      return this.eqjToThreeEclipticAu(geoMoon);
+      return this.eqjToThreeEclipticAu(geoMoon, target);
     }
 
     if (id === 'io' || id === 'europa' || id === 'ganymede' || id === 'callisto') {
-      const jMoons = Astronomy.JupiterMoons(date);
-      const state = jMoons[id];
-      return this.eqjToThreeEclipticAu(state);
+      const timeMs = date.getTime();
+      if (this.cachedJupiterMoonsTimeMs !== timeMs || !this.cachedJupiterMoons) {
+        this.cachedJupiterMoonsTimeMs = timeMs;
+        this.cachedJupiterMoons = Astronomy.JupiterMoons(date);
+      }
+      const state = this.cachedJupiterMoons[id];
+      return this.eqjToThreeEclipticAu(state, target);
     }
 
     // Calcul orbital SGP4 100% offline prin satellite.js (ISSTracker) pentru ISS și Hubble
     if (id === 'iss' || id === 'hubble') {
-      return this.issTracker.getOffsetFromEarthAu(id, date);
+      return this.issTracker.getOffsetFromEarthAu(id, date, target);
     }
 
     // Telescoapele din punctul Lagrange L2 Soare–Pământ (JWST și Euclid, la ~1,5 milioane km = 0,01 UA de Pământ)
@@ -477,7 +504,7 @@ export class OrbitalEngine {
       const angle = ((days / 182.62) * Math.PI * 2 + phase) % (Math.PI * 2);
       const radiusAu = id === 'jwst' ? 0.01 : 0.0108;
       const incl = id === 'jwst' ? 0.22 : -0.26;
-      return new THREE.Vector3(
+      return target.set(
         Math.cos(angle) * radiusAu,
         Math.sin(angle) * Math.sin(incl) * radiusAu,
         -Math.sin(angle) * radiusAu
@@ -495,11 +522,13 @@ export class OrbitalEngine {
     if (instance.data.category === 'rover') {
       // Roverele se rotesc odată cu suprafața lui Marte
       const lat = order === 1 ? 0.32 : -0.15;
-      return new THREE.Vector3(
-        Math.cos(angle) * Math.cos(lat),
-        Math.sin(lat),
-        Math.sin(angle) * Math.cos(lat)
-      ).multiplyScalar(0.000023);
+      return target
+        .set(
+          Math.cos(angle) * Math.cos(lat),
+          Math.sin(lat),
+          Math.sin(angle) * Math.cos(lat)
+        )
+        .multiplyScalar(0.000023);
     }
 
     const incl = id === 'triton' ? -0.35 : id === 'iapetus' ? 0.24 : order % 2 === 1 ? 0.08 : -0.14;
@@ -519,7 +548,7 @@ export class OrbitalEngine {
       moonSemiMajorAu[id] ??
       (instance.data.parentId === 'saturn' ? 0.0016 * order * 2.5 : 0.000045 * order);
 
-    return new THREE.Vector3(
+    return target.set(
       Math.cos(angle) * radiusAu,
       Math.sin(angle) * Math.sin(incl) * radiusAu,
       -Math.sin(angle) * radiusAu
@@ -583,22 +612,25 @@ export class OrbitalEngine {
    */
   private adjustDidacticHelioAu(
     instance: CelestialBodyInstance,
-    rawPosAu: THREE.Vector3
+    rawPosAu: THREE.Vector3,
+    target: THREE.Vector3 = new THREE.Vector3()
   ): THREE.Vector3 {
-    if (this.scaleManager.getMode() === 'real' || rawPosAu.lengthSq() === 0) {
-      return rawPosAu;
+    const rawLenSq = rawPosAu.lengthSq();
+    if (this.scaleManager.getMode() === 'real' || rawLenSq === 0) {
+      return target.copy(rawPosAu);
     }
     const targetAu = DIDACTIC_ORBIT_AU[instance.data.id] ?? instance.data.distanceFromSunAU;
     if (!targetAu || targetAu <= 0) {
-      return rawPosAu;
+      return target.copy(rawPosAu);
     }
+    const rawLen = Math.sqrt(rawLenSq);
     const nominalAu =
       instance.data.keplerian?.semiMajorAxisAU ||
       instance.data.distanceFromSunAU ||
-      rawPosAu.length();
-    const rawRatio = nominalAu > 0 ? rawPosAu.length() / nominalAu : 1;
+      rawLen;
+    const rawRatio = nominalAu > 0 ? rawLen / nominalAu : 1;
     const dampedRatio = 1 + THREE.MathUtils.clamp(rawRatio - 1, -0.012, 0.012);
-    return rawPosAu.clone().normalize().multiplyScalar(targetAu * dampedRatio);
+    return target.copy(rawPosAu).multiplyScalar((targetAu * dampedRatio) / rawLen);
   }
 
   private buildOrbitEllipse(instance: CelestialBodyInstance): THREE.LineLoop {
@@ -670,7 +702,7 @@ export class OrbitalEngine {
 
     if (!this.isPaused && deltaSeconds > 0) {
       const deltaSimMs = deltaSeconds * this.timeScale * 1000;
-      this.simulationDate = new Date(this.simulationDate.getTime() + deltaSimMs);
+      this.simulationDate.setTime(this.simulationDate.getTime() + deltaSimMs);
     }
 
     // Rotim centurile de asteroizi proporțional cu timpul simulat
@@ -679,8 +711,12 @@ export class OrbitalEngine {
       this.beltsGroup.rotation.y += beltStep;
     }
 
+    const astroTime = Astronomy.MakeTime(this.simulationDate);
+    const bodyList =
+      this.allBodiesCache.length > 0 ? this.allBodiesCache : Array.from(this.bodies.values());
+
     // 1. Actualizăm corpurile principale heliocentrice (fără parentId)
-    for (const instance of this.bodies.values()) {
+    for (const instance of bodyList) {
       if (instance.updateShaderTime) {
         instance.updateShaderTime(this.elapsedShaderTime, simDaysDelta);
       }
@@ -692,11 +728,12 @@ export class OrbitalEngine {
         instance.worldPosition.set(dx, dy, dz);
         instance.rootGroup.position.set(dx, dy, dz);
         const distAu = instance.data.distanceFromSunAU || 63241;
-        const dir =
-          instance.worldPosition.lengthSq() > 0.001
-            ? instance.worldPosition.clone().normalize()
-            : new THREE.Vector3(1, 0, 0);
-        instance.heliocentricAu.copy(dir.multiplyScalar(distAu));
+        if (instance.worldPosition.lengthSq() > 0.001) {
+          this.tempDir.copy(instance.worldPosition).normalize();
+        } else {
+          this.tempDir.set(1, 0, 0);
+        }
+        instance.heliocentricAu.copy(this.tempDir.multiplyScalar(distAu));
         instance.distanceFromSunAu = distAu;
         continue;
       }
@@ -707,26 +744,33 @@ export class OrbitalEngine {
         instance.distanceFromSunAu = 0;
         instance.rootGroup.position.set(0, 0, 0);
       } else if (instance.astroBody) {
-        const helio = Astronomy.HelioVector(instance.astroBody, this.simulationDate);
-        const posAu = this.eqjToThreeEclipticAu(helio);
+        const helio = Astronomy.HelioVector(instance.astroBody, astroTime);
+        const posAu = this.eqjToThreeEclipticAu(helio, this.tempPosAu);
         instance.heliocentricAu.copy(posAu);
         instance.distanceFromSunAu = posAu.length();
 
-        const adjustedAu = this.adjustDidacticHelioAu(instance, posAu);
-        const scaledPos = this.scaleManager.scaleHeliocentricPosition(adjustedAu);
+        const adjustedAu = this.adjustDidacticHelioAu(instance, posAu, this.tempAdjustedAu);
+        const scaledPos = this.scaleManager.scaleHeliocentricPosition(
+          adjustedAu,
+          this.tempScaledPos
+        );
         instance.worldPosition.copy(scaledPos);
         instance.rootGroup.position.copy(scaledPos);
       } else if (instance.data.keplerian) {
         const posAu = this.keplerianToHeliocentricAu(
           instance.data.keplerian,
           instance.data.orbitPeriodDays,
-          this.simulationDate
+          this.simulationDate,
+          this.tempPosAu
         );
         instance.heliocentricAu.copy(posAu);
         instance.distanceFromSunAu = instance.data.distanceFromSunAU || posAu.length();
 
-        const adjustedAu = this.adjustDidacticHelioAu(instance, posAu);
-        const scaledPos = this.scaleManager.scaleHeliocentricPosition(adjustedAu);
+        const adjustedAu = this.adjustDidacticHelioAu(instance, posAu, this.tempAdjustedAu);
+        const scaledPos = this.scaleManager.scaleHeliocentricPosition(
+          adjustedAu,
+          this.tempScaledPos
+        );
         instance.worldPosition.copy(scaledPos);
         instance.rootGroup.position.copy(scaledPos);
       }
@@ -735,7 +779,7 @@ export class OrbitalEngine {
     }
 
     // 2. Actualizăm sateliții, stațiile orbitale și roverele atașate de o planetă-mamă (parentId)
-    for (const instance of this.bodies.values()) {
+    for (const instance of bodyList) {
       if (!instance.data.parentId) continue;
 
       const parent = this.bodies.get(instance.data.parentId);
@@ -748,21 +792,27 @@ export class OrbitalEngine {
         const lonDeg = instance.data.id === 'perseverance' ? 77.58 : 137.44;
         const latRad = THREE.MathUtils.degToRad(latDeg);
         const lonRad = THREE.MathUtils.degToRad(lonDeg);
-        const surfacePinLocal = new THREE.Vector3(
-          Math.cos(latRad) * Math.cos(lonRad),
-          Math.sin(latRad),
-          -Math.cos(latRad) * Math.sin(lonRad)
-        ).multiplyScalar(1.03);
+        this.tempSurfacePin
+          .set(
+            Math.cos(latRad) * Math.cos(lonRad),
+            Math.sin(latRad),
+            -Math.cos(latRad) * Math.sin(lonRad)
+          )
+          .multiplyScalar(1.03);
 
         parent.visualRoot.updateWorldMatrix(true, false);
-        instance.worldPosition.copy(surfacePinLocal).applyMatrix4(parent.visualRoot.matrixWorld);
+        instance.worldPosition.copy(this.tempSurfacePin).applyMatrix4(parent.visualRoot.matrixWorld);
         instance.rootGroup.position.copy(instance.worldPosition);
         instance.heliocentricAu.copy(parent.heliocentricAu);
         instance.distanceFromSunAu = parent.distanceFromSunAu;
         continue;
       }
 
-      const offsetAu = this.computeLocalChildOffsetAu(instance, this.simulationDate);
+      const offsetAu = this.computeLocalChildOffsetAu(
+        instance,
+        this.simulationDate,
+        this.tempOffsetAu
+      );
       instance.heliocentricAu.copy(parent.heliocentricAu).add(offsetAu);
       instance.distanceFromSunAu =
         instance.data.id === 'jwst' || instance.data.id === 'euclid'
@@ -773,7 +823,8 @@ export class OrbitalEngine {
         offsetAu,
         parent.visualRadius,
         instance.data.localOrbitOrder ?? 1,
-        instance.data.category
+        instance.data.category,
+        this.tempScaledOffset
       );
 
       instance.worldPosition.copy(parent.worldPosition).add(scaledOffset);
@@ -814,23 +865,36 @@ export class OrbitalEngine {
     instance.visualRoot.rotation.y += clampedDeltaRad;
   }
 
+  private rebuildBodyCaches(): void {
+    this.allBodiesCache = Array.from(this.bodies.values());
+    this.horizonBodiesCache.clear();
+    for (const h of ['solar', 'interstellar', 'galactic'] as const) {
+      const list: CelestialBodyInstance[] = [];
+      for (const instance of this.allBodiesCache) {
+        if ((instance.data.horizon ?? 'solar') === h) {
+          list.push(instance);
+        }
+      }
+      this.horizonBodiesCache.set(h, list);
+    }
+  }
+
   public getBodies(): CelestialBodyInstance[] {
     return this.getBodiesForHorizon(this.activeHorizon);
   }
 
   public getAllBodies(): CelestialBodyInstance[] {
-    return Array.from(this.bodies.values());
+    if (this.allBodiesCache.length !== this.bodies.size) {
+      this.rebuildBodyCaches();
+    }
+    return this.allBodiesCache;
   }
 
   public getBodiesForHorizon(horizon: CosmicHorizon): CelestialBodyInstance[] {
-    const list: CelestialBodyInstance[] = [];
-    for (const instance of this.bodies.values()) {
-      const h = instance.data.horizon ?? 'solar';
-      if (h === horizon) {
-        list.push(instance);
-      }
+    if (this.allBodiesCache.length !== this.bodies.size) {
+      this.rebuildBodyCaches();
     }
-    return list;
+    return this.horizonBodiesCache.get(horizon) ?? [];
   }
 
   public getActiveHorizon(): CosmicHorizon {

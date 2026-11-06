@@ -304,7 +304,7 @@ export class CosmicScaleNavigator {
     }
 
     if (this.currentHorizon === 'solar') {
-      if (this.homeMarkerDomEl) {
+      if (this.homeMarkerDomEl && this.homeMarkerDomEl.style.display !== 'none') {
         this.homeMarkerDomEl.style.display = 'none';
       }
       return;
@@ -326,13 +326,23 @@ export class CosmicScaleNavigator {
       this.tempProj.project(this.camera);
 
       if (this.tempProj.z < -1 || this.tempProj.z > 1) {
-        this.homeMarkerDomEl.style.display = 'none';
+        if (this.homeMarkerDomEl.style.display !== 'none') {
+          this.homeMarkerDomEl.style.display = 'none';
+        }
       } else {
-        const x = (this.tempProj.x * 0.5 + 0.5) * width;
-        const y = (-this.tempProj.y * 0.5 + 0.5) * height;
-        this.homeMarkerDomEl.style.display = 'inline-flex';
-        this.homeMarkerDomEl.style.left = `${x.toFixed(1)}px`;
-        this.homeMarkerDomEl.style.top = `${y.toFixed(1)}px`;
+        const rx = Math.round((this.tempProj.x * 0.5 + 0.5) * width * 10) / 10;
+        const ry = Math.round((-this.tempProj.y * 0.5 + 0.5) * height * 10) / 10;
+        const nextLeft = `${rx.toFixed(1)}px`;
+        const nextTop = `${ry.toFixed(1)}px`;
+        if (this.homeMarkerDomEl.style.display !== 'inline-flex') {
+          this.homeMarkerDomEl.style.display = 'inline-flex';
+        }
+        if (this.homeMarkerDomEl.style.left !== nextLeft) {
+          this.homeMarkerDomEl.style.left = nextLeft;
+        }
+        if (this.homeMarkerDomEl.style.top !== nextTop) {
+          this.homeMarkerDomEl.style.top = nextTop;
+        }
       }
     }
   }

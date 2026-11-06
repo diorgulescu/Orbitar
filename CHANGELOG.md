@@ -4,6 +4,19 @@ Toate modificările, îmbunătățirile astronomice, adăugirile didactice și r
 
 ---
 
+## [1.2.7] — 2026-11-07
+
+### Performanță & Fluiditate 60/120 FPS (Eliminare Micro-Freeze Periodic)
+- **Eliminarea invalidării layout-ului și a recalculării stilurilor `:root` la fiecare secundă (`BottomDock`, `main.ts`, `style.css`)**:
+  - `BottomDock.updateDateReadout()` păstrează în cache referința `#hud-sim-date` și cheia minutului curent (`Math.floor(simDate.getTime() / 60000)`), formatând și actualizând DOM-ul exclusiv la schimbarea efectivă a minutului afișat (în loc de 60–120 rescrieri DOM/secundă).
+  - `syncHeaderOffsetCssVar()` din `main.ts` actualizează variabilele CSS `--hud-header-offset` și `--hud-bottom-offset` pe `:root` doar atunci când înălțimea în pixeli a barelor HUD se schimbă efectiv, prevenind recalcularea stilurilor în tot arborele DOM la fiecare secundă.
+  - Adăugat `contain: layout style` și `font-variant-numeric: tabular-nums` pe `.sim-date-readout` și `.target-dist-badge`, plus oprirea animației CSS din `#loading-screen.is-hidden`.
+- **Eliminarea scrierilor DOM redundante și a alocărilor temporare pe heap în bucla de randare (`OrbitalEngine`, `ScaleManager`, `CameraController`, `StudyDrawer`, `SurfaceMarkers`, `CosmicScaleNavigator`, `LightSpeedRuler`)**:
+  - Cache-uit calculul efemeridelor `Astronomy.JupiterMoons` per timestamp (o singură evaluare pe cadru în loc de 4) și listele `getAllBodies()` / `getBodiesForHorizon()`.
+  - Reutilizat vectori pre-alocați `THREE.Vector3` în `OrbitalEngine.updatePositions()`, `ScaleManager` și `CameraController.update()` pentru a elimina pauzele periodice de Garbage Collection.
+
+---
+
 ## [1.2.6] — 2026-11-06
 
 ### Corecții Astronomice & Scara Reală 1:1

@@ -21,6 +21,9 @@ export class LightSpeedRuler {
   private bodyBId = 'mars';
   private nextPickSlot: 'A' | 'B' = 'B';
   private pulseProgress = 0;
+  private lastAuText = '';
+  private lastKmText = '';
+  private lastLightText = '';
 
   private readonly rulerGroup: THREE.Group;
   private readonly beamLine: THREE.Line;
@@ -193,18 +196,24 @@ export class LightSpeedRuler {
     const distKmEl = document.getElementById('ruler-readout-km');
     const lightTimeEl = document.getElementById('ruler-readout-light');
 
-    if (distAuEl) {
-      distAuEl.textContent = `${distAu.toFixed(3).replace('.', ',')} UA`;
+    const nextAuText = `${distAu.toFixed(3).replace('.', ',')} UA`;
+    const nextKmText =
+      distKm >= 1_000_000
+        ? `${(distKm / 1_000_000).toFixed(2).replace('.', ',')} milioane km`
+        : `${Math.round(distKm).toLocaleString('ro-RO')} km`;
+    const nextLightText = this.formatLightTimeRo(lightSeconds);
+
+    if (distAuEl && nextAuText !== this.lastAuText) {
+      this.lastAuText = nextAuText;
+      distAuEl.textContent = nextAuText;
     }
-    if (distKmEl) {
-      if (distKm >= 1_000_000) {
-        distKmEl.textContent = `${(distKm / 1_000_000).toFixed(2).replace('.', ',')} milioane km`;
-      } else {
-        distKmEl.textContent = `${Math.round(distKm).toLocaleString('ro-RO')} km`;
-      }
+    if (distKmEl && nextKmText !== this.lastKmText) {
+      this.lastKmText = nextKmText;
+      distKmEl.textContent = nextKmText;
     }
-    if (lightTimeEl) {
-      lightTimeEl.textContent = this.formatLightTimeRo(lightSeconds);
+    if (lightTimeEl && nextLightText !== this.lastLightText) {
+      this.lastLightText = nextLightText;
+      lightTimeEl.textContent = nextLightText;
     }
   }
 

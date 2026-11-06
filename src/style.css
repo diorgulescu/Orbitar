@@ -137,6 +137,10 @@ input[type='checkbox'],
   pointer-events: none;
 }
 
+#loading-screen.is-hidden .loading-orbit-ring {
+  animation: none;
+}
+
 .loading-content {
   text-align: center;
   padding: 2rem;
@@ -780,6 +784,8 @@ input[type='checkbox'],
   font-size: 0.72rem;
   color: var(--accent-amber);
   margin-left: auto;
+  font-variant-numeric: tabular-nums;
+  contain: layout style;
 }
 
 .drawer-media-card {
@@ -1207,6 +1213,7 @@ input[type='checkbox'],
   min-width: 145px;
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
+  contain: layout style;
 }
 
 /* Fereastra modală GPLv3 */

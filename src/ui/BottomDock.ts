@@ -29,6 +29,9 @@ export class BottomDock {
   private readonly orbitalEngine: OrbitalEngine;
   private readonly scaleManager: ScaleManager;
   private readonly dateFormatter: Intl.DateTimeFormat;
+  private simDateEl: HTMLElement | null = null;
+  private lastFormattedMinuteBucket = Number.NaN;
+  private lastRenderedDateText = '';
 
   constructor(orbitalEngine: OrbitalEngine, scaleManager: ScaleManager) {
     this.orbitalEngine = orbitalEngine;
@@ -45,6 +48,7 @@ export class BottomDock {
     this.bindEvents();
     this.syncScaleButton();
     this.syncSpeedReadout();
+    this.updateDateReadout();
   }
 
   private restoreSavedSpeed(): void {
@@ -92,6 +96,7 @@ export class BottomDock {
       }
       this.syncPauseButton();
       this.syncSpeedReadout();
+      this.updateDateReadout();
     });
 
     speedSlider?.addEventListener('input', () => {
@@ -109,6 +114,7 @@ export class BottomDock {
       this.saveSpeed(nextScale);
       this.syncPauseButton();
       this.syncSpeedReadout();
+      this.updateDateReadout();
     });
 
     btnScale?.addEventListener('click', () => {
@@ -150,9 +156,24 @@ export class BottomDock {
   }
 
   public updateDateReadout(): void {
-    const simDateEl = document.getElementById('hud-sim-date');
-    if (simDateEl) {
-      simDateEl.textContent = this.dateFormatter.format(this.orbitalEngine.simulationDate);
+    const simDate = this.orbitalEngine.simulationDate;
+    const minuteBucket = Math.floor(simDate.getTime() / 60000);
+    if (!this.simDateEl || this.simDateEl.isConnected === false) {
+      this.simDateEl = document.getElementById('hud-sim-date');
+      this.lastFormattedMinuteBucket = Number.NaN;
+      this.lastRenderedDateText = '';
+    }
+    if (!this.simDateEl) return;
+
+    if (minuteBucket === this.lastFormattedMinuteBucket) {
+      return;
+    }
+    this.lastFormattedMinuteBucket = minuteBucket;
+
+    const nextText = this.dateFormatter.format(simDate);
+    if (nextText !== this.lastRenderedDateText) {
+      this.lastRenderedDateText = nextText;
+      this.simDateEl.textContent = nextText;
     }
   }
 }

@@ -528,4 +528,60 @@ describe('UI, CameraController & SurfaceMarkers — Functional Integration Tests
       'Butonul 🎓 Ghid Interfață redeschide tutorialul la cerere'
     );
   });
+
+  it('evită micro-freeze-urile per secundă: nu rescrie DOM-ul la fiecare cadru în BottomDock și StudyDrawer și returnează liste de corpuri cache-uite', () => {
+    orbitalEngine.simulationDate = new Date(Date.UTC(2026, 10, 7, 12, 0, 5));
+    orbitalEngine.timeScale = 1;
+    const dock = new BottomDock(orbitalEngine, scaleManager);
+    const simDateEl = document.getElementById('hud-sim-date')!;
+
+    let dateWriteCount = 0;
+    const origTextDesc = Object.getOwnPropertyDescriptor(simDateEl, 'textContent');
+    let currentSimDateText = simDateEl.textContent;
+    Object.defineProperty(simDateEl, 'textContent', {
+      configurable: true,
+      get: () => currentSimDateText,
+      set: (val: string) => {
+        dateWriteCount += 1;
+        currentSimDateText = val;
+      },
+    });
+
+    // 30 de cadre în interiorul aceluiași minut nu trebuie să declanșeze nicio scriere DOM în #hud-sim-date
+    for (let i = 0; i < 30; i++) {
+      orbitalEngine.updatePositions(1 / 60);
+      dock.updateDateReadout();
+    }
+    assert.equal(
+      dateWriteCount,
+      0,
+      'BottomDock.updateDateReadout nu trebuie să rescrie #hud-sim-date cât timp minutul simulării nu s-a schimbat'
+    );
+
+    // Trecerea la minutul următor declanșează exact o singură scriere DOM
+    orbitalEngine.simulationDate.setTime(orbitalEngine.simulationDate.getTime() + 60_000);
+    dock.updateDateReadout();
+    dock.updateDateReadout();
+    assert.equal(
+      dateWriteCount,
+      1,
+      'BottomDock.updateDateReadout trebuie să scrie în DOM exact o dată la schimbarea minutului'
+    );
+
+    if (origTextDesc) {
+      Object.defineProperty(simDateEl, 'textContent', origTextDesc);
+    }
+
+    // Verificăm că getAllBodies() și getBodiesForHorizon() returnează referințe cache-uite (fără alocări Array.from per cadru)
+    assert.equal(
+      orbitalEngine.getAllBodies(),
+      orbitalEngine.getAllBodies(),
+      'getAllBodies() trebuie să returneze aceeași referință cache-uită între cadre'
+    );
+    assert.equal(
+      orbitalEngine.getBodiesForHorizon('solar'),
+      orbitalEngine.getBodiesForHorizon('solar'),
+      'getBodiesForHorizon() trebuie să returneze aceeași referință cache-uită între cadre'
+    );
+  });
 });

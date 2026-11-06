@@ -732,6 +732,7 @@ export class SpaceAmbientEngine {
   private installAutoplayUnlockListeners(): void {
     const unlockHandler = (): void => {
       if (!this.enabled) return;
+      const wasUninitialized = !this.isGraphInitialized || !this.ctx;
       this.ensureAudioGraph();
       if (this.ctx && this.ctx.state === 'suspended') {
         this.ctx
@@ -741,7 +742,7 @@ export class SpaceAmbientEngine {
             this.startGenerativeTimers();
           })
           .catch(() => {});
-      } else if (this.ctx && this.ctx.state === 'running') {
+      } else if (wasUninitialized && this.ctx && this.ctx.state === 'running') {
         this.scheduleMasterVolume(3.0);
         this.startGenerativeTimers();
       }

@@ -392,21 +392,30 @@ async function bootstrapOrbitar(): Promise<void> {
   });
 
   // Ajustare dinamică a variabilelor CSS --hud-header-offset și --hud-bottom-offset în funcție de înălțimea reală a barelor HUD
+  // (aplicăm scrieri pe :root DOAR când valorile în pixeli se modifică efectiv, evitând recalcularea stilurilor în tot arborele DOM)
   const hudHeaderEl = document.querySelector('.hud-header') as HTMLElement | null;
   const hudBottomDockEl = document.getElementById('hud-bottom-dock');
+  let lastHeaderOffsetPx = -1;
+  let lastBottomOffsetPx = -1;
   const syncHeaderOffsetCssVar = (): void => {
     if (hudHeaderEl) {
       const rect = hudHeaderEl.getBoundingClientRect();
       if (rect.height > 0) {
         const offsetPx = Math.max(72, Math.ceil(rect.bottom + 10));
-        document.documentElement.style.setProperty('--hud-header-offset', `${offsetPx}px`);
+        if (offsetPx !== lastHeaderOffsetPx) {
+          lastHeaderOffsetPx = offsetPx;
+          document.documentElement.style.setProperty('--hud-header-offset', `${offsetPx}px`);
+        }
       }
     }
     if (hudBottomDockEl) {
       const dockRect = hudBottomDockEl.getBoundingClientRect();
       if (dockRect.height > 0) {
         const bottomOffsetPx = Math.max(118, Math.ceil(window.innerHeight - dockRect.top + 10));
-        document.documentElement.style.setProperty('--hud-bottom-offset', `${bottomOffsetPx}px`);
+        if (bottomOffsetPx !== lastBottomOffsetPx) {
+          lastBottomOffsetPx = bottomOffsetPx;
+          document.documentElement.style.setProperty('--hud-bottom-offset', `${bottomOffsetPx}px`);
+        }
       }
     }
   };

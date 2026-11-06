@@ -156,9 +156,13 @@ export class ISSTracker {
    * Returnează vectorul de poziție 3D (în UA) al satelitului față de centrul Pământului,
    * orientat în sistemul de coordonate al scenei Three.js.
    */
-  public getOffsetFromEarthAu(id: 'iss' | 'hubble', date: Date): THREE.Vector3 {
+  public getOffsetFromEarthAu(
+    id: 'iss' | 'hubble',
+    date: Date,
+    target: THREE.Vector3 = new THREE.Vector3()
+  ): THREE.Vector3 {
     const { positionEciKm } = this.propagateSafe(id, date);
-    return new THREE.Vector3(
+    return target.set(
       positionEciKm.x / KM_PER_AU,
       positionEciKm.z / KM_PER_AU,
       -positionEciKm.y / KM_PER_AU

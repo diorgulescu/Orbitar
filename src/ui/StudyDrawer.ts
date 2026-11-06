@@ -195,6 +195,12 @@ export class StudyDrawer {
   private onPrintStudy?: (bodyId: string) => void;
   private onPrintColoring?: (bodyId: string) => void;
   private onSyncPrintPreview?: (bodyId: string) => void;
+  private lastDistText = '';
+  private lastIssLatText = '';
+  private lastIssLonText = '';
+  private lastIssAltText = '';
+  private lastIssVelText = '';
+  private lastTelemetryUpdateMs = 0;
 
   constructor(
     orbitalEngine: OrbitalEngine,
@@ -288,7 +294,7 @@ export class StudyDrawer {
             '📡 Mod autonom: coordonate calculate 100% offline cu satellite.js (SGP4) din /data/tle-iss.json.';
         }
       }
-      this.updateLiveDistance(this.currentBody);
+      this.updateLiveDistance(this.currentBody, true);
     });
   }
 
@@ -338,23 +344,41 @@ export class StudyDrawer {
     }
   }
 
-  public updateLiveDistance(body: CelestialBodyInstance | null): void {
+  public updateLiveDistance(body: CelestialBodyInstance | null, force = false): void {
     if (!body || this.pendingSwitchBody) return;
+    if (!force) {
+      const drawerEl = document.getElementById('hud-study-drawer');
+      if (drawerEl?.classList.contains('is-collapsed')) {
+        return;
+      }
+    }
+
     const distEl = document.getElementById('hud-target-dist');
     if (distEl) {
+      let nextDistText: string;
       if (body.data.distanceLightYears && body.data.distanceLightYears > 0) {
         const lyLabel =
           body.data.distanceLightYearsLabelRo ??
           `${body.data.distanceLightYears.toLocaleString('ro-RO')} ani-lumină`;
-        distEl.textContent = `Distanță: ${lyLabel}`;
+        nextDistText = `Distanță: ${lyLabel}`;
       } else {
         const distStr = body.distanceFromSunAu.toFixed(2).replace('.', ',');
-        distEl.textContent = `Distanță de Soare: ${distStr} UA`;
+        nextDistText = `Distanță de Soare: ${distStr} UA`;
+      }
+      if (force || nextDistText !== this.lastDistText) {
+        this.lastDistText = nextDistText;
+        distEl.textContent = nextDistText;
       }
     }
 
     // Actualizăm telemetria SGP4 dacă este selectată Stația Spațială Internațională (ISS) sau Hubble
     if (body.data.id === 'iss' || body.data.id === 'hubble') {
+      const nowMs = typeof performance !== 'undefined' ? performance.now() : Date.now();
+      if (!force && nowMs - this.lastTelemetryUpdateMs < 250) {
+        return;
+      }
+      this.lastTelemetryUpdateMs = nowMs;
+
       const tel = this.orbitalEngine.issTracker.getTelemetry(
         body.data.id,
         this.orbitalEngine.simulationDate
@@ -367,17 +391,26 @@ export class StudyDrawer {
       const latHemi = tel.latitudeDeg >= 0 ? 'N' : 'S';
       const lonHemi = tel.longitudeDeg >= 0 ? 'E' : 'V';
 
-      if (latEl) {
-        latEl.textContent = `${Math.abs(tel.latitudeDeg).toFixed(2).replace('.', ',')}° ${latHemi}`;
+      const nextLat = `${Math.abs(tel.latitudeDeg).toFixed(2).replace('.', ',')}° ${latHemi}`;
+      const nextLon = `${Math.abs(tel.longitudeDeg).toFixed(2).replace('.', ',')}° ${lonHemi}`;
+      const nextAlt = `~${tel.altitudeKm.toFixed(1).replace('.', ',')} km`;
+      const nextVel = `~${Math.round(tel.velocityKmh).toLocaleString('ro-RO')} km/h`;
+
+      if (latEl && (force || nextLat !== this.lastIssLatText)) {
+        this.lastIssLatText = nextLat;
+        latEl.textContent = nextLat;
       }
-      if (lonEl) {
-        lonEl.textContent = `${Math.abs(tel.longitudeDeg).toFixed(2).replace('.', ',')}° ${lonHemi}`;
+      if (lonEl && (force || nextLon !== this.lastIssLonText)) {
+        this.lastIssLonText = nextLon;
+        lonEl.textContent = nextLon;
       }
-      if (altEl) {
-        altEl.textContent = `~${tel.altitudeKm.toFixed(1).replace('.', ',')} km`;
+      if (altEl && (force || nextAlt !== this.lastIssAltText)) {
+        this.lastIssAltText = nextAlt;
+        altEl.textContent = nextAlt;
       }
-      if (velEl) {
-        velEl.textContent = `~${Math.round(tel.velocityKmh).toLocaleString('ro-RO')} km/h`;
+      if (velEl && (force || nextVel !== this.lastIssVelText)) {
+        this.lastIssVelText = nextVel;
+        velEl.textContent = nextVel;
       }
     }
   }
@@ -559,7 +592,7 @@ export class StudyDrawer {
     }
 
     this.lab.updateForBody(d);
-    this.updateLiveDistance(body);
+    this.updateLiveDistance(body, true);
     this.onSyncPrintPreview?.(d.id);
   }
 

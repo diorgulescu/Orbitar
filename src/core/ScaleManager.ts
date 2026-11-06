@@ -136,18 +136,21 @@ export class ScaleManager {
    * Transformă un vector heliocentric exprimat în Unități Astronomice (UA)
    * în coordonate 3D de scenă.
    */
-  public scaleHeliocentricPosition(posAu: THREE.Vector3): THREE.Vector3 {
+  public scaleHeliocentricPosition(
+    posAu: THREE.Vector3,
+    target: THREE.Vector3 = new THREE.Vector3()
+  ): THREE.Vector3 {
     const distAu = posAu.length();
     if (distAu === 0) {
-      return new THREE.Vector3(0, 0, 0);
+      return target.set(0, 0, 0);
     }
 
     if (this.mode === 'real') {
-      return posAu.clone().multiplyScalar(REAL_UNITS_PER_AU);
+      return target.copy(posAu).multiplyScalar(REAL_UNITS_PER_AU);
     }
 
     const scaledDist = 12.0 + 44.0 * Math.pow(distAu, 0.65);
-    return posAu.clone().normalize().multiplyScalar(scaledDist);
+    return target.copy(posAu).multiplyScalar(scaledDist / distAu);
   }
 
   /**
@@ -187,25 +190,31 @@ export class ScaleManager {
     offsetAu: THREE.Vector3,
     parentVisualRadius: number,
     localOrbitOrder: number = 1,
-    category: CelestialCategory = 'moon'
+    category: CelestialCategory = 'moon',
+    target: THREE.Vector3 = new THREE.Vector3()
   ): THREE.Vector3 {
-    const dir =
-      offsetAu.lengthSq() > 0 ? offsetAu.clone().normalize() : new THREE.Vector3(1, 0, 0);
+    const lenSq = offsetAu.lengthSq();
+    const len = lenSq > 0 ? Math.sqrt(lenSq) : 0;
+    if (len > 0) {
+      target.copy(offsetAu).multiplyScalar(1 / len);
+    } else {
+      target.set(1, 0, 0);
+    }
 
     if (category === 'rover') {
       // Roverele stau chiar la suprafața planetei Marte (sau imediat deasupra pentru a fi ușor de selectat)
       const surfaceRadius = parentVisualRadius * 1.18;
-      return dir.multiplyScalar(surfaceRadius);
+      return target.multiplyScalar(surfaceRadius);
     }
 
     if (this.mode === 'real') {
-      const realDist = offsetAu.length() * REAL_UNITS_PER_AU;
+      const realDist = len * REAL_UNITS_PER_AU;
       const minSafeMultiplier =
         category === 'station' || category === 'telescope'
           ? 1.055 + (localOrbitOrder - 1) * 0.025
           : 1.35;
       const minOrbit = parentVisualRadius * minSafeMultiplier;
-      return dir.multiplyScalar(Math.max(realDist, minOrbit));
+      return target.multiplyScalar(Math.max(realDist, minOrbit));
     }
 
     // În Scara Didactică, ordonăm sateliții/stațiile pe inele concentrice clare în jurul planetei-mamă,
@@ -216,7 +225,7 @@ export class ScaleManager {
           ? 1.47 + localOrbitOrder * 0.57
           : 0.88 + localOrbitOrder * 0.57
         : 2.60 + (localOrbitOrder - 1) * 0.56;
-    return dir.multiplyScalar(parentVisualRadius * baseMultiplier);
+    return target.multiplyScalar(parentVisualRadius * baseMultiplier);
   }
 
   /**
