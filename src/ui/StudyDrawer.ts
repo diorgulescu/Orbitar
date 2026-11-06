@@ -128,6 +128,46 @@ const NASA_MEDIA_BY_BODY_ID: Record<string, { src: string; captionRo: string }> 
     captionRo:
       '📸 Fotografie reală NASA/JPL-Caltech (GALEX & Spitzer PIA15416): Galaxia spirală Andromeda (M31), vecina noastră galactică aflată la 2,54 milioane de ani-lumină.',
   },
+  carina_nebula: {
+    src: './textures/nasa/pillars_of_creation.jpg',
+    captionRo:
+      '📸 Fotografie NASA/ESA/CSA/STScI (Telescopul Spațial James Webb): Regiune activă de formare a stelelor în nori moleculari denși și stânci cosmice de gaz.',
+  },
+  crab_nebula: {
+    src: './textures/nasa/orion_nebula.jpg',
+    captionRo:
+      '📸 Imagine astronomică NASA/ESA: Filamentele ionizate ale unei nebuloase în expansiune iluminate din interior de radiație stelară intensă.',
+  },
+  ring_nebula: {
+    src: './textures/nasa/orion_nebula.jpg',
+    captionRo:
+      '📸 Imagine astronomică NASA/ESA: Gaz ionizat multicolor (heliu, oxigen și azot) iluminat de radiația ultravioletă centrală.',
+  },
+  helix_nebula: {
+    src: './textures/nasa/orion_nebula.jpg',
+    captionRo:
+      '📸 Imagine astronomică NASA/ESA: Structura gazoasă luminoasă și nodurile cometare ale unei nebuloase apropiate.',
+  },
+  large_magellanic_cloud: {
+    src: './textures/nasa/milky_way.jpg',
+    captionRo:
+      '📸 Hartă astronomică NASA/JPL-Caltech: Vecinătatea galactică a Căii Lactee și regiunile bogate în formare stelară din Grupul Local.',
+  },
+  triangulum_galaxy: {
+    src: './textures/nasa/andromeda.jpg',
+    captionRo:
+      '📸 Fotografie astronomică NASA/JPL-Caltech: Galaxie spirală din Grupul Local, bogată în brațe luminoase și maternități stelare.',
+  },
+  whirlpool_galaxy: {
+    src: './textures/nasa/andromeda.jpg',
+    captionRo:
+      '📸 Fotografie astronomică NASA/JPL-Caltech: Structura spirală grand-design a unei galaxii cu brațe bogate în stele tinere.',
+  },
+  sombrero_galaxy: {
+    src: './textures/nasa/milky_way.jpg',
+    captionRo:
+      '📸 Imagine astronomică NASA/JPL-Caltech: Nucleu galactic luminos înconjurat de un disc ecuatorial dens de praf cosmic.',
+  },
 };
 
 /**

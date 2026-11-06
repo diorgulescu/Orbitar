@@ -47,20 +47,22 @@ const HD_BUMP_MAP: Record<string, string> = {
 };
 
 const HD_BUMP_SCALE: Record<string, number> = {
-  mercury: 0.08,
-  venus: 0.075,
-  earth: 0.06,
-  moon: 0.085,
-  mars: 0.095,
-  pluto: 0.068,
-  ceres: 0.075,
-  vesta: 0.095,
-  io: 0.045,
-  europa: 0.032,
-  ganymede: 0.055,
-  callisto: 0.065,
-  enceladus: 0.038,
+  mercury: 0.035,
+  venus: 0.04,
+  earth: 0.03,
+  moon: 0.045,
+  mars: 0.045,
+  pluto: 0.035,
+  ceres: 0.04,
+  vesta: 0.05,
+  io: 0.025,
+  europa: 0.02,
+  ganymede: 0.03,
+  callisto: 0.035,
+  enceladus: 0.022,
 };
+
+const HD_USES_NORMAL_MAP = new Set<string>(['mercury', 'earth', 'moon', 'mars']);
 
 /**
  * PlanetMaterialFactory gestionează sistemul hibrid de texturi științifice 2K, materiale Multi-Map PBR și modul Eco:
@@ -440,10 +442,10 @@ export class PlanetMaterialFactory {
       map: procMaps.colorMap,
       bumpMap: mode === 'hd' ? procMaps.bumpMap ?? null : null,
       bumpScale: calibratedBumpScale,
-      roughness: isGasOrIce ? 0.58 : 0.82,
-      metalness: 0.05,
-      emissive: new THREE.Color(data.color),
-      emissiveIntensity: mode === 'eco' ? 0.06 : 0.025,
+      roughness: isGasOrIce ? 0.62 : 0.84,
+      metalness: 0.03,
+      emissive: new THREE.Color(mode === 'eco' ? data.color : '#111111'),
+      emissiveIntensity: mode === 'eco' ? 0.05 : 0.01,
     });
 
     if (mode === 'hd') {
@@ -458,8 +460,14 @@ export class PlanetMaterialFactory {
       const bumpUrl = HD_BUMP_MAP[data.id];
       if (bumpUrl) {
         this.loadTextureAsync(bumpUrl, false, (bumpTex) => {
-          mat.bumpMap = bumpTex;
-          mat.bumpScale = calibratedBumpScale;
+          if (HD_USES_NORMAL_MAP.has(data.id)) {
+            mat.normalMap = bumpTex;
+            mat.normalScale.set(0.55, 0.55);
+            mat.bumpMap = null;
+          } else {
+            mat.bumpMap = bumpTex;
+            mat.bumpScale = calibratedBumpScale;
+          }
           mat.needsUpdate = true;
         });
       }
@@ -611,8 +619,9 @@ export class PlanetMaterialFactory {
     });
 
     this.loadTextureAsync('./textures/hd/earth_bump.jpg', false, (bumpTex) => {
-      earthMat.bumpMap = bumpTex;
-      earthMat.bumpScale = HD_BUMP_SCALE.earth;
+      earthMat.normalMap = bumpTex;
+      earthMat.normalScale.set(0.5, 0.5);
+      earthMat.bumpMap = null;
       earthMat.needsUpdate = true;
     });
 

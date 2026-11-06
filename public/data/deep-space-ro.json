@@ -725,6 +725,478 @@
           "explanation": "Galaxia Andromeda (M31), situată la 2,54 milioane de ani-lumină, poate fi văzută cu ochiul liber într-o noapte fără poluare luminoasă."
         }
       }
+    },
+    {
+      "id": "carina_nebula",
+      "name": "Nebuloasa Carina („Stâncile Cosmice” — NGC 3372)",
+      "category": "nebula",
+      "subtitle": "Una dintre cele mai mari maternități de stele din Calea Lactee, fotografiată de James Webb (7.500 ani-lumină)",
+      "color": "#f97316",
+      "orbitColor": "#38bdf8",
+      "radiusKm": 142000000000000,
+      "massEarthRatio": 300000000,
+      "gravityRatio": 0.1,
+      "orbitPeriodDays": 0,
+      "dayLengthHours": 24,
+      "meanTempC": 9500,
+      "distanceFromSunAU": 474300000,
+      "horizon": "galactic",
+      "distanceLightYears": 7500,
+      "distanceLightYearsLabelRo": "7.500 de ani-lumină",
+      "sizeComparisonRo": "Nebuloasa Carina se întinde pe ~300 de ani-lumină — este de peste 10 ori mai mare decât Nebuloasa Orion!",
+      "sizeRatioToSun": 15000,
+      "lightDepartureHistoryRo": "Lumina de la Stâncile Cosmice din Nebuloasa Carina a plecat spre Pământ acum 7.500 de ani (în jurul anului 5500 î.Hr.), la începutul Neoliticului!",
+      "deepSpacePosition": [68, 16, 38],
+      "modelType": "nebula",
+      "junior": {
+        "summary": "Nebuloasa Carina este un ținut cosmic uriaș, unde munți înalți de gaz și praf portocaliu se întâlnesc cu o mare strălucitoare de lumină albastră! Prima fotografie celebră trimisă de Telescopul Spațial James Webb ne-a arătat aici „Stâncile Cosmice” — creste înalte de 7 ani-lumină în care se aprind mii de stele noi!",
+        "analogy": "Nebuloasa Carina arată ca un lanț muntos de chihlimbar scăldat de un cer azuriu, doar că „munții” sunt făcuți din nori de praf stelar mai înalți decât distanța de la Soare la cea mai apropiată stea!",
+        "funFact": "În inima Nebuloasei Carina locuiește Eta Carinae, un sistem de două stele monstruoase care luminează cât 5 milioane de Sori la un loc!",
+        "travelTime": {
+          "car": "84.000 de miliarde de ani",
+          "plane": "9.300 de miliarde de ani",
+          "rocket": "135 de milioane de ani",
+          "light": "7.500 de ani"
+        }
+      },
+      "cadet": {
+        "summary": "Nebuloasa Carina (NGC 3372), situată la ~7.500 de ani-lumină în Brațul Carina-Sagittarius al Căii Lactee, este una dintre cele mai întinse regiuni H II din galaxia noastră (~300 ani-lumină diametru). Pe marginea cavității NGC 3324 se ridică „Stâncile Cosmice”, sculptate de vânturile stelare și radiația ultravioletă a stelelor masive tinere de tip O.",
+        "structure": [
+          {
+            "name": "Stâncile Cosmice (NGC 3324)",
+            "description": "Front de gaz și praf înalt de ~7 ani-lumină, modelat de radiația ionizantă și străbătut de jeturi protostelare."
+          },
+          {
+            "name": "Sistemul Hipergigant Eta Carinae & Nebuloasa Homunculus",
+            "description": "Stea variabilă luminoasă albastră (~100 mase solare) înconjurată de doi lobi bipolari de gaz expulzați în Marea Erupție din 1843."
+          }
+        ],
+        "explorationHistory": "Descoperită în 1752 de Nicolas-Louis de Lacaille de la Capul Bunei Speranțe; în iulie 2022, „Stâncile Cosmice” au devenit una dintre primele imagini istorice publicate de Telescopul Spațial James Webb.",
+        "quiz": {
+          "question": "Cum se numește formațiunea spectaculoasă din Nebuloasa Carina fotografiată în prima serie de imagini a Telescopului James Webb?",
+          "options": [
+            "Stâncile Cosmice — creste de gaz și praf înalte de 7 ani-lumină unde se nasc stele",
+            "Inelul lui Saturn",
+            "Craterul Tycho de pe Lună",
+            "Marea Pată Roșie de pe Jupiter"
+          ],
+          "correctIndex": 0,
+          "explanation": "„Stâncile Cosmice” din NGC 3324 (Nebuloasa Carina) reprezintă marginea unei cavități gazoase uriașe sculptate de stele tinere masive."
+        }
+      }
+    },
+    {
+      "id": "crab_nebula",
+      "name": "Nebuloasa Crabului (M1)",
+      "category": "nebula",
+      "subtitle": "Rămășița luminoasă a supernovei observate în anul 1054, cu un pulsar în centru (6.500 ani-lumină)",
+      "color": "#38bdf8",
+      "orbitColor": "#ec4899",
+      "radiusKm": 52000000000000,
+      "massEarthRatio": 1500000,
+      "gravityRatio": 1.0,
+      "orbitPeriodDays": 0,
+      "dayLengthHours": 0.000009,
+      "meanTempC": 15000,
+      "distanceFromSunAU": 411000000,
+      "horizon": "galactic",
+      "distanceLightYears": 6500,
+      "distanceLightYearsLabelRo": "6.500 de ani-lumină",
+      "sizeComparisonRo": "Nebuloasa Crabului are un diametru de 11 ani-lumină și încă se mărește în fiecare secundă cu 1.500 km/s!",
+      "sizeRatioToSun": 5500,
+      "lightDepartureHistoryRo": "Explozia stelei a fost văzută pe cerul Pământului în anul 1054 d.Hr., dar lumina acelei explozii plecase din Nebuloasa Crabului cu 6.500 de ani mai devreme!",
+      "deepSpacePosition": [-46, 18, 44],
+      "modelType": "nebula",
+      "junior": {
+        "summary": "În anul 1054, oamenii de pe Pământ au văzut pe cer o „stea nouă” atât de strălucitoare încât se vedea chiar și ziua, în plin soare! Era explozia unei stele uriașe (o supernovă), iar norul țesut din filamente colorate rămas în urma ei se numește azi Nebuloasa Crabului!",
+        "analogy": "În mijlocul Nebuloasei Crabului se află „inima” stelei care a explodat: o stea neutronică mică doar cât un oraș (25 km), dar care se învârte ca un titirez de 30 de ori pe secundă și trimite fascicule de lumină ca un far cosmic!",
+        "funFact": "Nebuloasa Crabului este primul obiect trecut în faimosul catalog al astronomului Charles Messier, motiv pentru care poartă numele „M1” (Messier 1)!",
+        "travelTime": {
+          "car": "73.000 de miliarde de ani",
+          "plane": "8.100 de miliarde de ani",
+          "rocket": "117 milioane de ani",
+          "light": "6.500 de ani"
+        }
+      },
+      "cadet": {
+        "summary": "Nebuloasa Crabului (Messier 1 / NGC 1952), situată la 6.500 de ani-lumină în constelația Taurul, este o rămășiță de supernovă și o nebuloasă de vânt pulsaric alimentată de Pulsarul din Crab (PSR B0531+21). Steaua neutronică centrală se rotește la fiecare 33 de milisecunde (~30 rotații pe secundă), accelerând electroni la viteze relativiste care emit radiație sincrotron albăstruie.",
+        "structure": [
+          {
+            "name": "Pulsarul din Crab (Stea Neutronică)",
+            "description": "Nucleu stelar colapsat cu diametrul de ~25 km și masa de 1,4 Sori, care se rotește de 30 de ori pe secundă."
+          },
+          {
+            "name": "Cușca de Filamente și Nebuloasa Sincrotron",
+            "description": "Rețea tridimensională de filamente bogate în heliu, carbon, oxigen și sulf ce se extinde cu ~1.500 km/s."
+          }
+        ],
+        "explorationHistory": "Supernova SN 1054 a fost consemnată de astronomii chinezi și arabi în iulie 1054; nebuloasa a fost redescoperită în 1731 de John Bevis și catalogată drept M1 de Charles Messier în 1758.",
+        "quiz": {
+          "question": "Ce obiect extraordinar se află chiar în centrul Nebuloasei Crabului (M1)?",
+          "options": [
+            "Un pulsar (o stea neutronică densă cât un oraș) care se rotește de 30 de ori pe secundă",
+            "O planetă acoperită cu păduri tropicale",
+            "Un satelit natural al planetei Neptun",
+            "O cometă de gheață din Norul lui Oort"
+          ],
+          "correctIndex": 0,
+          "explanation": "În centrul Nebuloasei Crabului se află Pulsarul din Crab, o stea neutronică rămasă după supernova din anul 1054."
+        }
+      }
+    },
+    {
+      "id": "ring_nebula",
+      "name": "Nebuloasa Inelul (M57)",
+      "category": "nebula",
+      "subtitle": "Inelul cosmic în culorile curcubeului lăsat în urmă de o stea asemănătoare Soarelui (2.300 ani-lumină)",
+      "color": "#2dd4bf",
+      "orbitColor": "#f43f5e",
+      "radiusKm": 12000000000000,
+      "massEarthRatio": 200000,
+      "gravityRatio": 0.5,
+      "orbitPeriodDays": 0,
+      "dayLengthHours": 24,
+      "meanTempC": 100000,
+      "distanceFromSunAU": 145450000,
+      "horizon": "galactic",
+      "distanceLightYears": 2300,
+      "distanceLightYearsLabelRo": "2.300 de ani-lumină",
+      "sizeComparisonRo": "Inelul luminos principal are un diametru de ~1,3 ani-lumină — de peste 400 de ori mai lat decât orbita planetei Neptun în jurul Soarelui!",
+      "sizeRatioToSun": 1300,
+      "lightDepartureHistoryRo": "Lumina de la Nebuloasa Inelul pe care o admirăm azi a plecat spre noi acum 2.300 de ani — pe vremea vechilor daci și a marelui matematician Arhimede!",
+      "deepSpacePosition": [-24, -14, -56],
+      "modelType": "nebula",
+      "junior": {
+        "summary": "Nebuloasa Inelul (M57) arată ca o gogoașă sau un inel fermecat în culorile curcubeului care plutește în spațiu: albastru în interior, verde-turcoaz la mijloc și roșu-auriu pe margine! Ea nu s-a format dintr-o explozie violentă, ci atunci când o stea bătrână, asemănătoare Soarelui nostru, și-a suflat ușor straturile exterioare în spațiu!",
+        "analogy": "În mijlocul inelului colorat se vede un punctuleț alb ca o perlă: este o „pitică albă”, adică miezul cald al stelei, de mărimea Pământului, care luminează gazul din jur ca o lampă cosmică!",
+        "funFact": "Telescopul James Webb a descoperit că în jurul inelului se află 20.000 de globuri dense de gaz și zece arce concentrice, ca valurile lăsate de o pietricică într-un lac!",
+        "travelTime": {
+          "car": "26.000 de miliarde de ani",
+          "plane": "2.850 de miliarde de ani",
+          "rocket": "41 de milioane de ani",
+          "light": "2.300 de ani"
+        }
+      },
+      "cadet": {
+        "summary": "Nebuloasa Inelul (Messier 57 / NGC 6720), aflată la ~2.300 de ani-lumină în constelația Lira, este o nebuloasă planetară arhetipală. Deși văzută dinspre Pământ pare un inel, observațiile Hubble și JWST arată că are forma unui cilindru/butoi de gaz ionizat văzut aproape de-a lungul axei polare, iluminat de o pitică albă centrală cu temperatura de ~120.000 °C.",
+        "structure": [
+          {
+            "name": "Pitica Albă Centrală",
+            "description": "Nucleul stelar rezidual (0,6 mase solare, de dimensiunea Pământului), extrem de fierbinte în radiație ultravioletă."
+          },
+          {
+            "name": "Torusul Ionizat & Haloul Exterior cu Spiculi",
+            "description": "Heliu albastru în centru, oxigen dublu ionizat verde-turcoaz în inel și hidrogen/azot roșu pe marginea exterioară."
+          }
+        ],
+        "explorationHistory": "Descoperită în ianuarie 1779 de astronomii francezi Antoine Darquier de Pellepoix și Charles Messier; fotografiată la rezoluție fără precedent de JWST în august 2023.",
+        "quiz": {
+          "question": "Cum ia naștere o „nebuloasă planetară” precum Nebuloasa Inelul (M57)?",
+          "options": [
+            "O stea de mărime medie (ca Soarele) își eliberează straturile exterioare de gaz la finalul vieții, lăsând în centru o pitică albă",
+            "Două planete stâncoase se ciocnesc în Centura de Asteroizi",
+            "Un vulcan erupe pe satelitul Io",
+            "O rachetă spațială pornește motoarele pe orbita Lunii"
+          ],
+          "correctIndex": 0,
+          "explanation": "Nebuloasele planetare sunt învelișuri strălucitoare de gaz expulzate de stele de masă mică și medie, iluminate de pitica albă rămasă în centru."
+        }
+      }
+    },
+    {
+      "id": "helix_nebula",
+      "name": "Nebuloasa Helix („Ochiul lui Dumnezeu” — NGC 7293)",
+      "category": "nebula",
+      "subtitle": "Cea mai apropiată nebuloasă planetară mare, cu mii de „noduri cometare” (650 ani-lumină)",
+      "color": "#06b6d4",
+      "orbitColor": "#fb7185",
+      "radiusKm": 27000000000000,
+      "massEarthRatio": 250000,
+      "gravityRatio": 0.4,
+      "orbitPeriodDays": 0,
+      "dayLengthHours": 24,
+      "meanTempC": 110000,
+      "distanceFromSunAU": 41100000,
+      "horizon": "galactic",
+      "distanceLightYears": 650,
+      "distanceLightYearsLabelRo": "650 de ani-lumină",
+      "sizeComparisonRo": "Nebuloasa Helix are un diametru de ~2,8 ani-lumină (cu haloul exterior ajungând la aproape 6 ani-lumină)!",
+      "sizeRatioToSun": 2800,
+      "lightDepartureHistoryRo": "Lumina de la Nebuloasa Helix a plecat spre Pământ acum 650 de ani (în jurul anului 1375), chiar în perioada în care se întemeiau Țara Românească și Moldova!",
+      "deepSpacePosition": [36, -18, 52],
+      "modelType": "nebula",
+      "junior": {
+        "summary": "Privită prin telescoapele mari, Nebuloasa Helix seamănă atât de mult cu un iris albastru-turcoaz înconjurat de gene roșii-aurii încât astronomii i-au pus porecla „Ochiul Cosmic” sau „Ochiul lui Dumnezeu”! Este una dintre cele mai apropiate nebuloase planetare față de Pământ, aflată la doar 650 de ani-lumină!",
+        "analogy": "În interiorul acestui „ochi” uriaș plutesc peste 40.000 de nori rotunzi cu cozi lungi („noduri cometare”), fiecare dintre ei fiind mai mare decât tot Sistemul nostru Solar până la Pluto!",
+        "funFact": "Peste aproximativ 5 miliarde de ani, și Soarele nostru va crea o nebuloasă colorată foarte asemănătoare cu Nebuloasa Helix!",
+        "travelTime": {
+          "car": "7.300 de miliarde de ani",
+          "plane": "810 miliarde de ani",
+          "rocket": "11,7 milioane de ani",
+          "light": "650 de ani"
+        }
+      },
+      "cadet": {
+        "summary": "Nebuloasa Helix (NGC 7293 / Caldwell 63), situată la 650 de ani-lumină în constelația Vărsătorul, este una dintre cele mai apropiate și mai studiate nebuloase planetare. Structura ei elicoidală dublă conține ~40.000 de noduri cometare — condensări dense de gaz molecular ale căror cozi radiale sunt modelate de vântul stelar al piticei albe centrale.",
+        "structure": [
+          {
+            "name": "Cavitatea Interioară & Pitica Albă",
+            "description": "Sferă centrală de gaz foarte fierbinte care emite în ultraviolet și raze X în jurul nucleului stelar."
+          },
+          {
+            "name": "Cele 40.000 de Noduri Cometare",
+            "description": "Globule de gaz cu diametrul comparabil cu Sistemul Solar, având cozi îndreptate opus față de pitica albă."
+          }
+        ],
+        "explorationHistory": "Descoperită de astronomul german Karl Ludwig Harding înainte de 1824; studiată în detaliu de telescoapele Hubble, Spitzer și Euclid.",
+        "quiz": {
+          "question": "De ce este supranumită Nebuloasa Helix (NGC 7293) „Ochiul Cosmic”?",
+          "options": [
+            "Deoarece inelul ei dublu de gaz turcoaz și roșu-auriu, cu pitica albă în mijloc, seamănă cu irisul și pupila unui ochi",
+            "Pentru că este o lentilă de sticlă trimisă în spațiu",
+            "Pentru că se află pe suprafața planetei Jupiter",
+            "Pentru că se rotește în jurul Lunii"
+          ],
+          "correctIndex": 0,
+          "explanation": "Privită de-a lungul axei sale cilindrice, cavitatea albastră-turcoaz și inelul exterior roșiatic al Nebuloasei Helix creează aspectul spectaculos al unui ochi cosmic."
+        }
+      }
+    },
+    {
+      "id": "large_magellanic_cloud",
+      "name": "Marele Nor al lui Magellan",
+      "category": "galaxy",
+      "subtitle": "Cea mai mare galaxie-satelit luminoasă a Căii Lactee și casa Nebuloasei Tarantula (160.000 ani-lumină)",
+      "color": "#f472b6",
+      "orbitColor": "#60a5fa",
+      "radiusKm": 132000000000000000,
+      "massEarthRatio": 3300000000000000,
+      "gravityRatio": 0.6,
+      "orbitPeriodDays": 0,
+      "dayLengthHours": 24,
+      "meanTempC": -268,
+      "distanceFromSunAU": 10118000000,
+      "horizon": "galactic",
+      "distanceLightYears": 160000,
+      "distanceLightYearsLabelRo": "160.000 de ani-lumină",
+      "sizeComparisonRo": "Marele Nor al lui Magellan are un diametru de ~32.000 de ani-lumină și conține aproximativ 20–30 de miliarde de stele!",
+      "sizeRatioToSun": 32000,
+      "lightDepartureHistoryRo": "Lumina de la Marele Nor al lui Magellan a plecat spre noi acum 160.000 de ani — pe când primii oameni moderni trăiau în Africa!",
+      "deepSpacePosition": [78, -32, -62],
+      "modelType": "spiral_galaxy",
+      "junior": {
+        "summary": "Așa cum Luna se învârte în jurul Pământului, și galaxia noastră Calea Lactee are propriii ei „sateliți” — galaxii mai mici care o însoțesc prin Univers! Cea mai vestită dintre ele este Marele Nor al lui Magellan, o galaxie tânără și plină de culoare care conține peste 20 de miliarde de stele!",
+        "analogy": "În interiorul Marelui Nor al lui Magellan se află „Nebuloasa Tarantula” — o maternitate de stele atât de strălucitoare încât, dacă ar fi la fel de aproape de noi ca Nebuloasa Orion, ar lumina noaptea pe Pământ atât de tare încât copacii ar lăsa umbre!",
+        "funFact": "A primit numele navigatorului Fernando Magellan, ale cărui corăbii au văzut acest nor luminos pe cerul sudic în timpul primei călătorii în jurul Pământului (1519–1522)!",
+        "travelTime": {
+          "car": "1,8 milioane de miliarde de ani",
+          "plane": "200.000 de miliarde de ani",
+          "rocket": "2,9 miliarde de ani",
+          "light": "160.000 de ani"
+        }
+      },
+      "cadet": {
+        "summary": "Marele Nor al lui Magellan (LMC), situat la ~160.000 de ani-lumină pe cerul emisferei sudice (constelațiile Dorado și Mensa), este o galaxie pitică spirală barată neregulată, satelită a Căii Lactee. Găzduiește Nebuloasa Tarantula (30 Doradus, cea mai activă regiune de formare stelară din Grupul Local) și locul celebrei supernove SN 1987A.",
+        "structure": [
+          {
+            "name": "Bara Stelară Centrală",
+            "description": "Structură alungită de stele deformată de interacțiunea gravitațională cu Calea Lactee și Micul Nor al lui Magellan."
+          },
+          {
+            "name": "Nebuloasa Tarantula (30 Doradus) & Roiul R136",
+            "description": "Regiune H II gigantă (~1.000 ani-lumină diametru) ce conține cele mai masive și luminoase stele cunoscute (peste 200 mase solare)."
+          }
+        ],
+        "explorationHistory": "Cunoscut din vechime de popoarele emisferei sudice și menționat de al-Sufi în 964; în februarie 1987, aici a explodat Supernova 1987A, cea mai apropiată supernovă observată cu instrumente moderne.",
+        "quiz": {
+          "question": "Ce este Marele Nor al lui Magellan și ce regiune celebră adăpostește?",
+          "options": [
+            "O galaxie-satelit a Căii Lactee (la 160.000 ani-lumină) care adăpostește uriașa Nebuloasă Tarantula",
+            "Un nor de ploaie din atmosfera lui Venus",
+            "Un crater de gheață de pe satelitul Callisto",
+            "O sondă spațială lansată spre Mercur"
+          ],
+          "correctIndex": 0,
+          "explanation": "Marele Nor al lui Magellan este o galaxie-satelit a Căii Lactee ce conține Nebuloasa Tarantula, cea mai intensă maternitate stelară din Grupul Local."
+        }
+      }
+    },
+    {
+      "id": "triangulum_galaxy",
+      "name": "Galaxia Triunghiului (M33)",
+      "category": "galaxy",
+      "subtitle": "A treia mare galaxie spirală din Grupul nostru Local, după Andromeda și Calea Lactee (2,73 milioane ani-lumină)",
+      "color": "#60a5fa",
+      "orbitColor": "#38bdf8",
+      "radiusKm": 288000000000000000,
+      "massEarthRatio": 16000000000000000,
+      "gravityRatio": 0.8,
+      "orbitPeriodDays": 0,
+      "dayLengthHours": 24,
+      "meanTempC": -270,
+      "distanceFromSunAU": 172650000000,
+      "horizon": "galactic",
+      "distanceLightYears": 2730000,
+      "distanceLightYearsLabelRo": "2,73 milioane de ani-lumină",
+      "sizeComparisonRo": "Galaxia Triunghiului are un diametru de ~61.000 de ani-lumină și aproximativ 40 de miliarde de stele!",
+      "sizeRatioToSun": 61000,
+      "lightDepartureHistoryRo": "Lumina de la Galaxia Triunghiului a plecat spre Pământ acum 2,73 milioane de ani, călătorind neîntrerupt prin spațiul intergalactic!",
+      "deepSpacePosition": [-128, 26, -172],
+      "modelType": "spiral_galaxy",
+      "junior": {
+        "summary": "În „cartierul” nostru din Univers, numit Grupul Local, există trei galaxii spirale mari: Andromeda (cea mai mare), Calea Lactee (a doua) și Galaxia Triunghiului (M33), mezina familiei! Cu 40 de miliarde de stele și brațe spirale larg deschise, Galaxia Triunghiului strălucește ca o roată de artificii albastre și roz!",
+        "analogy": "Dacă Calea Lactee și Andromeda sunt cele două orașe mari ale Grupului Local, Galaxia Triunghiului este al treilea oraș important, aflat chiar în vecinătatea Andromedei!",
+        "funFact": "Galaxia Triunghiului fabrică stele noi într-un ritm mult mai rapid decât Calea Lactee raportat la mărimea ei, având una dintre cele mai mari nebuloase cunoscute (NGC 604), de 40 de ori mai mare decât Nebuloasa Orion!",
+        "travelTime": {
+          "car": "30 de milioane de miliarde de ani",
+          "plane": "3,3 milioane de miliarde de ani",
+          "rocket": "49 de miliarde de ani",
+          "light": "2,73 milioane de ani"
+        }
+      },
+      "cadet": {
+        "summary": "Galaxia Triunghiului (Messier 33 / NGC 598), situată la 2,73 milioane de ani-lumină în constelația Triunghiul, este al treilea membru ca mărime și masă din Grupul Local (~40 de miliarde de stele, diametru ~61.000 ani-lumină). Este o galaxie spirală pură fără bară centrală (tip SA(s)cd), legată gravitațional de Galaxia Andromeda printr-un curent de hidrogen neutru.",
+        "structure": [
+          {
+            "name": "Discul Spiral Deschis (Fără Bară Centrală)",
+            "description": "Brațe spirale bogate în gaz molecular și stele tinere albastre, văzute aproape din față de pe Pământ."
+          },
+          {
+            "name": "Nebuloasa Gigantă NGC 604",
+            "description": "Regiune H II colosală cu diametrul de ~1.500 ani-lumină, luminată de peste 200 de stele masive tinere."
+          }
+        ],
+        "explorationHistory": "Descoperită probabil de Giovanni Battista Hodierna înainte de 1654 și catalogată de Charles Messier în 1764 drept M33.",
+        "quiz": {
+          "question": "Care sunt cele trei mari galaxii spirale care domină „Grupul Local” din care facem parte?",
+          "options": [
+            "Galaxia Andromeda (M31), Calea Lactee și Galaxia Triunghiului (M33)",
+            "Jupiter, Saturn și Uranus",
+            "Mercur, Venus și Marte",
+            "Lună, Phobos și Deimos"
+          ],
+          "correctIndex": 0,
+          "explanation": "Grupul Local este dominat de trei galaxii spirale: Andromeda (cea mai mare), Calea Lactee și Galaxia Triunghiului (M33)."
+        }
+      }
+    },
+    {
+      "id": "whirlpool_galaxy",
+      "name": "Galaxia Vâltoarea (M51)",
+      "category": "galaxy",
+      "subtitle": "Galaxia cu brațe spirale perfecte care dansează cu o galaxie companion (23 milioane ani-lumină)",
+      "color": "#a78bfa",
+      "orbitColor": "#f472b6",
+      "radiusKm": 360000000000000000,
+      "massEarthRatio": 53000000000000000,
+      "gravityRatio": 0.9,
+      "orbitPeriodDays": 0,
+      "dayLengthHours": 24,
+      "meanTempC": -270,
+      "distanceFromSunAU": 1454500000000,
+      "horizon": "galactic",
+      "distanceLightYears": 23500000,
+      "distanceLightYearsLabelRo": "23,5 milioane de ani-lumină",
+      "sizeComparisonRo": "Galaxia Vâltoarea are un diametru de ~76.000 de ani-lumină și aproximativ 100 de miliarde de stele!",
+      "sizeRatioToSun": 76000,
+      "lightDepartureHistoryRo": "Lumina de la Galaxia Vâltoarea pe care o vedem azi prin telescop a plecat acum 23,5 milioane de ani — din epoca Miocenului, când pe Pământ se ridicau munții Carpați și Alpi!",
+      "deepSpacePosition": [152, 46, -148],
+      "modelType": "spiral_galaxy",
+      "junior": {
+        "summary": "Galaxia Vâltoarea (M51) este una dintre cele mai fotogenice galaxii din tot Universul! Privită de sus, arată ca un vârtej cosmic perfect, cu două brațe lungi împodobite cu rubine roz (locuri unde se nasc stele) și safire albastre, iar la capătul unuia dintre brațe ține „de mână” o galaxie mai mică, aurie!",
+        "analogy": "Galaxia Vâltoarea și mica ei prietenă (NGC 5195) sunt ca doi patinatori cosmici care se învârt împreună: atracția gravitațională a galaxiei mici ridică „valuri” în brațele galaxiei mari și aprinde mii de stele noi!",
+        "funFact": "Galaxia Vâltoarea a fost prima galaxie din istorie căreia astronomii i-au văzut forma de spirală (desenată în anul 1845 de Lordul Rosse cu un telescop uriaș)!",
+        "travelTime": {
+          "car": "260 de milioane de miliarde de ani",
+          "plane": "29 de milioane de miliarde de ani",
+          "rocket": "420 de miliarde de ani",
+          "light": "23,5 milioane de ani"
+        }
+      },
+      "cadet": {
+        "summary": "Galaxia Vâltoarea (Messier 51a / NGC 5194), aflată la ~23,5 milioane de ani-lumină în constelația Câinii de Vânătoare (Canes Venatici), este prototipul galaxiilor spirale „grand-design”. Interacțiunea gravitațională cu galaxia companion pitică NGC 5195 (M51b) comprimă gazul de-a lungul brațelor prin unde de densitate, declanșând o formare intensă de stele.",
+        "structure": [
+          {
+            "name": "Cele Două Brațe Spirale Grand-Design (M51a)",
+            "description": "Brațe simetrice trasate de benzi întunecate de praf, nebuloase roz de hidrogen ionizat și roiuri de stele tinere albastre."
+          },
+          {
+            "name": "Galaxia Companion NGC 5195 & Podul de Maree",
+            "description": "Galaxie lenticulară/neregulată legată de capătul unuia dintre brațele spirale printr-un curent de stele și praf."
+          }
+        ],
+        "explorationHistory": "Descoperită de Charles Messier în 1773; în 1845, William Parsons (Lord Rosse) a descoperit aici pentru prima dată structura spirală a unei galaxii; fotografiată spectaculos de Hubble și James Webb.",
+        "quiz": {
+          "question": "Ce particularitate celebră are Galaxia Vâltoarea (M51)?",
+          "options": [
+            "Are două brațe spirale perfecte și interacționează gravitațional cu o galaxie companion mai mică aflată la capătul unui braț",
+            "Este singura galaxie fără nicio stea",
+            "Se află între Pământ și Marte",
+            "Este formată dintr-un singur bloc de gheață"
+          ],
+          "correctIndex": 0,
+          "explanation": "Galaxia Vâltoarea (M51) este celebră pentru brațele sale spirale grand-design și pentru dansul gravitațional cu galaxia companion NGC 5195."
+        }
+      }
+    },
+    {
+      "id": "sombrero_galaxy",
+      "name": "Galaxia Sombrero (M104)",
+      "category": "galaxy",
+      "subtitle": "Galaxia cu nucleu luminos uriaș și un inel întunecat de praf ca o pălărie mexicană (29 milioane ani-lumină)",
+      "color": "#fcd34d",
+      "orbitColor": "#f59e0b",
+      "radiusKm": 240000000000000000,
+      "massEarthRatio": 260000000000000000,
+      "gravityRatio": 1.2,
+      "orbitPeriodDays": 0,
+      "dayLengthHours": 24,
+      "meanTempC": -270,
+      "distanceFromSunAU": 1834000000000,
+      "horizon": "galactic",
+      "distanceLightYears": 29350000,
+      "distanceLightYearsLabelRo": "29,3 milioane de ani-lumină",
+      "sizeComparisonRo": "Galaxia Sombrero are un diametru de ~50.000 de ani-lumină, dar găzduiește o gaură neagră centrală de 1 miliard de mase solare și 2.000 de roiuri globulare!",
+      "sizeRatioToSun": 50000,
+      "lightDepartureHistoryRo": "Lumina de la Galaxia Sombrero a plecat spre Pământ acum peste 29 de milioane de ani — din epoca Oligocenului!",
+      "deepSpacePosition": [-168, -28, 138],
+      "modelType": "spiral_galaxy",
+      "junior": {
+        "summary": "Privită din profil, Galaxia Sombrero (M104) are o formă imposibil de confundat: un miez central uriaș și strălucitor ca un glob de lumină aurie, înconjurat la ecuator de o centură lată de praf cosmic, exact ca borul unei pălării mexicane („sombrero”)!",
+        "analogy": "În jurul Galaxiei Sombrero roiesc 2.000 de „roiuri globulare” (mingi strălucitoare făcute din câte sute de mii de stele fiecare) — de zece ori mai multe decât are Calea Lactee!",
+        "funFact": "Când Telescopul James Webb a privit inelul întunecat al Galaxiei Sombrero în infraroșu, praful a strălucit ca un inel neted de foc în jurul unui „ochi” central!",
+        "travelTime": {
+          "car": "325 de milioane de miliarde de ani",
+          "plane": "36 de milioane de miliarde de ani",
+          "rocket": "528 de miliarde de ani",
+          "light": "29,3 milioane de ani"
+        }
+      },
+      "cadet": {
+        "summary": "Galaxia Sombrero (Messier 104 / NGC 4594), situată la ~29,3 milioane de ani-lumină în constelația Fecioara, este o galaxie lenticulară/spirală văzută aproape din muchie (înclinație 6° față de linia de vizare). Este renumită pentru bulbul său stelar central extraordinar de luminos, inelul simetric de praf rece și gaura neagră supermasivă centrală de ~1 miliard de mase solare.",
+        "structure": [
+          {
+            "name": "Bulbul Galactic Gigant & Haloul cu 2.000 de Roiuri Globulare",
+            "description": "Sferoid dominat de stele evoluate și un sistem extrem de bogat de ~2.000 de roiuri globulare."
+          },
+          {
+            "name": "Inelul Ecuatorial de Praf și Gaz Molecular",
+            "description": "Bandă densă de hidrocarburi aromatice policiclice și praf cosmic unde are loc formarea stelelor tinere."
+          }
+        ],
+        "explorationHistory": "Descoperită de Pierre Méchain în mai 1781 și adăugată ulterior ca M104 în catalogul Messier; observată în detaliu optic de Hubble (2003) și în infraroșu mediu de JWST MIRI (2024).",
+        "quiz": {
+          "question": "De unde provine aspectul de „pălărie Sombrero” al galaxiei M104?",
+          "options": [
+            "Este privită aproape din profil, având un bulb central uriaș de stele aurii tăiat la mijloc de un inel dens de praf cosmic",
+            "Este o planetă gazoasă cu inele de gheață din Sistemul Solar",
+            "Este o cometă cu două cozi",
+            "Este o sondă spațială cu antenă parabolică"
+          ],
+          "correctIndex": 0,
+          "explanation": "Galaxia Sombrero (M104) este văzută aproape din muchie, combinând un bulb central foarte luminos cu o bandă întunecată de praf ecuatorial."
+        }
+      }
     }
   ]
 }

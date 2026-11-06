@@ -12,6 +12,7 @@ import {
   SPEED_OF_LIGHT_KMH,
   SpacecraftPilot,
   computeCalibratedFlightMetrics,
+  formatDestinationNameRo,
   formatDidacticTripDurationRo,
 } from '../../src/game/SpacecraftPilot';
 
@@ -114,5 +115,35 @@ describe('SpacecraftPilot — Cele 3 Nave, Fizica Timpului, Centurile de Asteroi
     assert.equal(triggeredZones.length, 0, 'Nu trebuie declanșate alerte de gheață în Centura Kuiper');
     assert.equal(pilot.getTelemetry().shieldActive, false);
     assert.equal(pilot.getAnchoredBody()?.data.id, 'pluto');
+  });
+
+  it('formatează natural în limba română numele destinațiilor la sosire („Am ajuns la Soare!”, „Am ajuns la planeta Pământ!”, „Am ajuns la Lună!”)', () => {
+    const sun = orbitalEngine.getBody('sun')!;
+    const earth = orbitalEngine.getBody('earth')!;
+    const moon = orbitalEngine.getBody('moon')!;
+    const mars = orbitalEngine.getBody('mars')!;
+
+    assert.equal(formatDestinationNameRo(sun.data), 'Soare');
+    assert.equal(formatDestinationNameRo(earth.data), 'planeta Pământ');
+    assert.equal(formatDestinationNameRo(moon.data), 'Lună');
+    assert.equal(formatDestinationNameRo(mars.data), 'planeta Marte');
+
+    const sunReport = pilot.buildArrivalReport(sun, earth);
+    assert.ok(
+      sunReport.headlineRo.startsWith('Am ajuns la Soare!'),
+      `Așteptat "Am ajuns la Soare!", primit: ${sunReport.headlineRo}`
+    );
+
+    const earthReport = pilot.buildArrivalReport(earth, moon);
+    assert.ok(
+      earthReport.headlineRo.startsWith('Am ajuns la planeta Pământ!'),
+      `Așteptat "Am ajuns la planeta Pământ!", primit: ${earthReport.headlineRo}`
+    );
+
+    const moonReport = pilot.buildArrivalReport(moon, earth);
+    assert.ok(
+      moonReport.headlineRo.startsWith('Am ajuns la Lună!'),
+      `Așteptat "Am ajuns la Lună!", primit: ${moonReport.headlineRo}`
+    );
   });
 });

@@ -1,20 +1,20 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "license": "GPL-3.0-or-later",
   "engine": "google-neural-ro",
-  "count": 100,
+  "count": 116,
   "entries": {
     "sun_junior": {
       "bodyId": "sun",
       "tier": "junior",
       "file": "./audio/tts/sun_junior.mp3",
-      "normalizedText": "Soarele. Steaua centrală a Sistemului Solar (Pitică Galbenă G2V). Soarele este o minge uriașă de foc și plasmă strălucitoare care ne dă lumină și căldură în fiecare zi. Fără el, pe Pământ ar fi întuneric și un frig de gheață! Analogie: Dacă Soarele ar fi cât o minge mare de plajă, Pământul ar fi doar cât un bob mic de mazăre! Știai că? În interiorul Soarelui ar încăpea aproximativ 1 virgulă 3 milioane de planete Pământ!"
+      "normalizedText": "Soarele. Steaua centrală a Sistemului Solar (Pitică Galbenă tip G doi V). Soarele este o minge uriașă de foc și plasmă strălucitoare care ne dă lumină și căldură în fiecare zi. Fără el, pe Pământ ar fi întuneric și un frig de gheață! Analogie: Dacă Soarele ar fi cât o minge mare de plajă, Pământul ar fi doar cât un bob mic de mazăre! Știai că? În interiorul Soarelui ar încăpea aproximativ 1 virgulă 3 milioane de planete Pământ!"
     },
     "sun_cadet": {
       "bodyId": "sun",
       "tier": "cadet",
       "file": "./audio/tts/sun_cadet.mp3",
-      "normalizedText": "Soarele. Steaua centrală a Sistemului Solar (Pitică Galbenă G2V). Soarele este o stea de tip spectral G2V care concentrează 99 virgulă 86% din masa totală a Sistemului Solar. În nucleul său, la temperaturi de 15 milioane grade C, fuziunea nucleară transformă 600 de milioane de tone de hidrogen în heliu în fiecare secundă. Istoricul explorării: Studiat de misiunile SOHO, Solar Dynamics Observatory (SDO), Solar Orbiter (ESA) și Sonda Solară Parcăr (NASA), care a pătruns direct în coroana solară."
+      "normalizedText": "Soarele. Steaua centrală a Sistemului Solar (Pitică Galbenă tip G doi V). Soarele este o stea de tip spectral tip G doi V care concentrează 99 virgulă 86% din masa totală a Sistemului Solar. În nucleul său, la temperaturi de 15 milioane de grade Celsius, fuziunea nucleară transformă 600 de milioane de tone de hidrogen în heliu în fiecare secundă. Istoricul explorării: Studiat de misiunile SOHO, Solar Dynamics Observatory (SDO), Solar Orbiter (ESA) și Sonda Solară Parcăr (NASA), care a pătruns direct în coroana solară."
     },
     "mercury_junior": {
       "bodyId": "mercury",
@@ -26,7 +26,7 @@
       "bodyId": "mercury",
       "tier": "cadet",
       "file": "./audio/tts/mercury_cadet.mp3",
-      "normalizedText": "Mercur. Cea mai apropiată și mai mică planetă de la Soare. Mercur este o planetă telurică densă, având un nucleu metalic uriaș din fier care ocupă 85% din raza planetei. Lipsa unei atmosfere substanțiale (are doar o exosferă subțire) provoacă cele mai mari variații termice din Sistemul Solar. Istoricul explorării: Vizitată de Mariner 10 (1974 până la 1975), cartografiată complet de sonda MESSENGER (2011 până la 2015) și explorată de misiunea europeo-japoneză BepiColombo."
+      "normalizedText": "Mercur. Cea mai apropiată și mai mică planetă de la Soare. Mercur este o planetă telurică densă, având un nucleu metalic uriaș din fier care ocupă 85% din raza planetei. Lipsa unei atmosfere substanțiale (are doar o exosferă subțire) provoacă cele mai mari variații termice din Sistemul Solar. Istoricul explorării: Vizitată de Marinăr 10 (1974 până la 1975), cartografiată complet de sonda Mesengiar (2011 până la 2015) și explorată de misiunea europeo-japoneză Bepi-Colombo."
     },
     "venus_junior": {
       "bodyId": "venus",
@@ -38,7 +38,7 @@
       "bodyId": "venus",
       "tier": "cadet",
       "file": "./audio/tts/venus_cadet.mp3",
-      "normalizedText": "Venus. Luceafărul strălucitor cu efect de seră extrem. Numită sora geamănă a Pământului datorită dimensiunii și masei similare, Venus are o atmosferă compusă în proporție de 96 virgulă 5% din dioxid de carbon, cu o presiune la sol de 92 de ori mai mare decât cea terestră. Istoricul explorării: Sondele sovietice Venera au reușit primele asolizări și fotografii de pe suprafață (1970 până la 1982), iar sonda NASA Magellan a cartografiat relieful prin radar."
+      "normalizedText": "Venus. Luceafărul strălucitor cu efect de seră extrem. Numită sora geamănă a Pământului datorită dimensiunii și masei similare, Venus are o atmosferă compusă în proporție de 96 virgulă 5% din dioxid de carbon, cu o presiune la sol de 92 de ori mai mare decât cea terestră. Istoricul explorării: Sondele sovietice Venera au reușit primele asolizări și fotografii de pe suprafață (1970 până la 1982), iar sonda NASA Magelan a cartografiat relieful prin radar."
     },
     "earth_junior": {
       "bodyId": "earth",
@@ -50,7 +50,7 @@
       "bodyId": "earth",
       "tier": "cadet",
       "file": "./audio/tts/earth_cadet.mp3",
-      "normalizedText": "Pământul. Planeta Albastră — singura lume cunoscută care găzduiește viață. A treia planetă de la Soare definește distanța etalon de 1 Unitate Astronomică (149597870 kilometri). Este singurul corp planetar cu tectonică a plăcilor activă, hidrosferă lichidă (71% din suprafață) și atmosferă bogată în azot (78%) și oxigen (21%). Istoricul explorării: Observată continuu de flote de sateliți meteorologici și științifici (programul european Copernicus Sentinel, NASA EOS) și de echipajele de pe Stația Spațială Internațională."
+      "normalizedText": "Pământul. Planeta Albastră — singura lume cunoscută care găzduiește viață. A treia planetă de la Soare definește distanța etalon de 1 Unitate Astronomică (150 de milioane de kilometri). Este singurul corp planetar cu tectonică a plăcilor activă, hidrosferă lichidă (71% din suprafață) și atmosferă bogată în azot (78%) și oxigen (21%). Istoricul explorării: Observată continuu de flote de sateliți meteorologici și științifici (programul european Copernicus Sentinel, NASA EOS) și de echipajele de pe Stația Spațială Internațională."
     },
     "mars_junior": {
       "bodyId": "mars",
@@ -62,7 +62,7 @@
       "bodyId": "mars",
       "tier": "cadet",
       "file": "./audio/tts/mars_cadet.mp3",
-      "normalizedText": "Marte. Planeta Roșie a vulcanilor giganți și a roverelor exploratoare. A patra planetă de la Soare are o zi solară (numită sol ) de 24 de ore și 39 de minute, foarte apropiată de cea terestră. Văile râurilor secate și mineralele hidratate demonstrează că Marte a avut oceane de apă lichidă acum peste 3 virgulă 5 miliarde de ani. Istoricul explorării: Explorată de sondele Viking, Mars Reconnaissance Orbiter, MAVEN și roverele Sojourner, Spirit, Opportunity, Chiuriositi și Perseverăns."
+      "normalizedText": "Marte. Planeta Roșie a vulcanilor giganți și a roverelor exploratoare. A patra planetă de la Soare are o zi solară (numită sol ) de 24 de ore și 39 de minute, foarte apropiată de cea terestră. Văile râurilor secate și mineralele hidratate demonstrează că Marte a avut oceane de apă lichidă acum peste 3 virgulă 5 miliarde de ani. Istoricul explorării: Explorată de sondele Vaiching, Mars Reconnaissance Orbiter, MAVEN și roverele Sojourner, Spirit, Oportiuniti, Chiuriositi și Perseverăns."
     },
     "jupiter_junior": {
       "bodyId": "jupiter",
@@ -74,7 +74,7 @@
       "bodyId": "jupiter",
       "tier": "cadet",
       "file": "./audio/tts/jupiter_cadet.mp3",
-      "normalizedText": "Jupiter. Cel mai masiv gigant gazos din Sistemul Solar. Jupiter are o masă de 2 virgulă 5 ori mai mare decât a tuturor celorlalte planete la un loc. Se rotește în jurul axei sale în mai puțin de 10 ore, ceea ce creează benzi atmosferice spectaculoase (zone și centuri) și cel mai puternic câmp magnetic planetar. Istoricul explorării: Survolată de Pioneer 10/11, Voiager unu/2, Ulysses, Cassini și Niu Horaizăns; studiată pe orbită de sondele Galileo (1995 până la 2003) și Juno (din 2016)."
+      "normalizedText": "Jupiter. Cel mai masiv gigant gazos din Sistemul Solar. Jupiter are o masă de 2 virgulă 5 ori mai mare decât a tuturor celorlalte planete la un loc. Se rotește în jurul axei sale în mai puțin de 10 ore, ceea ce creează benzi atmosferice spectaculoase (zone și centuri) și cel mai puternic câmp magnetic planetar. Istoricul explorării: Survolată de Pioneer 10/11, Voiager unu/2, Ulysses, Casini și Niu Horaizăns; studiată pe orbită de sondele Galileo (1995 până la 2003) și Giuno (din 2016)."
     },
     "saturn_junior": {
       "bodyId": "saturn",
@@ -86,7 +86,7 @@
       "bodyId": "saturn",
       "tier": "cadet",
       "file": "./audio/tts/saturn_cadet.mp3",
-      "normalizedText": "Saturn. Bijuteria Sistemului Solar, încoronată cu inele de gheață. Al doilea gigant gazos ca mărime are o densitate medie de doar 0 virgulă 687 g/cm³ (mai mică decât a apei). Sistemul său principal de inele (A, B, C) are o lățime de 282000 kilometri, dar o grosime medie de numai 10 până la 30 de metri. Istoricul explorării: Vizitată de Pioneer 11 și Voiager unu/2, apoi explorată în detaliu timp de 13 ani de misiunea istorică Cassini-Huygens (2004 până la 2017)."
+      "normalizedText": "Saturn. Bijuteria Sistemului Solar, încoronată cu inele de gheață. Al doilea gigant gazos ca mărime are o densitate medie de doar 0 virgulă 687 g sau cm³ (mai mică decât a apei). Sistemul său principal de inele (A, B, C) are o lățime de 282000 kilometri, dar o grosime medie de numai 10 până la 30 de metri. Istoricul explorării: Vizitată de Pioneer 11 și Voiager unu/2, apoi explorată în detaliu timp de 13 ani de misiunea istorică Casini Hoighens (2004 până la 2017)."
     },
     "uranus_junior": {
       "bodyId": "uranus",
@@ -122,7 +122,7 @@
       "bodyId": "moon",
       "tier": "cadet",
       "file": "./audio/tts/moon_cadet.mp3",
-      "normalizedText": "Luna. Singurul satelit natural al Pământului. Formată acum aproximativ 4 virgulă 5 miliarde de ani în urma impactului dintre proto-Pământ și un corp de mărimea lui Marte (Theia), Luna se află în rotație sincronă (ne arată mereu aceeași față) și stabilizează înclinarea axei terestre. Istoricul explorării: Singurul corp ceresc pe care au pășit oamenii (12 astronauți în programul Apollo, 1969 până la 1972) și ținta programului actual Artemis."
+      "normalizedText": "Luna. Singurul satelit natural al Pământului. Formată acum aproximativ 4 virgulă 5 miliarde de ani în urma impactului dintre proto-Pământ și un corp de mărimea lui Marte (Theia), Luna se află în rotație sincronă (ne arată mereu aceeași față) și stabilizează înclinarea axei terestre. Istoricul explorării: Singurul corp ceresc pe care au pășit oamenii (12 astronauți în programul Apolo, 1969 până la 1972) și ținta programului actual Artemis."
     },
     "io_junior": {
       "bodyId": "io",
@@ -134,7 +134,7 @@
       "bodyId": "io",
       "tier": "cadet",
       "file": "./audio/tts/io_cadet.mp3",
-      "normalizedText": "Io. Luna vulcanică a lui Jupiter. Cel mai apropiat dintre cei patru sateliți galileeni ai lui Jupiter suferă o încălzire mareică extremă din cauza rezonanței orbitale 4:2:1 cu Europa și Ganimede. Are peste 400 de vulcani activi, iar jeturile sale eruptive se ridică până la 500 kilometri altitudine. Istoricul explorării: Descoperită de Galileo Galilei în 1610; vulcanismul ei activ a fost observat pentru prima dată de sonda Voiager unu în 1979."
+      "normalizedText": "Io. Luna vulcanică a lui Jupiter. Cel mai apropiat dintre cei patru sateliți galileeni ai lui Jupiter suferă o încălzire mareică extremă din cauza rezonanței orbitale 4 la 2 la 1 cu Europa și Ganimede. Are peste 400 de vulcani activi, iar jeturile sale eruptive se ridică până la 500 kilometri altitudine. Istoricul explorării: Descoperită de Galileo Galilei în 1610; vulcanismul ei activ a fost observat pentru prima dată de sonda Voiager unu în 1979."
     },
     "europa_junior": {
       "bodyId": "europa",
@@ -146,7 +146,7 @@
       "bodyId": "europa",
       "tier": "cadet",
       "file": "./audio/tts/europa_cadet.mp3",
-      "normalizedText": "Europa. Luna înghețată a lui Jupiter cu un ocean ascuns. Europa are cea mai netedă suprafață din Sistemul Solar, brăzdată de fracturi roșiatice numite lineae . Sub crusta de gheață de 15 până la 25 kilometri grosime se află un ocean global de apă lichidă cu o adâncime estimată la 100 kilometri, fiind unul dintre principalele locuri căutate pentru viață extraterestră. Istoricul explorării: Studiată de Galileo și Juno, fiind ținta principală a misiunilor JUICE (ESA) și Europa Clipper (NASA)."
+      "normalizedText": "Europa. Luna înghețată a lui Jupiter cu un ocean ascuns. Europa are cea mai netedă suprafață din Sistemul Solar, brăzdată de fracturi roșiatice numite lineae . Sub crusta de gheață de 15 până la 25 kilometri grosime se află un ocean global de apă lichidă cu o adâncime estimată la 100 kilometri, fiind unul dintre principalele locuri căutate pentru viață extraterestră. Istoricul explorării: Studiată de Galileo și Giuno, fiind ținta principală a misiunilor Juis (ESA) și Europa Clipper (NASA)."
     },
     "ganymede_junior": {
       "bodyId": "ganymede",
@@ -158,7 +158,7 @@
       "bodyId": "ganymede",
       "tier": "cadet",
       "file": "./audio/tts/ganymede_cadet.mp3",
-      "normalizedText": "Ganimede. Cel mai mare satelit natural din Sistemul Solar. Cu un diametru de 5262 kilometri, Ganimede este cel mai mare satelit din Sistemul Solar și singurul cunoscut care posedă o magnetosferă intrinsecă, generată de convecția din nucleul său de fier lichid. Istoricul explorării: Descoperită în 1610 de Galileo Galilei; sonda europeană JUICE va deveni în 2034 prima navă care va intra pe orbita lui Ganimede."
+      "normalizedText": "Ganimede. Cel mai mare satelit natural din Sistemul Solar. Cu un diametru de 5262 kilometri, Ganimede este cel mai mare satelit din Sistemul Solar și singurul cunoscut care posedă o magnetosferă intrinsecă, generată de convecția din nucleul său de fier lichid. Istoricul explorării: Descoperită în 1610 de Galileo Galilei; sonda europeană Juis va deveni în 2034 prima navă care va intra pe orbita lui Ganimede."
     },
     "callisto_junior": {
       "bodyId": "callisto",
@@ -170,7 +170,7 @@
       "bodyId": "callisto",
       "tier": "cadet",
       "file": "./audio/tts/callisto_cadet.mp3",
-      "normalizedText": "Calisto. Lumea străveche de gheață și cratere a lui Jupiter. Al treilea satelit ca mărime din Sistemul Solar (aproape cât Mercur) nu participă la rezonanța orbitală a celorlalte trei luni galileene, motiv pentru care nu a suferit încălzire mareică intensă, păstrând o arhivă geologică intactă de 4 miliarde de ani. Istoricul explorării: Fotografiată în detaliu de Voiager unu/2 și Galileo; va fi survolată de 21 de ori de sonda JUICE."
+      "normalizedText": "Calisto. Lumea străveche de gheață și cratere a lui Jupiter. Al treilea satelit ca mărime din Sistemul Solar (aproape cât Mercur) nu participă la rezonanța orbitală a celorlalte trei luni galileene, motiv pentru care nu a suferit încălzire mareică intensă, păstrând o arhivă geologică intactă de 4 miliarde de ani. Istoricul explorării: Fotografiată în detaliu de Voiager unu/2 și Galileo; va fi survolată de 21 de ori de sonda Juis."
     },
     "titan_junior": {
       "bodyId": "titan",
@@ -182,7 +182,7 @@
       "bodyId": "titan",
       "tier": "cadet",
       "file": "./audio/tts/titan_cadet.mp3",
-      "normalizedText": "Titan. Satelitul lui Saturn cu atmosferă densă și lacuri de metan. Al doilea satelit ca mărime din Sistemul Solar (mai mare decât Mercur), Titan este singurul satelit cu o atmosferă densă (97% azot, presiune de 1 virgulă 45 ori mai mare decât pe Pământ) și singurul corp în afară de Pământ cu lichid stabil la suprafață. Istoricul explorării: Sonda europeană Huygens a asolizat pe Titan în ianuarie 2005 (cea mai îndepărtată asolizare din istorie); NASA pregătește drona nucleară Dragonfly."
+      "normalizedText": "Titan. Satelitul lui Saturn cu atmosferă densă și lacuri de metan. Al doilea satelit ca mărime din Sistemul Solar (mai mare decât Mercur), Titan este singurul satelit cu o atmosferă densă (97% azot, presiune de 1 virgulă 45 ori mai mare decât pe Pământ) și singurul corp în afară de Pământ cu lichid stabil la suprafață. Istoricul explorării: Sonda europeană Hoighens a asolizat pe Titan în ianuarie 2005 (cea mai îndepărtată asolizare din istorie); NASA pregătește drona nucleară Dragonfly."
     },
     "enceladus_junior": {
       "bodyId": "enceladus",
@@ -194,19 +194,19 @@
       "bodyId": "enceladus",
       "tier": "cadet",
       "file": "./audio/tts/enceladus_cadet.mp3",
-      "normalizedText": "Ențeladus. Luna albă ca zăpada a lui Saturn, cu gheizere cosmice. Ențeladus are cel mai ridicat albedo (reflectivitate) din Sistemul Solar (aproximativ 0 virgulă 99). Sonda Cassini a zburat direct prin jeturile sale criovulcanice de la polul sud ( Dungile de Tigru ), detectând apă sărată, molecule organice complexe, hidrogen molecular și silice hidrotermală. Istoricul explorării: Descoperită de William Herschel în 1789; gheizerele sale au fost descoperite și analizate chimic de sonda Cassini în 2005 până la 2015."
+      "normalizedText": "Ențeladus. Luna albă ca zăpada a lui Saturn, cu gheizere cosmice. Ențeladus are cel mai ridicat albedo (reflectivitate) din Sistemul Solar (aproximativ 0 virgulă 99). Sonda Casini a zburat direct prin jeturile sale criovulcanice de la polul sud ( Dungile de Tigru ), detectând apă sărată, molecule organice complexe, hidrogen molecular și silice hidrotermală. Istoricul explorării: Descoperită de William Herschel în 1789; gheizerele sale au fost descoperite și analizate chimic de sonda Casini în 2005 până la 2015."
     },
     "pluto_junior": {
       "bodyId": "pluto",
       "tier": "junior",
       "file": "./audio/tts/pluto_junior.mp3",
-      "normalizedText": "Pluto. Regele planetelor pitice din Centura Kuiper. Pluto este o planetă pitică îndepărtată și înghețată care poartă pe pieptul ei o formă uriașă de inimă albă din gheață de azot! Analogie: Pluto este mai mic chiar și decât Luna noastră — cam cât jumătate din lățimea Europei! Știai că? Pluto și satelitul său cel mai mare, Charon, sunt atât de apropiați ca mărime încât dansează unul în jurul celuilalt!"
+      "normalizedText": "Pluto. Regele planetelor pitice din Centura Caipăr. Pluto este o planetă pitică îndepărtată și înghețată care poartă pe pieptul ei o formă uriașă de inimă albă din gheață de azot! Analogie: Pluto este mai mic chiar și decât Luna noastră — cam cât jumătate din lățimea Europei! Știai că? Pluto și satelitul său cel mai mare, Haron, sunt atât de apropiați ca mărime încât dansează unul în jurul celuilalt!"
     },
     "pluto_cadet": {
       "bodyId": "pluto",
       "tier": "cadet",
       "file": "./audio/tts/pluto_cadet.mp3",
-      "normalizedText": "Pluto. Regele planetelor pitice din Centura Kuiper. Descoperită de Clyde Tombaugh în 1930 și reclasificată în 2006 de UAI drept planetă pitică (obiect plutoid din Centura Kuiper), Pluto are o orbită excentrică și înclinată la 17 grade și o geologie surprinzător de activă, cu munți de gheață de apă și ghețari de azot. Istoricul explorării: Survolată în premieră istorică la 14 iulie 2015 de sonda NASA Niu Horaizăns, care a dezvăluit munți și câmpii de gheață tinere."
+      "normalizedText": "Pluto. Regele planetelor pitice din Centura Caipăr. Descoperită de Claid Tombo în 1930 și reclasificată în 2006 de UAI drept planetă pitică (obiect plutoid din Centura Caipăr), Pluto are o orbită excentrică și înclinată la 17 grade și o geologie surprinzător de activă, cu munți de gheață de apă și ghețari de azot. Istoricul explorării: Survolată în premieră istorică la 14 iulie 2015 de sonda NASA Niu Horaizăns, care a dezvăluit munți și câmpii de gheață tinere."
     },
     "ceres_junior": {
       "bodyId": "ceres",
@@ -218,7 +218,7 @@
       "bodyId": "ceres",
       "tier": "cadet",
       "file": "./audio/tts/ceres_cadet.mp3",
-      "normalizedText": "Ceres. Singura planetă pitică din Centura Principală de Asteroizi. Descoperită la 1 ianuarie 1801 de Giuseppe Piazzi, Ceres este singura planetă pitică situată în Sistemul Solar interior. Reprezintă o protoplanetă embrionară bogată în apă și argile amoniacale. Istoricul explorării: A fost prima planetă pitică vizitată și orbitată de o sondă spațială: misiunea NASA Dawn (2015 până la 2018)."
+      "normalizedText": "Ceres. Singura planetă pitică din Centura Principală de Asteroizi. Descoperită la 1 ianuarie 1801 de Giuseppe Piazzi, Ceres este singura planetă pitică situată în Sistemul Solar interior. Reprezintă o protoplanetă embrionară bogată în apă și argile amoniacale. Istoricul explorării: A fost prima planetă pitică vizitată și orbitată de o sondă spațială: misiunea NASA Don (2015 până la 2018)."
     },
     "eris_junior": {
       "bodyId": "eris",
@@ -242,91 +242,91 @@
       "bodyId": "haumea",
       "tier": "cadet",
       "file": "./audio/tts/haumea_cadet.mp3",
-      "normalizedText": "Ha-u-mea. Planeta pitică ovală cu inel propriu și rotație ultra-rapidă. Situată în Centura Kuiper la aproximativ 43 Unități Astronomice, Ha-u-mea are forma unui elipsoid triaxial (aprox. 2100 ori 1680 ori 1070 kilometri) din cauza perioadei de rotație de doar 3 virgulă 9 ore. În 2017, printr-o ocultație stelară, s-a descoperit că posedă un sistem de inele. Istoricul explorării: Descoperită în 2004 și caracterizată prin ocultații stelare și observații ale telescoapelor spațiale."
+      "normalizedText": "Ha-u-mea. Planeta pitică ovală cu inel propriu și rotație ultra-rapidă. Situată în Centura Caipăr la aproximativ 43 Unități Astronomice, Ha-u-mea are forma unui elipsoid triaxial (aprox. 2100 ori 1680 ori 1070 kilometri) din cauza perioadei de rotație de doar 3 virgulă 9 ore. În 2017, printr-o ocultație stelară, s-a descoperit că posedă un sistem de inele. Istoricul explorării: Descoperită în 2004 și caracterizată prin ocultații stelare și observații ale telescoapelor spațiale."
     },
     "makemake_junior": {
       "bodyId": "makemake",
       "tier": "junior",
       "file": "./audio/tts/makemake_junior.mp3",
-      "normalizedText": "Make-make. Lumea roșiatică de metan înghețat din Centura Kuiper. Make-make este unul dintre cele mai strălucitoare obiecte din Centura Kuiper, numit după zeul primăverii și al fertilității din Insula Paștelui! Analogie: Make-make este ca un bulgăre mare de înghețată de căpșuni la marginea Sistemului Solar! Știai că? A fost descoperită chiar în zilele de după Paște în anul 2005, așa că porecla ei inițială a fost Iepurașul de Paște (Easterbunny)!"
+      "normalizedText": "Make-make. Lumea roșiatică de metan înghețat din Centura Caipăr. Make-make este unul dintre cele mai strălucitoare obiecte din Centura Caipăr, numit după zeul primăverii și al fertilității din Insula Paștelui! Analogie: Make-make este ca un bulgăre mare de înghețată de căpșuni la marginea Sistemului Solar! Știai că? A fost descoperită chiar în zilele de după Paște în anul 2005, așa că porecla ei inițială a fost Iepurașul de Paște (Iepurașul de Paște)!"
     },
     "makemake_cadet": {
       "bodyId": "makemake",
       "tier": "cadet",
       "file": "./audio/tts/makemake_cadet.mp3",
-      "normalizedText": "Make-make. Lumea roșiatică de metan înghețat din Centura Kuiper. A doua planetă pitică ca strălucire din Centura Kuiper (după Pluto), Make-make orbitează la o distanță medie de 45 virgulă 4 Unități Astronomice în 306 ani terestri. Are o suprafață bogată în pelete de metan și etan înghețat și un mic satelit întunecat botezat MK 2. Istoricul explorării: Descoperită în martie 2005 la Observatorul Palomar; satelitul său MK 2 a fost descoperit cu Telescopul Habăl în 2016."
+      "normalizedText": "Make-make. Lumea roșiatică de metan înghețat din Centura Caipăr. A doua planetă pitică ca strălucire din Centura Caipăr (după Pluto), Make-make orbitează la o distanță medie de 45 virgulă 4 Unități Astronomice în 306 ani terestri. Are o suprafață bogată în pelete de metan și etan înghețat și un mic satelit întunecat botezat MK 2. Istoricul explorării: Descoperită în martie 2005 la Observatorul Palomar; satelitul său MK 2 a fost descoperit cu Telescopul Habăl în 2016."
     },
     "vesta_junior": {
       "bodyId": "vesta",
       "tier": "junior",
       "file": "./audio/tts/vesta_junior.mp3",
-      "normalizedText": "4 Vesta. Cel mai strălucitor asteroid și protoplanetă stâncoasă. Vesta este un asteroid uriaș din piatră, atât de luminos încât uneori poate fi văzut de pe Pământ chiar și fără telescop, într-o noapte foarte senină! Analogie: Vesta este ca un cartof uriaș din stâncă, cu un munte la polul sud aproape la fel de înalt ca cel de pe Marte! Știai că? Bucăți rupte din Vesta acum milioane de ani au căzut pe Pământ sub formă de meteoriți pe care îi putem vedea în muzee!"
+      "normalizedText": "Vesta. Cel mai strălucitor asteroid și protoplanetă stâncoasă. Vesta este un asteroid uriaș din piatră, atât de luminos încât uneori poate fi văzut de pe Pământ chiar și fără telescop, într-o noapte foarte senină! Analogie: Vesta este ca un cartof uriaș din stâncă, cu un munte la polul sud aproape la fel de înalt ca cel de pe Marte! Știai că? Bucăți rupte din Vesta acum milioane de ani au căzut pe Pământ sub formă de meteoriți pe care îi putem vedea în muzee!"
     },
     "vesta_cadet": {
       "bodyId": "vesta",
       "tier": "cadet",
       "file": "./audio/tts/vesta_cadet.mp3",
-      "normalizedText": "4 Vesta. Cel mai strălucitor asteroid și protoplanetă stâncoasă. Descoperită în 1807 de Heinrich Olbers, 4 Vesta este o protoplanetă diferențiată (cu nucleu metalic, manta și scoarță bazaltică). Bazinul de impact Rheasilvia de la polul sud are 500 kilometri diametru și un vârf central de 22 kilometri înălțime. Istoricul explorării: Orbitată și cartografiată în detaliu de sonda NASA Dawn între iulie 2011 și septembrie 2012."
+      "normalizedText": "Vesta. Cel mai strălucitor asteroid și protoplanetă stâncoasă. Descoperită în 1807 de Heinrich Olbers, Vesta este o protoplanetă diferențiată (cu nucleu metalic, manta și scoarță bazaltică). Bazinul de impact Rea-Silvia de la polul sud are 500 kilometri diametru și un vârf central de 22 kilometri înălțime. Istoricul explorării: Orbitată și cartografiată în detaliu de sonda NASA Don între iulie 2011 și septembrie 2012."
     },
     "pallas_junior": {
       "bodyId": "pallas",
       "tier": "junior",
       "file": "./audio/tts/pallas_junior.mp3",
-      "normalizedText": "2 Pallas. Al doilea asteroid descoperit, cu o orbită puternic înclinată. Pallas este unul dintre cei mai mari asteroizi din Sistemul Solar și are o suprafață atât de plină de cratere încât seamănă cu o minge de golf! Analogie: În timp ce majoritatea asteroizilor merg pe aceeași autostradă în jurul Soarelui, Pallas zboară pe o pistă înclinată ca un montagne-russe! Știai că? A fost al doilea asteroid descoperit vreodată, în anul 1802, la doar un an după Ceres!"
+      "normalizedText": "Palas. Al doilea asteroid descoperit, cu o orbită puternic înclinată. Palas este unul dintre cei mai mari asteroizi din Sistemul Solar și are o suprafață atât de plină de cratere încât seamănă cu o minge de golf! Analogie: În timp ce majoritatea asteroizilor merg pe aceeași autostradă în jurul Soarelui, Palas zboară pe o pistă înclinată ca un montagne-russe! Știai că? A fost al doilea asteroid descoperit vreodată, în anul 1802, la doar un an după Ceres!"
     },
     "pallas_cadet": {
       "bodyId": "pallas",
       "tier": "cadet",
       "file": "./audio/tts/pallas_cadet.mp3",
-      "normalizedText": "2 Pallas. Al doilea asteroid descoperit, cu o orbită puternic înclinată. Cu un diametru mediu de 512 kilometri, 2 Pallas conține aproximativ 7% din masa Centurii de Asteroizi. Înclinarea orbitală neobișnuit de mare (34 virgulă 8 grade ) provoacă coliziuni la viteze medii mult mai ridicate decât la alți asteroizi, dându-i o morfologie intens craterizată. Istoricul explorării: Descoperită în 1802 de Heinrich Olbers; din cauza înclinării orbitale mari (34 virgulă 8 grade ), nicio sondă nu a putut încă să intre pe orbita sa."
+      "normalizedText": "Palas. Al doilea asteroid descoperit, cu o orbită puternic înclinată. Cu un diametru mediu de 512 kilometri, Palas conține aproximativ 7% din masa Centurii de Asteroizi. Înclinarea orbitală neobișnuit de mare (34 virgulă 8 grade ) provoacă coliziuni la viteze medii mult mai ridicate decât la alți asteroizi, dându-i o morfologie intens craterizată. Istoricul explorării: Descoperită în 1802 de Heinrich Olbers; din cauza înclinării orbitale mari (34 virgulă 8 grade ), nicio sondă nu a putut încă să intre pe orbita sa."
     },
     "bennu_junior": {
       "bodyId": "bennu",
       "tier": "junior",
       "file": "./audio/tts/bennu_junior.mp3",
-      "normalizedText": "101955 Benu. Asteroid în formă de titirez din care NASA a adus mostre pe Pământ. Benu este un mic asteroid în formă de titirez care trece pe lângă Pământ! O sondă spațială l-a atins și a adus acasă un pumn din pietricelele lui. Analogie: Benu este înalt cam cât o clădire zgârie-nori de 100 de etaje (aproximativ 500 de metri lățime)! Știai că? Benu nu este o piatră solidă, ci o grămadă de bolovani și pietriș ținuți împreună de o gravitație minusculă!"
+      "normalizedText": "Benu. Asteroid în formă de titirez din care NASA a adus mostre pe Pământ. Benu este un mic asteroid în formă de titirez care trece pe lângă Pământ! O sondă spațială l-a atins și a adus acasă un pumn din pietricelele lui. Analogie: Benu este înalt cam cât o clădire zgârie-nori de 100 de etaje (aproximativ 500 de metri lățime)! Știai că? Benu nu este o piatră solidă, ci o grămadă de bolovani și pietriș ținuți împreună de o gravitație minusculă!"
     },
     "bennu_cadet": {
       "bodyId": "bennu",
       "tier": "cadet",
       "file": "./audio/tts/bennu_cadet.mp3",
-      "normalizedText": "101955 Benu. Asteroid în formă de titirez din care NASA a adus mostre pe Pământ. Asteroid apropiat de Pământ (grupul Apollo) de tip carbonic B, format prin agregarea gravitațională a fragmentelor ( rubble-pile ). Este o capsulă a timpului chimică din primele 10 milioane de ani ale Sistemului Solar. Istoricul explorării: Explorat de misiunea NASA Osiris Recs (2018 până la 2021), care a colectat mostre din craterul Nightingale și le-a livrat pe Pământ în 2023."
+      "normalizedText": "Benu. Asteroid în formă de titirez din care NASA a adus mostre pe Pământ. Asteroid apropiat de Pământ (grupul Apolo) de tip carbonic B, format prin agregarea gravitațională a fragmentelor ( grămadă de rocă și pietriș ). Este o capsulă a timpului chimică din primele 10 milioane de ani ale Sistemului Solar. Istoricul explorării: Explorat de misiunea NASA Osiris Recs (2018 până la 2021), care a colectat mostre din craterul Naitingheil și le-a livrat pe Pământ în 2023."
     },
     "apophis_junior": {
       "bodyId": "apophis",
       "tier": "junior",
       "file": "./audio/tts/apophis_junior.mp3",
-      "normalizedText": "99942 Apophis. Asteroidul care va trece în siguranță foarte aproape de Pământ în 2029. Apophis este un asteroid în formă de arahidă care în anul 2029 ne va face o vizită pașnică, trecând pe cer ca o steluță vizibilă cu ochiul liber! Analogie: Apophis are mărimea a trei terenuri de fotbal puse cap la cap (aproximativ 370 de metri)! Știai că? Pe 13 aprilie 2029, Apophis va trece în deplină siguranță la doar 32000 kilometri de Pământ — mai aproape decât unii sateliți TV!"
+      "normalizedText": "Apofis. Asteroidul care va trece în siguranță foarte aproape de Pământ în 2029. Apofis este un asteroid în formă de arahidă care în anul 2029 ne va face o vizită pașnică, trecând pe cer ca o steluță vizibilă cu ochiul liber! Analogie: Apofis are mărimea a trei terenuri de fotbal puse cap la cap (aproximativ 370 de metri)! Știai că? Pe 13 aprilie 2029, Apofis va trece în deplină siguranță la doar 32000 kilometri de Pământ — mai aproape decât unii sateliți TV!"
     },
     "apophis_cadet": {
       "bodyId": "apophis",
       "tier": "cadet",
       "file": "./audio/tts/apophis_cadet.mp3",
-      "normalizedText": "99942 Apophis. Asteroidul care va trece în siguranță foarte aproape de Pământ în 2029. Asteroid de tip S (silicatic) din grupul Aten. Măsurătorile radar de înaltă precizie au confirmat că nu există niciun risc de impact cu Pământul pentru cel puțin următoarea sută de ani, dar survolul din 13 aprilie 2029 va fi o oportunitate științifică unică. Istoricul explorării: Va fi studiat de aproape în 2029 de sonda NASA OSIRIS-APEX (fosta Osiris Recs) și de misiunea europeană RAMSES (ESA)."
+      "normalizedText": "Apofis. Asteroidul care va trece în siguranță foarte aproape de Pământ în 2029. Asteroid de tip S (silicatic) din grupul Aten. Măsurătorile radar de înaltă precizie au confirmat că nu există niciun risc de impact cu Pământul pentru cel puțin următoarea sută de ani, dar survolul din 13 aprilie 2029 va fi o oportunitate științifică unică. Istoricul explorării: Va fi studiat de aproape în 2029 de sonda NASA OSIRIS-APEX (fosta Osiris Recs) și de misiunea europeană RAMSES (ESA)."
     },
     "psyche_junior": {
       "bodyId": "psyche",
       "tier": "junior",
       "file": "./audio/tts/psyche_junior.mp3",
-      "normalizedText": "16 Psihe. Lumea metalică unică din Centura de Asteroizi. Psihe este un asteroid cu totul special: în timp ce majoritatea asteroizilor sunt din piatră sau gheață, Psihe este făcut în mare parte din metal (fier și nichel)! Analogie: Oamenii de știință cred că Psihe este inima de metal (nucleul) a unei planete străvechi care și-a pierdut învelișul de piatră! Știai că? Deoarece nu putem săpa până în nucleul de fier al Pământului nostru, am trimis o sondă spațială să viziteze un nucleu direct în spațiu — pe Psihe!"
+      "normalizedText": "Psihe. Lumea metalică unică din Centura de Asteroizi. Psihe este un asteroid cu totul special: în timp ce majoritatea asteroizilor sunt din piatră sau gheață, Psihe este făcut în mare parte din metal (fier și nichel)! Analogie: Oamenii de știință cred că Psihe este inima de metal (nucleul) a unei planete străvechi care și-a pierdut învelișul de piatră! Știai că? Deoarece nu putem săpa până în nucleul de fier al Pământului nostru, am trimis o sondă spațială să viziteze un nucleu direct în spațiu — pe Psihe!"
     },
     "psyche_cadet": {
       "bodyId": "psyche",
       "tier": "cadet",
       "file": "./audio/tts/psyche_cadet.mp3",
-      "normalizedText": "16 Psihe. Lumea metalică unică din Centura de Asteroizi. Descoperit în 1852 de Annibale de Gasparis, 16 Psihe este cel mai masiv asteroid de tip M (metalic), având un diametru mediu de 222 kilometri. Conține între 30% și 60% fier și nichel metalic amestecat cu silicați săraci în fier. Istoricul explorării: Sonda NASA Psihe a fost lansată în octombrie 2023 cu propulsie electrică solară cu efect Hall și va intra pe orbita asteroidului în august 2029."
+      "normalizedText": "Psihe. Lumea metalică unică din Centura de Asteroizi. Descoperit în 1852 de Annibale de Gasparis, Psihe este cel mai masiv asteroid de tip M (metalic), având un diametru mediu de 222 kilometri. Conține între 30% și 60% fier și nichel metalic amestecat cu silicați săraci în fier. Istoricul explorării: Sonda NASA Psihe a fost lansată în octombrie 2023 cu propulsie electrică solară cu efect Hall și va intra pe orbita asteroidului în august 2029."
     },
     "iss_junior": {
       "bodyId": "iss",
       "tier": "junior",
       "file": "./audio/tts/iss_junior.mp3",
-      "normalizedText": "Stația Spațială Internațională (Stația Spațială Internațională). Laboratorul științific locuit permanent pe orbita joasă a Pământului. Stația Spațială Internațională este o casă și un laborator uriaș care zboară deasupra Pământului! Acolo astronauții plutesc în imponderabilitate și fac experimente pentru toată omenirea. Analogie: Stația Spațială Internațională este mare cât un teren de fotbal, cu aripi strălucitoare de panouri solare! Știai că? Stația Spațială Internațională zboară atât de repede (28000 kilometri pe oră) încât astronauții văd 16 răsărituri și 16 apusuri de Soare în fiecare zi!"
+      "normalizedText": "Stația Spațială Internațională. Laboratorul științific locuit permanent pe orbita joasă a Pământului. Stația Spațială Internațională este o casă și un laborator uriaș care zboară deasupra Pământului! Acolo astronauții plutesc în imponderabilitate și fac experimente pentru toată omenirea. Analogie: Stația Spațială Internațională este mare cât un teren de fotbal, cu aripi strălucitoare de panouri solare! Știai că? Stația Spațială Internațională zboară atât de repede (28000 kilometri pe oră) încât astronauții văd 16 răsărituri și 16 apusuri de Soare în fiecare zi!"
     },
     "iss_cadet": {
       "bodyId": "iss",
       "tier": "cadet",
       "file": "./audio/tts/iss_cadet.mp3",
-      "normalizedText": "Stația Spațială Internațională (Stația Spațială Internațională). Laboratorul științific locuit permanent pe orbita joasă a Pământului. Construită începând din 1998 prin cooperarea dintre NASA, ESA, Roscosmos, JAXA și CSA, Stația Spațială Internațională orbitează la aproximativ 410 kilometri altitudine cu o viteză de 7 virgulă 66 kilometri pe secundă. Este locuită continuu de echipaje umane din noiembrie 2000. Istoricul explorării: Peste 270 de astronauți din peste 20 de țări au lucrat la bordul Stația Spațială Internațională în mai mult de două decenii de prezență umană neîntreruptă în spațiu."
+      "normalizedText": "Stația Spațială Internațională. Laboratorul științific locuit permanent pe orbita joasă a Pământului. Construită începând din 1998 prin cooperarea dintre NASA, ESA, Roscosmos, JAXA și CSA, Stația Spațială Internațională orbitează la aproximativ 410 kilometri altitudine cu o viteză de 7 virgulă 66 kilometri pe secundă. Este locuită continuu de echipaje umane din noiembrie 2000. Istoricul explorării: Peste 270 de astronauți din peste 20 de țări au lucrat la bordul Stația Spațială Internațională în mai mult de două decenii de prezență umană neîntreruptă în spațiu."
     },
     "hubble_junior": {
       "bodyId": "hubble",
@@ -338,19 +338,19 @@
       "bodyId": "hubble",
       "tier": "cadet",
       "file": "./audio/tts/hubble_cadet.mp3",
-      "normalizedText": "Telescopul Spațial Habăl. Ochiul cosmic de pe orbita Pământului care a fotografiat Universul timp de peste 30 de ani. Lansat la 24 aprilie 1990 de naveta Discovery (NASA/ESA), Habăl observă în spectrul vizibil, ultraviolet și infraroșu apropiat de la o altitudine de aproximativ 535 kilometri, fără distorsiunile atmosferei terestre. Istoricul explorării: A fost reparat și modernizat direct pe orbită de astronauți în 5 misiuni ale navetelor spațiale (1993 până la 2009), realizând peste 1 virgulă 6 milioane de observații."
+      "normalizedText": "Telescopul Spațial Habăl. Ochiul cosmic de pe orbita Pământului care a fotografiat Universul timp de peste 30 de ani. Lansat la 24 aprilie 1990 de naveta Discovery (NASA sau ESA), Habăl observă în spectrul vizibil, ultraviolet și infraroșu apropiat de la o altitudine de aproximativ 535 kilometri, fără distorsiunile atmosferei terestre. Istoricul explorării: A fost reparat și modernizat direct pe orbită de astronauți în 5 misiuni ale navetelor spațiale (1993 până la 2009), realizând peste 1 virgulă 6 milioane de observații."
     },
     "jwst_junior": {
       "bodyId": "jwst",
       "tier": "junior",
       "file": "./audio/tts/jwst_junior.mp3",
-      "normalizedText": "Telescopul Spațial Geims Ueb (Geims Ueb). Cel mai puternic observator spațial în infraroșu, cu oglindă aurită de tip fagure. Telescopul Geims Ueb este o bijuterie cosmică cu o oglindă mare cât o casă, formată din 18 plăci hexagonale acoperite cu aur adevărat! Analogie: Oglinda lui arată ca un fagure de miere uriaș, iar sub el are o umbrelă de soare cu 5 straturi cât un teren de tenis! Știai că? Pentru a încăpea în racheta Ariane 5, telescopul a fost împachetat ca un origami și s-a despăturit singur în spațiu!"
+      "normalizedText": "Telescopul Spațial Geims Ueb. Cel mai puternic observator spațial în infraroșu, cu oglindă aurită de tip fagure. Telescopul Geims Ueb este o bijuterie cosmică cu o oglindă mare cât o casă, formată din 18 plăci hexagonale acoperite cu aur adevărat! Analogie: Oglinda lui arată ca un fagure de miere uriaș, iar sub el are o umbrelă de soare cu 5 straturi cât un teren de tenis! Știai că? Pentru a încăpea în racheta Ariane 5, telescopul a fost împachetat ca un origami și s-a despăturit singur în spațiu!"
     },
     "jwst_cadet": {
       "bodyId": "jwst",
       "tier": "cadet",
       "file": "./audio/tts/jwst_cadet.mp3",
-      "normalizedText": "Telescopul Spațial Geims Ueb (Geims Ueb). Cel mai puternic observator spațial în infraroșu, cu oglindă aurită de tip fagure. Dezvoltat de NASA, ESA și CSA și lansat la 25 decembrie 2021, Geims Ueb orbitează în jurul punctului Lagrange L2 Soare–Pământ (la 1 virgulă 5 milioane de kilometri de Pământ). Observă în infraroșu primele galaxii formate după Big Bang și analizează atmosferele exoplanetelor. Istoricul explorării: Lansat din Kourou cu o rachetă europeană Ariane 5 în decembrie 2021; a transmis primele imagini științifice revoluționare în iulie 2022."
+      "normalizedText": "Telescopul Spațial Geims Ueb. Cel mai puternic observator spațial în infraroșu, cu oglindă aurită de tip fagure. Dezvoltat de NASA, ESA și CSA și lansat la 25 decembrie 2021, Geims Ueb orbitează în jurul punctului Lagrange L2 Soare–Pământ (la 1 virgulă 5 milioane de kilometri de Pământ). Observă în infraroșu primele galaxii formate după Big Bang și analizează atmosferele exoplanetelor. Istoricul explorării: Lansat din Kourou cu o rachetă europeană Ariane 5 în decembrie 2021; a transmis primele imagini științifice revoluționare în iulie 2022."
     },
     "euclid_junior": {
       "bodyId": "euclid",
@@ -362,7 +362,7 @@
       "bodyId": "euclid",
       "tier": "cadet",
       "file": "./audio/tts/euclid_cadet.mp3",
-      "normalizedText": "Telescopul Spațial Euclid. Cartograful european al Universului Întunecat (în punctul Lagrange L2). Lansat în iulie 2023 de ESA, Euclid operează în punctul Lagrange L2 pentru a investiga natura materiei întunecate și a energiei întunecate, cartografiind distribuția tridimensională a miliarde de galaxii pe o distanță de 10 miliarde de ani-lumină. Istoricul explorării: Lansat la 1 iulie 2023; primele sale imagini cosmice ( Early Release Observations ) au dezvăluit roiul Perseus și mii de galaxii necunoscute anterior."
+      "normalizedText": "Telescopul Spațial Euclid. Cartograful european al Universului Întunecat (în punctul Lagrange L2). Lansat în iulie 2023 de ESA, Euclid operează în punctul Lagrange L2 pentru a investiga natura materiei întunecate și a energiei întunecate, cartografiind distribuția tridimensională a miliarde de galaxii pe o distanță de 10 miliarde de ani-lumină. Istoricul explorării: Lansat la 1 iulie 2023; primele sale imagini cosmice ( Primele Observații Oficiale ) au dezvăluit roiul Perseus și mii de galaxii necunoscute anterior."
     },
     "voyager1_junior": {
       "bodyId": "voyager1",
@@ -374,7 +374,7 @@
       "bodyId": "voyager1",
       "tier": "cadet",
       "file": "./audio/tts/voyager1_cadet.mp3",
-      "normalizedText": "Voiager unu. Cel mai îndepărtat obiect creat de om, călătorind în spațiul interstelar. Lansată la 5 septembrie 1977, Voiager unu a explorat sistemele lui Jupiter (1979) și Saturn (1980), iar la 25 august 2012 a traversat heliopauza, devenind primul artefact uman care pătrunde în mediul interstelar, la peste 24 de miliarde de kilometri de Pământ. Istoricul explorării: A realizat în 1990 celebra fotografie a Pământului Un punct albastru pal (Pale Blue Dot) de la 6 miliarde de kilometri distanță, la sugestia lui Carl Sagan."
+      "normalizedText": "Voiager unu. Cel mai îndepărtat obiect creat de om, călătorind în spațiul interstelar. Lansată la 5 septembrie 1977, Voiager unu a explorat sistemele lui Jupiter (1979) și Saturn (1980), iar la 25 august 2012 a traversat heliopauza, devenind primul artefact uman care pătrunde în mediul interstelar, la peste 24 de miliarde de kilometri de Pământ. Istoricul explorării: A realizat în 1990 celebra fotografie a Pământului Un punct albastru pal (Un Punct Albastru Pal) de la 6 miliarde de kilometri distanță, la sugestia lui Carl Sagan."
     },
     "voyager2_junior": {
       "bodyId": "voyager2",
@@ -386,19 +386,19 @@
       "bodyId": "voyager2",
       "tier": "cadet",
       "file": "./audio/tts/voyager2_cadet.mp3",
-      "normalizedText": "Voiager doi. Singura sondă din istorie care a vizitat toți cei 4 giganți: Jupiter, Saturn, Uranus și Neptun. Lansată la 20 august 1977, Voiager doi a profitat de o aliniere planetară care apare doar o dată la 175 de ani ( Grand Tour ), survolând Jupiter (1979), Saturn (1981), Uranus (1986) și Neptun (1989). În noiembrie 2018 a intrat și ea în spațiul interstelar. Istoricul explorării: Rămâne până astăzi singura sondă care a explorat de aproape giganții de gheață Uranus și Neptun."
+      "normalizedText": "Voiager doi. Singura sondă din istorie care a vizitat toți cei 4 giganți: Jupiter, Saturn, Uranus și Neptun. Lansată la 20 august 1977, Voiager doi a profitat de o aliniere planetară care apare doar o dată la 175 de ani ( Marele Tur ), survolând Jupiter (1979), Saturn (1981), Uranus (1986) și Neptun (1989). În noiembrie 2018 a intrat și ea în spațiul interstelar. Istoricul explorării: Rămâne până astăzi singura sondă care a explorat de aproape giganții de gheață Uranus și Neptun."
     },
     "newhorizons_junior": {
       "bodyId": "newhorizons",
       "tier": "junior",
       "file": "./audio/tts/newhorizons_junior.mp3",
-      "normalizedText": "Niu Horaizăns. Sonda rapidă care ne-a dezvăluit inima înghețată a lui Pluto și Centura Kuiper. Niu Horaizăns este sonda spațială de mărimea unui pian cu coadă care a zburat timp de 9 ani și jumătate pentru a fotografia pentru prima oară de aproape planeta pitică Pluto! Analogie: A plecat de pe Pământ mai repede decât orice altă rachetă — a trecut de orbita Lunii în doar 9 ore (față de 3 zile cât le-a luat astronauților Apollo)! Știai că? După Pluto, a vizitat în 2019 și pe Arrokoth, un corp înghețat din Centura Kuiper care arată exact ca un om de zăpadă cosmic!"
+      "normalizedText": "Niu Horaizăns. Sonda rapidă care ne-a dezvăluit inima înghețată a lui Pluto și Centura Caipăr. Niu Horaizăns este sonda spațială de mărimea unui pian cu coadă care a zburat timp de 9 ani și jumătate pentru a fotografia pentru prima oară de aproape planeta pitică Pluto! Analogie: A plecat de pe Pământ mai repede decât orice altă rachetă — a trecut de orbita Lunii în doar 9 ore (față de 3 zile cât le-a luat astronauților Apolo)! Știai că? După Pluto, a vizitat în 2019 și pe Arrokoth, un corp înghețat din Centura Caipăr care arată exact ca un om de zăpadă cosmic!"
     },
     "newhorizons_cadet": {
       "bodyId": "newhorizons",
       "tier": "cadet",
       "file": "./audio/tts/newhorizons_cadet.mp3",
-      "normalizedText": "Niu Horaizăns. Sonda rapidă care ne-a dezvăluit inima înghețată a lui Pluto și Centura Kuiper. Lansată la 19 ianuarie 2006 cu cea mai mare viteză de evadare de pe Pământ (16 virgulă 26 kilometri pe secundă), Niu Horaizăns a survolat Jupiter în 2007, sistemul Pluto–Charon la 14 iulie 2015 și obiectul primordial din Centura Kuiper 486958 Arrokoth la 1 ianuarie 2019. Istoricul explorării: A realizat cel mai îndepărtat survol al unui corp ceresc din istorie (Arrokoth, la 43 virgulă 4 Unități Astronomice de Soare)."
+      "normalizedText": "Niu Horaizăns. Sonda rapidă care ne-a dezvăluit inima înghețată a lui Pluto și Centura Caipăr. Lansată la 19 ianuarie 2006 cu cea mai mare viteză de evadare de pe Pământ (16 virgulă 26 kilometri pe secundă), Niu Horaizăns a survolat Jupiter în 2007, sistemul Pluto–Haron la 14 iulie 2015 și obiectul primordial din Centura Caipăr 486958 Arrokoth la 1 ianuarie 2019. Istoricul explorării: A realizat cel mai îndepărtat survol al unui corp ceresc din istorie (Arrokoth, la 43 virgulă 4 Unități Astronomice de Soare)."
     },
     "parker_junior": {
       "bodyId": "parker",
@@ -416,49 +416,49 @@
       "bodyId": "rosetta",
       "tier": "junior",
       "file": "./audio/tts/rosetta_junior.mp3",
-      "normalizedText": "Rosetta & File. Misiunea europeană istorică ce a însoțit o cometă și a asolizat pe nucleul ei. Rosetta a fost sonda Agenției Spațiale Europene care a urmărit timp de 10 ani cometa Ciuriumov-Gherasimenko și a coborât pe ea micul robot laborator File! Analogie: Cometa pe care a ajuns Rosetta are exact forma unei rățuște de baie din gheață și praf negru, lungă de 4 kilometri! Știai că? Aripile solare ale sondei Rosetta erau lungi de 32 de metri — cât o balenă albastră!"
+      "normalizedText": "Rozeta și File. Misiunea europeană istorică ce a însoțit o cometă și a asolizat pe nucleul ei. Rozeta a fost sonda Agenției Spațiale Europene care a urmărit timp de 10 ani cometa Ciuriumov Gherasimenco și a coborât pe ea micul robot laborator File! Analogie: Cometa pe care a ajuns Rozeta are exact forma unei rățuște de baie din gheață și praf negru, lungă de 4 kilometri! Știai că? Aripile solare ale sondei Rozeta erau lungi de 32 de metri — cât o balenă albastră!"
     },
     "rosetta_cadet": {
       "bodyId": "rosetta",
       "tier": "cadet",
       "file": "./audio/tts/rosetta_cadet.mp3",
-      "normalizedText": "Rosetta & File. Misiunea europeană istorică ce a însoțit o cometă și a asolizat pe nucleul ei. Lansată de ESA în martie 2004, Rosetta a devenit în august 2014 prima sondă care a intrat pe orbita unei comete (67P/Ciuriumov-Gherasimenko), iar la 12 noiembrie 2014 modulul său File a realizat prima asolizare moale pe nucleul unei comete. Istoricul explorării: Și-a încheiat misiunea la 30 septembrie 2016 coborând lent și așezându-se definitiv pe suprafața cometei 67P."
+      "normalizedText": "Rozeta și File. Misiunea europeană istorică ce a însoțit o cometă și a asolizat pe nucleul ei. Lansată de ESA în martie 2004, Rozeta a devenit în august 2014 prima sondă care a intrat pe orbita unei comete (67 P Ciuriumov Gherasimenco), iar la 12 noiembrie 2014 modulul său File a realizat prima asolizare moale pe nucleul unei comete. Istoricul explorării: Și-a încheiat misiunea la 30 septembrie 2016 coborând lent și așezându-se definitiv pe suprafața cometei 67P."
     },
     "juice_junior": {
       "bodyId": "juice",
       "tier": "junior",
       "file": "./audio/tts/juice_junior.mp3",
-      "normalizedText": "JUICE (Jupiter Icy Moons Explorer). Exploratorul european al lunilor înghețate cu oceane ale lui Jupiter. JUICE este sonda Agenției Spațiale Europene aflată în drum spre Jupiter pentru a cerceta oceanele ascunse sub gheață de pe lunile Europa, Calisto și Ganimede! Analogie: Cele două aripi solare ale sale, în formă de cruce, sunt mari cât un teren de baschet! Știai că? Pe fuselajul sondei JUICE este gravat un desen realizat de o fetiță de 10 ani, ales dintr-un concurs la care au participat mii de copii!"
+      "normalizedText": "Juis, Exploratorul Lunilor Înghețate ale lui Jupiter. Exploratorul european al lunilor înghețate cu oceane ale lui Jupiter. Juis este sonda Agenției Spațiale Europene aflată în drum spre Jupiter pentru a cerceta oceanele ascunse sub gheață de pe lunile Europa, Calisto și Ganimede! Analogie: Cele două aripi solare ale sale, în formă de cruce, sunt mari cât un teren de baschet! Știai că? Pe fuselajul sondei Juis este gravat un desen realizat de o fetiță de 10 ani, ales dintr-un concurs la care au participat mii de copii!"
     },
     "juice_cadet": {
       "bodyId": "juice",
       "tier": "cadet",
       "file": "./audio/tts/juice_cadet.mp3",
-      "normalizedText": "JUICE (Jupiter Icy Moons Explorer). Exploratorul european al lunilor înghețate cu oceane ale lui Jupiter. Lansată la 14 aprilie 2023 cu o rachetă Ariane 5, misiunea de clasă mare a ESA (JUICE) va ajunge în sistemul jovian în iulie 2031, va efectua 35 de survoluri ale lunilor Europa, Calisto și Ganimede, iar în 2034 va deveni prima sondă care orbitează o lună a altei planete (Ganimede). Istoricul explorării: În august 2024 a realizat prima manevră dublă din istorie de asistență gravitațională Lună–Pământ (LEGA)."
+      "normalizedText": "Juis, Exploratorul Lunilor Înghețate ale lui Jupiter. Exploratorul european al lunilor înghețate cu oceane ale lui Jupiter. Lansată la 14 aprilie 2023 cu o rachetă Ariane 5, misiunea de clasă mare a ESA (Juis) va ajunge în sistemul jovian în iulie 2031, va efectua 35 de survoluri ale lunilor Europa, Calisto și Ganimede, iar în 2034 va deveni prima sondă care orbitează o lună a altei planete (Ganimede). Istoricul explorării: În august 2024 a realizat prima manevră dublă din istorie de asistență gravitațională Lună–Pământ (LEGA)."
     },
     "perseverance_junior": {
       "bodyId": "perseverance",
       "tier": "junior",
       "file": "./audio/tts/perseverance_junior.mp3",
-      "normalizedText": "Perseverăns & Ingeniuiti. Laboratorul astrobiologic pe roți și primul elicopter care a zburat pe Marte. Perseverăns ( Percy ) este un robot explorator pe 6 roți care caută urme de viață străveche în craterul Jezero de pe Marte, însoțit de micul elicopter Ingeniuiti ( Ginny )! Analogie: Roverul este mare cât o mașină de teren, iar elicopterul Ingeniuiti cântărește doar 1 virgulă 8 kg — cât o cutie mare de lapte! Știai că? Ingeniuiti a fost primul aparat din istorie care a zburat pe o altă planetă, reușind 72 de zboruri în aerul subțire al lui Marte!"
+      "normalizedText": "Perseverăns și Ingeniuiti. Laboratorul astrobiologic pe roți și primul elicopter care a zburat pe Marte. Perseverăns ( Percy ) este un robot explorator pe 6 roți care caută urme de viață străveche în craterul Jezero de pe Marte, însoțit de micul elicopter Ingeniuiti ( Ginny )! Analogie: Roverul este mare cât o mașină de teren, iar elicopterul Ingeniuiti cântărește doar 1 virgulă 8 kg — cât o cutie mare de lapte! Știai că? Ingeniuiti a fost primul aparat din istorie care a zburat pe o altă planetă, reușind 72 de zboruri în aerul subțire al lui Marte!"
     },
     "perseverance_cadet": {
       "bodyId": "perseverance",
       "tier": "cadet",
       "file": "./audio/tts/perseverance_cadet.mp3",
-      "normalizedText": "Perseverăns & Ingeniuiti. Laboratorul astrobiologic pe roți și primul elicopter care a zburat pe Marte. Amartizat la 18 februarie 2021 în craterul Jezero (delta unui râu antic marțian), Perseverăns caută biosemnături fosile, colectează carote de rocă în tuburi sigilate pentru viitoarea aducere pe Pământ și a demonstrat producerea de oxigen din atmosfera marțiană. Istoricul explorării: Coborât pe Marte prin spectaculoasa manevră Sky Crane (macara zburătoare cu rachete); Ingeniuiti a zburat de 72 de ori între 2021 și 2024."
+      "normalizedText": "Perseverăns și Ingeniuiti. Laboratorul astrobiologic pe roți și primul elicopter care a zburat pe Marte. Amartizat la 18 februarie 2021 în craterul Jezero (delta unui râu antic marțian), Perseverăns caută biosemnături fosile, colectează carote de rocă în tuburi sigilate pentru viitoarea aducere pe Pământ și a demonstrat producerea de oxigen din atmosfera marțiană. Istoricul explorării: Coborât pe Marte prin spectaculoasa manevră Scai Crein (macara zburătoare cu rachete); Ingeniuiti a zburat de 72 de ori între 2021 și 2024."
     },
     "curiosity_junior": {
       "bodyId": "curiosity",
       "tier": "junior",
       "file": "./audio/tts/curiosity_junior.mp3",
-      "normalizedText": "Chiuriositi (Mars Science Laboratory). Roverul veteran care urcă pe Muntele Sharp din craterul Gale de pe Marte. Chiuriositi este laboratorul chimic pe roți care explorează Marte încă din anul 2012! El a demonstrat că pe Marte au existat lacuri cu apă dulce în care ar fi putut trăi microbi. Analogie: Chiuriositi are un cap cu 17 camere foto și un braț robotic lung de 2 metri cu care găurește pietrele marțiene! Știai că? Roțile lui Chiuriositi au găuri speciale care lasă pe nisipul de pe Marte urme în codul Morse cu literele J P L (laboratorul care l-a construit)!"
+      "normalizedText": "Chiuriositi (Laboratorul Științific Marțian). Roverul veteran care urcă pe Muntele Sharp din craterul Gale de pe Marte. Chiuriositi este laboratorul chimic pe roți care explorează Marte încă din anul 2012! El a demonstrat că pe Marte au existat lacuri cu apă dulce în care ar fi putut trăi microbi. Analogie: Chiuriositi are un cap cu 17 camere foto și un braț robotic lung de 2 metri cu care găurește pietrele marțiene! Știai că? Roțile lui Chiuriositi au găuri speciale care lasă pe nisipul de pe Marte urme în codul Morse cu literele J P L (laboratorul care l-a construit)!"
     },
     "curiosity_cadet": {
       "bodyId": "curiosity",
       "tier": "cadet",
       "file": "./audio/tts/curiosity_cadet.mp3",
-      "normalizedText": "Chiuriositi (Mars Science Laboratory). Roverul veteran care urcă pe Muntele Sharp din craterul Gale de pe Marte. Amartizat la 6 august 2012 în craterul Gale, Chiuriositi (900 kg, alimentat nuclear prin RTG) urcă treptat pe versanții muntelui Aeolis Mons (Mount Sharp, 5 virgulă 5 kilometri înălțime), citind în straturile sedimentare tranziția lui Marte de la o lume umedă la un deșert rece. Istoricul explorării: A parcurs peste 32 kilometri pe Marte în mai mult de 4300 de zile marțiene (soli), fiind încă activ."
+      "normalizedText": "Chiuriositi (Laboratorul Științific Marțian). Roverul veteran care urcă pe Muntele Sharp din craterul Gale de pe Marte. Amartizat la 6 august 2012 în craterul Gale, Chiuriositi (900 kg, alimentat nuclear prin RTG) urcă treptat pe versanții muntelui Aeolis Mons (Muntele Șarp, 5 virgulă 5 kilometri înălțime), citind în straturile sedimentare tranziția lui Marte de la o lume umedă la un deșert rece. Istoricul explorării: A parcurs peste 32 kilometri pe Marte în mai mult de 4300 de zile marțiene (soli), fiind încă activ."
     },
     "oort_cloud_junior": {
       "bodyId": "oort_cloud",
@@ -476,25 +476,25 @@
       "bodyId": "proxima_centauri",
       "tier": "junior",
       "file": "./audio/tts/proxima_centauri_junior.mp3",
-      "normalizedText": "Procsima Centauri & Proxima b. Cea mai apropiată stea de Soare și exoplaneta ei stâncoasă (4 virgulă 24 ani-lumină). Procsima Centauri este prima noastră vecină stelară din Univers! Este o stea pitică roșie, mai mică și mai blândă decât Soarele, iar în jurul ei se învârte Procsima Centauri b — cea mai apropiată exoplanetă (planetă din afara Sistemului Solar) de Pământ! Analogie: Dacă Soarele ar fi un pepene mare și galben, Procsima Centauri ar fi o cireașă roșie strălucitoare, iar planeta Proxima b o bobiță de mazăre care face un tur complet în jurul ei în doar 11 zile! Știai că? Pe planeta Proxima b, un an întreg durează doar 11 zile pământești! Acolo ai sărbători ziua ta de naștere de trei ori pe lună!"
+      "normalizedText": "Procsima Centauri și Procsima b. Cea mai apropiată stea de Soare și exoplaneta ei stâncoasă (4 virgulă 24 ani-lumină). Procsima Centauri este prima noastră vecină stelară din Univers! Este o stea pitică roșie, mai mică și mai blândă decât Soarele, iar în jurul ei se învârte Procsima Centauri b — cea mai apropiată exoplanetă (planetă din afara Sistemului Solar) de Pământ! Analogie: Dacă Soarele ar fi un pepene mare și galben, Procsima Centauri ar fi o cireașă roșie strălucitoare, iar planeta Procsima b o bobiță de mazăre care face un tur complet în jurul ei în doar 11 zile! Știai că? Pe planeta Procsima b, un an întreg durează doar 11 zile pământești! Acolo ai sărbători ziua ta de naștere de trei ori pe lună!"
     },
     "proxima_centauri_cadet": {
       "bodyId": "proxima_centauri",
       "tier": "cadet",
       "file": "./audio/tts/proxima_centauri_cadet.mp3",
-      "normalizedText": "Procsima Centauri & Proxima b. Cea mai apropiată stea de Soare și exoplaneta ei stâncoasă (4 virgulă 24 ani-lumină). Situată la 4 virgulă 24 ani-lumină în constelația Centaurul (parte a sistemului triplu Alpha Centauri), Procsima Centauri este o pitică roșie de clasă spectrală M5 virgulă 5Ve. Exoplaneta Procsima Centauri b (descoperită în 2016) orbitează chiar în zona locuibilă (la 0 virgulă 0485 Unități Astronomice de stea), unde temperatura ar permite existența apei lichide. Istoricul explorării: Steaua a fost descoperită în 1915 de Robert Innes, iar exoplaneta Proxima b a fost confirmată în august 2016 de Observatorul European Austral (ESO) prin metoda vitezelor radiale (instrumentul HARPS)."
+      "normalizedText": "Procsima Centauri și Procsima b. Cea mai apropiată stea de Soare și exoplaneta ei stâncoasă (4 virgulă 24 ani-lumină). Situată la 4 virgulă 24 ani-lumină în constelația Centaurul (parte a sistemului triplu Alfa Centauri), Procsima Centauri este o pitică roșie de clasă spectrală Mesie 5 virgulă 5Ve. Exoplaneta Procsima Centauri b (descoperită în 2016) orbitează chiar în zona locuibilă (la 0 virgulă 0485 Unități Astronomice de stea), unde temperatura ar permite existența apei lichide. Istoricul explorării: Steaua a fost descoperită în 1915 de Robert Innes, iar exoplaneta Procsima b a fost confirmată în august 2016 de Observatorul European Austral (ESO) prin metoda vitezelor radiale (instrumentul HARPS)."
     },
     "sirius_junior": {
       "bodyId": "sirius",
       "tier": "junior",
       "file": "./audio/tts/sirius_junior.mp3",
-      "normalizedText": "Sirius A & B (Luceafărul Câinelui). Cea mai strălucitoare stea de pe cerul nopții și pitica ei albă (8 virgulă 6 ani-lumină). Dacă privești cerul senin într-o seară de iarnă, sub centura constelației Orion vei vedea o stea care scânteiază în alb și albastru mai tare decât oricare alta: este Sirius! De fapt, Sirius ascunde un secret — nu este o singură stea, ci două stele care dansează împreună! Analogie: Sirius A este ca un far uriaș alb-albăstrui de 25 de ori mai puternic decât Soarele, iar lângă el se rotește Sirius B ( Cățelușul ), o stea pitică albă mică doar cât Pământul, dar grea cât un Soare întreg! Știai că? Materia din pitica albă Sirius B este atât de deasă și grea, încât o singură linguriță din ea ar cântări pe Pământ aproximativ 5 tone — cât un elefant african matur!"
+      "normalizedText": "Sirius A și B (Luceafărul Câinelui). Cea mai strălucitoare stea de pe cerul nopții și pitica ei albă (8 virgulă 6 ani-lumină). Dacă privești cerul senin într-o seară de iarnă, sub centura constelației Orion vei vedea o stea care scânteiază în alb și albastru mai tare decât oricare alta: este Sirius! De fapt, Sirius ascunde un secret — nu este o singură stea, ci două stele care dansează împreună! Analogie: Sirius A este ca un far uriaș alb-albăstrui de 25 de ori mai puternic decât Soarele, iar lângă el se rotește Sirius B ( Cățelușul ), o stea pitică albă mică doar cât Pământul, dar grea cât un Soare întreg! Știai că? Materia din pitica albă Sirius B este atât de deasă și grea, încât o singură linguriță din ea ar cântări pe Pământ aproximativ 5 tone — cât un elefant african matur!"
     },
     "sirius_cadet": {
       "bodyId": "sirius",
       "tier": "cadet",
       "file": "./audio/tts/sirius_cadet.mp3",
-      "normalizedText": "Sirius A & B (Luceafărul Câinelui). Cea mai strălucitoare stea de pe cerul nopții și pitica ei albă (8 virgulă 6 ani-lumină). Sirius (Alpha Canis Majoris), aflată la 8 virgulă 6 ani-lumină, este un sistem binar format din Sirius A (stea albă de secvență principală, tip spectral A1V, aproximativ 9940 K) și Sirius B (una dintre cele mai masive pitice albe cunoscute, cu temperatura de aproximativ 25000 K), care se orbitează reciproc la fiecare 50 virgulă 1 ani. Istoricul explorării: Friedrich Bessel a dedus în 1844 existența unui companion invizibil observând oscilațiile mișcării lui Sirius A, iar Alvan Graham Clark a observat direct pitica albă Sirius B în 1862."
+      "normalizedText": "Sirius A și B (Luceafărul Câinelui). Cea mai strălucitoare stea de pe cerul nopții și pitica ei albă (8 virgulă 6 ani-lumină). Sirius (Alpha Canis Majoris), aflată la 8 virgulă 6 ani-lumină, este un sistem binar format din Sirius A (stea albă de secvență principală, tip spectral A1V, aproximativ 9940 K) și Sirius B (una dintre cele mai masive pitice albe cunoscute, cu temperatura de aproximativ 25000 K), care se orbitează reciproc la fiecare 50 virgulă 1 ani. Istoricul explorării: Friedrich Bessel a dedus în 1844 existența unui companion invizibil observând oscilațiile mișcării lui Sirius A, iar Alvan Graham Clark a observat direct pitica albă Sirius B în 1862."
     },
     "trappist1_junior": {
       "bodyId": "trappist1",
@@ -506,7 +506,7 @@
       "bodyId": "trappist1",
       "tier": "cadet",
       "file": "./audio/tts/trappist1_cadet.mp3",
-      "normalizedText": "Sistemul Trapist unu (7 Exoplanete). Steaua pitică ultra-rece cu 7 planete stâncoase de mărimea Pământului (40 ani-lumină). Aflat la aproximativ 40 de ani-lumină în constelația Vărsătorul, sistemul Trapist unu conține o pitică ultra-rece (clasă M8V, masa aproximativ 0 virgulă 09 mase solare) și șapte exoplanete telurice (Trapist unu b, c, d, e, f, g, h) cu perioade orbitale între 1 virgulă 5 și 18 virgulă 7 zile, aflate într-un lanț stabil de rezonanțe orbitale. Istoricul explorării: Descoperit în 2016 până la 2017 de echipa condusă de Michaël Gillon cu telescopul TRAPPIST și telescopul spațial Spitzer; astăzi este ținta principală a Telescopului Geims Ueb pentru studiul atmosferelor exoplanetare."
+      "normalizedText": "Sistemul Trapist unu (7 Exoplanete). Steaua pitică ultra-rece cu 7 planete stâncoase de mărimea Pământului (40 ani-lumină). Aflat la aproximativ 40 de ani-lumină în constelația Vărsătorul, sistemul Trapist unu conține o pitică ultra-rece (clasă M8V, masa aproximativ 0 virgulă 09 mase solare) și șapte exoplanete telurice (Trapist unu b, c, d, e, f, g, h) cu perioade orbitale între 1 virgulă 5 și 18 virgulă 7 zile, aflate într-un lanț stabil de rezonanțe orbitale. Istoricul explorării: Descoperit în 2016 până la 2017 de echipa condusă de Michaël Gillon cu telescopul Trapist și telescopul spațial Șpițăr; astăzi este ținta principală a Telescopului Geims Ueb pentru studiul atmosferelor exoplanetare."
     },
     "cancri55e_junior": {
       "bodyId": "cancri55e",
@@ -518,19 +518,19 @@
       "bodyId": "cancri55e",
       "tier": "cadet",
       "file": "./audio/tts/cancri55e_cadet.mp3",
-      "normalizedText": "Exoplaneta 55 Cancri e (Janssen). Planeta de Lavă și Diamant — Super-Pământ incandescent (41 ani-lumină). 55 Cancri e (numită oficial Janssen) este o exoplanetă de tip Super-Pământ aflată la 41 de ani-lumină în constelația Racul. Orbitează la doar 0 virgulă 015 Unități Astronomice de steaua 55 Cancri A, fiind blocată mareic: emisfera diurnă atinge aproximativ 2000 grade Celsius (acoperită de un ocean global de magmă), iar observațiile Geims Ueb din 2024 au confirmat prezența unei atmosfere secundare bogate în CO și CO₂ degajate din oceanul de lavă. Istoricul explorării: Descoperită în 2004 prin metoda vitezelor radiale și observată în tranzit de telescoapele Spitzer, Habăl, CHEOPS și Geims Ueb (2024)."
+      "normalizedText": "Exoplaneta 55 Cancri e (Janssen). Planeta de Lavă și Diamant — Super-Pământ incandescent (41 ani-lumină). 55 Cancri e (numită oficial Janssen) este o exoplanetă de tip Super-Pământ aflată la 41 de ani-lumină în constelația Racul. Orbitează la doar 0 virgulă 015 Unități Astronomice de steaua 55 Cancri A, fiind blocată mareic: emisfera diurnă atinge aproximativ 2000 grade Celsius (acoperită de un ocean global de magmă), iar observațiile Geims Ueb din 2024 au confirmat prezența unei atmosfere secundare bogate în CO și CO₂ degajate din oceanul de lavă. Istoricul explorării: Descoperită în 2004 prin metoda vitezelor radiale și observată în tranzit de telescoapele Șpițăr, Habăl, CHEOPS și Geims Ueb (2024)."
     },
     "pleiades_junior": {
       "bodyId": "pleiades",
       "tier": "junior",
       "file": "./audio/tts/pleiades_junior.mp3",
-      "normalizedText": "Roiul Stelar Pleiadele ( Cloșca cu Pui ). Roiul deschis M45 de stele tinere albastre din Taurul (444 ani-lumină). Când privești cerul nopții toamna sau iarna, poți vedea cu ochiul liber un buchet mic și sclipitor de 7 stele albastre care stau strânse împreună. În România, bunicii noștri le-au numit cu drag Cloșca cu Pui sau Găinușa ! Prin telescop însă descoperim că acolo sunt peste 1000 de stele tinere și fierbinți, învăluite într-un voal albastru de praf stelar! Analogie: Pleiadele sunt ca o grădiniță de stele-frați născute din același nor cosmic acum 100 de milioane de ani — pe când pe Pământ încă se plimbau dinozaurii! Știai că? Lumina albastră de la Cloșca cu Pui călătorește prin spațiu timp de 444 de ani până ajunge la noi: razele pe care le vezi diseară au plecat de acolo pe vremea lui Mihai Viteazul!"
+      "normalizedText": "Roiul Stelar Pleiadele ( Cloșca cu Pui ). Roiul deschis Mesie 45 de stele tinere albastre din Taurul (444 ani-lumină). Când privești cerul nopții toamna sau iarna, poți vedea cu ochiul liber un buchet mic și sclipitor de 7 stele albastre care stau strânse împreună. În România, bunicii noștri le-au numit cu drag Cloșca cu Pui sau Găinușa ! Prin telescop însă descoperim că acolo sunt peste 1000 de stele tinere și fierbinți, învăluite într-un voal albastru de praf stelar! Analogie: Pleiadele sunt ca o grădiniță de stele-frați născute din același nor cosmic acum 100 de milioane de ani — pe când pe Pământ încă se plimbau dinozaurii! Știai că? Lumina albastră de la Cloșca cu Pui călătorește prin spațiu timp de 444 de ani până ajunge la noi: razele pe care le vezi diseară au plecat de acolo pe vremea lui Mihai Viteazul!"
     },
     "pleiades_cadet": {
       "bodyId": "pleiades",
       "tier": "cadet",
       "file": "./audio/tts/pleiades_cadet.mp3",
-      "normalizedText": "Roiul Stelar Pleiadele ( Cloșca cu Pui ). Roiul deschis M45 de stele tinere albastre din Taurul (444 ani-lumină). Pleiadele (Messier 45 / Cloșca cu Pui ), situate la aproximativ 444 de ani-lumină în constelația Taurul, reprezintă cel mai cunoscut roi stelar deschis de pe cer. Este dominat de gigante albastre extrem de luminoase (Alcyone, Atlas, Electra, Maia, Merope, Taygeta, Pleione) care iluminează o nebuloasă de reflexie albastră la trecerea printr-un nor interstelar de praf. Istoricul explorării: Cunoscute din antichitate în toate culturile lumii (și în astronomia populară românească drept Cloșca cu Pui ), Pleiadele au fost desenate pentru prima dată prin telescop de Galileo Galilei în 1610 și catalogate de Charles Messier ca M45 în 1769."
+      "normalizedText": "Roiul Stelar Pleiadele ( Cloșca cu Pui ). Roiul deschis Mesie 45 de stele tinere albastre din Taurul (444 ani-lumină). Pleiadele (Mesie 45 / Cloșca cu Pui ), situate la aproximativ 444 de ani-lumină în constelația Taurul, reprezintă cel mai cunoscut roi stelar deschis de pe cer. Este dominat de gigante albastre extrem de luminoase (Alcyone, Atlas, Electra, Maia, Merope, Taygeta, Pleione) care iluminează o nebuloasă de reflexie albastră la trecerea printr-un nor interstelar de praf. Istoricul explorării: Cunoscute din antichitate în toate culturile lumii (și în astronomia populară românească drept Cloșca cu Pui ), Pleiadele au fost desenate pentru prima dată prin telescop de Galileo Galilei în 1610 și catalogate de Charles Mesie ca Mesie 45 în 1769."
     },
     "betelgeuse_junior": {
       "bodyId": "betelgeuse",
@@ -542,43 +542,43 @@
       "bodyId": "betelgeuse",
       "tier": "cadet",
       "file": "./audio/tts/betelgeuse_cadet.mp3",
-      "normalizedText": "Betelgeuz (Supergiganta Roșie). Steaua colosală din Orion, de aproximativ 700 de ori mai mare decât Soarele (640 ani-lumină). Betelgeuz (Alpha Orionis), aflată la aproximativ 640 de ani-lumină, este o supergigantă roșie variabilă semiregulată (clasă spectrală M1–M2 Ia-ab) aflată în ultimele etape ale evoluției sale stelare. Cu o rază de aproximativ 700 raze solare și o luminozitate de aproximativ 100000 de ori mai mare decât a Soarelui, Betelgeuz își fuzionează elementele grele din nucleu și va sfârși într-o supernovă spectaculoasă în următorii aproximativ 100000 de ani. Istoricul explorării: În 1920, Betelgeuz a devenit prima stea (în afară de Soare) al cărei diametru unghiular a fost măsurat direct (de Michelson și Pease la Observatorul Mount Wilson); în 2019 până la 2020 a trecut prin Marea Întunecare studiată de Habăl și VLT."
+      "normalizedText": "Betelgeuz (Supergiganta Roșie). Steaua colosală din Orion, de aproximativ 700 de ori mai mare decât Soarele (640 ani-lumină). Betelgeuz (Alfa Orionis), aflată la aproximativ 640 de ani-lumină, este o supergigantă roșie variabilă semiregulată (clasă spectrală Mesie 1–Mesie 2 Ia-ab) aflată în ultimele etape ale evoluției sale stelare. Cu o rază de aproximativ 700 raze solare și o luminozitate de aproximativ 100000 de ori mai mare decât a Soarelui, Betelgeuz își fuzionează elementele grele din nucleu și va sfârși într-o supernovă spectaculoasă în următorii aproximativ 100000 de ani. Istoricul explorării: În 1920, Betelgeuz a devenit prima stea (în afară de Soare) al cărei diametru unghiular a fost măsurat direct (de Michelson și Pease la Observatorul Mount Wilson); în 2019 până la 2020 a trecut prin Marea Întunecare studiată de Habăl și VLT."
     },
     "orion_nebula_junior": {
       "bodyId": "orion_nebula",
       "tier": "junior",
       "file": "./audio/tts/orion_nebula_junior.mp3",
-      "normalizedText": "Nebuloasa Orion (M42). Cea mai apropiată maternitate stelară masivă, studiată de Geims Ueb (1344 ani-lumină). Sub cele trei stele din Centura lui Orion se află un nor cosmic uriaș, strălucitor în nuanțe de roz, violet și turcoaz: Nebuloasa Orion! Este o adevărată maternitate de stele , un loc fermecat în care din nori de gaz și praf cosmic se nasc chiar acum sute de sori noi și sisteme solare tinere! Analogie: Nebuloasa Orion este ca un cuib luminos din vată de zahăr cosmică, lat de 24 de ani-lumină, în mijlocul căruia patru stele-bebeluș foarte puternice ( Trapezul ) aprind întregul nor ca niște reflectoare! Știai că? Telescopul Spațial Geims Ueb a privit cu ochii săi în infraroșu în interiorul Nebuloasei Orion și a fotografiat discuri de praf ( proplyde ) în jurul stelelor nou-născute, exact acolo unde se formează viitoare planete!"
+      "normalizedText": "Nebuloasa Orion (Mesie 42). Cea mai apropiată maternitate stelară masivă, studiată de Geims Ueb (1344 ani-lumină). Sub cele trei stele din Centura lui Orion se află un nor cosmic uriaș, strălucitor în nuanțe de roz, violet și turcoaz: Nebuloasa Orion! Este o adevărată maternitate de stele , un loc fermecat în care din nori de gaz și praf cosmic se nasc chiar acum sute de sori noi și sisteme solare tinere! Analogie: Nebuloasa Orion este ca un cuib luminos din vată de zahăr cosmică, lat de 24 de ani-lumină, în mijlocul căruia patru stele-bebeluș foarte puternice ( Trapezul ) aprind întregul nor ca niște reflectoare! Știai că? Telescopul Spațial Geims Ueb a privit cu ochii săi în infraroșu în interiorul Nebuloasei Orion și a fotografiat discuri de praf ( proplyde ) în jurul stelelor nou-născute, exact acolo unde se formează viitoare planete!"
     },
     "orion_nebula_cadet": {
       "bodyId": "orion_nebula",
       "tier": "cadet",
       "file": "./audio/tts/orion_nebula_cadet.mp3",
-      "normalizedText": "Nebuloasa Orion (M42). Cea mai apropiată maternitate stelară masivă, studiată de Geims Ueb (1344 ani-lumină). Nebuloasa Orion (Messier 42 / NGC 1976), situată la 1344 de ani-lumină, este cea mai strălucitoare nebuloasă difuză de emisie și reflexie de pe cer (vizibilă chiar și cu ochiul liber, magnitudine 4 virgulă 0). În centrul ei, roiul tânăr Trapezium ionizează hidrogenul și oxigenul din jur, iar observațiile Geims Ueb NIRCam au dezvăluit filamente moleculare, jeturi protostelare și discuri protoplanetare. Istoricul explorării: Observată prin telescop în 1610 de Nicolas-Claude Fabri de Peiresc și desenată de Christiaan Huygens în 1656; în 2022 până la 2023, Telescopul Spațial Geims Ueb a realizat cele mai detaliate hărți în infraroșu ale regiunii."
+      "normalizedText": "Nebuloasa Orion (Mesie 42). Cea mai apropiată maternitate stelară masivă, studiată de Geims Ueb (1344 ani-lumină). Nebuloasa Orion (Mesie 42 / N G C 1976), situată la 1344 de ani-lumină, este cea mai strălucitoare nebuloasă difuză de emisie și reflexie de pe cer (vizibilă chiar și cu ochiul liber, magnitudine 4 virgulă 0). În centrul ei, roiul tânăr Trapezium ionizează hidrogenul și oxigenul din jur, iar observațiile Geims Ueb Nir-Cam au dezvăluit filamente moleculare, jeturi protostelare și discuri protoplanetare. Istoricul explorării: Observată prin telescop în 1610 de Nicolas-Claude Fabri de Peiresc și desenată de Cristian Hoighens în 1656; în 2022 până la 2023, Telescopul Spațial Geims Ueb a realizat cele mai detaliate hărți în infraroșu ale regiunii."
     },
     "pillars_of_creation_junior": {
       "bodyId": "pillars_of_creation",
       "tier": "junior",
       "file": "./audio/tts/pillars_of_creation_junior.mp3",
-      "normalizedText": "Stâlpii Creației (Nebuloasa Vulturului M16). Coloanele gigantice de gaz și praf în care se nasc stele noi (6500 ani-lumină). Stâlpii Creației sunt trei turnuri uriașe de gaz și praf stelar din inima Nebuloasei Vulturului, devenite celebre în toată lumea datorită fotografiilor uimitoare realizate de telescoapele Habăl și Geims Ueb! În vârful acestor coloane aurii și turcoaz, înalte de câțiva ani-lumină, se aprind stele noi-nouțe, roșii ca jarul! Analogie: Stâlpii Creației seamănă cu trei munți de nori aurii ridicați în mijul cosmosului, atât de înalți încât o rază de lumină are nevoie de 5 ani întregi ca să urce de la baza unui stâlp până în vârful lui! Știai că? Când Telescopul Geims Ueb a privit Stâlpii Creației în lumină infraroșie, praful a devenit transparent și au apărut mii de stele tinere roșii ascunse chiar în interiorul coloanelor!"
+      "normalizedText": "Stâlpii Creației (Nebuloasa Vulturului Mesie 16). Coloanele gigantice de gaz și praf în care se nasc stele noi (6500 ani-lumină). Stâlpii Creației sunt trei turnuri uriașe de gaz și praf stelar din inima Nebuloasei Vulturului, devenite celebre în toată lumea datorită fotografiilor uimitoare realizate de telescoapele Habăl și Geims Ueb! În vârful acestor coloane aurii și turcoaz, înalte de câțiva ani-lumină, se aprind stele noi-nouțe, roșii ca jarul! Analogie: Stâlpii Creației seamănă cu trei munți de nori aurii ridicați în mijul cosmosului, atât de înalți încât o rază de lumină are nevoie de 5 ani întregi ca să urce de la baza unui stâlp până în vârful lui! Știai că? Când Telescopul Geims Ueb a privit Stâlpii Creației în lumină infraroșie, praful a devenit transparent și au apărut mii de stele tinere roșii ascunse chiar în interiorul coloanelor!"
     },
     "pillars_of_creation_cadet": {
       "bodyId": "pillars_of_creation",
       "tier": "cadet",
       "file": "./audio/tts/pillars_of_creation_cadet.mp3",
-      "normalizedText": "Stâlpii Creației (Nebuloasa Vulturului M16). Coloanele gigantice de gaz și praf în care se nasc stele noi (6500 ani-lumină). Situați la aproximativ 6500 de ani-lumină în Nebuloasa Vulturului (Messier 16, constelația Șarpele), Stâlpii Creației sunt trompe elefantine de hidrogen molecular rece și praf cosmic, sculptate prin fotoevaporare de vânturile stelare și radiația UV ale stelelor masive din roiul NGC 6611. Imaginile Geims Ueb (NIRCam și MIRI, 2022) au evidențiat protostele de clasă 0/I la extremitățile stâlpilor. Istoricul explorării: Fotografia iconică realizată de Telescopul Spațial Habăl în 1995 (și refăcută în 2014) a fost completată în octombrie 2022 de imaginea în infraroșu apropiat și mediu a Telescopului Spațial Geims Ueb."
+      "normalizedText": "Stâlpii Creației (Nebuloasa Vulturului Mesie 16). Coloanele gigantice de gaz și praf în care se nasc stele noi (6500 ani-lumină). Situați la aproximativ 6500 de ani-lumină în Nebuloasa Vulturului (Mesie 16, constelația Șarpele), Stâlpii Creației sunt trompe elefantine de hidrogen molecular rece și praf cosmic, sculptate prin fotoevaporare de vânturile stelare și radiația UV ale stelelor masive din roiul N G C 6611. Imaginile Geims Ueb (Nir-Cam și Miri, 2022) au evidențiat protostele de clasă 0/I la extremitățile stâlpilor. Istoricul explorării: Fotografia iconică realizată de Telescopul Spațial Habăl în 1995 (și refăcută în 2014) a fost completată în octombrie 2022 de imaginea în infraroșu apropiat și mediu a Telescopului Spațial Geims Ueb."
     },
     "sagittarius_a_junior": {
       "bodyId": "sagittarius_a",
       "tier": "junior",
       "file": "./audio/tts/sagittarius_a_junior.mp3",
-      "normalizedText": "Sagitarius A stea (Gaura Neagră Supermasivă). Inima gravitațională din centrul Căii Lactee (26000 ani-lumină). Chiar în mijlocul galaxiei noastre, Calea Lactee, se află un obiect cosmic fascinant: Sagitarius A stea, o gaură neagră supermasivă! Nu este o gaură goală, ci un loc în care masa a 4 milioane de Sori este adunată într-un spațiu mic. Gravitația ei este atât de puternică încât înconjoară întunericul central cu un inel luminos și fierbinte de gaz numit disc de acreție , iar lumina din spate este îndoită ca printr-o lupă! Analogie: Sagitarius A stea este ca ancora gravitațională din centrul unui carusel gigantic: se află la 26000 de ani-lumină depărtare, în siguranță totală față de noi, iar întregul Sistem Solar se rotește liniștit în jurul centrului galaxiei o dată la 230 de milioane de ani! Știai că? În anul 2022, astronomii au unit radiotelescoape de pe tot Pământul (Event Horizon Telescope) și au făcut prima fotografie reală din istorie a inelului portocaliu strălucitor din jurul lui Sagitarius A stea!"
+      "normalizedText": "Sagitarius A stea (Gaura Neagră Supermasivă). Inima gravitațională din centrul Căii Lactee (26000 ani-lumină). Chiar în mijlocul galaxiei noastre, Calea Lactee, se află un obiect cosmic fascinant: Sagitarius A stea, o gaură neagră supermasivă! Nu este o gaură goală, ci un loc în care masa a 4 milioane de Sori este adunată într-un spațiu mic. Gravitația ei este atât de puternică încât înconjoară întunericul central cu un inel luminos și fierbinte de gaz numit disc de acreție , iar lumina din spate este îndoită ca printr-o lupă! Analogie: Sagitarius A stea este ca ancora gravitațională din centrul unui carusel gigantic: se află la 26000 de ani-lumină depărtare, în siguranță totală față de noi, iar întregul Sistem Solar se rotește liniștit în jurul centrului galaxiei o dată la 230 de milioane de ani! Știai că? În anul 2022, astronomii au unit radiotelescoape de pe tot Pământul (Telescopul Orizontului Evenimentelor) și au făcut prima fotografie reală din istorie a inelului portocaliu strălucitor din jurul lui Sagitarius A stea!"
     },
     "sagittarius_a_cadet": {
       "bodyId": "sagittarius_a",
       "tier": "cadet",
       "file": "./audio/tts/sagittarius_a_cadet.mp3",
-      "normalizedText": "Sagitarius A stea (Gaura Neagră Supermasivă). Inima gravitațională din centrul Căii Lactee (26000 ani-lumină). Sagitarius A stea (Sgr A*), situată la aproximativ 26000 de ani-lumină în direcția constelației Săgetătorul, este gaura neagră supermasivă din nucleul Căii Lactee. Are o masă de 4 virgulă 3 milioane de mase solare și o rază Schwarzschild (orizontul evenimentelor — limita dincolo de care viteza de evadare depășește viteza luminii) de aproximativ 12 milioane de kilometri. Istoricul explorării: Existența ei a fost demonstrată prin urmărirea timp de 25 de ani a orbitelor stelelor S (în special steaua S2) de către Reinhard Genzel și Andrea Ghez (Premiul Nobel pentru Fizică 2020), iar în mai 2022 colaborarea Event Horizon Telescope (EHT) a publicat prima imagine directă a umbrei și a inelului său de acreție."
+      "normalizedText": "Sagitarius A stea (Gaura Neagră Supermasivă). Inima gravitațională din centrul Căii Lactee (26000 ani-lumină). Sagitarius A stea, situată la aproximativ 26000 de ani-lumină în direcția constelației Săgetătorul, este gaura neagră supermasivă din nucleul Căii Lactee. Are o masă de 4 virgulă 3 milioane de mase solare și o rază Schwarzschild (orizontul evenimentelor — limita dincolo de care viteza de evadare depășește viteza luminii) de aproximativ 12 milioane de kilometri. Istoricul explorării: Existența ei a fost demonstrată prin urmărirea timp de 25 de ani a orbitelor stelelor S (în special steaua S2) de către Reinhard Genzel și Andrea Ghez (Premiul Nobel pentru Fizică 2020), iar în mai 2022 colaborarea Telescopul Orizontului Evenimentelor a publicat prima imagine directă a umbrei și a inelului său de acreție."
     },
     "milky_way_junior": {
       "bodyId": "milky_way",
@@ -590,19 +590,115 @@
       "bodyId": "milky_way",
       "tier": "cadet",
       "file": "./audio/tts/milky_way_cadet.mp3",
-      "normalizedText": "Calea Lactee (Galaxia Noastră). Galaxia noastră spirală cu aproximativ 200 până la 400 miliarde de stele; Soarele se află în Brațul Orion (la 26000 ani-lumină de centru). Calea Lactee este o galaxie spirală barată (tip morfologic SBbc) cu diametrul discului stelar de aproximativ 100000 de ani-lumină, grosimea de aproximativ 1000 de ani-lumină și o populație de 200 până la 400 de miliarde de stele. Sistemul Solar este situat în Brațul Local (Orion-Cygnus), la aproximativ 26000 de ani-lumină de nucleul galactic (Sagitarius A stea), orbitând cu aproximativ 220 până la 230 kilometri pe secundă. Istoricul explorării: În 1610, Galileo Galilei a demonstrat cu luneta sa că banda lăptoasă de pe cer este compusă din nenumărate stele; în anii 1920, Harlow Shapley și Edwin Habăl au stabilit dimensiunile galaxiei noastre și existența altor galaxii, iar misiunea europeană Gaia (ESA) a cartografiat recent în 3D aproape 2 miliarde de stele din Calea Lactee."
+      "normalizedText": "Calea Lactee (Galaxia Noastră). Galaxia noastră spirală cu aproximativ 200 până la 400 miliarde de stele; Soarele se află în Brațul Orion (la 26000 ani-lumină de centru). Calea Lactee este o galaxie spirală barată (tip morfologic spirală barată) cu diametrul discului stelar de aproximativ 100000 de ani-lumină, grosimea de aproximativ 1000 de ani-lumină și o populație de 200 până la 400 de miliarde de stele. Sistemul Solar este situat în Brațul Local (Orion-Cygnus), la aproximativ 26000 de ani-lumină de nucleul galactic (Sagitarius A stea), orbitând cu aproximativ 220 până la 230 kilometri pe secundă. Istoricul explorării: În 1610, Galileo Galilei a demonstrat cu luneta sa că banda lăptoasă de pe cer este compusă din nenumărate stele; în anii 1920, Harlow Shapley și Edwin Habăl au stabilit dimensiunile galaxiei noastre și existența altor galaxii, iar misiunea europeană Gaia (ESA) a cartografiat recent în 3D aproape 2 miliarde de stele din Calea Lactee."
     },
     "andromeda_junior": {
       "bodyId": "andromeda",
       "tier": "junior",
       "file": "./audio/tts/andromeda_junior.mp3",
-      "normalizedText": "Galaxia Andromeda (M31). Cea mai apropiată galaxie spirală mare, cu aproximativ 1000 de miliarde de stele (2 virgulă 5 milioane ani-lumină). Galaxia Andromeda (M31) este sora mai mare a Căii Lactee și cel mai îndepărtat obiect din Univers pe care îl poți vedea cu ochiul liber, fără telescop, într-o noapte senină la munte! Este o galaxie spirală uriașă cu o mie de miliarde de stele, aflată la 2 virgulă 5 milioane de ani-lumină de noi! Analogie: Dacă Calea Lactee ar fi o farfurie mare pe masă, Galaxia Andromeda ar fi o farfurie și mai mare aflată la doar câțiva metri distanță — iar lumina de la ea călătorește spre noi de 2 virgulă 5 milioane de ani! Știai că? Calea Lactee și Galaxia Andromeda se apropie una de cealaltă cu 400000 kilometri pe oră! Peste aproximativ 4 virgulă 5 miliarde de ani, cele două galaxii vor dansa împreună și se vor uni într-o singură galaxie gigantă fără ca stelele să se ciocnească între ele!"
+      "normalizedText": "Galaxia Andromeda (Mesie 31). Cea mai apropiată galaxie spirală mare, cu aproximativ 1000 de miliarde de stele (2 virgulă 5 milioane ani-lumină). Galaxia Andromeda (Mesie 31) este sora mai mare a Căii Lactee și cel mai îndepărtat obiect din Univers pe care îl poți vedea cu ochiul liber, fără telescop, într-o noapte senină la munte! Este o galaxie spirală uriașă cu o mie de miliarde de stele, aflată la 2 virgulă 5 milioane de ani-lumină de noi! Analogie: Dacă Calea Lactee ar fi o farfurie mare pe masă, Galaxia Andromeda ar fi o farfurie și mai mare aflată la doar câțiva metri distanță — iar lumina de la ea călătorește spre noi de 2 virgulă 5 milioane de ani! Știai că? Calea Lactee și Galaxia Andromeda se apropie una de cealaltă cu 400000 kilometri pe oră! Peste aproximativ 4 virgulă 5 miliarde de ani, cele două galaxii vor dansa împreună și se vor uni într-o singură galaxie gigantă fără ca stelele să se ciocnească între ele!"
     },
     "andromeda_cadet": {
       "bodyId": "andromeda",
       "tier": "cadet",
       "file": "./audio/tts/andromeda_cadet.mp3",
-      "normalizedText": "Galaxia Andromeda (M31). Cea mai apropiată galaxie spirală mare, cu aproximativ 1000 de miliarde de stele (2 virgulă 5 milioane ani-lumină). Galaxia Andromeda (Messier 31 / NGC 224), aflată la 2 virgulă 537 milioane de ani-lumină în constelația Andromeda, este cea mai mare galaxie din Grupul Local (care include și Calea Lactee și Galaxia Triunghiului M33). Cu un diametru de aproximativ 152000 până la 220000 de ani-lumină și aproximativ 10¹² stele, Andromeda a jucat un rol decisiv în istoria științei când Edwin Habăl a demonstrat în 1924 că este o insulă-univers separată de Calea Lactee. Istoricul explorării: Menționată în anul 964 de astronomul persan Abd al-Rahman al-Sufi drept un mic nor ; în 1924, Edwin Habăl a identificat stele variabile Cefeide în M31, demonstrând că Universul se întinde mult dincolo de Calea Lactee."
+      "normalizedText": "Galaxia Andromeda (Mesie 31). Cea mai apropiată galaxie spirală mare, cu aproximativ 1000 de miliarde de stele (2 virgulă 5 milioane ani-lumină). Galaxia Andromeda (Mesie 31 / N G C 224), aflată la 2 virgulă 537 milioane de ani-lumină în constelația Andromeda, este cea mai mare galaxie din Grupul Local (care include și Calea Lactee și Galaxia Triunghiului Mesie 33). Cu un diametru de aproximativ 152000 până la 220000 de ani-lumină și aproximativ o mie de miliarde de stele, Andromeda a jucat un rol decisiv în istoria științei când Edwin Habăl a demonstrat în 1924 că este o insulă-univers separată de Calea Lactee. Istoricul explorării: Menționată în anul 964 de astronomul persan Abd al-Rahman al-Sufi drept un mic nor ; în 1924, Edwin Habăl a identificat stele variabile Cefeide în Mesie 31, demonstrând că Universul se întinde mult dincolo de Calea Lactee."
+    },
+    "carina_nebula_junior": {
+      "bodyId": "carina_nebula",
+      "tier": "junior",
+      "file": "./audio/tts/carina_nebula_junior.mp3",
+      "normalizedText": "Nebuloasa Carina ( Stâncile Cosmice — N G C 3372). Una dintre cele mai mari maternități de stele din Calea Lactee, fotografiată de Geims Ueb (7500 ani-lumină). Nebuloasa Carina este un ținut cosmic uriaș, unde munți înalți de gaz și praf portocaliu se întâlnesc cu o mare strălucitoare de lumină albastră! Prima fotografie celebră trimisă de Telescopul Spațial Geims Ueb ne-a arătat aici Stâncile Cosmice — creste înalte de 7 ani-lumină în care se aprind mii de stele noi! Analogie: Nebuloasa Carina arată ca un lanț muntos de chihlimbar scăldat de un cer azuriu, doar că munții sunt făcuți din nori de praf stelar mai înalți decât distanța de la Soare la cea mai apropiată stea! Știai că? În inima Nebuloasei Carina locuiește Eta Carinae, un sistem de două stele monstruoase care luminează cât 5 milioane de Sori la un loc!"
+    },
+    "carina_nebula_cadet": {
+      "bodyId": "carina_nebula",
+      "tier": "cadet",
+      "file": "./audio/tts/carina_nebula_cadet.mp3",
+      "normalizedText": "Nebuloasa Carina ( Stâncile Cosmice — N G C 3372). Una dintre cele mai mari maternități de stele din Calea Lactee, fotografiată de Geims Ueb (7500 ani-lumină). Nebuloasa Carina (N G C 3372), situată la aproximativ 7500 de ani-lumină în Brațul Carina-Sagitarius al Căii Lactee, este una dintre cele mai întinse regiuni H II din galaxia noastră (aproximativ 300 ani-lumină diametru). Pe marginea cavității N G C 3324 se ridică Stâncile Cosmice , sculptate de vânturile stelare și radiația ultravioletă a stelelor masive tinere de tip O. Istoricul explorării: Descoperită în 1752 de Nicolas-Louis de Lacaille de la Capul Bunei Speranțe; în iulie 2022, Stâncile Cosmice au devenit una dintre primele imagini istorice publicate de Telescopul Spațial Geims Ueb."
+    },
+    "crab_nebula_junior": {
+      "bodyId": "crab_nebula",
+      "tier": "junior",
+      "file": "./audio/tts/crab_nebula_junior.mp3",
+      "normalizedText": "Nebuloasa Crabului (Mesie 1). Rămășița luminoasă a supernovei observate în anul 1054, cu un pulsar în centru (6500 ani-lumină). În anul 1054, oamenii de pe Pământ au văzut pe cer o stea nouă atât de strălucitoare încât se vedea chiar și ziua, în plin soare! Era explozia unei stele uriașe (o supernovă), iar norul țesut din filamente colorate rămas în urma ei se numește azi Nebuloasa Crabului! Analogie: În mijlocul Nebuloasei Crabului se află inima stelei care a explodat: o stea neutronică mică doar cât un oraș (25 kilometri), dar care se învârte ca un titirez de 30 de ori pe secundă și trimite fascicule de lumină ca un far cosmic! Știai că? Nebuloasa Crabului este primul obiect trecut în faimosul catalog al astronomului Charles Mesie, motiv pentru care poartă numele Mesie 1 (Mesie 1)!"
+    },
+    "crab_nebula_cadet": {
+      "bodyId": "crab_nebula",
+      "tier": "cadet",
+      "file": "./audio/tts/crab_nebula_cadet.mp3",
+      "normalizedText": "Nebuloasa Crabului (Mesie 1). Rămășița luminoasă a supernovei observate în anul 1054, cu un pulsar în centru (6500 ani-lumină). Nebuloasa Crabului (Mesie 1 / N G C 1952), situată la 6500 de ani-lumină în constelația Taurul, este o rămășiță de supernovă și o nebuloasă de vânt pulsaric alimentată de Pulsarul din Crab (PSR B0531+21). Steaua neutronică centrală se rotește la fiecare 33 de milisecunde (aproximativ 30 rotații pe secundă), accelerând electroni la viteze relativiste care emit radiație sincrotron albăstruie. Istoricul explorării: Supernova SN 1054 a fost consemnată de astronomii chinezi și arabi în iulie 1054; nebuloasa a fost redescoperită în 1731 de John Bevis și catalogată drept Mesie 1 de Charles Mesie în 1758."
+    },
+    "ring_nebula_junior": {
+      "bodyId": "ring_nebula",
+      "tier": "junior",
+      "file": "./audio/tts/ring_nebula_junior.mp3",
+      "normalizedText": "Nebuloasa Inelul (Mesie 57). Inelul cosmic în culorile curcubeului lăsat în urmă de o stea asemănătoare Soarelui (2300 ani-lumină). Nebuloasa Inelul (Mesie 57) arată ca o gogoașă sau un inel fermecat în culorile curcubeului care plutește în spațiu: albastru în interior, verde-turcoaz la mijloc și roșu-auriu pe margine! Ea nu s-a format dintr-o explozie violentă, ci atunci când o stea bătrână, asemănătoare Soarelui nostru, și-a suflat ușor straturile exterioare în spațiu! Analogie: În mijlocul inelului colorat se vede un punctuleț alb ca o perlă: este o pitică albă , adică miezul cald al stelei, de mărimea Pământului, care luminează gazul din jur ca o lampă cosmică! Știai că? Telescopul Geims Ueb a descoperit că în jurul inelului se află 20000 de globuri dense de gaz și zece arce concentrice, ca valurile lăsate de o pietricică într-un lac!"
+    },
+    "ring_nebula_cadet": {
+      "bodyId": "ring_nebula",
+      "tier": "cadet",
+      "file": "./audio/tts/ring_nebula_cadet.mp3",
+      "normalizedText": "Nebuloasa Inelul (Mesie 57). Inelul cosmic în culorile curcubeului lăsat în urmă de o stea asemănătoare Soarelui (2300 ani-lumină). Nebuloasa Inelul (Mesie 57 / N G C 6720), aflată la aproximativ 2300 de ani-lumină în constelația Lira, este o nebuloasă planetară arhetipală. Deși văzută dinspre Pământ pare un inel, observațiile Habăl și Geims Ueb arată că are forma unui cilindru sau butoi de gaz ionizat văzut aproape de-a lungul axei polare, iluminat de o pitică albă centrală cu temperatura de aproximativ 120000 grade Celsius. Istoricul explorării: Descoperită în ianuarie 1779 de astronomii francezi Antoine Darquier de Pellepoix și Charles Mesie; fotografiată la rezoluție fără precedent de Geims Ueb în august 2023."
+    },
+    "helix_nebula_junior": {
+      "bodyId": "helix_nebula",
+      "tier": "junior",
+      "file": "./audio/tts/helix_nebula_junior.mp3",
+      "normalizedText": "Nebuloasa Helics ( Ochiul lui Dumnezeu — N G C 7293). Cea mai apropiată nebuloasă planetară mare, cu mii de noduri cometare (650 ani-lumină). Privită prin telescoapele mari, Nebuloasa Helics seamănă atât de mult cu un iris albastru-turcoaz înconjurat de gene roșii-aurii încât astronomii i-au pus porecla Ochiul Cosmic sau Ochiul lui Dumnezeu ! Este una dintre cele mai apropiate nebuloase planetare față de Pământ, aflată la doar 650 de ani-lumină! Analogie: În interiorul acestui ochi uriaș plutesc peste 40000 de nori rotunzi cu cozi lungi ( noduri cometare ), fiecare dintre ei fiind mai mare decât tot Sistemul nostru Solar până la Pluto! Știai că? Peste aproximativ 5 miliarde de ani, și Soarele nostru va crea o nebuloasă colorată foarte asemănătoare cu Nebuloasa Helics!"
+    },
+    "helix_nebula_cadet": {
+      "bodyId": "helix_nebula",
+      "tier": "cadet",
+      "file": "./audio/tts/helix_nebula_cadet.mp3",
+      "normalizedText": "Nebuloasa Helics ( Ochiul lui Dumnezeu — N G C 7293). Cea mai apropiată nebuloasă planetară mare, cu mii de noduri cometare (650 ani-lumină). Nebuloasa Helics (N G C 7293 / Caldwell 63), situată la 650 de ani-lumină în constelația Vărsătorul, este una dintre cele mai apropiate și mai studiate nebuloase planetare. Structura ei elicoidală dublă conține aproximativ 40000 de noduri cometare — condensări dense de gaz molecular ale căror cozi radiale sunt modelate de vântul stelar al piticei albe centrale. Istoricul explorării: Descoperită de astronomul german Karl Ludwig Harding înainte de 1824; studiată în detaliu de telescoapele Habăl, Șpițăr și Euclid."
+    },
+    "large_magellanic_cloud_junior": {
+      "bodyId": "large_magellanic_cloud",
+      "tier": "junior",
+      "file": "./audio/tts/large_magellanic_cloud_junior.mp3",
+      "normalizedText": "Marele Nor al lui Magelan. Cea mai mare galaxie-satelit luminoasă a Căii Lactee și casa Nebuloasei Tarantula (160000 ani-lumină). Așa cum Luna se învârte în jurul Pământului, și galaxia noastră Calea Lactee are propriii ei sateliți — galaxii mai mici care o însoțesc prin Univers! Cea mai vestită dintre ele este Marele Nor al lui Magelan, o galaxie tânără și plină de culoare care conține peste 20 de miliarde de stele! Analogie: În interiorul Marelui Nor al lui Magelan se află Nebuloasa Tarantula — o maternitate de stele atât de strălucitoare încât, dacă ar fi la fel de aproape de noi ca Nebuloasa Orion, ar lumina noaptea pe Pământ atât de tare încât copacii ar lăsa umbre! Știai că? A primit numele navigatorului Fernando Magelan, ale cărui corăbii au văzut acest nor luminos pe cerul sudic în timpul primei călătorii în jurul Pământului (1519 până la 1522)!"
+    },
+    "large_magellanic_cloud_cadet": {
+      "bodyId": "large_magellanic_cloud",
+      "tier": "cadet",
+      "file": "./audio/tts/large_magellanic_cloud_cadet.mp3",
+      "normalizedText": "Marele Nor al lui Magelan. Cea mai mare galaxie-satelit luminoasă a Căii Lactee și casa Nebuloasei Tarantula (160000 ani-lumină). Marele Nor al lui Magelan, situat la aproximativ 160000 de ani-lumină pe cerul emisferei sudice (constelațiile Dorado și Mensa), este o galaxie pitică spirală barată neregulată, satelită a Căii Lactee. Găzduiește Nebuloasa Tarantula (30 Doradus, cea mai activă regiune de formare stelară din Grupul Local) și locul celebrei supernove SN 1987A. Istoricul explorării: Cunoscut din vechime de popoarele emisferei sudice și menționat de al-Sufi în 964; în februarie 1987, aici a explodat Supernova 1987A, cea mai apropiată supernovă observată cu instrumente moderne."
+    },
+    "triangulum_galaxy_junior": {
+      "bodyId": "triangulum_galaxy",
+      "tier": "junior",
+      "file": "./audio/tts/triangulum_galaxy_junior.mp3",
+      "normalizedText": "Galaxia Triunghiului (Mesie 33). A treia mare galaxie spirală din Grupul nostru Local, după Andromeda și Calea Lactee (2 virgulă 73 milioane ani-lumină). În cartierul nostru din Univers, numit Grupul Local, există trei galaxii spirale mari: Andromeda (cea mai mare), Calea Lactee (a doua) și Galaxia Triunghiului (Mesie 33), mezina familiei! Cu 40 de miliarde de stele și brațe spirale larg deschise, Galaxia Triunghiului strălucește ca o roată de artificii albastre și roz! Analogie: Dacă Calea Lactee și Andromeda sunt cele două orașe mari ale Grupului Local, Galaxia Triunghiului este al treilea oraș important, aflat chiar în vecinătatea Andromedei! Știai că? Galaxia Triunghiului fabrică stele noi într-un ritm mult mai rapid decât Calea Lactee raportat la mărimea ei, având una dintre cele mai mari nebuloase cunoscute (N G C 604), de 40 de ori mai mare decât Nebuloasa Orion!"
+    },
+    "triangulum_galaxy_cadet": {
+      "bodyId": "triangulum_galaxy",
+      "tier": "cadet",
+      "file": "./audio/tts/triangulum_galaxy_cadet.mp3",
+      "normalizedText": "Galaxia Triunghiului (Mesie 33). A treia mare galaxie spirală din Grupul nostru Local, după Andromeda și Calea Lactee (2 virgulă 73 milioane ani-lumină). Galaxia Triunghiului (Mesie 33 / N G C 598), situată la 2 virgulă 73 milioane de ani-lumină în constelația Triunghiul, este al treilea membru ca mărime și masă din Grupul Local (aproximativ 40 de miliarde de stele, diametru aproximativ 61000 ani-lumină). Este o galaxie spirală pură fără bară centrală (tip spirală deschisă), legată gravitațional de Galaxia Andromeda printr-un curent de hidrogen neutru. Istoricul explorării: Descoperită probabil de Giovanni Battista Hodierna înainte de 1654 și catalogată de Charles Mesie în 1764 drept Mesie 33."
+    },
+    "whirlpool_galaxy_junior": {
+      "bodyId": "whirlpool_galaxy",
+      "tier": "junior",
+      "file": "./audio/tts/whirlpool_galaxy_junior.mp3",
+      "normalizedText": "Galaxia Vâltoarea (Mesie 51). Galaxia cu brațe spirale perfecte care dansează cu o galaxie companion (23 milioane ani-lumină). Galaxia Vâltoarea (Mesie 51) este una dintre cele mai fotogenice galaxii din tot Universul! Privită de sus, arată ca un vârtej cosmic perfect, cu două brațe lungi împodobite cu rubine roz (locuri unde se nasc stele) și safire albastre, iar la capătul unuia dintre brațe ține de mână o galaxie mai mică, aurie! Analogie: Galaxia Vâltoarea și mica ei prietenă (N G C 5195) sunt ca doi patinatori cosmici care se învârt împreună: atracția gravitațională a galaxiei mici ridică valuri în brațele galaxiei mari și aprinde mii de stele noi! Știai că? Galaxia Vâltoarea a fost prima galaxie din istorie căreia astronomii i-au văzut forma de spirală (desenată în anul 1845 de Lordul Rosse cu un telescop uriaș)!"
+    },
+    "whirlpool_galaxy_cadet": {
+      "bodyId": "whirlpool_galaxy",
+      "tier": "cadet",
+      "file": "./audio/tts/whirlpool_galaxy_cadet.mp3",
+      "normalizedText": "Galaxia Vâltoarea (Mesie 51). Galaxia cu brațe spirale perfecte care dansează cu o galaxie companion (23 milioane ani-lumină). Galaxia Vâltoarea (Mesie 51a sau N G C 5194), aflată la aproximativ 23 virgulă 5 milioane de ani-lumină în constelația Câinii de Vânătoare (Canes Venatici), este prototipul galaxiilor spirale cu brațe simetrice . Interacțiunea gravitațională cu galaxia companion pitică N G C 5195 (M51b) comprimă gazul de-a lungul brațelor prin unde de densitate, declanșând o formare intensă de stele. Istoricul explorării: Descoperită de Charles Mesie în 1773; în 1845, William Parsons (Lord Rosse) a descoperit aici pentru prima dată structura spirală a unei galaxii; fotografiată spectaculos de Habăl și Geims Ueb."
+    },
+    "sombrero_galaxy_junior": {
+      "bodyId": "sombrero_galaxy",
+      "tier": "junior",
+      "file": "./audio/tts/sombrero_galaxy_junior.mp3",
+      "normalizedText": "Galaxia Sombrero (Mesie 104). Galaxia cu nucleu luminos uriaș și un inel întunecat de praf ca o pălărie mexicană (29 milioane ani-lumină). Privită din profil, Galaxia Sombrero (Mesie 104) are o formă imposibil de confundat: un miez central uriaș și strălucitor ca un glob de lumină aurie, înconjurat la ecuator de o centură lată de praf cosmic, exact ca borul unei pălării mexicane ( sombrero )! Analogie: În jurul Galaxiei Sombrero roiesc 2000 de roiuri globulare (mingi strălucitoare făcute din câte sute de mii de stele fiecare) — de zece ori mai multe decât are Calea Lactee! Știai că? Când Telescopul Geims Ueb a privit inelul întunecat al Galaxiei Sombrero în infraroșu, praful a strălucit ca un inel neted de foc în jurul unui ochi central!"
+    },
+    "sombrero_galaxy_cadet": {
+      "bodyId": "sombrero_galaxy",
+      "tier": "cadet",
+      "file": "./audio/tts/sombrero_galaxy_cadet.mp3",
+      "normalizedText": "Galaxia Sombrero (Mesie 104). Galaxia cu nucleu luminos uriaș și un inel întunecat de praf ca o pălărie mexicană (29 milioane ani-lumină). Galaxia Sombrero (Mesie 104 / N G C 4594), situată la aproximativ 29 virgulă 3 milioane de ani-lumină în constelația Fecioara, este o galaxie lenticulară sau spirală văzută aproape din muchie (înclinație 6 grade față de linia de vizare). Este renumită pentru bulbul său stelar central extraordinar de luminos, inelul simetric de praf rece și gaura neagră supermasivă centrală de aproximativ 1 miliard de mase solare. Istoricul explorării: Descoperită de Pierre Méchain în mai 1781 și adăugată ulterior ca Mesie 104 în catalogul Mesie; observată în detaliu optic de Habăl (2003) și în infraroșu mediu de Geims Ueb Miri (2024)."
     }
   }
 }

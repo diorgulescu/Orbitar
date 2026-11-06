@@ -18,16 +18,16 @@ describe('Cele 3 Orizonturi Cosmice (CosmicScaleNavigator, Deep Space 3D, Voce, 
     setupTestDomEnvironment();
   });
 
-  it('OrbitalEngine încarcă toate cele 50 de obiecte pe 3 Orizonturi Cosmice și CosmicScaleNavigator comută grupurile 3D + indicatorul Acasă', async () => {
+  it('OrbitalEngine încarcă toate cele 58 de obiecte pe 3 Orizonturi Cosmice și CosmicScaleNavigator comută grupurile 3D + indicatorul Acasă', async () => {
     const scene = new THREE.Scene();
     const scaleManager = new ScaleManager('didactic');
     const orbitalEngine = new OrbitalEngine(scene, scaleManager, new Date('2026-06-01T12:00:00Z'));
     await orbitalEngine.initialize();
 
-    assert.equal(orbitalEngine.getAllBodies().length, 50);
+    assert.equal(orbitalEngine.getAllBodies().length, 58);
     assert.equal(orbitalEngine.getBodiesForHorizon('solar').length, 38);
     assert.equal(orbitalEngine.getBodiesForHorizon('interstellar').length, 7);
-    assert.equal(orbitalEngine.getBodiesForHorizon('galactic').length, 5);
+    assert.equal(orbitalEngine.getBodiesForHorizon('galactic').length, 13);
 
     const camera = new THREE.PerspectiveCamera(48, 16 / 9, 0.01, 20000);
     const controlsMock: any = {

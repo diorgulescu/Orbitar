@@ -132,6 +132,68 @@ export type PilotModeChangeCallback = (active: boolean) => void;
 export type ShipChangeCallback = (ship: SpacecraftSpec) => void;
 
 /**
+ * Formatează numele unui corp ceresc în acuzativ natural în limba română pentru
+ * construcțiile "Am ajuns la ..." și "Sosire la ...", evitând articolele hotărâte
+ * nenaturale ("Am ajuns la Soarele", "Am ajuns la Pământul", "Am ajuns la Luna").
+ */
+export function formatDestinationNameRo(data: {
+  id: string;
+  name: string;
+  category?: string;
+}): string {
+  switch (data.id) {
+    case 'sun':
+      return 'Soare';
+    case 'earth':
+      return 'planeta Pământ';
+    case 'moon':
+      return 'Lună';
+    case 'mercury':
+    case 'venus':
+    case 'mars':
+    case 'jupiter':
+    case 'saturn':
+    case 'uranus':
+    case 'neptune':
+      return `planeta ${data.name}`;
+    case 'pluto':
+    case 'ceres':
+    case 'eris':
+    case 'haumea':
+    case 'makemake':
+      return `planeta pitică ${data.name}`;
+    case 'iss':
+      return 'Stația Spațială Internațională';
+    case 'jwst':
+      return 'Telescopul Spațial James Webb';
+    case 'pleiades':
+      return 'roiul stelar Pleiadele';
+    case 'pillars_of_creation':
+      return 'Stâlpii Creației din Nebuloasa Vulturul';
+    case 'sagittarius_a':
+      return 'gaura neagră Sagittarius A*';
+    case 'proxima_centauri':
+      return 'steaua Proxima Centauri';
+    case 'sirius':
+      return 'sistemul stelar Sirius';
+    case 'betelgeuse':
+      return 'steaua Betelgeuse';
+    case 'cancri55e':
+      return 'exoplaneta 55 Cancri e';
+    default: {
+      const cleanName = data.name.replace(/\s*\([^)]*\)\s*$/, '').trim();
+      if (data.category === 'moon') {
+        return `satelitul ${cleanName}`;
+      }
+      if (data.category === 'asteroid') {
+        return `asteroidul ${cleanName}`;
+      }
+      return cleanName;
+    }
+  }
+}
+
+/**
  * Formatează didactic durata unei călătorii interplanetare în limba română
  * (secunde, minute, ore, zile, luni sau ani).
  */
@@ -1156,16 +1218,17 @@ export class SpacecraftPilot {
       departureYear > 0
         ? `anul ${departureYear} d.Hr.`
         : `anul ${Math.abs(departureYear)} î.Hr.`;
+    const destinationNameRo = formatDestinationNameRo(d);
     const historicalLightNote =
       d.lightDepartureHistoryRo ??
-      `Lumina pe care o vedem azi de la ${d.name} a plecat spre Pământ acum ${lyLabel}, în ${departureYearLabelRo}!`;
+      `Lumina pe care o vedem azi de la ${destinationNameRo} a plecat spre Pământ acum ${lyLabel}, în ${departureYearLabelRo}!`;
 
     const shipDisplayPropulsion =
       isDeepSpace && ship.id === 'luceafarul'
         ? `${ship.shortNameRo} cu ⚡ Motor Hiperspațial (Salt în Ani-Lumină)`
         : ship.shortNameRo;
 
-    const headlineRo = `Am ajuns la ${d.name}! Privim ${subtitleClean} chiar prin parbrizul navei ${shipDisplayPropulsion}.`;
+    const headlineRo = `Am ajuns la ${destinationNameRo}! Privim ${subtitleClean} chiar prin parbrizul navei ${shipDisplayPropulsion}.`;
     const temperatureLineRo = `🌡️ Temperatura caracteristică: ${d.meanTempC} °C`;
     const distancesLineRo = isDeepSpace
       ? `✨ Distanța față de Pământ și Sistemul Solar: ${lyLabel} (~${(lyValue * 9460.73).toLocaleString('ro-RO', { maximumFractionDigits: 0 })} miliarde km)`
@@ -1183,7 +1246,7 @@ export class SpacecraftPilot {
       body: targetBody,
       ship,
       originBodyId: originBody?.data.id ?? 'earth',
-      originBodyNameRo: originBody?.data.name ?? 'Pământ',
+      originBodyNameRo: originBody ? formatDestinationNameRo(originBody.data) : 'planeta Pământ',
       distanceTraveledKm: distanceKm,
       tripDurationHours: durationHours,
       tripDurationFormattedRo,

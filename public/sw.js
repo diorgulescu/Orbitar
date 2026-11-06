@@ -58,6 +58,10 @@ self.addEventListener('fetch', (event) => {
   const req = event.request;
   if (req.method !== 'GET') return;
 
+  // Nu interceptăm cererile HTTP Range (bytes=0-) ale elementelor <audio>,
+  // deoarece WebKit/Safari respinge răspunsurile 200 OK la cererile 206 Partial Content
+  if (req.headers.has('range')) return;
+
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
 

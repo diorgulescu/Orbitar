@@ -318,10 +318,33 @@ describe('UI, CameraController & SurfaceMarkers — Functional Integration Tests
 
     const briefingEl = document.getElementById('cockpit-arrival-briefing')!;
     assert.equal(briefingEl.classList.contains('is-hidden'), false);
-    assert.ok(document.getElementById('briefing-headline')?.textContent?.includes('Jupiter'));
+    assert.ok(
+      document.getElementById('briefing-headline')?.textContent?.includes('Am ajuns la planeta Jupiter!'),
+      'Titlul raportului de sosire trebuie să fie formulat corect în română („Am ajuns la planeta Jupiter!”)'
+    );
     assert.ok(document.getElementById('briefing-earth-clock')?.textContent?.includes('Vlaicu-1'));
 
-    // Verificăm că raportul vocal al Calculatorului de Bord transformă "-110" în "minus 110 grade Celsius" și "Vlaicu-1" în "Vlaicu unu"
+    // La sosirea la destinație în modul Pilot, vocea NU pornește automat (pentru a nu deveni agasantă pentru cei mici)
+    assert.equal(
+      SpeechManager.getInstance().isSpeaking(),
+      false,
+      'Vocea nu trebuie să pornească automat la sosirea la destinație în modul Pilot'
+    );
+
+    // Selectarea unui corp ceresc din lista #cockpit-target-select pornește automat zborul spre destinație
+    const selectTargetEl = document.getElementById('cockpit-target-select') as HTMLSelectElement | null;
+    if (selectTargetEl) {
+      selectTargetEl.value = 'mars';
+      selectTargetEl.dispatchEvent({ type: 'change' } as unknown as Event);
+      assert.equal(
+        pilot.getTelemetry().isAutopilot,
+        true,
+        'Selectarea unui corp din listă în modul Pilot trebuie să pornească automat zborul către acesta'
+      );
+      assert.equal(pilot.getTelemetry().autopilotTarget?.data.id, 'mars');
+    }
+
+    // Verificăm că butonul manual de audio transformă "-110" în "minus 110 grade Celsius" și "Vlaicu-1" în "Vlaicu unu"
     document.getElementById('btn-briefing-repeat-audio')?.click();
     const spokenBriefing = SpeechManager.getInstance().getLastSpokenNormalizedText();
     assert.ok(spokenBriefing.includes('minus 110 grade Celsius'));

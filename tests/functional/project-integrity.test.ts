@@ -54,7 +54,7 @@ describe('Integritatea Proiectului, Resurse NASA/HD și Conformitate Licență G
     assert.equal(solar.bodies.length, 26, 'solar-system-ro.json trebuie să conțină 26 de corpuri cerești');
     assert.equal(solar.belts.length, 2, 'solar-system-ro.json trebuie să conțină 2 centuri');
     assert.equal(missions.missions.length, 12, 'missions-ro.json trebuie să conțină 12 misiuni spațiale');
-    assert.equal(deepSpace.objects.length, 12, 'deep-space-ro.json trebuie să conțină 12 obiecte din Cosmosul Îndepărtat');
+    assert.equal(deepSpace.objects.length, 20, 'deep-space-ro.json trebuie să conțină 20 de obiecte din Cosmosul Îndepărtat (stele, nebuloase și galaxii)');
     assert.ok(
       tle.satellites?.iss?.line1 && tle.satellites?.iss?.line2,
       'tle-iss.json trebuie să conțină TLE pentru ISS'
@@ -112,14 +112,14 @@ describe('Integritatea Proiectului, Resurse NASA/HD și Conformitate Licență G
     assert.ok(fs.existsSync(path.join(hdDir, 'trappist_habitable.jpg')));
   });
 
-  it('toate cele 100 de fișiere audio narative pre-generate în limba română există în public/audio/tts/', () => {
+  it('toate cele 116 fișiere audio narative pre-generate în limba română există în public/audio/tts/', () => {
     const ttsDir = path.resolve(process.cwd(), 'public/audio/tts');
     assert.ok(fs.existsSync(ttsDir), 'Directorul public/audio/tts trebuie să existe');
     const mp3Files = fs.readdirSync(ttsDir).filter((f: string) => f.endsWith('.mp3'));
     assert.equal(
       mp3Files.length,
-      100,
-      `Trebuie să existe 100 de fișiere MP3 (50 corpuri × 2 niveluri) în public/audio/tts/ (găsite: ${mp3Files.length})`
+      116,
+      `Trebuie să existe 116 fișiere MP3 (58 corpuri × 2 niveluri) în public/audio/tts/ (găsite: ${mp3Files.length})`
     );
     assert.ok(fs.existsSync(path.join(ttsDir, 'mars_junior.mp3')));
     assert.ok(fs.existsSync(path.join(ttsDir, 'voyager1_junior.mp3')));

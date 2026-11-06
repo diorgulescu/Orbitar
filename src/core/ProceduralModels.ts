@@ -1490,27 +1490,71 @@ export class ProceduralModels {
   }
 
   /**
-   * 6. Nebuloase (Nebuloasa Orion M42 & Stâlpii Creației M16): Nori volumetrici din particule cu AdditiveBlending.
+   * 6. Nebuloase (Orion M42, Stâlpii Creației M16, Carina NGC 3372, Crabul M1, Inelul M57, Helix NGC 7293):
+   *    Nori volumetrici 3D cu morfologii și culori distincte pentru fiecare nebuloasă.
    */
   private static createNebulaModel(
     data: CelestialBodyData,
     mode: QualityMode
   ): { visualRoot: THREE.Object3D; updateShaderTime: (elapsed: number) => void } {
     const group = new THREE.Group();
-    const isPillars = data.id === 'pillars_of_creation';
-    const count = mode === 'eco' ? 1100 : 4200;
+    const id = data.id;
+    const isPillars = id === 'pillars_of_creation';
+    const isCarina = id === 'carina_nebula';
+    const isCrab = id === 'crab_nebula';
+    const isRing = id === 'ring_nebula';
+    const isHelix = id === 'helix_nebula';
+
+    const count = mode === 'eco' ? 1200 : 4500;
     const positions = new Float32Array(count * 3);
     const colors = new Float32Array(count * 3);
 
-    let seed = isPillars ? 77211 : 88321;
+    let seed =
+      isPillars ? 77211 : isCarina ? 65123 : isCrab ? 54319 : isRing ? 43981 : isHelix ? 32871 : 88321;
     const rand = (): number => {
       seed = (seed * 1664525 + 1013904223) % 4294967296;
       return seed / 4294967296;
     };
 
-    const colA = new THREE.Color(isPillars ? '#fbbf24' : '#e879f9');
-    const colB = new THREE.Color(isPillars ? '#38bdf8' : '#818cf8');
-    const colC = new THREE.Color(isPillars ? '#f97316' : '#2dd4bf');
+    const colA = new THREE.Color(
+      isPillars
+        ? '#fbbf24'
+        : isCarina
+        ? '#f97316'
+        : isCrab
+        ? '#38bdf8'
+        : isRing
+        ? '#2dd4bf'
+        : isHelix
+        ? '#06b6d4'
+        : '#e879f9'
+    );
+    const colB = new THREE.Color(
+      isPillars
+        ? '#38bdf8'
+        : isCarina
+        ? '#38bdf8'
+        : isCrab
+        ? '#ec4899'
+        : isRing
+        ? '#f43f5e'
+        : isHelix
+        ? '#fb7185'
+        : '#818cf8'
+    );
+    const colC = new THREE.Color(
+      isPillars
+        ? '#f97316'
+        : isCarina
+        ? '#fde047'
+        : isCrab
+        ? '#a3e635'
+        : isRing
+        ? '#fde047'
+        : isHelix
+        ? '#fde047'
+        : '#2dd4bf'
+    );
 
     for (let i = 0; i < count; i++) {
       if (isPillars) {
@@ -1522,6 +1566,37 @@ export class ProceduralModels {
         positions[i * 3] = baseX + (rand() - 0.5) * spread + Math.sin(h * 1.8) * 0.12;
         positions[i * 3 + 1] = h;
         positions[i * 3 + 2] = (rand() - 0.5) * spread;
+      } else if (isCarina) {
+        // „Stâncile Cosmice” — creastă ondulată de gaz ambră-portocaliu și cavitate azurie deasupra
+        const x = (rand() - 0.5) * 3.1;
+        const cliffRidge = Math.sin(x * 1.6) * 0.28 + Math.cos(x * 3.1) * 0.14;
+        const isUpperGlow = i % 4 === 0;
+        const y = isUpperGlow
+          ? cliffRidge + 0.15 + rand() * 0.95
+          : cliffRidge - rand() * 1.15;
+        const z = (rand() - 0.5) * 1.15;
+        positions[i * 3] = x;
+        positions[i * 3 + 1] = y;
+        positions[i * 3 + 2] = z;
+      } else if (isRing || isHelix) {
+        // Nebuloasă planetară inelară („Inelul M57” / „Ochiul lui Dumnezeu Helix”)
+        const angle = rand() * Math.PI * 2;
+        const ringBand = rand();
+        const baseR = isHelix
+          ? 0.55 + ringBand * 1.25 + (i % 2 === 0 ? 0.22 : -0.1)
+          : 0.62 + Math.pow(ringBand, 0.7) * 0.95;
+        const zTilt = (rand() - 0.5) * (isHelix ? 0.45 : 0.32);
+        positions[i * 3] = Math.cos(angle) * baseR;
+        positions[i * 3 + 1] = Math.sin(angle) * baseR * 0.82;
+        positions[i * 3 + 2] = zTilt;
+      } else if (isCrab) {
+        // Filamentele în expansiune ale rămășiței de supernovă M1
+        const theta = rand() * Math.PI * 2;
+        const phi = Math.acos(2 * rand() - 1);
+        const filament = 0.55 + 0.95 * Math.pow(rand(), 0.55) + 0.18 * Math.sin(theta * 5);
+        positions[i * 3] = filament * Math.sin(phi) * Math.cos(theta) * 1.25;
+        positions[i * 3 + 1] = filament * Math.sin(phi) * Math.sin(theta) * 0.92;
+        positions[i * 3 + 2] = filament * Math.cos(phi) * 0.88;
       } else {
         // Caverna luminoasă a Nebuloasei Orion (M42)
         const r = Math.pow(rand(), 0.65) * 1.65;
@@ -1532,7 +1607,7 @@ export class ProceduralModels {
       }
 
       const mix = rand();
-      const c = mix < 0.42 ? colA : mix < 0.78 ? colB : colC;
+      const c = mix < 0.44 ? colA : mix < 0.8 ? colB : colC;
       colors[i * 3] = c.r;
       colors[i * 3 + 1] = c.g;
       colors[i * 3 + 2] = c.b;
@@ -1548,16 +1623,27 @@ export class ProceduralModels {
         size: mode === 'eco' ? 0.26 : 0.19,
         vertexColors: true,
         transparent: true,
-        opacity: 0.72,
+        opacity: 0.78,
         blending: THREE.AdditiveBlending,
         depthWrite: false,
       })
     );
     group.add(nebulaPoints);
 
-    // Strat fotografic real NASA/ESA/JWST (Stâlpii Creației PIA25433 sau Nebuloasa Orion PIA08653) cu mascare radială fină
+    // Pentru nebuloasele planetare (M57, Helix) sau pulsarul din Crab (M1), adăugăm steaua centrală
+    if (isRing || isHelix || isCrab) {
+      const coreStar = new THREE.Mesh(
+        new THREE.SphereGeometry(isCrab ? 0.14 : 0.11, 16, 16),
+        new THREE.MeshBasicMaterial({
+          color: isCrab ? 0x7dd3fc : 0xffffff,
+        })
+      );
+      group.add(coreStar);
+    }
+
+    // Strat fotografic real NASA/ESA/JWST cu mascare radială fină
     const nasaNebulaTex = this.loadDeepSpaceTexture(
-      isPillars ? './textures/nasa/pillars_of_creation.jpg' : './textures/nasa/orion_nebula.jpg'
+      isPillars || isCarina ? './textures/nasa/pillars_of_creation.jpg' : './textures/nasa/orion_nebula.jpg'
     );
     const alphaMask = this.getSoftRadialAlphaMap();
     if (nasaNebulaTex) {
@@ -1565,7 +1651,7 @@ export class ProceduralModels {
         map: nasaNebulaTex,
         alphaMap: alphaMask,
         transparent: true,
-        opacity: 0.78,
+        opacity: isRing || isHelix ? 0.42 : 0.72,
         blending: THREE.AdditiveBlending,
         side: THREE.DoubleSide,
         depthWrite: false,
@@ -1675,60 +1761,118 @@ export class ProceduralModels {
   }
 
   /**
-   * 8. Calea Lactee & Galaxia Andromeda: Generator de galaxii spirale cu THREE.Points
-   * (brațe spirale logaritmice, nucleu strălucitor cald și praf interstelar;
-   *  4.000 de particule în modul `eco` pentru 60 FPS garantat, 25.000 de particule în modul `hd`).
+   * 8. Galaxii (Calea Lactee, Andromeda M31, Triunghiul M33, Vâltoarea M51, Sombrero M104, Marele Nor al lui Magellan):
+   *    Generator de galaxii cu THREE.Points (4.000 de particule în modul `eco` pentru 60 FPS garantat,
+   *    25.000 de particule în modul `hd`), adaptat morfologiei fiecărei galaxii.
    */
   private static createSpiralGalaxyModel(
     data: CelestialBodyData,
     mode: QualityMode
   ): { visualRoot: THREE.Object3D; updateShaderTime: (elapsed: number) => void } {
     const group = new THREE.Group();
-    const isMilkyWay = data.id === 'milky_way';
+    const id = data.id;
+    const isMilkyWay = id === 'milky_way';
+    const isWhirlpool = id === 'whirlpool_galaxy';
+    const isSombrero = id === 'sombrero_galaxy';
+    const isTriangulum = id === 'triangulum_galaxy';
+    const isLMC = id === 'large_magellanic_cloud';
     const particleCount = mode === 'eco' ? 4000 : 25000;
 
     const positions = new Float32Array(particleCount * 3);
     const colors = new Float32Array(particleCount * 3);
 
-    let seed = isMilkyWay ? 104729 : 209715;
+    let seed =
+      isMilkyWay
+        ? 104729
+        : isWhirlpool
+        ? 314159
+        : isSombrero
+        ? 271828
+        : isTriangulum
+        ? 161803
+        : isLMC
+        ? 141421
+        : 209715;
     const rand = (): number => {
       seed = (seed * 1664525 + 1013904223) % 4294967296;
       return seed / 4294967296;
     };
 
-    const coreColor = new THREE.Color(isMilkyWay ? '#fde68a' : '#fef3c7');
-    const armColor = new THREE.Color(isMilkyWay ? '#38bdf8' : '#c084fc');
-    const outerColor = new THREE.Color(isMilkyWay ? '#1d4ed8' : '#6366f1');
+    const coreColor = new THREE.Color(
+      isSombrero ? '#fef08a' : isMilkyWay ? '#fde68a' : '#fef3c7'
+    );
+    const armColor = new THREE.Color(
+      isMilkyWay
+        ? '#38bdf8'
+        : isWhirlpool
+        ? '#a78bfa'
+        : isSombrero
+        ? '#f59e0b'
+        : isTriangulum
+        ? '#60a5fa'
+        : isLMC
+        ? '#f472b6'
+        : '#c084fc'
+    );
+    const outerColor = new THREE.Color(
+      isMilkyWay
+        ? '#1d4ed8'
+        : isSombrero
+        ? '#78350f'
+        : isLMC
+        ? '#3b82f6'
+        : '#6366f1'
+    );
     const nebulaKnotColor = new THREE.Color('#f472b6');
     const tempColor = new THREE.Color();
 
-    const arms = 4;
+    const arms = isWhirlpool ? 2 : isTriangulum ? 3 : isLMC ? 2 : 4;
     const maxRadius = 2.6;
-    const spinFactor = isMilkyWay ? 3.8 : 4.2;
+    const spinFactor = isWhirlpool ? 5.1 : isTriangulum ? 2.9 : isMilkyWay ? 3.8 : 4.2;
 
     for (let i = 0; i < particleCount; i++) {
-      const ratio = Math.pow(rand(), 1.35);
-      const radius = ratio * maxRadius;
-      const armIndex = i % arms;
-      const baseAngle = (armIndex / arms) * Math.PI * 2;
-      const spinAngle = radius * spinFactor;
-
-      const scatterPower = 0.16 + (1 - ratio) * 0.22;
-      const randX = (rand() - 0.5) * scatterPower * maxRadius;
-      const randY = (rand() - 0.5) * (0.09 + (1 - ratio) * 0.18);
-      const randZ = (rand() - 0.5) * scatterPower * maxRadius;
-
-      const angle = baseAngle + spinAngle;
-      positions[i * 3] = Math.cos(angle) * radius + randX;
-      positions[i * 3 + 1] = randY;
-      positions[i * 3 + 2] = Math.sin(angle) * radius + randZ;
-
-      if (ratio < 0.22) {
-        tempColor.copy(coreColor).lerp(armColor, ratio / 0.22);
-      } else if (i % 29 === 0) {
-        tempColor.copy(nebulaKnotColor);
+      if (isSombrero) {
+        // Galaxia Sombrero (M104): 55% bulb sferoidal strălucitor central + 45% inel exterior plat
+        if (i < particleCount * 0.55) {
+          const r = Math.pow(rand(), 1.7) * 1.35;
+          const theta = rand() * Math.PI * 2;
+          const phi = Math.acos(2 * rand() - 1);
+          positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+          positions[i * 3 + 1] = r * Math.cos(phi) * 0.68;
+          positions[i * 3 + 2] = r * Math.sin(phi) * Math.sin(theta);
+          tempColor.copy(coreColor).lerp(armColor, r / 1.35);
+        } else {
+          const ringR = 1.65 + (rand() - 0.5) * 0.75;
+          const angle = rand() * Math.PI * 2;
+          positions[i * 3] = Math.cos(angle) * ringR;
+          positions[i * 3 + 1] = (rand() - 0.5) * 0.08;
+          positions[i * 3 + 2] = Math.sin(angle) * ringR;
+          tempColor.copy(armColor).lerp(outerColor, rand() * 0.65);
+        }
       } else {
-        tempColor.copy(armColor).lerp(outerColor, (ratio - 0.22) / 0.78);
+        const ratio = Math.pow(rand(), 1.35);
+        const radius = ratio * maxRadius;
+        const armIndex = i % arms;
+        const baseAngle = (armIndex / arms) * Math.PI * 2;
+        const spinAngle = radius * spinFactor;
+
+        const scatterPower = (isLMC ? 0.34 : 0.16) + (1 - ratio) * 0.22;
+        const randX = (rand() - 0.5) * scatterPower * maxRadius;
+        const randY = (rand() - 0.5) * (0.09 + (1 - ratio) * 0.18);
+        const randZ = (rand() - 0.5) * scatterPower * maxRadius;
+
+        const angle = baseAngle + spinAngle;
+        positions[i * 3] = Math.cos(angle) * radius + randX;
+        positions[i * 3 + 1] = randY;
+        positions[i * 3 + 2] = Math.sin(angle) * radius + randZ;
+
+        if (ratio < 0.22) {
+          tempColor.copy(coreColor).lerp(armColor, ratio / 0.22);
+        } else if (i % (isWhirlpool || isLMC ? 16 : 29) === 0) {
+          tempColor.copy(nebulaKnotColor);
+        } else {
+          tempColor.copy(armColor).lerp(outerColor, (ratio - 0.22) / 0.78);
+        }
       }
 
       colors[i * 3] = tempColor.r;
@@ -1746,16 +1890,33 @@ export class ProceduralModels {
         size: mode === 'eco' ? 0.085 : 0.048,
         vertexColors: true,
         transparent: true,
-        opacity: 0.86,
+        opacity: 0.88,
         blending: THREE.AdditiveBlending,
         depthWrite: false,
       })
     );
-    if (!isMilkyWay) {
+    if (isSombrero) {
+      galaxyPoints.rotation.x = 0.14;
+      galaxyPoints.rotation.z = -0.08;
+    } else if (!isMilkyWay && !isWhirlpool) {
       galaxyPoints.rotation.x = 0.42;
       galaxyPoints.rotation.z = -0.25;
     }
     group.add(galaxyPoints);
+
+    // Pentru Galaxia Vâltoarea (M51), adăugăm galaxia companion aurie NGC 5195 la capătul brațului spiral
+    if (isWhirlpool) {
+      const companionCore = new THREE.Mesh(
+        new THREE.SphereGeometry(0.28, 16, 16),
+        new THREE.MeshBasicMaterial({
+          color: 0xfde68a,
+          transparent: true,
+          opacity: 0.9,
+        })
+      );
+      companionCore.position.set(2.15, 0.08, -1.1);
+      group.add(companionCore);
+    }
 
     // Disc galactic texturat cu imaginea oficială NASA/JPL Spitzer/GALEX (Calea Lactee PIA19341 / Andromeda PIA15416)
     const galaxyTex = this.loadDeepSpaceTexture(
@@ -1763,7 +1924,7 @@ export class ProceduralModels {
     );
     const alphaMask = this.getSoftRadialAlphaMap();
     let galaxyDiscMesh: THREE.Mesh | null = null;
-    if (galaxyTex) {
+    if (galaxyTex && !isSombrero) {
       galaxyDiscMesh = new THREE.Mesh(
         new THREE.PlaneGeometry(4.8, 4.8),
         new THREE.MeshBasicMaterial({
@@ -1776,8 +1937,8 @@ export class ProceduralModels {
           depthWrite: false,
         })
       );
-      galaxyDiscMesh.rotation.x = Math.PI * 0.5 + (isMilkyWay ? 0 : 0.42);
-      if (!isMilkyWay) {
+      galaxyDiscMesh.rotation.x = Math.PI * 0.5 + (isMilkyWay || isWhirlpool ? 0 : 0.42);
+      if (!isMilkyWay && !isWhirlpool) {
         galaxyDiscMesh.rotation.z = -0.25;
       }
       group.add(galaxyDiscMesh);
@@ -1810,5 +1971,100 @@ export class ProceduralModels {
         }
       },
     };
+  }
+
+  /**
+   * 9. Câmpul Profund de Galaxii și Nebuloase („Deep Field”) pentru Orizontul Galactic:
+   *    Generează zeci de galaxii spirale/eliptice îndepărtate și nori nebuloși colorați
+   *    astfel încât explorarea galaxiilor să fie spectaculoasă și bogată vizual în toate direcțiile.
+   */
+  public static createGalacticDeepField(): THREE.Group {
+    const deepFieldGroup = new THREE.Group();
+    deepFieldGroup.name = 'GalacticDeepFieldBackground';
+
+    const clusterCount = 48;
+    const pointsPerCluster = 90;
+    const totalPoints = clusterCount * pointsPerCluster;
+    const positions = new Float32Array(totalPoints * 3);
+    const colors = new Float32Array(totalPoints * 3);
+
+    let seed = 991827;
+    const rand = (): number => {
+      seed = (seed * 1664525 + 1013904223) % 4294967296;
+      return seed / 4294967296;
+    };
+
+    const palette = [
+      new THREE.Color('#38bdf8'),
+      new THREE.Color('#c084fc'),
+      new THREE.Color('#f472b6'),
+      new THREE.Color('#fbbf24'),
+      new THREE.Color('#2dd4bf'),
+      new THREE.Color('#818cf8'),
+      new THREE.Color('#fb7185'),
+    ];
+    const coreWarm = new THREE.Color('#fef3c7');
+    const cTemp = new THREE.Color();
+
+    for (let g = 0; g < clusterCount; g++) {
+      const dist = 195 + rand() * 260;
+      const theta = rand() * Math.PI * 2;
+      const phi = Math.acos(2 * rand() - 1);
+      const cx = dist * Math.sin(phi) * Math.cos(theta);
+      const cy = dist * Math.cos(phi) * 0.62;
+      const cz = dist * Math.sin(phi) * Math.sin(theta);
+
+      const isSpiral = g % 2 === 0;
+      const clusterRadius = 5.5 + rand() * 9.5;
+      const tiltX = (rand() - 0.5) * 1.4;
+      const tiltZ = (rand() - 0.5) * 1.4;
+      const colMain = palette[g % palette.length];
+      const colAlt = palette[(g + 2) % palette.length];
+
+      for (let p = 0; p < pointsPerCluster; p++) {
+        const idx = (g * pointsPerCluster + p) * 3;
+        const t = Math.pow(rand(), 1.2);
+        const r = t * clusterRadius;
+        const armAngle = isSpiral
+          ? ((p % 2) * Math.PI) + r * 0.55 + (rand() - 0.5) * 0.45
+          : rand() * Math.PI * 2;
+
+        const lx = Math.cos(armAngle) * r;
+        const ly = (rand() - 0.5) * (isSpiral ? 1.2 : 3.4);
+        const lz = Math.sin(armAngle) * r;
+
+        positions[idx] = cx + lx;
+        positions[idx + 1] = cy + ly + lx * Math.sin(tiltX) * 0.35;
+        positions[idx + 2] = cz + lz + lx * Math.sin(tiltZ) * 0.35;
+
+        if (t < 0.25) {
+          cTemp.copy(coreWarm).lerp(colMain, t / 0.25);
+        } else {
+          cTemp.copy(colMain).lerp(colAlt, (t - 0.25) / 0.75);
+        }
+        colors[idx] = cTemp.r;
+        colors[idx + 1] = cTemp.g;
+        colors[idx + 2] = cTemp.b;
+      }
+    }
+
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+    const deepFieldPoints = new THREE.Points(
+      geo,
+      new THREE.PointsMaterial({
+        size: 1.65,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.78,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      })
+    );
+    deepFieldGroup.add(deepFieldPoints);
+
+    return deepFieldGroup;
   }
 }

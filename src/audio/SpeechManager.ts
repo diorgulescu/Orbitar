@@ -120,6 +120,8 @@ export class SpeechManager {
 
   private cachedVoices: SpeechSynthesisVoice[] = [];
   private activeAudio: HTMLAudioElement | null = null;
+  private activeBufferSource: AudioBufferSourceNode | null = null;
+  private ttsAudioCtx: AudioContext | null = null;
   private sentenceTimerId: number | null = null;
   private playbackSessionId = 0;
   private speaking = false;
@@ -191,6 +193,15 @@ export class SpeechManager {
     if (this.sentenceTimerId !== null && typeof window !== 'undefined') {
       window.clearTimeout(this.sentenceTimerId);
       this.sentenceTimerId = null;
+    }
+
+    if (this.activeBufferSource) {
+      try {
+        this.activeBufferSource.onended = null;
+        this.activeBufferSource.stop();
+        this.activeBufferSource.disconnect();
+      } catch (_e) {}
+      this.activeBufferSource = null;
     }
 
     if (this.activeAudio) {
@@ -273,22 +284,80 @@ export class SpeechManager {
     this.speakSentencesWithWebSpeech(sentences, sessionId, options);
   }
 
-  private tryPlayPreGeneratedAudio(
+  private getOrCreateTtsAudioContext(): AudioContext | null {
+    if (typeof window === 'undefined') return null;
+    const AudioCtxCtor =
+      window.AudioContext ||
+      (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+    if (!AudioCtxCtor) return null;
+    try {
+      if (!this.ttsAudioCtx || this.ttsAudioCtx.state === 'closed') {
+        this.ttsAudioCtx = new AudioCtxCtor();
+      }
+      if (this.ttsAudioCtx.state === 'suspended') {
+        void this.ttsAudioCtx.resume().catch(() => {});
+      }
+      return this.ttsAudioCtx;
+    } catch (_e) {
+      return null;
+    }
+  }
+
+  private async tryPlayPreGeneratedAudio(
     bodyId: string,
     tier: AgeTier,
     sessionId: number,
     fallbackSentences: string[],
     options: SpeechPlaybackOptions
-  ): void {
+  ): Promise<void> {
+    const candidates = [
+      `./audio/tts/${bodyId}_${tier}.mp3`,
+      `./audio/tts/${bodyId}_${tier}.ogg`,
+    ];
+
+    // 1. Calea primară (100% compatibilă cu Tauri macOS WKWebView tauri://localhost, Safari și Service Worker):
+    //    Descărcare în memorie cu fetch() + decodare Web Audio API (AudioContext.decodeAudioData)
+    const audioCtx = this.getOrCreateTtsAudioContext();
+    if (audioCtx && typeof window !== 'undefined' && typeof window.fetch === 'function') {
+      for (const url of candidates) {
+        if (sessionId !== this.playbackSessionId) return;
+        try {
+          const response = await window.fetch(url);
+          if (!response.ok) continue;
+          const arrayBuffer = await response.arrayBuffer();
+          if (sessionId !== this.playbackSessionId) return;
+          if (!arrayBuffer || arrayBuffer.byteLength < 512) continue;
+
+          const decodedBuffer = await audioCtx.decodeAudioData(arrayBuffer.slice(0));
+          if (sessionId !== this.playbackSessionId) return;
+
+          const source = audioCtx.createBufferSource();
+          source.buffer = decodedBuffer;
+          source.connect(audioCtx.destination);
+          this.activeBufferSource = source;
+
+          source.onended = () => {
+            if (this.activeBufferSource === source) {
+              this.activeBufferSource = null;
+            }
+            if (sessionId === this.playbackSessionId) {
+              this.completeSession(sessionId);
+            }
+          };
+
+          source.start(0);
+          return;
+        } catch (_err) {
+          // Încercăm următorul candidat sau fallback-ul HTMLAudioElement
+        }
+      }
+    }
+
+    // 2. Calea secundară: HTMLAudioElement (new Audio)
     if (typeof Audio === 'undefined') {
       this.speakSentencesWithWebSpeech(fallbackSentences, sessionId, options);
       return;
     }
-
-    const candidates = [
-      `./audio/tts/${bodyId}_${tier}.mp3?v=neural3`,
-      `./audio/tts/${bodyId}_${tier}.ogg?v=neural3`,
-    ];
 
     const attemptCandidateAt = (idx: number): void => {
       if (sessionId !== this.playbackSessionId) return;

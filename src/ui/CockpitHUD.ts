@@ -7,6 +7,7 @@ import {
   KM_PER_AU_CONST,
   SpacecraftId,
   SpacecraftPilot,
+  formatDestinationNameRo,
 } from '../game/SpacecraftPilot';
 
 export interface CockpitHUDCallbacks {
@@ -369,9 +370,17 @@ export class CockpitHUD {
       pills = [
         { id: 'orion_nebula', label: '🌸 Nebuloasa Orion (M42)' },
         { id: 'pillars_of_creation', label: '🏛️ Stâlpii Creației (M16)' },
-        { id: 'sagittarius_a', label: '🕳️ Sagittarius A* (Gaura Neagră)' },
+        { id: 'carina_nebula', label: '⛰️ Nebuloasa Carina' },
+        { id: 'crab_nebula', label: '🦀 Nebuloasa Crabului (M1)' },
+        { id: 'ring_nebula', label: '💍 Nebuloasa Inelul (M57)' },
+        { id: 'helix_nebula', label: '👁️ Nebuloasa Helix' },
+        { id: 'sagittarius_a', label: '🕳️ Sagittarius A*' },
         { id: 'milky_way', label: '🌀 Calea Lactee' },
-        { id: 'andromeda', label: '🌌 Galaxia Andromeda (M31)' },
+        { id: 'large_magellanic_cloud', label: '☁️ Marele Nor al lui Magellan' },
+        { id: 'andromeda', label: '🌌 Andromeda (M31)' },
+        { id: 'triangulum_galaxy', label: '🔺 Galaxia Triunghiului (M33)' },
+        { id: 'whirlpool_galaxy', label: '🌀 Galaxia Vâltoarea (M51)' },
+        { id: 'sombrero_galaxy', label: '👒 Galaxia Sombrero (M104)' },
       ];
     } else {
       pills = [
@@ -454,7 +463,7 @@ export class CockpitHUD {
 
       selectBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        this.handleSelectTargetOnWindshield(body.data.id);
+        this.handleFlyToTarget(body.data.id);
       });
 
       flyBtn.addEventListener('click', (e) => {
@@ -487,11 +496,11 @@ export class CockpitHUD {
       });
     }
 
-    // 2. Selectorul de destinație și butonul "🔥 Zboară Acolo"
+    // 2. Selectorul de destinație pornește automat zborul spre corpul ceresc ales
     const selectEl = document.getElementById('cockpit-target-select') as HTMLSelectElement | null;
     selectEl?.addEventListener('change', () => {
       if (selectEl.value) {
-        this.handleSelectTargetOnWindshield(selectEl.value);
+        this.handleFlyToTarget(selectEl.value);
       }
     });
 
@@ -719,10 +728,11 @@ export class CockpitHUD {
 
   /**
    * Afișează pe parbriz fereastra holografică a Calculatorului de Bord la sosirea lângă un corp ceresc
-   * și citește automat cu voce tare în română raportul de sosire.
+   * (fără a porni automat citirea vocală, pentru a nu deveni agasantă pentru cei mici).
    */
   public showArrivalBriefing(report: ArrivalBriefingReport): void {
     this.currentArrivalReport = report;
+    this.stopCockpitSpeech();
 
     const briefingEl = document.getElementById('cockpit-arrival-briefing');
     const titleEl = document.getElementById('briefing-title');
@@ -733,7 +743,8 @@ export class CockpitHUD {
     const obsEl = document.getElementById('briefing-observation');
 
     if (titleEl) {
-      titleEl.textContent = `Sosire la ${report.body.data.name} (${report.body.meta.categoryNameRo})`;
+      const destLabel = formatDestinationNameRo(report.body.data);
+      titleEl.textContent = `Sosire la ${destLabel} (${report.body.meta.categoryNameRo})`;
     }
     if (headlineEl) headlineEl.textContent = report.headlineRo;
     if (tempEl) tempEl.textContent = report.temperatureLineRo;
@@ -742,8 +753,6 @@ export class CockpitHUD {
     if (obsEl) obsEl.textContent = report.observationLineRo;
 
     briefingEl?.classList.remove('is-hidden');
-
-    this.speakTextRo(report.fullSpeechTextRo);
   }
 
   private speakTextRo(textRo: string): void {

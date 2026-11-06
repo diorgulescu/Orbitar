@@ -245,6 +245,10 @@ export class OrbitalEngine {
       this.beltsGroup.add(beltEntry.mesh);
     }
 
+    // Adăugăm Câmpul Profund de Galaxii și Nebuloase („Deep Field”) în Orizontul Galactic
+    const galacticDeepField = ProceduralModels.createGalacticDeepField();
+    this.galacticGroup.add(galacticDeepField);
+
     this.rebuildScaleAndOrbits();
     this.updatePositions(0);
   }
