@@ -194,4 +194,54 @@ describe('Integritatea Proiectului, Resurse NASA/HD și Conformitate Licență G
       'tauri.conf.json trebuie să permită https://api.github.com în connect-src pentru verificarea release-urilor noi'
     );
   });
+
+  it('menține versiunea sincronizată în toate fișierele proiectului și suportă incrementarea automată a reviziei', async () => {
+    const pkg = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'package.json'), 'utf8'));
+    const tauriConf = JSON.parse(
+      fs.readFileSync(path.resolve(process.cwd(), 'src-tauri/tauri.conf.json'), 'utf8')
+    );
+    const cargoToml = fs.readFileSync(path.resolve(process.cwd(), 'src-tauri/Cargo.toml'), 'utf8');
+    const updateChecker = fs.readFileSync(
+      path.resolve(process.cwd(), 'src/utils/UpdateChecker.ts'),
+      'utf8'
+    );
+    const indexHtml = fs.readFileSync(path.resolve(process.cwd(), 'index.html'), 'utf8');
+    const appVersionJs = fs.readFileSync(
+      path.resolve(process.cwd(), 'public/app-version.js'),
+      'utf8'
+    );
+
+    const expectedVersion = pkg.version;
+    assert.ok(
+      /^\d+\.\d+\.\d+$/.test(expectedVersion),
+      'Versiunea din package.json trebuie să fie X.Y.Z'
+    );
+    assert.equal(tauriConf.version, expectedVersion, 'tauri.conf.json trebuie să aibă aceeași versiune');
+    assert.ok(
+      cargoToml.includes(`version = "${expectedVersion}"`),
+      'Cargo.toml trebuie să aibă aceeași versiune'
+    );
+    assert.ok(
+      updateChecker.includes(`'${expectedVersion}'`),
+      'UpdateChecker.ts trebuie să aibă același fallback de versiune'
+    );
+    assert.ok(
+      indexHtml.includes(`v${expectedVersion}`),
+      'index.html trebuie să afișeze versiunea curentă pe pagina de prezentare'
+    );
+    assert.ok(
+      appVersionJs.includes(`v${expectedVersion}`),
+      'public/app-version.js trebuie să conțină versiunea curentă'
+    );
+
+    const bumpScript = fs.readFileSync(
+      path.resolve(process.cwd(), 'scripts/bump-version.mjs'),
+      'utf8'
+    );
+    assert.ok(
+      bumpScript.includes('export function computeNextVersion') &&
+        bumpScript.includes('git tag -a'),
+      'scripts/bump-version.mjs trebuie să suporte incrementarea versiunii și crearea tag-urilor Git'
+    );
+  });
 });

@@ -103,6 +103,23 @@ describe('PlanetMaterialFactory — Unit Tests', () => {
     assert.equal(toggledRadar, !initialRadar);
     assert.equal(PlanetMaterialFactory.toggleVenusRadarMode(), initialRadar);
   });
+
+  it('include stratul luminilor nocturne (EarthNightLightsLayer) pe emisfera umbrită a Pământului atât în modul HD, cât și în modul Eco', () => {
+    const earthHd = PlanetMaterialFactory.createPlanetVisual(makeTestBody({ id: 'earth' }), 'hd');
+    const earthEco = PlanetMaterialFactory.createPlanetVisual(makeTestBody({ id: 'earth' }), 'eco');
+
+    const nightLayerHd = earthHd.visualRoot.children.find(
+      (c) => c.name === 'EarthNightLightsLayer'
+    ) as THREE.Mesh | undefined;
+    const nightLayerEco = earthEco.visualRoot.children.find(
+      (c) => c.name === 'EarthNightLightsLayer'
+    ) as THREE.Mesh | undefined;
+
+    assert.ok(nightLayerHd, 'Pământul în modul HD trebuie să conțină EarthNightLightsLayer');
+    assert.ok(nightLayerEco, 'Pământul în modul Eco trebuie să conțină EarthNightLightsLayer');
+    assert.ok(nightLayerHd.material instanceof THREE.ShaderMaterial);
+    assert.ok(nightLayerHd.material.fragmentShader.includes('nightShadowColor'));
+  });
 });
 
 describe('ProceduralModels — Unit Tests', () => {

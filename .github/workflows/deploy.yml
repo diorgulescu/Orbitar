@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -23,8 +23,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout repository with full tag history
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js 22
         uses: actions/setup-node@v4
@@ -34,6 +36,17 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Auto-increment revision & create GitHub Tag on new build
+        shell: bash
+        env:
+          COMMIT_MSG: ${{ github.event.head_commit.message }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [[ "$COMMIT_MSG" != chore\(release\):* ]]; then
+            node scripts/bump-version.mjs patch --if-tag-exists --tag --push || true
+          fi
 
       - name: Run Automated Unit & Functional Test Suite
         run: npm test

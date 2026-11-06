@@ -442,7 +442,10 @@ export class PlanetMaterialFactory {
   public static createPlanetVisual(
     data: CelestialBodyData,
     mode: QualityMode = this.qualityMode
-  ): { visualRoot: THREE.Object3D; updateShaderTime?: (elapsed: number) => void } {
+  ): {
+    visualRoot: THREE.Object3D;
+    updateShaderTime?: (elapsed: number, simDaysDelta?: number) => void;
+  } {
     const sphereGeo = this.getSphereGeometry(mode);
 
     if (data.id === 'earth' && mode === 'hd') {
@@ -504,6 +507,12 @@ export class PlanetMaterialFactory {
     }
     group.add(mesh);
 
+    // Inclusiv în modul Eco afișăm luminile orașelor pe emisfera nocturnă a Pământului
+    if (data.id === 'earth') {
+      const ecoNightMap = procMaps.nightMap ?? this.createProceduralEarthNightTexture();
+      group.add(this.createEarthNightLightsMesh(sphereGeo, ecoNightMap, mode));
+    }
+
     // În modul HD adăugăm haloul atmosferic Fresnel
     if (mode === 'hd') {
       if (data.id === 'mars') {
@@ -540,7 +549,10 @@ export class PlanetMaterialFactory {
   private static createMultiLayerVenusHd(
     data: CelestialBodyData,
     sphereGeo: THREE.SphereGeometry
-  ): { visualRoot: THREE.Object3D; updateShaderTime: (elapsed: number) => void } {
+  ): {
+    visualRoot: THREE.Object3D;
+    updateShaderTime: (elapsed: number, simDaysDelta?: number) => void;
+  } {
     const group = new THREE.Group();
     const procMaps = this.getOrCreateProceduralMaps(data, 'hd');
 
@@ -602,13 +614,108 @@ export class PlanetMaterialFactory {
     this.venusAtmosphereMaterial = atmoMesh.material as THREE.ShaderMaterial;
     group.add(atmoMesh);
 
+    let venusCloudAngle = 0;
     return {
       visualRoot: group,
-      updateShaderTime: (elapsed: number) => {
-        // Super-rotația atmosferei venusiene (vânturi de ~360 km/h care înconjoară planeta în 4 zile)
-        cloudSphere.rotation.y = elapsed * 0.14;
+      updateShaderTime: (_elapsed: number, simDaysDelta = 0) => {
+        // Super-rotația atmosferei venusiene (vânturi care înconjoară planeta o dată la ~4 zile pământene)
+        venusCloudAngle -= simDaysDelta * (Math.PI * 0.5);
+        cloudSphere.rotation.y = venusCloudAngle;
       },
     };
+  }
+
+  /**
+   * Construiește sfera luminilor nocturne și a umbrei de noapte pentru Pământ (`EarthNightLightsLayer`),
+   * vizibilă strict pe emisfera aflată în umbră (`dot(normal, sunDirection) < 0`).
+   */
+  private static createEarthNightLightsMesh(
+    sphereGeo: THREE.SphereGeometry,
+    fallbackNightMap: THREE.Texture,
+    mode: QualityMode
+  ): THREE.Mesh {
+    const nightUniforms = {
+      uNightMap: { value: fallbackNightMap },
+      uSunWorldPos: { value: new THREE.Vector3(0, 0, 0) },
+    };
+
+    if (mode === 'hd') {
+      this.loadTextureAsync('./textures/hd/earth_nightlights.jpg', false, (nightTex) => {
+        nightUniforms.uNightMap.value = nightTex;
+      });
+    }
+
+    const nightLightsMat = new THREE.ShaderMaterial({
+      uniforms: nightUniforms,
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.NormalBlending,
+      vertexShader: /* glsl */ `
+        #include <common>
+        #include <logdepthbuf_pars_vertex>
+        varying vec2 vUv;
+        varying vec3 vWorldNormal;
+        varying vec3 vWorldPos;
+        void main() {
+          vUv = uv;
+          vWorldNormal = normalize(mat3(modelMatrix) * normal);
+          vec4 worldPosition = modelMatrix * vec4(position, 1.0);
+          vWorldPos = worldPosition.xyz;
+          gl_Position = projectionMatrix * viewMatrix * worldPosition;
+          #include <logdepthbuf_vertex>
+        }
+      `,
+      fragmentShader: /* glsl */ `
+        #include <common>
+        #include <logdepthbuf_pars_fragment>
+        uniform sampler2D uNightMap;
+        uniform vec3 uSunWorldPos;
+        varying vec2 vUv;
+        varying vec3 vWorldNormal;
+        varying vec3 vWorldPos;
+
+        void main() {
+          #include <logdepthbuf_fragment>
+          vec3 sunDirection = normalize(uSunWorldPos - vWorldPos);
+          float sunDot = dot(normalize(vWorldNormal), sunDirection);
+          // Tranziție fină la terminatorul crepuscular: activ DOAR pe emisfera nocturnă (sunDot < 0.06)
+          float nightFactor = 1.0 - smoothstep(-0.22, 0.06, sunDot);
+          if (nightFactor <= 0.001) {
+            discard;
+          }
+
+          // Eșantionăm harta luminilor urbane cu un micro-halo în 5 puncte pentru păstrarea clarității
+          // marilor aglomerări urbane (Europa/România, Valea Nilului, America de Nord, Asia, India)
+          vec3 c0 = texture2D(uNightMap, vUv).rgb;
+          vec3 c1 = texture2D(uNightMap, vUv + vec2(0.00075, 0.0)).rgb;
+          vec3 c2 = texture2D(uNightMap, vUv - vec2(0.00075, 0.0)).rgb;
+          vec3 c3 = texture2D(uNightMap, vUv + vec2(0.0, 0.00075)).rgb;
+          vec3 c4 = texture2D(uNightMap, vUv - vec2(0.0, 0.00075)).rgb;
+          vec3 texLights = max(c0, (c1 + c2 + c3 + c4) * 0.36);
+
+          float lum = max(texLights.r, max(texLights.g, texLights.b));
+          float cityMask = smoothstep(0.025, 0.58, lum);
+          vec3 warmSodium = vec3(1.0, 0.78, 0.34);
+          vec3 brightCore = vec3(1.0, 0.96, 0.84);
+          vec3 cityGlow = mix(warmSodium, brightCore, smoothstep(0.32, 0.88, lum)) * (lum * 2.25 + cityMask * 0.48);
+
+          // Umbra de noapte atenuează lumina ambientală pe partea întunecată a Pământului,
+          // iar luminile orașelor strălucesc intens prin întunericul nopții
+          vec3 nightShadowColor = vec3(0.01, 0.018, 0.042);
+          float glowWeight = clamp(lum * 1.9 + cityMask * 0.42, 0.0, 1.0);
+          vec3 finalColor = mix(nightShadowColor, clamp(cityGlow, 0.0, 1.0), glowWeight);
+          float finalAlpha = mix(0.66, 0.98, glowWeight) * nightFactor;
+
+          gl_FragColor = vec4(finalColor, finalAlpha);
+        }
+      `,
+    });
+
+    const nightLightsSphere = new THREE.Mesh(sphereGeo, nightLightsMat);
+    nightLightsSphere.name = 'EarthNightLightsLayer';
+    nightLightsSphere.scale.setScalar(1.014);
+    nightLightsSphere.renderOrder = 3;
+    return nightLightsSphere;
   }
 
   /**
@@ -623,7 +730,10 @@ export class PlanetMaterialFactory {
   private static createMultiLayerEarthHd(
     data: CelestialBodyData,
     sphereGeo: THREE.SphereGeometry
-  ): { visualRoot: THREE.Object3D; updateShaderTime: (elapsed: number) => void } {
+  ): {
+    visualRoot: THREE.Object3D;
+    updateShaderTime: (elapsed: number, simDaysDelta?: number) => void;
+  } {
     const group = new THREE.Group();
     const procMaps = this.getOrCreateProceduralMaps(data, 'hd');
 
@@ -658,66 +768,9 @@ export class PlanetMaterialFactory {
     baseSphere.name = 'EarthBaseSphere';
     group.add(baseSphere);
 
-    // 2. Luminile Orașelor pe Pământ Noaptea (modulate de dot(normal, sunDirection))
+    // 2. Luminile Orașelor și Umbra de Noapte pe Pământ (modulate de dot(normal, sunDirection))
     const fallbackNightMap = procMaps.nightMap ?? this.createProceduralEarthNightTexture();
-    const nightUniforms = {
-      uNightMap: { value: fallbackNightMap as THREE.Texture },
-      uSunWorldPos: { value: new THREE.Vector3(0, 0, 0) },
-    };
-
-    this.loadTextureAsync('./textures/hd/earth_nightlights.jpg', true, (nightTex) => {
-      nightUniforms.uNightMap.value = nightTex;
-    });
-
-    const nightLightsMat = new THREE.ShaderMaterial({
-      uniforms: nightUniforms,
-      transparent: true,
-      depthWrite: false,
-      blending: THREE.AdditiveBlending,
-      vertexShader: /* glsl */ `
-        #include <common>
-        #include <logdepthbuf_pars_vertex>
-        varying vec2 vUv;
-        varying vec3 vWorldNormal;
-        varying vec3 vWorldPos;
-        void main() {
-          vUv = uv;
-          vWorldNormal = normalize(mat3(modelMatrix) * normal);
-          vec4 worldPosition = modelMatrix * vec4(position, 1.0);
-          vWorldPos = worldPosition.xyz;
-          gl_Position = projectionMatrix * viewMatrix * worldPosition;
-          #include <logdepthbuf_vertex>
-        }
-      `,
-      fragmentShader: /* glsl */ `
-        #include <common>
-        #include <logdepthbuf_pars_fragment>
-        uniform sampler2D uNightMap;
-        uniform vec3 uSunWorldPos;
-        varying vec2 vUv;
-        varying vec3 vWorldNormal;
-        varying vec3 vWorldPos;
-
-        void main() {
-          #include <logdepthbuf_fragment>
-          vec3 sunDirection = normalize(uSunWorldPos - vWorldPos);
-          float sunDot = dot(normalize(vWorldNormal), sunDirection);
-          // Luminile orașelor se aprind DOAR pe emisfera de noapte (sunDot < 0.0) și se sting lin în zona de zi
-          float nightFactor = 1.0 - smoothstep(-0.18, 0.06, sunDot);
-          if (nightFactor <= 0.001) {
-            discard;
-          }
-          vec3 texLights = texture2D(uNightMap, vUv).rgb;
-          float intensity = max(texLights.r, max(texLights.g, texLights.b));
-          vec3 cityGlow = texLights * vec3(1.35, 1.12, 0.78) * 1.55;
-          gl_FragColor = vec4(cityGlow * nightFactor, clamp(intensity * 1.4, 0.0, 1.0) * nightFactor);
-        }
-      `,
-    });
-
-    const nightLightsSphere = new THREE.Mesh(sphereGeo, nightLightsMat);
-    nightLightsSphere.name = 'EarthNightLightsLayer';
-    nightLightsSphere.scale.setScalar(1.002);
+    const nightLightsSphere = this.createEarthNightLightsMesh(sphereGeo, fallbackNightMap, 'hd');
     group.add(nightLightsSphere);
 
     // 3. Stratul de nori dinamici (earth_clouds_alpha.png) + Umbra discretă a norilor pe suprafață
@@ -772,12 +825,15 @@ export class PlanetMaterialFactory {
     atmosphereSphere.name = 'EarthFresnelAtmosphere';
     group.add(atmosphereSphere);
 
+    let cloudDriftAngle = 0;
     return {
       visualRoot: group,
-      updateShaderTime: (elapsed: number) => {
-        const angle = elapsed * 0.035;
-        cloudsSphere.rotation.y = angle;
-        cloudShadowsSphere.rotation.y = angle + 0.006;
+      updateShaderTime: (_elapsed: number, simDaysDelta = 0) => {
+        // Norii se rotesc deja împreună cu Pământul (fiind copii ai lui visualRoot);
+        // deriva suplimentară a fronturilor atmosferice este proporțională cu timpul simulat
+        cloudDriftAngle += simDaysDelta * 0.22;
+        cloudsSphere.rotation.y = cloudDriftAngle;
+        cloudShadowsSphere.rotation.y = cloudDriftAngle + 0.006;
       },
     };
   }

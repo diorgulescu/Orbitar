@@ -365,7 +365,10 @@ export class ProceduralModels {
   public static createCelestialVisual(
     data: CelestialBodyData,
     mode: QualityMode = PlanetMaterialFactory.getQualityMode()
-  ): { visualRoot: THREE.Object3D; updateShaderTime?: (elapsed: number) => void } {
+  ): {
+    visualRoot: THREE.Object3D;
+    updateShaderTime?: (elapsed: number, simDaysDelta?: number) => void;
+  } {
     const modelType = data.modelType ?? 'sphere';
 
     if (data.id === 'sun') {

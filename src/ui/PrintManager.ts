@@ -11,6 +11,7 @@ import {
   DiplomaRank,
   resolveDiplomaTitleRo,
 } from '../utils/DiplomaGenerator';
+import { getBuiltAppVersion } from '../utils/UpdateChecker';
 
 export type PrintTemplateType = 'study' | 'coloring' | 'mission-table' | 'diploma';
 
@@ -197,7 +198,7 @@ export class PrintManager {
         </section>
 
         <footer class="print-license-footnote">
-          Orbitar v1.0.0 — Resursă Educațională Deschisă (GNU GPLv3) • Generat 100% offline pentru studiu și colorat
+          Orbitar v${getBuiltAppVersion()} — Resursă Educațională Deschisă (GNU GPLv3) • Generat 100% offline pentru studiu și colorat
         </footer>
       </article>
     `;
@@ -245,7 +246,7 @@ export class PrintManager {
           </section>
 
           <footer class="print-license-footnote">
-            Orbitar v1.0.0 — Planșă Educațională Liberă (GNU GPLv3) • Line-Art Vectorial Optimizat pentru Imprimare
+            Orbitar v${getBuiltAppVersion()} — Planșă Educațională Liberă (GNU GPLv3) • Line-Art Vectorial Optimizat pentru Imprimare
           </footer>
         </article>
       `;
@@ -290,7 +291,7 @@ export class PrintManager {
         </section>
 
         <footer class="print-license-footnote">
-          Orbitar v1.0.0 — Planșă Educațională Liberă (GNU GPLv3) • Line-Art Vectorial Optimizat pentru Imprimare
+          Orbitar v${getBuiltAppVersion()} — Planșă Educațională Liberă (GNU GPLv3) • Line-Art Vectorial Optimizat pentru Imprimare
         </footer>
       </article>
     `;
@@ -391,7 +392,7 @@ export class PrintManager {
         </div>
 
         <footer class="print-license-footnote">
-          Orbitar v1.0.0 — Jurnal de Misiune Didactic (GNU GPLv3) • Bifează fiecare lume pe măsură ce o explorezi și colorează harta!
+          Orbitar v${getBuiltAppVersion()} — Jurnal de Misiune Didactic (GNU GPLv3) • Bifează fiecare lume pe măsură ce o explorezi și colorează harta!
         </footer>
       </article>
     `;

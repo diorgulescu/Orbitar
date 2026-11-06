@@ -2,7 +2,7 @@
 
 declare const __ORBITAR_APP_VERSION__: string | undefined;
 
-export const ORBITAR_DEFAULT_VERSION = '1.0.0';
+export const ORBITAR_DEFAULT_VERSION = '1.2.5';
 export const ORBITAR_GITHUB_REPO = 'diorgulescu/Orbitar';
 export const ORBITAR_GITHUB_REPO_URL = 'https://github.com/diorgulescu/Orbitar';
 export const ORBITAR_GITHUB_RELEASES_URL = 'https://github.com/diorgulescu/Orbitar/releases';

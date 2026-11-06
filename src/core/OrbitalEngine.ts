@@ -30,7 +30,7 @@ export interface CelestialBodyInstance {
   worldPosition: THREE.Vector3;
   distanceFromSunAu: number;
   visualRadius: number;
-  updateShaderTime?: (elapsed: number) => void;
+  updateShaderTime?: (elapsed: number, simDaysDelta?: number) => void;
 }
 
 const J2000_OBLIQUITY_RAD = (23.4392911 * Math.PI) / 180;
@@ -284,6 +284,54 @@ export class OrbitalEngine {
 
     this.rebuildScaleAndOrbits();
     this.updatePositions(0);
+    this.syncRealAxialRotations(this.simulationDate);
+    this.updatePositions(0);
+  }
+
+  /**
+   * Sincronizează simularea cu momentul astronomic real prezent (`new Date()`),
+   * setează viteza pe Timp Real (`1×`, `timeScale = 1`), recalculează pozițiile
+   * heliocentrice și locale ale tuturor planetelor, sateliților și sondelor și
+   * aliniază faza de rotație axială reală a corpurilor cerești.
+   */
+  public syncToRealTimeNow(now: Date = new Date()): void {
+    this.simulationDate = new Date(now.getTime());
+    this.timeScale = 1;
+    this.isPaused = false;
+    this.updatePositions(0);
+    this.syncRealAxialRotations(this.simulationDate);
+    this.updatePositions(0);
+  }
+
+  /**
+   * Aliniază unghiul de rotație axială (`visualRoot.rotation.y`) al planetelor și sateliților
+   * la data astronomică dată (pentru Pământ, aliniază longitudinea sub-solară UTC astfel încât
+   * emisfera de zi și emisfera de noapte cu luminile orașelor să corespundă orei reale).
+   */
+  public syncRealAxialRotations(date: Date = this.simulationDate): void {
+    const hoursSinceJ2000 = (date.getTime() - J2000_EPOCH_MS) / 3600000;
+    const utcHours =
+      date.getUTCHours() +
+      date.getUTCMinutes() / 60 +
+      date.getUTCSeconds() / 3600 +
+      date.getUTCMilliseconds() / 3600000;
+
+    for (const instance of this.bodies.values()) {
+      const rawHours = instance.data.dayLengthHours;
+      if (!rawHours || rawHours === 0) continue;
+
+      if (instance.data.id === 'earth') {
+        const subSolarLonRad = ((12 - utcHours) * Math.PI) / 12;
+        const sunAngleRad = Math.atan2(instance.worldPosition.z, -instance.worldPosition.x);
+        instance.visualRoot.rotation.y = sunAngleRad - subSolarLonRad;
+        continue;
+      }
+
+      const dir = rawHours >= 0 ? 1 : -1;
+      const turns = hoursSinceJ2000 / Math.abs(rawHours);
+      const fracTurns = turns - Math.floor(turns);
+      instance.visualRoot.rotation.y = dir * fracTurns * Math.PI * 2;
+    }
   }
 
   /**
@@ -617,21 +665,24 @@ export class OrbitalEngine {
 
   public updatePositions(deltaSeconds: number): void {
     this.elapsedShaderTime += deltaSeconds;
+    const simDaysDelta =
+      !this.isPaused && deltaSeconds > 0 ? (deltaSeconds * this.timeScale) / 86400 : 0;
 
     if (!this.isPaused && deltaSeconds > 0) {
       const deltaSimMs = deltaSeconds * this.timeScale * 1000;
       this.simulationDate = new Date(this.simulationDate.getTime() + deltaSimMs);
     }
 
-    // Rotim foarte fin centurile de asteroizi
+    // Rotim centurile de asteroizi proporțional cu timpul simulat
     if (!this.isPaused && deltaSeconds > 0) {
-      this.beltsGroup.rotation.y += deltaSeconds * 0.008;
+      const beltStep = Math.min(deltaSeconds * 0.008, simDaysDelta * 0.004);
+      this.beltsGroup.rotation.y += beltStep;
     }
 
     // 1. Actualizăm corpurile principale heliocentrice (fără parentId)
     for (const instance of this.bodies.values()) {
       if (instance.updateShaderTime) {
-        instance.updateShaderTime(this.elapsedShaderTime);
+        instance.updateShaderTime(this.elapsedShaderTime, simDaysDelta);
       }
 
       if (instance.data.parentId) continue;
@@ -736,11 +787,31 @@ export class OrbitalEngine {
     }
   }
 
+  /**
+   * Rotește corpul ceresc în jurul axei sale la viteza unghiulară fizică reală
+   * dictată de durata zilei siderale (`dayLengthHours`) și de multiplicatorul de timp (`timeScale`):
+   *   ω = (2π) / (dayLengthHours * 3600) radiani / secundă simulată.
+   * În modul „Timp Real” (`timeScale = 1`), Pământul efectuează o rotație completă în 23h 56m 04s,
+   * Jupiter în 9h 55m, Marte în 24h 37m, iar Venus se rotește retrograd în 243 de zile.
+   */
   private applyAxialRotation(instance: CelestialBodyInstance, deltaSeconds: number): void {
     if (this.isPaused || deltaSeconds <= 0) return;
-    const dir = instance.data.dayLengthHours >= 0 ? 1 : -1;
-    const visualSpinRate = dir * Math.min(Math.max(Math.abs(this.timeScale) / 86400, 0.15), 2.5);
-    instance.visualRoot.rotation.y += deltaSeconds * 0.42 * visualSpinRate;
+    const rawHours = instance.data.dayLengthHours;
+    if (!rawHours || rawHours === 0) return;
+
+    const dir = rawHours >= 0 ? 1 : -1;
+    const periodSeconds = Math.abs(rawHours) * 3600;
+    const deltaSimSeconds = deltaSeconds * this.timeScale;
+    const physicalDeltaRad = dir * ((Math.PI * 2) / periodSeconds) * deltaSimSeconds;
+
+    // Plafonăm doar pasul vizual per cadru la viteze extreme (ex: 30 zile/sec) pentru a evita efectul stroboscopic
+    const maxStepRad = deltaSeconds * 4.2;
+    const clampedDeltaRad =
+      Math.abs(physicalDeltaRad) > maxStepRad
+        ? Math.sign(physicalDeltaRad) * maxStepRad
+        : physicalDeltaRad;
+
+    instance.visualRoot.rotation.y += clampedDeltaRad;
   }
 
   public getBodies(): CelestialBodyInstance[] {

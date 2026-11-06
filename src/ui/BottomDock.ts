@@ -55,10 +55,7 @@ export class BottomDock {
     });
 
     btnNow?.addEventListener('click', () => {
-      this.orbitalEngine.simulationDate = new Date();
-      this.orbitalEngine.timeScale = 1;
-      this.orbitalEngine.isPaused = false;
-      this.orbitalEngine.updatePositions(0);
+      this.orbitalEngine.syncToRealTimeNow();
       if (speedSlider) {
         speedSlider.value = '0';
       }
@@ -71,8 +68,13 @@ export class BottomDock {
         SPEED_STEPS.length - 1,
         Math.max(0, parseInt(speedSlider.value, 10) || 0)
       );
-      this.orbitalEngine.timeScale = SPEED_STEPS[idx].scale;
-      this.orbitalEngine.isPaused = false;
+      const nextScale = SPEED_STEPS[idx].scale;
+      if (nextScale === 1) {
+        this.orbitalEngine.syncToRealTimeNow();
+      } else {
+        this.orbitalEngine.timeScale = nextScale;
+        this.orbitalEngine.isPaused = false;
+      }
       this.syncPauseButton();
       this.syncSpeedReadout();
     });

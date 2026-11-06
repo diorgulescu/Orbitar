@@ -91,13 +91,49 @@ describe('OrbitalEngine — Unit & Integration Tests', () => {
       `Curiosity trebuie să fie ancorat exact pe suprafața lui Marte (${distCuriosityFromMarsCenter} vs ${expectedSurfaceRadius})`
     );
 
-    // Când timpul avansează și Marte se rotește în jurul axei sale, pinpoint-ul roverului se rotește sincron cu globul lui Marte
+    // Când timpul avansează și Marte se rotește în jurul axei sale la viteza fizică reală, pinpoint-ul roverului se rotește sincron cu globul lui Marte
     const initialDir = perseverance.worldPosition.clone().sub(mars.worldPosition).normalize();
-    engine.updatePositions(2.0);
+    engine.updatePositions(4.0);
     const rotatedDir = perseverance.worldPosition.clone().sub(mars.worldPosition).normalize();
     assert.ok(
       initialDir.distanceTo(rotatedDir) > 0.01,
       'Pinpoint-ul roverului trebuie să se rotească sincron cu globul planetei Marte'
+    );
+  });
+
+  it('în modul Timp Real (1x) poziționează planetele la momentul real și le rotește exact la viteza lor fizică reală (dayLengthHours)', () => {
+    const targetNow = new Date('2026-11-06T20:40:00Z');
+    engine.syncToRealTimeNow(targetNow);
+    assert.equal(engine.timeScale, 1);
+    assert.equal(engine.isPaused, false);
+    assert.equal(engine.simulationDate.getTime(), targetNow.getTime());
+
+    const earth = engine.getBody('earth')!;
+    const jupiter = engine.getBody('jupiter')!;
+    const venus = engine.getBody('venus')!;
+
+    const earthRot0 = earth.visualRoot.rotation.y;
+    const jupiterRot0 = jupiter.visualRoot.rotation.y;
+    const venusRot0 = venus.visualRoot.rotation.y;
+
+    // După 1 secundă în Timp Real (timeScale = 1), Pământul se rotește cu exact 2π / (23.934 * 3600) ≈ 0.0000729 rad
+    engine.updatePositions(1.0);
+    const earthDelta = earth.visualRoot.rotation.y - earthRot0;
+    const jupiterDelta = jupiter.visualRoot.rotation.y - jupiterRot0;
+    const venusDelta = venus.visualRoot.rotation.y - venusRot0;
+
+    const expectedEarthDelta = (Math.PI * 2) / (earth.data.dayLengthHours * 3600);
+    assert.ok(
+      Math.abs(earthDelta - expectedEarthDelta) < 1e-7,
+      `În Timp Real, Pământul trebuie să se rotească cu viteza fizică exactă (${earthDelta} vs ${expectedEarthDelta})`
+    );
+    assert.ok(
+      jupiterDelta > earthDelta * 2.2,
+      'Jupiter (zi de 9,92h) trebuie să se rotească de ~2,4x mai repede decât Pământul (zi de 23,93h)'
+    );
+    assert.ok(
+      venusDelta < 0 && Math.abs(venusDelta) < earthDelta * 0.01,
+      'Venus trebuie să se rotească retrograd și foarte lent (-5832,5h)'
     );
   });
 
