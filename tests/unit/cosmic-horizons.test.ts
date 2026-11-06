@@ -24,8 +24,8 @@ describe('Cele 3 Orizonturi Cosmice (CosmicScaleNavigator, Deep Space 3D, Voce, 
     const orbitalEngine = new OrbitalEngine(scene, scaleManager, new Date('2026-06-01T12:00:00Z'));
     await orbitalEngine.initialize();
 
-    assert.equal(orbitalEngine.getAllBodies().length, 58);
-    assert.equal(orbitalEngine.getBodiesForHorizon('solar').length, 38);
+    assert.equal(orbitalEngine.getAllBodies().length, 66);
+    assert.equal(orbitalEngine.getBodiesForHorizon('solar').length, 46);
     assert.equal(orbitalEngine.getBodiesForHorizon('interstellar').length, 7);
     assert.equal(orbitalEngine.getBodiesForHorizon('galactic').length, 13);
 

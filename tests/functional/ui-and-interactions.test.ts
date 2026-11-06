@@ -23,6 +23,11 @@ import {
 import { SpacecraftPilot } from '../../src/game/SpacecraftPilot';
 import { CockpitHUD } from '../../src/ui/CockpitHUD';
 import { SpeechManager } from '../../src/audio/SpeechManager';
+import {
+  ONBOARDING_STORAGE_KEY,
+  OnboardingTutorial,
+  ORBITAR_TUTORIAL_STEPS,
+} from '../../src/ui/OnboardingTutorial';
 
 describe('UI, CameraController & SurfaceMarkers — Functional Integration Tests', () => {
   let scene: THREE.Scene;
@@ -436,5 +441,61 @@ describe('UI, CameraController & SurfaceMarkers — Functional Integration Tests
     );
 
     delete (window as any).__TAURI_INTERNALS__;
+  });
+
+  it('OnboardingTutorial se afișează automat doar la prima pornire a programului/accesare a site-ului și poate fi redeschis din caseta Despre', () => {
+    window.localStorage.removeItem(ONBOARDING_STORAGE_KEY);
+    const onboardingModal = document.getElementById('hud-onboarding-modal')!;
+    onboardingModal.classList.add('is-hidden');
+
+    // 1. Prima pornire (localStorage gol): tutorialul se deschide automat la Pasul 1 din 4
+    const firstLaunchTutorial = new OnboardingTutorial(true);
+    assert.equal(
+      onboardingModal.classList.contains('is-hidden'),
+      false,
+      'Tutorialul de interfață trebuie să se afișeze automat la prima pornire'
+    );
+    assert.equal(firstLaunchTutorial.getCurrentStepIndex(), 0);
+    assert.equal(window.localStorage.getItem(ONBOARDING_STORAGE_KEY), '1');
+    assert.ok(
+      document.getElementById('onboarding-step-title')?.textContent?.includes('Bun venit în Orbitar')
+    );
+
+    // 2. Navigăm prin toți cei 4 pași cu butonul „Înainte ➡️”
+    for (let step = 1; step < ORBITAR_TUTORIAL_STEPS.length; step++) {
+      document.getElementById('btn-onboarding-next')?.click();
+      assert.equal(firstLaunchTutorial.getCurrentStepIndex(), step);
+    }
+    assert.equal(
+      document.getElementById('btn-onboarding-next')?.textContent,
+      '🚀 Începe Explorarea!'
+    );
+
+    // Al 4-lea click pe „🚀 Începe Explorarea!” închide fereastra modală
+    document.getElementById('btn-onboarding-next')?.click();
+    assert.equal(onboardingModal.classList.contains('is-hidden'), true);
+
+    // 3. A doua pornire a programului (cheia orbitar_onboarding_seen_v1 este deja '1'): NU se mai afișează automat
+    const secondLaunchTutorial = new OnboardingTutorial(true);
+    assert.equal(
+      onboardingModal.classList.contains('is-hidden'),
+      true,
+      'Tutorialul NU trebuie să mai apară automat la următoarele porniri ale aplicației'
+    );
+    assert.equal(secondLaunchTutorial.showIfFirstLaunch(), false);
+
+    // 4. Redeschiderea la cerere din caseta „Despre Orbitar” (#btn-reopen-tutorial)
+    document.getElementById('hud-gpl-modal')?.classList.remove('is-hidden');
+    document.getElementById('btn-reopen-tutorial')?.click();
+    assert.equal(
+      document.getElementById('hud-gpl-modal')?.classList.contains('is-hidden'),
+      true,
+      'Caseta Despre se închide la deschiderea ghidului interfeței'
+    );
+    assert.equal(
+      onboardingModal.classList.contains('is-hidden'),
+      false,
+      'Butonul 🎓 Ghid Interfață redeschide tutorialul la cerere'
+    );
   });
 });

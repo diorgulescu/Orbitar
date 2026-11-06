@@ -633,6 +633,138 @@
       }
     },
     {
+      "id": "phobos",
+      "name": "Phobos",
+      "category": "moon",
+      "subtitle": "Luna interioară în formă de cartof a planetei Marte",
+      "color": "#a8a29e",
+      "orbitColor": "#d6d3d1",
+      "parentId": "mars",
+      "localOrbitOrder": 1,
+      "radiusKm": 11.27,
+      "massEarthRatio": 0.0000000018,
+      "gravityRatio": 0.00058,
+      "orbitPeriodDays": 0.3189,
+      "dayLengthHours": 7.65,
+      "meanTempC": -40,
+      "distanceFromSunAU": 1.524,
+      "modelType": "asteroid",
+      "junior": {
+        "summary": "Phobos este cea mai mare dintre cele două luni ale lui Marte! Nu este rotundă ca Luna noastră, ci are forma unui cartof stâncos plin de cratere și șanțuri.",
+        "analogy": "Phobos zboară atât de aproape și de repede deasupra lui Marte încât răsare și apune de două ori într-o singură zi marțiană!",
+        "funFact": "Pe Phobos se află Craterul Stickney, o urmă de impact atât de uriașă încât aproape a spart mica lună în bucăți!",
+        "travelTime": {
+          "car": "62 de ani",
+          "plane": "7 ani",
+          "rocket": "7 luni",
+          "light": "între 3 și 22 de minute"
+        }
+      },
+      "cadet": {
+        "summary": "Descoperită în 1877 de astronomul Asaph Hall, Phobos orbitează la numai 6.000 km deasupra suprafeței marțiene — mai aproape de planeta sa decât orice alt satelit natural din Sistemul Solar. Perioada sa orbitală de 7 ore și 39 de minute este de trei ori mai scurtă decât rotația lui Marte.",
+        "structure": [
+          { "name": "Interior poros tip «rubble-pile»", "description": "Compus din blocuri de rocă condritică și goluri interne (30% porozitate), probabil un asteroid capturat." },
+          { "name": "Craterul gigant Stickney (9 km diametru)", "description": "Ocupă aproape jumătate din fața vizibilă a satelitului și este înconjurat de șanțuri paralele de stres." },
+          { "name": "Strat gros de regolit", "description": "Praf fin de până la 100 m adâncime, creat de miliarde de ani de bombardament meteoritic." }
+        ],
+        "explorationHistory": "Fotografiată de aproape de sondele Mariner 9, Viking 1, Mars Global Surveyor, Mars Express și Mars Reconnaissance Orbiter; ținta viitoarei misiuni japoneze MMX (Martian Moons eXploration).",
+        "quiz": {
+          "question": "De ce răsare Phobos din vest și apune în est pe cerul planetei Marte?",
+          "options": ["Pentru că se rotește în jurul lui Marte în 7 ore și 39 de minute, mai repede decât se învârte Marte în jurul axei sale", "Pentru că Marte stă pe loc", "Din cauza furtunilor de nisip", "Pentru că orbitează direct Soarele"],
+          "correctIndex": 0,
+          "explanation": "Phobos înconjoară Marte în doar 7,65 ore, în timp ce o zi pe Marte durează 24,6 ore, deci satelitul depășește rotația planetei."
+        }
+      }
+    },
+    {
+      "id": "deimos",
+      "name": "Deimos",
+      "category": "moon",
+      "subtitle": "Luna exterioară, mică și netedă, a planetei Marte",
+      "color": "#d6d3d1",
+      "orbitColor": "#a8a29e",
+      "parentId": "mars",
+      "localOrbitOrder": 2,
+      "radiusKm": 6.2,
+      "massEarthRatio": 0.00000000025,
+      "gravityRatio": 0.0003,
+      "orbitPeriodDays": 1.263,
+      "dayLengthHours": 30.31,
+      "meanTempC": -40,
+      "distanceFromSunAU": 1.524,
+      "modelType": "asteroid",
+      "junior": {
+        "summary": "Deimos este fratele mai mic al lui Phobos și a doua lună a lui Marte! Este o stâncă mică, acoperită cu o pătură groasă de praf fin care îi netezește craterele.",
+        "analogy": "Gravitația pe Deimos este atât de mică încât, dacă ai alerga repede și ai sări, te-ai desprinde de sol și ai pluti direct în spațiu!",
+        "funFact": "Văzut de pe suprafața lui Marte, Deimos pare doar o stea foarte strălucitoare, puțin mai mare decât planeta Venus!",
+        "travelTime": {
+          "car": "62 de ani",
+          "plane": "7 ani",
+          "rocket": "7 luni",
+          "light": "între 3 și 22 de minute"
+        }
+      },
+      "cadet": {
+        "summary": "Descoperită tot de Asaph Hall în august 1877, Deimos orbitează la 23.460 km de centrul lui Marte în 30,3 ore. Cu o rază medie de doar 6,2 km, este unul dintre cei mai mici sateliți cunoscuți din Sistemul Solar.",
+        "structure": [
+          { "name": "Corp condritic bogat în carbon", "description": "Densitate scăzută de 1,47 g/cm³, similară asteroizilor de tip C și D din centura exterioară." },
+          { "name": "Craterele Swift și Voltaire", "description": "Cele două cratere principale (de ~1–3 km lărgime), numite după scriitorii care au imaginat două luni marțiene înainte de descoperirea lor." },
+          { "name": "Manta netedă de regolit", "description": "Craterele sunt parțial umplute cu praf marțian-asteroidal, oferind un relief mult mai blând decât cel de pe Phobos." }
+        ],
+        "explorationHistory": "Fotografiată în detaliu de sonda Viking 2 în 1977 (de la numai 30 km distanță), de Mars Reconnaissance Orbiter și în 2023 de sonda Emiratelor Arabe Unite «Hope» (Al-Amal).",
+        "quiz": {
+          "question": "Cum arată suprafața satelitului Deimos în comparație cu cea a lui Phobos?",
+          "options": ["Este acoperită cu gheață albastră", "Este mult mai netedă, deoarece craterele sunt umplute cu un strat gros de praf (regolit)", "Are vulcani activi", "Este perfect rotundă ca o bilă de oțel"],
+          "correctIndex": 1,
+          "explanation": "Deimos este acoperit cu un strat gros de regolit pulverulent care a umplut craterele vechi, dându-i un aspect catifelat."
+        }
+      }
+    },
+    {
+      "id": "mimas",
+      "name": "Mimas",
+      "category": "moon",
+      "subtitle": "Luna înghețată a lui Saturn cu craterul gigant Herschel",
+      "color": "#cbd5e1",
+      "orbitColor": "#94a3b8",
+      "parentId": "saturn",
+      "localOrbitOrder": 1,
+      "radiusKm": 198.2,
+      "massEarthRatio": 0.0000063,
+      "gravityRatio": 0.0065,
+      "orbitPeriodDays": 0.942,
+      "dayLengthHours": 22.61,
+      "meanTempC": -209,
+      "distanceFromSunAU": 9.582,
+      "modelType": "sphere",
+      "junior": {
+        "summary": "Mimas este o lună mică și înghețată a lui Saturn, celebră pentru craterul ei uriaș numit Herschel, care o face să arate exact ca o navă spațială din filme!",
+        "analogy": "Mimas este cel mai mic corp ceresc din Sistemul Solar care a reușit să devină rotund sub propria lui gravitație!",
+        "funFact": "Deși la exterior arată ca un glob înghețat și nemișcat, sub gheața lui Mimas se ascunde un ocean tânăr de apă lichidă!",
+        "travelTime": {
+          "car": "1.450 de ani",
+          "plane": "160 de ani",
+          "rocket": "7 ani",
+          "light": "1 oră și 11 minute"
+        }
+      },
+      "cadet": {
+        "summary": "Descoperită în 1789 de William Herschel, Mimas orbitează Saturn în doar 22 de ore și 36 de minute și curăță gravitațional celebra Diviziune Cassini dintre inelele A și B. Craterul Herschel are 139 km diametru — o treime din diametrul întregului satelit!",
+        "structure": [
+          { "name": "Nucleu stâncos", "description": "Înconjurat de un ocean global tânăr (format acum 5–15 milioane de ani), confirmat în 2024 din analiza librațiilor sondei Cassini." },
+          { "name": "Carapace groasă de gheață (20–30 km)", "description": "Atât de groasă încât nu prezintă gheizere la suprafață, spre deosebire de vecina Enceladus." },
+          { "name": "Craterul Herschel", "description": "Ziduri de 5 km înălțime și un piscul central de 6 km, rezultat dintr-un impact la limita dezintegrării satelitului." }
+        ],
+        "explorationHistory": "Fotografiată de Voyager 1/2 și cartografiată la înaltă rezoluție de sonda Cassini între 2004 și 2017.",
+        "quiz": {
+          "question": "Ce formațiune geologică celebră ocupă o treime din diametrul satelitului Mimas?",
+          "options": ["Craterul Herschel", "Vulcanul Olympus Mons", "Canionul Valles Marineris", "Marea Tranquillitatis"],
+          "correctIndex": 0,
+          "explanation": "Craterul Herschel are 139 km lățime și un munte central înalt de 6 km, dându-i lui Mimas aspectul său inconfundabil."
+        }
+      }
+    },
+    {
       "id": "titan",
       "name": "Titan",
       "category": "moon",
@@ -640,7 +772,7 @@
       "color": "#f59e0b",
       "orbitColor": "#fbbf24",
       "parentId": "saturn",
-      "localOrbitOrder": 2,
+      "localOrbitOrder": 3,
       "radiusKm": 2574.7,
       "massEarthRatio": 0.0225,
       "gravityRatio": 0.138,
@@ -684,7 +816,7 @@
       "color": "#f8fafc",
       "orbitColor": "#e2e8f0",
       "parentId": "saturn",
-      "localOrbitOrder": 1,
+      "localOrbitOrder": 2,
       "radiusKm": 252.1,
       "massEarthRatio": 0.000018,
       "gravityRatio": 0.011,
@@ -717,6 +849,226 @@
           "options": ["Praf de pe Marte", "Gheizerele de gheață și vapori de apă de la polul sud al lui Enceladus", "Vântul solar", "Asteroizii din Centura Kuiper"],
           "correctIndex": 1,
           "explanation": "Jetul criovulcanic al lui Enceladus expulzează continuu granule de gheață care scapă de gravitația micului satelit și formează inelul E."
+        }
+      }
+    },
+    {
+      "id": "iapetus",
+      "name": "Iapetus",
+      "category": "moon",
+      "subtitle": "Luna bicoloră «Yin-Yang» a lui Saturn, cu formă de nucă",
+      "color": "#e2e8f0",
+      "orbitColor": "#cbd5e1",
+      "parentId": "saturn",
+      "localOrbitOrder": 4,
+      "radiusKm": 734.5,
+      "massEarthRatio": 0.0003,
+      "gravityRatio": 0.023,
+      "orbitPeriodDays": 79.32,
+      "dayLengthHours": 1903.7,
+      "meanTempC": -163,
+      "distanceFromSunAU": 9.582,
+      "modelType": "sphere",
+      "junior": {
+        "summary": "Iapetus este cea mai neobișnuită lună a lui Saturn: o jumătate din ea este neagră ca smoala, iar cealaltă jumătate este albă și strălucitoare ca zăpada!",
+        "analogy": "Datorită brâului de munți înalți care o înconjoară exact pe la mijloc, Iapetus seamănă cu o nucă uriașă în două culori!",
+        "funFact": "Munții de la ecuatorul lui Iapetus au 20 de kilometri înălțime — mai mult decât dublul vârfului Everest de pe Pământ!",
+        "travelTime": {
+          "car": "1.450 de ani",
+          "plane": "160 de ani",
+          "rocket": "7 ani",
+          "light": "1 oră și 11 minute"
+        }
+      },
+      "cadet": {
+        "summary": "Descoperită de Giovanni Domenico Cassini în 1671, Iapetus este al treilea satelit ca mărime al lui Saturn. El a observat că satelitul este vizibil prin telescop doar pe o parte a orbitei sale, deducând corect că o emisferă este de 10 ori mai întunecată decât cealaltă.",
+        "structure": [
+          { "name": "Corp înghețat cu densitate mică (1,088 g/cm³)", "description": "Compus în proporție de ~80% din gheață de apă și ~20% materiale stâncoase." },
+          { "name": "Emisfera întunecată (Cassini Regio) vs. Roncevaux Terra", "description": "Praful întunecat provenit de la satelitul exterior Phoebe absoarbe căldura solară și sublimează gheața către emisfera rece și albă." },
+          { "name": "Creasta ecuatorială (1.300 km lungime)", "description": "Un lanț muntos lat de 20 km și înalt de până la 20 km care urmează perfect ecuatorul satelitului." }
+        ],
+        "explorationHistory": "Fotografiată de Voyager 2 în 1981 și survolată de aproape de sonda Cassini în septembrie 2007.",
+        "quiz": {
+          "question": "Prin ce se remarcă vizual satelitul Iapetus al lui Saturn?",
+          "options": ["Are o emisferă neagră ca cărbunele și una albă ca zăpada, plus o creastă muntoasă la ecuator", "Este complet verde", "Are trei inele proprii de foc", "Este cel mai fierbinte corp din Sistemul Solar"],
+          "correctIndex": 0,
+          "explanation": "Iapetus prezintă cel mai dramatic contrast de culoare (albedo) din Sistemul Solar și o creastă ecuatorială care îi dă forma unei nuci."
+        }
+      }
+    },
+    {
+      "id": "miranda",
+      "name": "Miranda",
+      "category": "moon",
+      "subtitle": "Luna-puzzle a lui Uranus, cu cea mai înaltă stâncă din Sistemul Solar",
+      "color": "#a5f3fc",
+      "orbitColor": "#67e8f9",
+      "parentId": "uranus",
+      "localOrbitOrder": 1,
+      "radiusKm": 235.8,
+      "massEarthRatio": 0.000011,
+      "gravityRatio": 0.008,
+      "orbitPeriodDays": 1.413,
+      "dayLengthHours": 33.9,
+      "meanTempC": -213,
+      "distanceFromSunAU": 19.218,
+      "modelType": "sphere",
+      "junior": {
+        "summary": "Miranda este o lună mică și uimitoare a lui Uranus, care arată de parcă a fost lipită la loc din piese diferite de puzzle de gheață!",
+        "analogy": "Pe Miranda se află Verona Rupes, o prăpastie de gheață atât de înaltă încât, dacă ai sări de pe marginea ei, ai pluti în cădere timp de 12 minute până jos!",
+        "funFact": "Stânca Verona Rupes are 20 de kilometri înălțime — este cea mai înaltă prăpastie din întregul Sistem Solar!",
+        "travelTime": {
+          "car": "3.100 de ani",
+          "plane": "345 de ani",
+          "rocket": "8 ani și jumătate",
+          "light": "2 ore și 30 de minute"
+        }
+      },
+      "cadet": {
+        "summary": "Descoperită de Gerard Kuiper în 1948, Miranda este cea mai interioară și mai mică dintre cele cinci luni majore ale lui Uranus. Suprafața ei prezintă cel mai extrem relief tectonic raportat la dimensiunea sa, cu canioane de 12 ori mai adânci decât Marele Canion.",
+        "structure": [
+          { "name": "Nucleu de silicați și manta de gheață", "description": "Încălzită în trecut de rezonanțe orbitale cu ceilalți sateliți ai lui Uranus." },
+          { "name": "Coronae (Inverness, Arden, Elsinore)", "description": "Trei regiuni poligonale uriașe (peste 200 km lățime) cu creste și șanțuri concentrice în formă de chevron." },
+          { "name": "Verona Rupes", "description": "Falie tectonică verticală de gheață cu o înălțime estimată la 20 km." }
+        ],
+        "explorationHistory": "Survolată de aproape de sonda Voyager 2 la 24 ianuarie 1986, care a transmis singurele imagini detaliate ale suprafeței sale.",
+        "quiz": {
+          "question": "Ce record deține stânca Verona Rupes de pe satelitul Miranda al lui Uranus?",
+          "options": ["Este cel mai fierbinte vulcan", "Este cea mai înaltă faleză (prăpastie) cunoscută din Sistemul Solar (~20 km înălțime)", "Este cel mai adânc ocean", "Este cel mai lung râu de metan"],
+          "correctIndex": 1,
+          "explanation": "Verona Rupes se ridică la aproximativ 20 km deasupra terenului înconjurător, fiind de peste două ori mai înaltă decât muntele Everest."
+        }
+      }
+    },
+    {
+      "id": "titania",
+      "name": "Titania",
+      "category": "moon",
+      "subtitle": "Cea mai mare lună a planetei Uranus, brăzdată de canioane de gheață",
+      "color": "#cbd5e1",
+      "orbitColor": "#7dd3fc",
+      "parentId": "uranus",
+      "localOrbitOrder": 2,
+      "radiusKm": 788.4,
+      "massEarthRatio": 0.00059,
+      "gravityRatio": 0.039,
+      "orbitPeriodDays": 8.706,
+      "dayLengthHours": 208.94,
+      "meanTempC": -203,
+      "distanceFromSunAU": 19.218,
+      "modelType": "sphere",
+      "junior": {
+        "summary": "Titania este regina lunilor lui Uranus și cea mai mare dintre ele! Este o lume rece de gheață și stâncă, tăiată de un canion uriaș numit Messina Chasmata.",
+        "analogy": "La fel ca majoritatea sateliților lui Uranus, Titania poartă numele unui personaj din piesele lui William Shakespeare — Regina Zânelor!",
+        "funFact": "Canionul Messina Chasmata de pe Titania este atât de lung încât s-ar întinde din România până în Spania!",
+        "travelTime": {
+          "car": "3.100 de ani",
+          "plane": "345 de ani",
+          "rocket": "8 ani și jumătate",
+          "light": "2 ore și 30 de minute"
+        }
+      },
+      "cadet": {
+        "summary": "Descoperită de William Herschel în 1787 (în aceeași noapte cu Oberon), Titania este al optulea satelit ca mărime din Sistemul Solar (diametru de 1.578 km). Orbitează în planul ecuatorial înclinat la 98° al lui Uranus, având anotimpuri extreme de câte 42 de ani.",
+        "structure": [
+          { "name": "Nucleu stâncos (66% din rază)", "description": "Conține silicați și compuși organici, reprezentând aproximativ jumătate din masa satelitului." },
+          { "name": "Manta de gheață de apă", "description": "Când interiorul a înghețat și s-a dilatat în trecut, scoarța a crăpat formând falii gigantice." },
+          { "name": "Messina Chasmata și Bazinul Gertrude", "description": "Sistem de grabene tectonice lung de 1.492 km și un crater de impact de 326 km diametru." }
+        ],
+        "explorationHistory": "Fotografiată de sonda Voyager 2 în ianuarie 1986; ocultațiile stelare au arătat că poate avea o atmosferă extrem de fină de dioxid de carbon.",
+        "quiz": {
+          "question": "De unde provin numele sateliților planetei Uranus, precum Titania și Miranda?",
+          "options": ["Din mitologia egipteană", "Din operele literare ale lui William Shakespeare și Alexander Pope", "De la numele râurilor din Europa", "De la numele unor rachete"],
+          "correctIndex": 1,
+          "explanation": "Spre deosebire de celelalte planete ale căror luni poartă nume din mitologia greco-romană, lunile lui Uranus sunt numite după personaje din Shakespeare și Pope."
+        }
+      }
+    },
+    {
+      "id": "triton",
+      "name": "Triton",
+      "category": "moon",
+      "subtitle": "Marea lună înghețată a lui Neptun, cu gheizere de azot și orbită inversă",
+      "color": "#fed7aa",
+      "orbitColor": "#60a5fa",
+      "parentId": "neptune",
+      "localOrbitOrder": 1,
+      "radiusKm": 1353.4,
+      "massEarthRatio": 0.00359,
+      "gravityRatio": 0.079,
+      "orbitPeriodDays": -5.877,
+      "dayLengthHours": -141.0,
+      "meanTempC": -235,
+      "distanceFromSunAU": 30.11,
+      "modelType": "sphere",
+      "junior": {
+        "summary": "Triton este cea mai mare lună a lui Neptun și una dintre cele mai reci lumi din Sistemul Solar! Are gheizere care aruncă nori negri de azot înghețat până la 8 kilometri înălțime.",
+        "analogy": "O mare parte din suprafața lui Triton are denivelări ciudate care arată exact ca coaja unui pepene galben!",
+        "funFact": "Triton este singura lună mare din Sistemul Solar care merge «pe contrasens» — se învârte în jurul lui Neptun în sens invers față de rotația planetei!",
+        "travelTime": {
+          "car": "4.950 de ani",
+          "plane": "550 de ani",
+          "rocket": "12 ani (Voyager 2)",
+          "light": "4 ore și 10 minute"
+        }
+      },
+      "cadet": {
+        "summary": "Descoperită în 1846 de William Lassell la doar 17 zile după descoperirea lui Neptun, Triton este al șaptelea satelit ca mărime din Sistemul Solar (mai mare decât Pluto). Orbita sa retrogradă demonstrează că a fost o planetă pitică din Centura Kuiper capturată gravitațional de Neptun.",
+        "structure": [
+          { "name": "Nucleu mare stâncos-metalic", "description": "Densitate ridicată (2,06 g/cm³) și posibil ocean subglaciar menținut lichid de căldura radiogenică și mareică." },
+          { "name": "Teren «coajă de pepene galben» (Bubembe Regio)", "description": "Regiune unică formată prin diapirismul gheții (ridicarea și coborârea lentă a blocurilor de gheață)." },
+          { "name": "Calotă polară rozalie de azot și criovulcani", "description": "Gheizere active de azot gazos și praf întunecat, plus o atmosferă subțire de azot cu nori la 235 °C sub zero." }
+        ],
+        "explorationHistory": "Explorată în premieră la 25 august 1989 de sonda Voyager 2, care a fotografiat în direct erupțiile gheizerelor sale polare.",
+        "quiz": {
+          "question": "Ce ne indică faptul că satelitul Triton se rotește în sens invers (retrograd) în jurul lui Neptun?",
+          "options": ["Că nu s-a format lângă Neptun, ci a fost un corp din Centura Kuiper capturat de gravitația planetei", "Că Neptun nu are gravitație", "Că este făcut din fier", "Că se îndepărtează de Soare"],
+          "correctIndex": 0,
+          "explanation": "Un satelit format împreună cu planeta sa orbitează în sensul rotației planetei; orbita retrogradă a lui Triton dovedește că a fost capturat din Centura Kuiper."
+        }
+      }
+    },
+    {
+      "id": "charon",
+      "name": "Charon",
+      "category": "moon",
+      "subtitle": "Satelitul-pereche al lui Pluto, cu calota roșiatică Mordor Macula",
+      "color": "#cbd5e1",
+      "orbitColor": "#d8b4fe",
+      "parentId": "pluto",
+      "localOrbitOrder": 1,
+      "radiusKm": 606.0,
+      "massEarthRatio": 0.000266,
+      "gravityRatio": 0.029,
+      "orbitPeriodDays": 6.387,
+      "dayLengthHours": 153.3,
+      "meanTempC": -220,
+      "distanceFromSunAU": 39.48,
+      "modelType": "sphere",
+      "junior": {
+        "summary": "Charon este cel mai bun prieten al lui Pluto! Este atât de mare în comparație cu Pluto încât cei doi stau mereu față în față pe cer, ca doi dansatori care se țin de mâini.",
+        "analogy": "Charon poartă la polul său nordic o «căciulă» roșiatică de gheață colorată, iar pe la mijloc are un brâu de canioane uriașe!",
+        "funFact": "Dacă ai locui pe partea lui Pluto îndreptată spre Charon, ai vedea luna Charon stând nemișcată în exact același loc pe cer zi și noapte!",
+        "travelTime": {
+          "car": "6.500 de ani",
+          "plane": "720 de ani",
+          "rocket": "9 ani și jumătate (New Horizons)",
+          "light": "5 ore și 30 de minute"
+        }
+      },
+      "cadet": {
+        "summary": "Descoperită în 1978 de James Christy, Charon are o rază de 606 km (peste jumătate din diametrul lui Pluto). Centrul de masă comun (baricentrul) se află în spațiul liber dintre cele două corpuri, motiv pentru care sistemul Pluto–Charon este adesea numit o planetă pitică dublă.",
+        "structure": [
+          { "name": "Interior de rocă (55%) și gheață de apă (45%)", "description": "Spre deosebire de Pluto, suprafața lui Charon este dominată de gheață de apă cristalină și hidrați de amoniac." },
+          { "name": "Serenity Chasma și centura de canioane", "description": "Un lanț de canioane lung de peste 1.000 km și adânc de 7–9 km, format când un ocean subteran străvechi a înghețat și s-a extins." },
+          { "name": "Calota polară Mordor Macula", "description": "Regiune polară roșiatică formată din metan scăpat din atmosfera lui Pluto, captat de polul rece al lui Charon și transformat în toline de razele UV." }
+        ],
+        "explorationHistory": "Fotografiată la rezoluție înaltă de sonda NASA New Horizons la 14 iulie 2015.",
+        "quiz": {
+          "question": "De ce stau Pluto și Charon mereu cu aceeași față îndreptată unul spre celălalt?",
+          "options": ["Ambele corpuri sunt în rotație sincronă reciprocă (blocare mareică dublă)", "Pentru că sunt lipite între ele", "Pentru că nu se rotesc deloc", "Din cauza câmpului magnetic al lui Neptun"],
+          "correctIndex": 0,
+          "explanation": "Pluto și Charon se rotesc în jurul axelor lor în exact 6,387 zile — aceeași durată în care orbitează în jurul baricentrului lor comun."
         }
       }
     },

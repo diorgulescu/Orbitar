@@ -51,7 +51,7 @@ describe('Integritatea Proiectului, Resurse NASA/HD și Conformitate Licență G
       fs.readFileSync(path.resolve(process.cwd(), 'public/data/tle-iss.json'), 'utf8')
     );
 
-    assert.equal(solar.bodies.length, 26, 'solar-system-ro.json trebuie să conțină 26 de corpuri cerești');
+    assert.equal(solar.bodies.length, 34, 'solar-system-ro.json trebuie să conțină 34 de corpuri cerești (inclusiv Phobos, Deimos, Mimas, Iapetus, Miranda, Titania, Triton și Charon)');
     assert.equal(solar.belts.length, 2, 'solar-system-ro.json trebuie să conțină 2 centuri');
     assert.equal(missions.missions.length, 12, 'missions-ro.json trebuie să conțină 12 misiuni spațiale');
     assert.equal(deepSpace.objects.length, 20, 'deep-space-ro.json trebuie să conțină 20 de obiecte din Cosmosul Îndepărtat (stele, nebuloase și galaxii)');
@@ -101,27 +101,39 @@ describe('Integritatea Proiectului, Resurse NASA/HD și Conformitate Licență G
     }
   });
 
-  it('toate cele 31 de hărți planetare și stelare științifice HD există în public/textures/hd/', () => {
+  it('toate cele 39 de hărți planetare, ale lunilor și stelare științifice HD există în public/textures/hd/', () => {
     const hdDir = path.resolve(process.cwd(), 'public/textures/hd');
     const hdFiles = fs.readdirSync(hdDir).filter((f: string) => f.endsWith('.jpg') || f.endsWith('.png'));
-    assert.ok(hdFiles.length >= 31, `Trebuie să existe cel puțin 31 de hărți HD în public/textures/hd/ (găsite: ${hdFiles.length})`);
+    assert.ok(hdFiles.length >= 39, `Trebuie să existe cel puțin 39 de hărți HD în public/textures/hd/ (găsite: ${hdFiles.length})`);
     assert.ok(fs.existsSync(path.join(hdDir, 'betelgeuse_convection.jpg')));
     assert.ok(fs.existsSync(path.join(hdDir, 'red_dwarf_flare.jpg')));
     assert.ok(fs.existsSync(path.join(hdDir, 'blue_star_sirius.jpg')));
     assert.ok(fs.existsSync(path.join(hdDir, 'cancri55e_lava.jpg')));
     assert.ok(fs.existsSync(path.join(hdDir, 'trappist_habitable.jpg')));
+    assert.ok(fs.existsSync(path.join(hdDir, 'phobos_viking.jpg')));
+    assert.ok(fs.existsSync(path.join(hdDir, 'deimos_viking.jpg')));
+    assert.ok(fs.existsSync(path.join(hdDir, 'mimas_cassini.jpg')));
+    assert.ok(fs.existsSync(path.join(hdDir, 'iapetus_cassini.jpg')));
+    assert.ok(fs.existsSync(path.join(hdDir, 'miranda_voyager.jpg')));
+    assert.ok(fs.existsSync(path.join(hdDir, 'titania_voyager.jpg')));
+    assert.ok(fs.existsSync(path.join(hdDir, 'triton_voyager.jpg')));
+    assert.ok(fs.existsSync(path.join(hdDir, 'charon_newhorizons.jpg')));
   });
 
-  it('toate cele 116 fișiere audio narative pre-generate în limba română există în public/audio/tts/', () => {
+  it('toate cele 132 de fișiere audio narative pre-generate în limba română există în public/audio/tts/', () => {
     const ttsDir = path.resolve(process.cwd(), 'public/audio/tts');
     assert.ok(fs.existsSync(ttsDir), 'Directorul public/audio/tts trebuie să existe');
     const mp3Files = fs.readdirSync(ttsDir).filter((f: string) => f.endsWith('.mp3'));
     assert.equal(
       mp3Files.length,
-      116,
-      `Trebuie să existe 116 fișiere MP3 (58 corpuri × 2 niveluri) în public/audio/tts/ (găsite: ${mp3Files.length})`
+      132,
+      `Trebuie să existe 132 fișiere MP3 (66 corpuri × 2 niveluri) în public/audio/tts/ (găsite: ${mp3Files.length})`
     );
     assert.ok(fs.existsSync(path.join(ttsDir, 'mars_junior.mp3')));
+    assert.ok(fs.existsSync(path.join(ttsDir, 'phobos_junior.mp3')));
+    assert.ok(fs.existsSync(path.join(ttsDir, 'deimos_cadet.mp3')));
+    assert.ok(fs.existsSync(path.join(ttsDir, 'triton_cadet.mp3')));
+    assert.ok(fs.existsSync(path.join(ttsDir, 'charon_junior.mp3')));
     assert.ok(fs.existsSync(path.join(ttsDir, 'voyager1_junior.mp3')));
     assert.ok(fs.existsSync(path.join(ttsDir, 'proxima_centauri_junior.mp3')));
     assert.ok(fs.existsSync(path.join(ttsDir, 'sagittarius_a_cadet.mp3')));

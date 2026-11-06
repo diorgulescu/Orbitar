@@ -607,6 +607,101 @@ function generateBodyMap2K(fileName, spec) {
           g = 68 + nMacro * 65;
           b = 142 + nMacro * 75;
         }
+      } else if (spec.type === 'phobos') {
+        // Phobos (Viking / Mars Express): regolit întunecat cenușiu-roșiatic, Craterul gigant Stickney și șanțuri paralele
+        const groove = Math.sin((uLon * 38.0 + vLat * 14.0 + nMacro * 1.6) * Math.PI) * 14;
+        const dStickney = Math.hypot((uLon - 0.52) * 1.8, vLat - 0.5);
+        let stickneyShade = 0;
+        if (dStickney < 0.24) {
+          const t = dStickney / 0.24;
+          stickneyShade = t > 0.82 ? 38 : -44 * (1 - t * t);
+        }
+        const delta = (nMacro - 0.5) * 38 + (nMicro - 0.5) * 26 + craterDelta * 58 + groove + stickneyShade;
+        r = spec.baseRGB[0] + delta;
+        g = spec.baseRGB[1] + delta * 0.92;
+        b = spec.baseRGB[2] + delta * 0.85;
+      } else if (spec.type === 'deimos') {
+        // Deimos (Viking 2): regolit fin catifelat, cratere parțial umplute (Swift & Voltaire) și pete de albedo deschise
+        const smoothDust = (nMacro - 0.5) * 34 + (nMicro - 0.5) * 16 + craterDelta * 36;
+        r = spec.baseRGB[0] + smoothDust;
+        g = spec.baseRGB[1] + smoothDust * 0.93;
+        b = spec.baseRGB[2] + smoothDust * 0.84;
+      } else if (spec.type === 'mimas') {
+        // Mimas (Cassini): suprafață înghețată intens craterizată, dominată de Craterul Herschel cu pisc central
+        const dHerschel = Math.hypot((uLon - 0.36) * 1.9, vLat - 0.5);
+        let herschel = 0;
+        if (dHerschel < 0.25) {
+          const t = dHerschel / 0.25;
+          if (t < 0.18) {
+            herschel = 48 * (1 - t / 0.18); // piscul central înalt de 6 km
+          } else if (t > 0.84) {
+            herschel = 42; // inelul zidului craterului
+          } else {
+            herschel = -48 * (1 - t * 0.7);
+          }
+        }
+        const delta = (nMacro - 0.5) * 28 + (nMicro - 0.5) * 24 + craterDelta * 64 + herschel;
+        r = spec.baseRGB[0] + delta;
+        g = spec.baseRGB[1] + delta * 0.98;
+        b = spec.baseRGB[2] + delta;
+      } else if (spec.type === 'iapetus') {
+        // Iapetus (Cassini): dihotomia Yin-Yang (Cassini Regio întunecată ca smoala vs Roncevaux Terra albă) + creasta ecuatorială
+        const darkMask = Math.cos((uLon - 0.35) * Math.PI * 2.0) * Math.cos((vLat - 0.5) * Math.PI) + (nMacro - 0.5) * 0.35;
+        const isDark = darkMask > 0.05;
+        const blend = Math.max(0, Math.min(1, (darkMask + 0.12) / 0.34));
+        const eqRidge = Math.exp(-Math.pow((vLat - 0.5) / 0.018, 2)) * 32;
+        const baseR = 234 * (1 - blend) + 54 * blend;
+        const baseG = 238 * (1 - blend) + 42 * blend;
+        const baseB = 244 * (1 - blend) + 36 * blend;
+        const delta = (nMicro - 0.5) * 24 + craterDelta * (isDark ? 35 : 58) + eqRidge;
+        r = baseR + delta;
+        g = baseG + delta * 0.95;
+        b = baseB + delta * 0.9;
+      } else if (spec.type === 'miranda') {
+        // Miranda (Voyager 2): coronae tectonice în chevron (Inverness Corona) și falia Verona Rupes
+        const chevron = Math.abs(Math.sin((Math.abs(uLon - 0.48) * 24.0 + Math.abs(vLat - 0.58) * 22.0) * Math.PI)) * 34;
+        const verona = Math.abs(uLon - 0.72 + (vLat - 0.5) * 0.3) < 0.016 ? -56 : 0;
+        const delta = (nMacro - 0.5) * 36 + (nMicro - 0.5) * 22 + craterDelta * 45 + chevron - 16 + verona;
+        r = spec.baseRGB[0] + delta;
+        g = spec.baseRGB[1] + delta * 0.98;
+        b = spec.baseRGB[2] + delta;
+      } else if (spec.type === 'titania') {
+        // Titania (Voyager 2): gheață cenușiu-caldă brăzdată de canionul gigantic Messina Chasmata
+        const chasmDist = Math.abs(vLat - (0.48 + (uLon - 0.5) * 0.42 + (nMacro - 0.5) * 0.05));
+        const chasm = uLon > 0.22 && uLon < 0.78 && chasmDist < 0.018 ? -52 * (1 - chasmDist / 0.018) : 0;
+        const delta = (nMacro - 0.5) * 32 + (nMicro - 0.5) * 24 + craterDelta * 56 + chasm;
+        r = spec.baseRGB[0] + delta;
+        g = spec.baseRGB[1] + delta * 0.95;
+        b = spec.baseRGB[2] + delta * 0.92;
+      } else if (spec.type === 'triton') {
+        // Triton (Voyager 2): calotă sudică roz-crem cu dâre negre de gheizere de azot + teren „coajă de pepene galben”
+        const isPolarCap = vLat > 0.54 + (nMacro - 0.5) * 0.08;
+        if (isPolarCap) {
+          const plume = nMicro > 0.72 && Math.sin(uLon * 90.0) > 0.65 ? -65 : 0;
+          r = 228 + (nMacro - 0.5) * 26 + plume;
+          g = 202 + (nMacro - 0.5) * 24 + plume;
+          b = 194 + (nMacro - 0.5) * 22 + plume;
+        } else {
+          const cantaloupe = Math.sin(nx * 36.0 + nMacro * 6.0) * Math.cos(ny * 36.0 + nMicro * 5.0) * 22;
+          r = 176 + cantaloupe + (nMicro - 0.5) * 18;
+          g = 184 + cantaloupe + (nMicro - 0.5) * 18;
+          b = 192 + cantaloupe + (nMicro - 0.5) * 18;
+        }
+      } else if (spec.type === 'charon') {
+        // Charon (New Horizons): calotă nordică roșiatică Mordor Macula + canionul ecuatorial Serenity Chasma
+        const isMordor = vLat < 0.21 + (nMacro - 0.5) * 0.06;
+        const chasma = Math.abs(vLat - (0.51 + Math.sin(uLon * 9.0) * 0.02)) < 0.018 ? -44 : 0;
+        const delta = (nMacro - 0.5) * 34 + (nMicro - 0.5) * 24 + craterDelta * 48 + chasma;
+        if (isMordor) {
+          const fade = Math.max(0, Math.min(1, (0.23 - vLat) / 0.1));
+          r = (164 * (1 - fade) + 148 * fade) + delta * 0.7;
+          g = (164 * (1 - fade) + 78 * fade) + delta * 0.6;
+          b = (168 * (1 - fade) + 62 * fade) + delta * 0.55;
+        } else {
+          r = spec.baseRGB[0] + delta;
+          g = spec.baseRGB[1] + delta * 0.98;
+          b = spec.baseRGB[2] + delta;
+        }
       } else {
         // Corp stâncos / craterizat (Mercur, Lună, Vesta, Ganymede, Callisto, Enceladus, Venus Radar)
         const mare = nMacro < 0.44 ? -28 : 14;
@@ -672,6 +767,14 @@ const SCIENTIFIC_MAPS = [
   { file: 'blue_star_sirius.jpg', type: 'blue_star', baseRGB: [195, 224, 255], seed: 1103 },
   { file: 'cancri55e_lava.jpg', type: 'lava_exoplanet', baseRGB: [245, 92, 28], seed: 1104 },
   { file: 'trappist_habitable.jpg', type: 'exoplanet_habitable', baseRGB: [42, 118, 196], seed: 1105 },
+  { file: 'phobos_viking.jpg', type: 'phobos', baseRGB: [122, 104, 92], craters: 65, seed: 1201 },
+  { file: 'deimos_viking.jpg', type: 'deimos', baseRGB: [148, 128, 112], craters: 32, seed: 1202 },
+  { file: 'mimas_cassini.jpg', type: 'mimas', baseRGB: [204, 208, 214], craters: 95, seed: 1203 },
+  { file: 'iapetus_cassini.jpg', type: 'iapetus', baseRGB: [210, 212, 216], craters: 85, seed: 1204 },
+  { file: 'miranda_voyager.jpg', type: 'miranda', baseRGB: [188, 196, 204], craters: 48, seed: 1205 },
+  { file: 'titania_voyager.jpg', type: 'titania', baseRGB: [176, 168, 162], craters: 72, seed: 1206 },
+  { file: 'triton_voyager.jpg', type: 'triton', baseRGB: [196, 188, 184], craters: 24, seed: 1207 },
+  { file: 'charon_newhorizons.jpg', type: 'charon', baseRGB: [164, 166, 170], craters: 58, seed: 1208 },
 ];
 
 for (const spec of SCIENTIFIC_MAPS) {

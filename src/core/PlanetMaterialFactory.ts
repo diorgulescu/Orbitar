@@ -17,17 +17,25 @@ const HD_ALBEDO_MAP: Record<string, string> = {
   earth: './textures/hd/earth_albedo.jpg',
   moon: './textures/hd/moon_lro_albedo.jpg',
   mars: './textures/hd/mars_viking_albedo.jpg',
+  phobos: './textures/hd/phobos_viking.jpg',
+  deimos: './textures/hd/deimos_viking.jpg',
   jupiter: './textures/hd/jupiter_cassini_albedo.jpg',
   io: './textures/hd/io_galileo.jpg',
   europa: './textures/hd/europa_galileo.jpg',
   ganymede: './textures/hd/ganymede_galileo.jpg',
   callisto: './textures/hd/callisto_galileo.jpg',
   saturn: './textures/hd/saturn_cassini_albedo.jpg',
+  mimas: './textures/hd/mimas_cassini.jpg',
   titan: './textures/hd/titan_cassini.jpg',
   enceladus: './textures/hd/enceladus_cassini.jpg',
+  iapetus: './textures/hd/iapetus_cassini.jpg',
   uranus: './textures/hd/uranus_voyager.jpg',
+  miranda: './textures/hd/miranda_voyager.jpg',
+  titania: './textures/hd/titania_voyager.jpg',
   neptune: './textures/hd/neptune_voyager.jpg',
+  triton: './textures/hd/triton_voyager.jpg',
   pluto: './textures/hd/pluto_newhorizons.jpg',
+  charon: './textures/hd/charon_newhorizons.jpg',
   ceres: './textures/hd/ceres_dawn.jpg',
   vesta: './textures/hd/vesta_dawn.jpg',
   eris: './textures/eris.jpg',
@@ -41,7 +49,15 @@ const HD_BUMP_MAP: Record<string, string> = {
   earth: './textures/hd/earth_bump.jpg',
   moon: './textures/hd/moon_lola_bump.jpg',
   mars: './textures/hd/mars_mola_bump.jpg',
+  phobos: './textures/hd/phobos_viking.jpg',
+  deimos: './textures/hd/deimos_viking.jpg',
+  mimas: './textures/hd/mimas_cassini.jpg',
+  iapetus: './textures/hd/iapetus_cassini.jpg',
+  miranda: './textures/hd/miranda_voyager.jpg',
+  titania: './textures/hd/titania_voyager.jpg',
+  triton: './textures/hd/triton_voyager.jpg',
   pluto: './textures/hd/pluto_newhorizons.jpg',
+  charon: './textures/hd/charon_newhorizons.jpg',
   ceres: './textures/hd/ceres_dawn.jpg',
   vesta: './textures/hd/vesta_dawn.jpg',
 };
@@ -52,7 +68,15 @@ const HD_BUMP_SCALE: Record<string, number> = {
   earth: 0.03,
   moon: 0.045,
   mars: 0.045,
+  phobos: 0.06,
+  deimos: 0.032,
+  mimas: 0.042,
+  iapetus: 0.038,
+  miranda: 0.048,
+  titania: 0.035,
+  triton: 0.028,
   pluto: 0.035,
+  charon: 0.036,
   ceres: 0.04,
   vesta: 0.05,
   io: 0.025,
@@ -976,6 +1000,14 @@ export class PlanetMaterialFactory {
         v.x *= 1.44;
         v.y *= 0.74;
         v.z *= 0.82;
+      } else if (data.id === 'phobos') {
+        v.x *= 1.32;
+        v.y *= 0.88;
+        v.z *= 1.06;
+      } else if (data.id === 'deimos') {
+        v.x *= 1.24;
+        v.y *= 0.86;
+        v.z *= 0.96;
       } else if (data.id === 'bennu') {
         const eqRidge = 1.0 + 0.25 * Math.pow(Math.max(0, 1.0 - Math.abs(normDir.y) * 1.4), 1.5);
         v.x *= eqRidge;
@@ -1220,6 +1252,30 @@ export class PlanetMaterialFactory {
         cCtx.beginPath();
         cCtx.ellipse(1020 * scaleX, 540 * scaleY, 155 * scaleX, 118 * scaleY, -0.2, 0, Math.PI * 2);
         cCtx.fill();
+      } else if (data.id === 'iapetus') {
+        // Dihotomia Yin-Yang a lui Iapetus (Cassini Regio întunecată vs Roncevaux Terra albă)
+        cCtx.fillStyle = '#332822';
+        cCtx.beginPath();
+        cCtx.ellipse(720 * scaleX, 512 * scaleY, 540 * scaleX, 380 * scaleY, 0, 0, Math.PI * 2);
+        cCtx.fill();
+      } else if (data.id === 'charon') {
+        // Calota nordică roșiatică Mordor Macula de pe Charon
+        cCtx.fillStyle = '#8b4536';
+        cCtx.fillRect(0, 0, width, Math.round(145 * scaleY));
+      } else if (data.id === 'mimas') {
+        // Craterul gigant Herschel cu pisc central de pe Mimas
+        cCtx.fillStyle = '#64748b';
+        cCtx.beginPath();
+        cCtx.arc(760 * scaleX, 512 * scaleY, 135 * scaleX, 0, Math.PI * 2);
+        cCtx.fill();
+        cCtx.fillStyle = '#f1f5f9';
+        cCtx.beginPath();
+        cCtx.arc(760 * scaleX, 512 * scaleY, 26 * scaleX, 0, Math.PI * 2);
+        cCtx.fill();
+      } else if (data.id === 'triton') {
+        // Calota sudică roz-crem de azot înghețat de pe Triton
+        cCtx.fillStyle = '#f5d0c5';
+        cCtx.fillRect(0, Math.round(560 * scaleY), width, height - Math.round(560 * scaleY));
       }
 
       if (

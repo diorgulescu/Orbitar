@@ -49,13 +49,20 @@ describe('OrbitalEngine — Unit & Integration Tests', () => {
     await engine.initialize();
   });
 
-  it('pornește cu viteza implicită de 1 min / sec (timeScale = 60) și încarcă toate cele 38 de corpuri și misiuni', () => {
+  it('pornește cu viteza implicită de 1 min / sec (timeScale = 60) și încarcă toate cele 46 de corpuri și misiuni din Sistemul Solar', () => {
     assert.equal(engine.timeScale, 60, 'Viteza orbitală implicită trebuie să fie 60 (1 min / sec)');
     assert.equal(engine.isPaused, false);
 
     const bodies = engine.getBodies();
-    assert.equal(bodies.length, 38, 'Trebuie să existe exact 38 de corpuri cerești și misiuni spațiale');
+    assert.equal(bodies.length, 46, 'Trebuie să existe exact 46 de corpuri cerești și misiuni spațiale în Orizontul Sistemul Solar');
     assert.equal(engine.getBeltConfigs().length, 2, 'Trebuie să existe Centura de Asteroizi și Centura Kuiper');
+
+    // Verificăm prezența noilor luni: Phobos, Deimos (Marte), Mimas, Iapetus (Saturn), Miranda, Titania (Uranus), Triton (Neptun), Charon (Pluto)
+    for (const moonId of ['phobos', 'deimos', 'mimas', 'iapetus', 'miranda', 'titania', 'triton', 'charon']) {
+      const moon = engine.getBody(moonId);
+      assert.ok(moon, `Luna ${moonId} trebuie să fie încărcată în OrbitalEngine`);
+      assert.equal(moon.data.category, 'moon');
+    }
 
     const sun = engine.getBody('sun')!;
     assert.ok(sun);

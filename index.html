@@ -937,6 +937,9 @@
               <button id="btn-open-official-site" type="button" class="hud-btn">
                 🌐 Site oficial (orbitar.ro)
               </button>
+              <button id="btn-reopen-tutorial" type="button" class="hud-btn hud-btn-amber" title="Redeschide ghidul rapid al interfeței Orbitar">
+                🎓 Ghid Interfață
+              </button>
             </div>
           </div>
 
@@ -955,6 +958,41 @@
             Dependențe Open-Source: <code>three</code> (MIT), <code>astronomy-engine</code> (MIT), <code>satellite.js</code> (MIT), <code>tauri</code> (MIT / Apache-2.0).<br />
             Atribuire texturi științifice HD (2K): <strong>NASA / JPL-Caltech / USGS Astrogeology / SDO / LRO / MOLA / Magellan / Cassini / New Horizons / Dawn (Public Domain), CelestiaContent (GNU GPLv2+) &amp; Solar System Scope (CC-BY 4.0)</strong>.
           </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fereastră modală de Onboarding / Tutorial Succint al Interfeței (afișată automat doar la prima pornire) -->
+    <div id="hud-onboarding-modal" class="modal-backdrop is-hidden" role="dialog" aria-modal="true" aria-labelledby="onboarding-step-title">
+      <div class="bento-card modal-card onboarding-modal-card">
+        <div class="modal-header">
+          <span id="onboarding-step-badge" class="telemetry-tag">Pasul 1 din 4 • Navigare 3D &amp; Studiu</span>
+          <button id="btn-onboarding-close" type="button" class="hud-icon-btn" aria-label="Închide ghidul">✕</button>
+        </div>
+        <div class="modal-body onboarding-modal-body">
+          <div class="onboarding-hero-row">
+            <div id="onboarding-step-icon" class="onboarding-hero-icon" aria-hidden="true">🪐</div>
+            <div>
+              <h2 id="onboarding-step-title" class="onboarding-title">Bun venit în Orbitar — Planetariul Tău 3D!</h2>
+              <p id="onboarding-step-summary" class="onboarding-summary"></p>
+            </div>
+          </div>
+          <ul id="onboarding-step-list" class="gpl-freedoms-list onboarding-list"></ul>
+          <div id="onboarding-step-tip" class="onboarding-tip-box"></div>
+          <div class="onboarding-footer-bar">
+            <button id="btn-onboarding-skip" type="button" class="hud-btn">
+              Sari peste ghid
+            </button>
+            <div id="onboarding-step-dots" class="onboarding-dots" role="tablist" aria-label="Pași tutorial"></div>
+            <div class="onboarding-nav-btns">
+              <button id="btn-onboarding-prev" type="button" class="hud-btn">
+                ⬅️ Înapoi
+              </button>
+              <button id="btn-onboarding-next" type="button" class="hud-btn hud-btn-active-cyan">
+                Înainte ➡️
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

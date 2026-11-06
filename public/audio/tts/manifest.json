@@ -2,7 +2,7 @@
   "version": "1.1.0",
   "license": "GPL-3.0-or-later",
   "engine": "google-neural-ro",
-  "count": 116,
+  "count": 132,
   "entries": {
     "sun_junior": {
       "bodyId": "sun",
@@ -98,7 +98,7 @@
       "bodyId": "uranus",
       "tier": "cadet",
       "file": "./audio/tts/uranus_cadet.mp3",
-      "normalizedText": "Uranus. Gigantul de gheață turcoaz care se rostogolește pe orbită. Prima planetă descoperită cu ajutorul telescopului (William Herschel, 1781), Uranus este clasificată drept gigant de gheață . Înclinarea axială extremă de 97 virgulă 77 grade este atribuită unei coliziuni cataclismice cu o protoplanetă în tinerețea Sistemului Solar. Istoricul explorării: Descoperită în 1781 și vizitată de o singură navă spațială până în prezent: Voiager doi în ianuarie 1986."
+      "normalizedText": "Uranus. Gigantul de gheață turcoaz care se rostogolește pe orbită. Prima planetă descoperită cu ajutorul telescopului (Uiliam Herșăl, 1781), Uranus este clasificată drept gigant de gheață . Înclinarea axială extremă de 97 virgulă 77 grade este atribuită unei coliziuni cataclismice cu o protoplanetă în tinerețea Sistemului Solar. Istoricul explorării: Descoperită în 1781 și vizitată de o singură navă spațială până în prezent: Voiager doi în ianuarie 1986."
     },
     "neptune_junior": {
       "bodyId": "neptune",
@@ -172,6 +172,42 @@
       "file": "./audio/tts/callisto_cadet.mp3",
       "normalizedText": "Calisto. Lumea străveche de gheață și cratere a lui Jupiter. Al treilea satelit ca mărime din Sistemul Solar (aproape cât Mercur) nu participă la rezonanța orbitală a celorlalte trei luni galileene, motiv pentru care nu a suferit încălzire mareică intensă, păstrând o arhivă geologică intactă de 4 miliarde de ani. Istoricul explorării: Fotografiată în detaliu de Voiager unu/2 și Galileo; va fi survolată de 21 de ori de sonda Juis."
     },
+    "phobos_junior": {
+      "bodyId": "phobos",
+      "tier": "junior",
+      "file": "./audio/tts/phobos_junior.mp3",
+      "normalizedText": "Fobos. Luna interioară în formă de cartof a planetei Marte. Fobos este cea mai mare dintre cele două luni ale lui Marte! Nu este rotundă ca Luna noastră, ci are forma unui cartof stâncos plin de cratere și șanțuri. Analogie: Fobos zboară atât de aproape și de repede deasupra lui Marte încât răsare și apune de două ori într-o singură zi marțiană! Știai că? Pe Fobos se află Craterul Sticni, o urmă de impact atât de uriașă încât aproape a spart mica lună în bucăți!"
+    },
+    "phobos_cadet": {
+      "bodyId": "phobos",
+      "tier": "cadet",
+      "file": "./audio/tts/phobos_cadet.mp3",
+      "normalizedText": "Fobos. Luna interioară în formă de cartof a planetei Marte. Descoperită în 1877 de astronomul Asaf Hol, Fobos orbitează la numai 6000 kilometri deasupra suprafeței marțiene — mai aproape de planeta sa decât orice alt satelit natural din Sistemul Solar. Perioada sa orbitală de 7 ore și 39 de minute este de trei ori mai scurtă decât rotația lui Marte. Istoricul explorării: Fotografiată de aproape de sondele Marinăr 9, Vaiching 1, Mars Global Surveyor, Mars Express și Mars Reconnaissance Orbiter; ținta viitoarei misiuni japoneze MMX (Martian Moons eXploration)."
+    },
+    "deimos_junior": {
+      "bodyId": "deimos",
+      "tier": "junior",
+      "file": "./audio/tts/deimos_junior.mp3",
+      "normalizedText": "Deimos. Luna exterioară, mică și netedă, a planetei Marte. Deimos este fratele mai mic al lui Fobos și a doua lună a lui Marte! Este o stâncă mică, acoperită cu o pătură groasă de praf fin care îi netezește craterele. Analogie: Gravitația pe Deimos este atât de mică încât, dacă ai alerga repede și ai sări, te-ai desprinde de sol și ai pluti direct în spațiu! Știai că? Văzut de pe suprafața lui Marte, Deimos pare doar o stea foarte strălucitoare, puțin mai mare decât planeta Venus!"
+    },
+    "deimos_cadet": {
+      "bodyId": "deimos",
+      "tier": "cadet",
+      "file": "./audio/tts/deimos_cadet.mp3",
+      "normalizedText": "Deimos. Luna exterioară, mică și netedă, a planetei Marte. Descoperită tot de Asaf Hol în august 1877, Deimos orbitează la 23460 kilometri de centrul lui Marte în 30 virgulă 3 ore. Cu o rază medie de doar 6 virgulă 2 kilometri, este unul dintre cei mai mici sateliți cunoscuți din Sistemul Solar. Istoricul explorării: Fotografiată în detaliu de sonda Vaiching 2 în 1977 (de la numai 30 kilometri distanță), de Mars Reconnaissance Orbiter și în 2023 de sonda Emiratelor Arabe Unite Hope (Al-Amal)."
+    },
+    "mimas_junior": {
+      "bodyId": "mimas",
+      "tier": "junior",
+      "file": "./audio/tts/mimas_junior.mp3",
+      "normalizedText": "Mimas. Luna înghețată a lui Saturn cu craterul gigant Herșăl. Mimas este o lună mică și înghețată a lui Saturn, celebră pentru craterul ei uriaș numit Herșăl, care o face să arate exact ca o navă spațială din filme! Analogie: Mimas este cel mai mic corp ceresc din Sistemul Solar care a reușit să devină rotund sub propria lui gravitație! Știai că? Deși la exterior arată ca un glob înghețat și nemișcat, sub gheața lui Mimas se ascunde un ocean tânăr de apă lichidă!"
+    },
+    "mimas_cadet": {
+      "bodyId": "mimas",
+      "tier": "cadet",
+      "file": "./audio/tts/mimas_cadet.mp3",
+      "normalizedText": "Mimas. Luna înghețată a lui Saturn cu craterul gigant Herșăl. Descoperită în 1789 de Uiliam Herșăl, Mimas orbitează Saturn în doar 22 de ore și 36 de minute și curăță gravitațional celebra Diviziune Casini dintre inelele A și B. Craterul Herșăl are 139 kilometri diametru — o treime din diametrul întregului satelit! Istoricul explorării: Fotografiată de Voiager unu/2 și cartografiată la înaltă rezoluție de sonda Casini între 2004 și 2017."
+    },
     "titan_junior": {
       "bodyId": "titan",
       "tier": "junior",
@@ -194,7 +230,67 @@
       "bodyId": "enceladus",
       "tier": "cadet",
       "file": "./audio/tts/enceladus_cadet.mp3",
-      "normalizedText": "Ențeladus. Luna albă ca zăpada a lui Saturn, cu gheizere cosmice. Ențeladus are cel mai ridicat albedo (reflectivitate) din Sistemul Solar (aproximativ 0 virgulă 99). Sonda Casini a zburat direct prin jeturile sale criovulcanice de la polul sud ( Dungile de Tigru ), detectând apă sărată, molecule organice complexe, hidrogen molecular și silice hidrotermală. Istoricul explorării: Descoperită de William Herschel în 1789; gheizerele sale au fost descoperite și analizate chimic de sonda Casini în 2005 până la 2015."
+      "normalizedText": "Ențeladus. Luna albă ca zăpada a lui Saturn, cu gheizere cosmice. Ențeladus are cel mai ridicat albedo (reflectivitate) din Sistemul Solar (aproximativ 0 virgulă 99). Sonda Casini a zburat direct prin jeturile sale criovulcanice de la polul sud ( Dungile de Tigru ), detectând apă sărată, molecule organice complexe, hidrogen molecular și silice hidrotermală. Istoricul explorării: Descoperită de Uiliam Herșăl în 1789; gheizerele sale au fost descoperite și analizate chimic de sonda Casini în 2005 până la 2015."
+    },
+    "iapetus_junior": {
+      "bodyId": "iapetus",
+      "tier": "junior",
+      "file": "./audio/tts/iapetus_junior.mp3",
+      "normalizedText": "Iapetus. Luna bicoloră Yin-Yang a lui Saturn, cu formă de nucă. Iapetus este cea mai neobișnuită lună a lui Saturn: o jumătate din ea este neagră ca smoala, iar cealaltă jumătate este albă și strălucitoare ca zăpada! Analogie: Datorită brâului de munți înalți care o înconjoară exact pe la mijloc, Iapetus seamănă cu o nucă uriașă în două culori! Știai că? Munții de la ecuatorul lui Iapetus au 20 de kilometri înălțime — mai mult decât dublul vârfului Everest de pe Pământ!"
+    },
+    "iapetus_cadet": {
+      "bodyId": "iapetus",
+      "tier": "cadet",
+      "file": "./audio/tts/iapetus_cadet.mp3",
+      "normalizedText": "Iapetus. Luna bicoloră Yin-Yang a lui Saturn, cu formă de nucă. Descoperită de Giovanni Domenico Casini în 1671, Iapetus este al treilea satelit ca mărime al lui Saturn. El a observat că satelitul este vizibil prin telescop doar pe o parte a orbitei sale, deducând corect că o emisferă este de 10 ori mai întunecată decât cealaltă. Istoricul explorării: Fotografiată de Voiager doi în 1981 și survolată de aproape de sonda Casini în septembrie 2007."
+    },
+    "miranda_junior": {
+      "bodyId": "miranda",
+      "tier": "junior",
+      "file": "./audio/tts/miranda_junior.mp3",
+      "normalizedText": "Miranda. Luna-puzzle a lui Uranus, cu cea mai înaltă stâncă din Sistemul Solar. Miranda este o lună mică și uimitoare a lui Uranus, care arată de parcă a fost lipită la loc din piese diferite de puzzle de gheață! Analogie: Pe Miranda se află Verona Rupes, o prăpastie de gheață atât de înaltă încât, dacă ai sări de pe marginea ei, ai pluti în cădere timp de 12 minute până jos! Știai că? Stânca Verona Rupes are 20 de kilometri înălțime — este cea mai înaltă prăpastie din întregul Sistem Solar!"
+    },
+    "miranda_cadet": {
+      "bodyId": "miranda",
+      "tier": "cadet",
+      "file": "./audio/tts/miranda_cadet.mp3",
+      "normalizedText": "Miranda. Luna-puzzle a lui Uranus, cu cea mai înaltă stâncă din Sistemul Solar. Descoperită de Gerard Caipăr în 1948, Miranda este cea mai interioară și mai mică dintre cele cinci luni majore ale lui Uranus. Suprafața ei prezintă cel mai extrem relief tectonic raportat la dimensiunea sa, cu canioane de 12 ori mai adânci decât Marele Canion. Istoricul explorării: Survolată de aproape de sonda Voiager doi la 24 ianuarie 1986, care a transmis singurele imagini detaliate ale suprafeței sale."
+    },
+    "titania_junior": {
+      "bodyId": "titania",
+      "tier": "junior",
+      "file": "./audio/tts/titania_junior.mp3",
+      "normalizedText": "Titania. Cea mai mare lună a planetei Uranus, brăzdată de canioane de gheață. Titania este regina lunilor lui Uranus și cea mai mare dintre ele! Este o lume rece de gheață și stâncă, tăiată de un canion uriaș numit Canionul Mesina. Analogie: La fel ca majoritatea sateliților lui Uranus, Titania poartă numele unui personaj din piesele lui Uiliam Șecspir — Regina Zânelor! Știai că? Canionul Canionul Mesina de pe Titania este atât de lung încât s-ar întinde din România până în Spania!"
+    },
+    "titania_cadet": {
+      "bodyId": "titania",
+      "tier": "cadet",
+      "file": "./audio/tts/titania_cadet.mp3",
+      "normalizedText": "Titania. Cea mai mare lună a planetei Uranus, brăzdată de canioane de gheață. Descoperită de Uiliam Herșăl în 1787 (în aceeași noapte cu Oberon), Titania este al optulea satelit ca mărime din Sistemul Solar (diametru de 1578 kilometri). Orbitează în planul ecuatorial înclinat la 98 grade al lui Uranus, având anotimpuri extreme de câte 42 de ani. Istoricul explorării: Fotografiată de sonda Voiager doi în ianuarie 1986; ocultațiile stelare au arătat că poate avea o atmosferă extrem de fină de dioxid de carbon."
+    },
+    "triton_junior": {
+      "bodyId": "triton",
+      "tier": "junior",
+      "file": "./audio/tts/triton_junior.mp3",
+      "normalizedText": "Triton. Marea lună înghețată a lui Neptun, cu gheizere de azot și orbită inversă. Triton este cea mai mare lună a lui Neptun și una dintre cele mai reci lumi din Sistemul Solar! Are gheizere care aruncă nori negri de azot înghețat până la 8 kilometri înălțime. Analogie: O mare parte din suprafața lui Triton are denivelări ciudate care arată exact ca coaja unui pepene galben! Știai că? Triton este singura lună mare din Sistemul Solar care merge pe contrasens — se învârte în jurul lui Neptun în sens invers față de rotația planetei!"
+    },
+    "triton_cadet": {
+      "bodyId": "triton",
+      "tier": "cadet",
+      "file": "./audio/tts/triton_cadet.mp3",
+      "normalizedText": "Triton. Marea lună înghețată a lui Neptun, cu gheizere de azot și orbită inversă. Descoperită în 1846 de Uiliam Lasel la doar 17 zile după descoperirea lui Neptun, Triton este al șaptelea satelit ca mărime din Sistemul Solar (mai mare decât Pluto). Orbita sa retrogradă demonstrează că a fost o planetă pitică din Centura Caipăr capturată gravitațional de Neptun. Istoricul explorării: Explorată în premieră la 25 august 1989 de sonda Voiager doi, care a fotografiat în direct erupțiile gheizerelor sale polare."
+    },
+    "charon_junior": {
+      "bodyId": "charon",
+      "tier": "junior",
+      "file": "./audio/tts/charon_junior.mp3",
+      "normalizedText": "Haron. Satelitul-pereche al lui Pluto, cu calota roșiatică Mordor Macula. Haron este cel mai bun prieten al lui Pluto! Este atât de mare în comparație cu Pluto încât cei doi stau mereu față în față pe cer, ca doi dansatori care se țin de mâini. Analogie: Haron poartă la polul său nordic o căciulă roșiatică de gheață colorată, iar pe la mijloc are un brâu de canioane uriașe! Știai că? Dacă ai locui pe partea lui Pluto îndreptată spre Haron, ai vedea luna Haron stând nemișcată în exact același loc pe cer zi și noapte!"
+    },
+    "charon_cadet": {
+      "bodyId": "charon",
+      "tier": "cadet",
+      "file": "./audio/tts/charon_cadet.mp3",
+      "normalizedText": "Haron. Satelitul-pereche al lui Pluto, cu calota roșiatică Mordor Macula. Descoperită în 1978 de Geims Cristi, Haron are o rază de 606 kilometri (peste jumătate din diametrul lui Pluto). Centrul de masă comun (baricentrul) se află în spațiul liber dintre cele două corpuri, motiv pentru care sistemul Pluto–Haron este adesea numit o planetă pitică dublă. Istoricul explorării: Fotografiată la rezoluție înaltă de sonda NASA Niu Horaizăns la 14 iulie 2015."
     },
     "pluto_junior": {
       "bodyId": "pluto",

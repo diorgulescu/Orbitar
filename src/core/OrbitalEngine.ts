@@ -105,13 +105,13 @@ const DIDACTIC_ORBIT_AU: Record<string, number> = {
   apophis: 0.60,
   earth: 1.0,
   bennu: 1.46,
-  mars: 1.76,
-  vesta: 2.28,
-  ceres: 2.62,
-  pallas: 2.92,
-  psyche: 3.22,
-  juice: 3.58,
-  rosetta: 3.95,
+  mars: 1.88,
+  vesta: 2.36,
+  ceres: 2.66,
+  pallas: 2.96,
+  psyche: 3.26,
+  juice: 3.60,
+  rosetta: 3.96,
   jupiter: 5.45,
   saturn: 9.582,
   uranus: 19.218,
@@ -436,11 +436,13 @@ export class OrbitalEngine {
       );
     }
 
-    // Pentru Titan, Enceladus și roverele marțiene
-    const periodDays = Math.max(instance.data.orbitPeriodDays, 0.05);
+    // Pentru lunile lui Marte, Saturn, Uranus, Neptun, Pluto și roverele marțiene
+    const rawPeriod = instance.data.orbitPeriodDays || 1;
+    const orbitDir = rawPeriod < 0 ? -1 : 1;
+    const periodDays = Math.max(Math.abs(rawPeriod), 0.05);
     const order = instance.data.localOrbitOrder ?? 1;
     const days = (date.getTime() - J2000_EPOCH_MS) / 86400000;
-    const angle = ((days / periodDays) * Math.PI * 2 + order * 1.7) % (Math.PI * 2);
+    const angle = orbitDir * (((days / periodDays) * Math.PI * 2 + order * 1.7) % (Math.PI * 2));
 
     if (instance.data.category === 'rover') {
       // Roverele se rotesc odată cu suprafața lui Marte
@@ -452,11 +454,22 @@ export class OrbitalEngine {
       ).multiplyScalar(0.000023);
     }
 
-    const incl = order === 1 ? 0.08 : -0.16;
+    const incl = id === 'triton' ? -0.35 : id === 'iapetus' ? 0.24 : order % 2 === 1 ? 0.08 : -0.14;
+    const moonSemiMajorAu: Record<string, number> = {
+      phobos: 0.0000627,
+      deimos: 0.0001568,
+      mimas: 0.00124,
+      enceladus: 0.00159,
+      titan: 0.00817,
+      iapetus: 0.0238,
+      miranda: 0.000868,
+      titania: 0.00291,
+      triton: 0.00237,
+      charon: 0.000131,
+    };
     const radiusAu =
-      instance.data.parentId === 'saturn'
-        ? 0.0016 * order * 2.5
-        : 0.000045 * order;
+      moonSemiMajorAu[id] ??
+      (instance.data.parentId === 'saturn' ? 0.0016 * order * 2.5 : 0.000045 * order);
 
     return new THREE.Vector3(
       Math.cos(angle) * radiusAu,
@@ -548,7 +561,7 @@ export class OrbitalEngine {
     if (instance.data.parentId) {
       const parent = this.bodies.get(instance.data.parentId);
       const parentRadius = parent ? parent.visualRadius : 2.0;
-      const periodDays = Math.max(instance.data.orbitPeriodDays, 0.05);
+      const periodDays = Math.max(Math.abs(instance.data.orbitPeriodDays), 0.05);
 
       for (let i = 0; i < samples; i++) {
         const tDate = new Date(baseTimeMs + (i / samples) * periodDays * 86400000);

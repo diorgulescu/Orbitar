@@ -54,10 +54,16 @@ export class ColoringSvgGenerator {
         break;
       case 'europa':
       case 'enceladus':
-        artwork = this.drawIcyGeyserMoonLineArt(id === 'enceladus');
+      case 'triton':
+        artwork = this.drawIcyGeyserMoonLineArt(id === 'enceladus' || id === 'triton');
         break;
       case 'ganymede':
       case 'callisto':
+      case 'mimas':
+      case 'iapetus':
+      case 'miranda':
+      case 'titania':
+      case 'charon':
       case 'ceres':
       case 'eris':
       case 'makemake':
@@ -74,6 +80,8 @@ export class ColoringSvgGenerator {
       case 'bennu':
       case 'apophis':
       case 'psyche':
+      case 'phobos':
+      case 'deimos':
         artwork = this.drawAsteroidLineArt(id);
         break;
       case 'iss':

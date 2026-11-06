@@ -19,6 +19,7 @@ import { CockpitHUD } from './ui/CockpitHUD';
 import { CosmicScaleNavigator } from './core/CosmicScaleNavigator';
 import { LabelProjector } from './ui/LabelProjector';
 import { ToolbarControls } from './ui/ToolbarControls';
+import { OnboardingTutorial } from './ui/OnboardingTutorial';
 
 interface OrbitarGlobalDebug {
   sceneManager: SceneManager;
@@ -39,6 +40,7 @@ interface OrbitarGlobalDebug {
   cockpitHud: CockpitHUD;
   toolbar: ToolbarControls;
   labelProjector: LabelProjector;
+  onboardingTutorial: OnboardingTutorial;
 }
 
 declare global {
@@ -224,6 +226,7 @@ async function bootstrapOrbitar(): Promise<void> {
     () => orbitarMissions.getUnlockedBadges()
   );
   new LicenseModal();
+  const onboardingTutorial = new OnboardingTutorial(true);
 
   // Mini-jocul educativ la persoana întâi: "🚀 La Manșa Navei (Mod Pilot)"
   const spacecraftPilot = new SpacecraftPilot(
@@ -430,6 +433,7 @@ async function bootstrapOrbitar(): Promise<void> {
     cockpitHud,
     toolbar,
     labelProjector,
+    onboardingTutorial,
   };
 
   // 5. Bucla de actualizare per cadru
