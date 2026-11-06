@@ -14,6 +14,7 @@ mkdir -p "$HD_DIR" "$ECO_DIR"
 
 FORCE_UPDATE="${1:-}"
 CELESTIA_HIRES="https://raw.githubusercontent.com/CelestiaProject/CelestiaContent/master/textures/hires"
+CELESTIA_MEDRES="https://raw.githubusercontent.com/CelestiaProject/CelestiaContent/master/textures/medres"
 
 echo "🪐 Inițializare pipeline texturi științifice NASA/USGS/Celestia HD în $HD_DIR/ ..."
 
@@ -93,9 +94,11 @@ fetch_and_convert "earth_nightlights.jpg" "$CELESTIA_HIRES/earth-night.jpg" 2048
 fetch_and_convert "moon_lro_albedo.jpg" "$CELESTIA_HIRES/moon.jpg" 2048 || true
 fetch_and_convert "moon_lola_bump.jpg" "$CELESTIA_HIRES/moon-normal.png" 2048 || true
 
-# 6. Marte (USGS Viking / MGS Albedo & MOLA Bump)
+# 6. Marte & Sateliții Phobos și Deimos (USGS Viking / MGS Albedo & MOLA Bump)
 fetch_and_convert "mars_viking_albedo.jpg" "$CELESTIA_HIRES/mars.jpg" 2048 || true
 fetch_and_convert "mars_mola_bump.jpg" "$CELESTIA_HIRES/mars-normal.png" 2048 || true
+fetch_and_convert "phobos_viking.jpg" "$CELESTIA_HIRES/phobos.jpg" 2048 || fetch_and_convert "phobos_viking.jpg" "$CELESTIA_MEDRES/phobos.jpg" 2048 || true
+fetch_and_convert "deimos_viking.jpg" "$CELESTIA_HIRES/deimos.jpg" 2048 || fetch_and_convert "deimos_viking.jpg" "$CELESTIA_MEDRES/deimos.jpg" 2048 || true
 
 # 7. Jupiter & Sateliții Galileeni (Cassini, Juno & Galileo)
 fetch_and_convert "jupiter_cassini_albedo.jpg" "$CELESTIA_HIRES/jupiter.jpg" 2048 || true
@@ -104,18 +107,24 @@ fetch_and_convert "europa_galileo.jpg" "$CELESTIA_HIRES/europa.jpg" 2048 || true
 fetch_and_convert "ganymede_galileo.jpg" "$CELESTIA_HIRES/ganymede.jpg" 2048 || true
 fetch_and_convert "callisto_galileo.jpg" "$CELESTIA_HIRES/callisto.jpg" 2048 || true
 
-# 8. Saturn, Inelele RGBA & Sateliți (Cassini)
+# 8. Saturn, Inelele RGBA & Sateliți (Cassini: Mimas, Enceladus, Titan, Iapetus)
 fetch_and_convert "saturn_cassini_albedo.jpg" "$CELESTIA_HIRES/saturn.jpg" 2048 || true
 fetch_and_convert "saturn_rings_rgba.png" "$CELESTIA_HIRES/saturn-rings.png" 2048 || true
+fetch_and_convert "mimas_cassini.jpg" "$CELESTIA_HIRES/mimas.jpg" 2048 || fetch_and_convert "mimas_cassini.jpg" "$CELESTIA_MEDRES/mimas.jpg" 2048 || true
 fetch_and_convert "titan_cassini.jpg" "$CELESTIA_HIRES/titan-clouds.jpg" 2048 || true
 fetch_and_convert "enceladus_cassini.jpg" "$CELESTIA_HIRES/enceladus.jpg" 2048 || true
+fetch_and_convert "iapetus_cassini.jpg" "$CELESTIA_HIRES/iapetus.jpg" 2048 || fetch_and_convert "iapetus_cassini.jpg" "$CELESTIA_MEDRES/iapetus.jpg" 2048 || true
 
-# 9. Uranus & Neptun (Voyager 2)
+# 9. Uranus, Neptun & Sateliți (Voyager 2: Miranda, Titania, Triton)
 fetch_and_convert "uranus_voyager.jpg" "$CELESTIA_HIRES/uranus.jpg" 2048 || true
+fetch_and_convert "miranda_voyager.jpg" "$CELESTIA_HIRES/miranda.jpg" 2048 || fetch_and_convert "miranda_voyager.jpg" "$CELESTIA_MEDRES/miranda.jpg" 2048 || true
+fetch_and_convert "titania_voyager.jpg" "$CELESTIA_HIRES/titania.jpg" 2048 || fetch_and_convert "titania_voyager.jpg" "$CELESTIA_MEDRES/titania.jpg" 2048 || true
 fetch_and_convert "neptune_voyager.jpg" "$CELESTIA_HIRES/neptune.jpg" 2048 || true
+fetch_and_convert "triton_voyager.jpg" "$CELESTIA_HIRES/triton.jpg" 2048 || fetch_and_convert "triton_voyager.jpg" "$CELESTIA_MEDRES/triton.jpg" 2048 || true
 
-# 10. Planete Pitice & Asteroizi (New Horizons & Dawn)
+# 10. Planete Pitice, Charon & Asteroizi (New Horizons & Dawn)
 fetch_and_convert "pluto_newhorizons.jpg" "$CELESTIA_HIRES/pluto.jpg" 2048 || true
+fetch_and_convert "charon_newhorizons.jpg" "$CELESTIA_HIRES/charon.jpg" 2048 || fetch_and_convert "charon_newhorizons.jpg" "$CELESTIA_MEDRES/charon.jpg" 2048 || true
 fetch_and_convert "ceres_dawn.jpg" "$CELESTIA_HIRES/ceres.jpg" 2048 || true
 fetch_and_convert "vesta_dawn.jpg" "$CELESTIA_HIRES/vesta.jpg" 2048 || true
 

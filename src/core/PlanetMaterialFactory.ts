@@ -958,35 +958,48 @@ export class PlanetMaterialFactory {
   }
 
   /**
-   * Creează un asteroid sculptat 3D (`IcosahedronGeometry` subdivizată) deformat cu zgomot 3D.
+   * Creează un asteroid sau satelit neregulat sculptat 3D pe baza unei `SphereGeometry`
+   * cu coordonate UV echirectangulare fără cusături, deformat triaxial cu zgomot 3D continuu.
    */
   public static createDeformedAsteroidMesh(
     data: CelestialBodyData,
     mode: QualityMode = this.qualityMode
   ): THREE.Mesh {
-    const detail = mode === 'eco' ? 2 : 4;
-    const geo = new THREE.IcosahedronGeometry(1, detail);
+    const segW = mode === 'eco' ? 32 : 72;
+    const segH = mode === 'eco' ? 24 : 54;
+    const geo = new THREE.SphereGeometry(1, segW, segH);
     if (mode === 'hd') {
       this.hdGeometries.add(geo);
     }
 
     const posAttr = geo.attributes.position;
     const seed = data.id.split('').reduce((acc, ch) => acc + ch.charCodeAt(0) * 37, 211);
+    const hasPhotographicMap =
+      data.id === 'phobos' || data.id === 'deimos' || data.id === 'vesta';
 
     const craters: Array<{ dir: THREE.Vector3; radius: number; depth: number }> = [];
-    for (let c = 0; c < 7; c++) {
-      const theta = ((c * 137.5 + seed) % 360) * (Math.PI / 180);
-      const phi = Math.acos(1 - 2 * ((c * 0.618034 + 0.2) % 1));
-      const dir = new THREE.Vector3(
-        Math.sin(phi) * Math.cos(theta),
-        Math.cos(phi),
-        Math.sin(phi) * Math.sin(theta)
-      ).normalize();
+    if (data.id === 'phobos') {
+      // Depresiunea reală a craterului gigant Stickney pe emisfera vestică a lui Phobos
       craters.push({
-        dir,
-        radius: 0.26 + (c % 3) * 0.08,
-        depth: 0.12 + (c % 2) * 0.05,
+        dir: new THREE.Vector3(-0.88, 0.08, 0.46).normalize(),
+        radius: 0.42,
+        depth: 0.14,
       });
+    } else if (!hasPhotographicMap) {
+      for (let c = 0; c < 7; c++) {
+        const theta = ((c * 137.5 + seed) % 360) * (Math.PI / 180);
+        const phi = Math.acos(1 - 2 * ((c * 0.618034 + 0.2) % 1));
+        const dir = new THREE.Vector3(
+          Math.sin(phi) * Math.cos(theta),
+          Math.cos(phi),
+          Math.sin(phi) * Math.sin(theta)
+        ).normalize();
+        craters.push({
+          dir,
+          radius: 0.26 + (c % 3) * 0.08,
+          depth: 0.12 + (c % 2) * 0.05,
+        });
+      }
     }
 
     const v = new THREE.Vector3();
@@ -1001,21 +1014,23 @@ export class PlanetMaterialFactory {
         v.y *= 0.74;
         v.z *= 0.82;
       } else if (data.id === 'phobos') {
-        v.x *= 1.32;
+        // Proporțiile triaxiale reale ale lui Phobos (13.0 × 11.4 × 9.1 km)
+        v.x *= 1.26;
         v.y *= 0.88;
         v.z *= 1.06;
       } else if (data.id === 'deimos') {
+        // Proporțiile triaxiale reale ale lui Deimos (7.8 × 6.0 × 5.1 km)
         v.x *= 1.24;
-        v.y *= 0.86;
+        v.y *= 0.85;
         v.z *= 0.96;
       } else if (data.id === 'bennu') {
         const eqRidge = 1.0 + 0.25 * Math.pow(Math.max(0, 1.0 - Math.abs(normDir.y) * 1.4), 1.5);
         v.x *= eqRidge;
         v.z *= eqRidge;
       } else if (data.id === 'vesta') {
-        v.x *= 1.18;
-        v.y *= 0.86;
-        v.z *= 1.06;
+        v.x *= 1.15;
+        v.y *= 0.88;
+        v.z *= 1.05;
       } else {
         v.x *= 1.24;
         v.y *= 0.84;
@@ -1024,7 +1039,9 @@ export class PlanetMaterialFactory {
 
       const nLow = this.fbm3D(normDir.x * 1.8, normDir.y * 1.8, normDir.z * 1.8, seed, 4);
       const nHigh = this.fbm3D(normDir.x * 5.2, normDir.y * 5.2, normDir.z * 5.2, seed + 99, 3);
-      let displacement = 0.82 + nLow * 0.34 + (nHigh - 0.5) * 0.09;
+      let displacement = hasPhotographicMap
+        ? 0.93 + nLow * 0.14 + (nHigh - 0.5) * 0.035
+        : 0.82 + nLow * 0.34 + (nHigh - 0.5) * 0.09;
 
       for (const crater of craters) {
         const dist = normDir.distanceTo(crater.dir);
@@ -1253,29 +1270,51 @@ export class PlanetMaterialFactory {
         cCtx.ellipse(1020 * scaleX, 540 * scaleY, 155 * scaleX, 118 * scaleY, -0.2, 0, Math.PI * 2);
         cCtx.fill();
       } else if (data.id === 'iapetus') {
-        // Dihotomia Yin-Yang a lui Iapetus (Cassini Regio întunecată vs Roncevaux Terra albă)
-        cCtx.fillStyle = '#332822';
-        cCtx.beginPath();
-        cCtx.ellipse(720 * scaleX, 512 * scaleY, 540 * scaleX, 380 * scaleY, 0, 0, Math.PI * 2);
-        cCtx.fill();
+        // Dihotomia Yin-Yang a lui Iapetus (Cassini Regio întunecată cu tranziție difuză vs Roncevaux Terra luminoasă)
+        const grad = cCtx.createRadialGradient(
+          520 * scaleX,
+          512 * scaleY,
+          80 * scaleX,
+          520 * scaleX,
+          512 * scaleY,
+          560 * scaleX
+        );
+        grad.addColorStop(0, 'rgba(56, 46, 38, 0.88)');
+        grad.addColorStop(0.65, 'rgba(68, 56, 46, 0.72)');
+        grad.addColorStop(1, 'rgba(68, 56, 46, 0)');
+        cCtx.fillStyle = grad;
+        cCtx.fillRect(0, 0, width, height);
       } else if (data.id === 'charon') {
-        // Calota nordică roșiatică Mordor Macula de pe Charon
-        cCtx.fillStyle = '#8b4536';
-        cCtx.fillRect(0, 0, width, Math.round(145 * scaleY));
+        // Calota nordică roșiatică Mordor Macula de pe Charon cu tranziție graduală
+        const grad = cCtx.createLinearGradient(0, 0, 0, Math.round(240 * scaleY));
+        grad.addColorStop(0, 'rgba(132, 82, 64, 0.85)');
+        grad.addColorStop(0.6, 'rgba(132, 82, 64, 0.45)');
+        grad.addColorStop(1, 'rgba(132, 82, 64, 0)');
+        cCtx.fillStyle = grad;
+        cCtx.fillRect(0, 0, width, Math.round(240 * scaleY));
       } else if (data.id === 'mimas') {
-        // Craterul gigant Herschel cu pisc central de pe Mimas
-        cCtx.fillStyle = '#64748b';
+        // Craterul gigant Herschel cu inel difuz și pisc central discret
+        const hx = 430 * scaleX;
+        const hy = 512 * scaleY;
+        const hRad = 125 * scaleX;
+        const grad = cCtx.createRadialGradient(hx, hy, hRad * 0.12, hx, hy, hRad);
+        grad.addColorStop(0, 'rgba(248, 250, 252, 0.85)');
+        grad.addColorStop(0.22, 'rgba(148, 163, 184, 0.55)');
+        grad.addColorStop(0.82, 'rgba(100, 116, 139, 0.45)');
+        grad.addColorStop(0.95, 'rgba(241, 245, 249, 0.65)');
+        grad.addColorStop(1, 'rgba(241, 245, 249, 0)');
+        cCtx.fillStyle = grad;
         cCtx.beginPath();
-        cCtx.arc(760 * scaleX, 512 * scaleY, 135 * scaleX, 0, Math.PI * 2);
-        cCtx.fill();
-        cCtx.fillStyle = '#f1f5f9';
-        cCtx.beginPath();
-        cCtx.arc(760 * scaleX, 512 * scaleY, 26 * scaleX, 0, Math.PI * 2);
+        cCtx.arc(hx, hy, hRad, 0, Math.PI * 2);
         cCtx.fill();
       } else if (data.id === 'triton') {
-        // Calota sudică roz-crem de azot înghețat de pe Triton
-        cCtx.fillStyle = '#f5d0c5';
-        cCtx.fillRect(0, Math.round(560 * scaleY), width, height - Math.round(560 * scaleY));
+        // Calota sudică roz-crem de azot înghețat de pe Triton cu tranziție fină
+        const grad = cCtx.createLinearGradient(0, Math.round(420 * scaleY), 0, height);
+        grad.addColorStop(0, 'rgba(232, 210, 202, 0)');
+        grad.addColorStop(0.45, 'rgba(232, 210, 202, 0.48)');
+        grad.addColorStop(1, 'rgba(224, 198, 188, 0.78)');
+        cCtx.fillStyle = grad;
+        cCtx.fillRect(0, Math.round(420 * scaleY), width, height - Math.round(420 * scaleY));
       }
 
       if (
