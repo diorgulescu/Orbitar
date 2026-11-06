@@ -65,13 +65,20 @@ Toate materialele printabile din Orbitar sunt desenate în **alb-negru clar (for
 ## 5. 🚀 Cum folosim mini-jocul „La Manșa Navei (Mod Pilot)” la lecția despre distanțe și viteza luminii
 
 În bara de sus a planetariului găsiți butonul **„🚀 Mod Pilot (La Manșă)”** (sau apăsați tasta **`P`** de pe tastatură):
-- Imaginea se transformă în **cabina de comandă a unei nave spațiale**, cu parbriz panoramic și etichete de Realitate Augmentată (AR) care arată distanța în timp real până la fiecare planetă.
-- Din consola de jos a cabinei, elevii pot alege o destinație (de exemplu *Marte*, *Jupiter* sau *Neptun*) și pot apăsa pe **„⚡ Zboară Aici!”** (Pilot Automat) sau pot pilota liber nava cu tastele **`W / A / S / D`** și săgețile.
+- Imaginea se transformă în **cabina de comandă a unei nave spațiale**, cu parbriz panoramic și etichete de Realitate Augmentată (AR) care arată distanța în timp real până la fiecare planetă, lună, stea sau galaxie.
+- Din consola de jos a cabinei, elevii pot alege orice destinație din listă (de exemplu *Marte*, *Phobos*, *Jupiter*, *Saturn* sau *Galaxia Andromeda*) — **zborul pe Pilot Automat pornește instantaneu la selectarea destinației din listă** (sau prin butonul **„🔥 Zboară Acolo”**) — ori pot pilota liber nava cu tastele **`W / A / S / D`** și săgețile.
 - **Experiment didactic la clasă cu cele 3 nave spațiale:**
   1. **🚀 Racheta „Vlaicu-1” (`50.000 km/h` — propulsie chimică):** arată cât durează călătoria cu rachetele din zilele noastre (~5 luni până la Marte, ~10 ani până la Neptun pe *Ceasul Pământesc de la Bord*).
   2. **⚡ Sonda „Coandă-X” (`1.500.000 km/h` — propulsie ionică & fuziune):** arată cum motoarele viitorului scurtează drumul până la Marte la ~2 zile.
-  3. **✨ Nava „Luceafărul” (Viteza Luminii `1c` — `1.079.252.848 km/h`):** elevii văd că până și la viteza luminii — cea mai mare viteză din Univers — ne ia ~8 minute de la Soare la Pământ și peste 4 ore până la Neptun!
-- La traversarea Centurii de Asteroizi sau a Centurii Kuiper se aprind automat **Scuturile Deflectoare**, iar la sosirea pe orbita planetei, **Calculatorul de Bord Vorbitor** prezintă cu voce tare raportul științific al destinației!
+  3. **✨ Nava „Luceafărul” (Viteza Luminii `1c` + `⚡ Salt Hiperspațial`):** elevii văd că până și la viteza luminii ne ia ~8 minute de la Soare la Pământ și peste 4 ore până la Neptun, iar pentru stelele și galaxiile din afara Sistemului Solar se activează **Motorul Hiperspațial**!
+- La sosirea pe orbita destinației, **Calculatorul de Bord** afișează silențios raportul științific pe ecran (și îl poate citi cu voce naturală românească la apăsarea butonului **„🔊 Ascultă Raportul”**).
+
+---
+
+## 6. 🎓 Ghidul Interfeței la Prima Pornire & Verificarea Actualizărilor (`Tasta F1`)
+
+- **Ghidul rapid în 4 pași:** Când deschideți Orbitar pentru prima dată pe un calculator sau în browser, apare automat un **ghid succint al interfeței** care prezintă pe scurt navigarea 3D, cele 3 Orizonturi Cosmice, Modul Pilot și fișele A4. Îl puteți redeschide oricând din butonul **„ⓘ Despre / GPLv3”** -> **„🎓 Ghid Interfață”**.
+- **Caseta „Despre Orbitar” și Actualizări pe Calculator (`Tasta F1`):** Apăsând pe **„ⓘ Despre / GPLv3”** (în colțul din dreapta-jos) sau pe tasta **`F1`**, vedeți versiunea instalată și puteți apăsa pe **„🔄 Verifică actualizări pe GitHub”**. Dacă a apărut o versiune nouă a programului, puteți deschide cu un click pagina oficială de descărcare în browser pentru a instala noua versiune.
 
 ---
 

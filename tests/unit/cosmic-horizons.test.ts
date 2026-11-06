@@ -18,7 +18,7 @@ describe('Cele 3 Orizonturi Cosmice (CosmicScaleNavigator, Deep Space 3D, Voce, 
     setupTestDomEnvironment();
   });
 
-  it('OrbitalEngine încarcă toate cele 58 de obiecte pe 3 Orizonturi Cosmice și CosmicScaleNavigator comută grupurile 3D + indicatorul Acasă', async () => {
+  it('OrbitalEngine încarcă toate cele 66 de obiecte pe 3 Orizonturi Cosmice și CosmicScaleNavigator comută grupurile 3D + indicatorul Acasă', async () => {
     const scene = new THREE.Scene();
     const scaleManager = new ScaleManager('didactic');
     const orbitalEngine = new OrbitalEngine(scene, scaleManager, new Date('2026-06-01T12:00:00Z'));
