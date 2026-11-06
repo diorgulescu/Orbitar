@@ -140,9 +140,22 @@ describe('UI, CameraController & SurfaceMarkers — Functional Integration Tests
     );
     assert.equal(mediaImg.src, './textures/nasa/perseverance.jpg');
 
-    // Pentru o planetă (ex: Marte), caseta foto NASA a sondei/roverului este ascunsă, iar calculatorul de greutate calculează gravitația marțiană
+    // Pentru o planetă (ex: Marte) selectată cât timp caseta de studiu este deschisă,
+    // panoul trece prin fade-out (is-switching-out) și apoi fade-in (is-switching-in) cu detaliile noului corp
+    const drawerEl = document.getElementById('hud-study-drawer')!;
     const mars = orbitalEngine.getBody('mars')!;
     studyDrawer.showBody(mars);
+    assert.equal(
+      drawerEl.classList.contains('is-switching-out'),
+      true,
+      'Caseta de studiu deschisă trebuie să intre în fade-out (is-switching-out) la selectarea unui alt corp ceresc'
+    );
+    studyDrawer.flushSwitchTransition();
+    assert.equal(
+      drawerEl.classList.contains('is-switching-in'),
+      true,
+      'După fade-out, caseta de studiu trebuie să intre în fade-in (is-switching-in) cu detaliile noului corp'
+    );
     assert.equal(mediaCard.classList.contains('is-hidden'), true);
     const weightRes = document.getElementById('lab-result-weight')!;
     assert.ok(weightRes.textContent?.includes('kg'));

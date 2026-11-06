@@ -73,17 +73,28 @@ describe('UiSoundEngine & Custom Cosmic Cursors — Unit Tests', () => {
     setupTestDomEnvironment();
   });
 
-  it('sintetizează efecte sonore discrete pentru click, selecție corp, deschidere/închidere casetă de studiu și quiz', () => {
+  it('sintetizează efecte sonore discrete pentru click, selecție corp, tranziție fade-out/fade-in a casetei de studiu și quiz la volumul sistemului gazdă', () => {
+    const ambient = SpaceAmbientEngine.getInstance();
+    ambient.setVolumePercent(0);
+    ambient.setEnabled(false);
+
     const sfx = UiSoundEngine.getInstance();
     sfx.setEnabled(true);
     assert.equal(sfx.isEnabled(), true);
+    assert.equal(
+      sfx.getHostVolumeGain(),
+      1.0,
+      'Efectele sonore UI trebuie să se audă la 100% din volumul sistemului gazdă, independent de volumul muzicii ambientale'
+    );
 
     sfx.playClick();
     sfx.playSelectBody();
     sfx.playDrawerOpen();
+    sfx.playDrawerSwitchTransition(0.22);
     sfx.playDrawerClose();
     sfx.playQuizFeedback(true);
     sfx.playQuizFeedback(false);
+    assert.equal(sfx.getHostVolumeGain(), 1.0);
 
     sfx.installGlobalUiListeners(document);
     const btnPlayPause = document.getElementById('btn-play-pause');

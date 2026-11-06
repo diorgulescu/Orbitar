@@ -7,6 +7,8 @@ import { AgeTier } from '../types/celestial';
 import { OrbitarLab } from './OrbitarLab';
 
 const STORAGE_KEY_BADGES = 'orbitar_badges';
+export const STUDY_DRAWER_FADE_OUT_MS = 220;
+export const STUDY_DRAWER_FADE_IN_MS = 280;
 
 const NASA_MEDIA_BY_BODY_ID: Record<string, { src: string; captionRo: string }> = {
   perseverance: {
@@ -181,6 +183,9 @@ const NASA_MEDIA_BY_BODY_ID: Record<string, { src: string; captionRo: string }> 
  */
 export class StudyDrawer {
   private currentBody: CelestialBodyInstance | null = null;
+  private pendingSwitchBody: CelestialBodyInstance | null = null;
+  private switchOutTimerId: ReturnType<typeof setTimeout> | null = null;
+  private switchInTimerId: ReturnType<typeof setTimeout> | null = null;
   private currentTier: AgeTier;
   private isSpeaking = false;
   private readonly orbitalEngine: OrbitalEngine;
@@ -227,6 +232,8 @@ export class StudyDrawer {
 
     btnClose?.addEventListener('click', () => {
       this.stopSpeech();
+      this.clearSwitchTimers();
+      drawerEl?.classList.remove('is-switching-out', 'is-switching-in');
       const wasCollapsed = drawerEl?.classList.contains('is-collapsed') ?? false;
       drawerEl?.classList.add('is-collapsed');
       if (!wasCollapsed) {
@@ -240,15 +247,18 @@ export class StudyDrawer {
     });
 
     btnSpeak?.addEventListener('click', () => {
+      this.flushSwitchTransition();
       this.toggleSpeechRo();
     });
 
     btnPrintStudy?.addEventListener('click', () => {
+      this.flushSwitchTransition();
       const id = this.currentBody?.data.id ?? 'sun';
       this.onPrintStudy?.(id);
     });
 
     btnPrintColoring?.addEventListener('click', () => {
+      this.flushSwitchTransition();
       const id = this.currentBody?.data.id ?? 'sun';
       this.onPrintColoring?.(id);
     });
@@ -285,19 +295,51 @@ export class StudyDrawer {
   public setTier(tier: AgeTier): void {
     this.currentTier = tier;
     this.stopSpeech();
+    this.flushSwitchTransition();
     if (this.currentBody) {
-      this.renderBody(this.currentBody, false);
+      this.populateBodyDom(this.currentBody);
     }
   }
 
   public showBody(body: CelestialBodyInstance): void {
     this.stopSpeech();
     this.renderBody(body, true);
-    this.updateLiveDistance(body);
+  }
+
+  /**
+   * Finalizează sincron tranziția fade-out -> fade-in aflată în curs (dacă există),
+   * aplicând imediat în DOM detaliile noului corp ceresc selectat.
+   */
+  public flushSwitchTransition(): void {
+    if (!this.pendingSwitchBody) return;
+    const targetBody = this.pendingSwitchBody;
+    this.clearSwitchTimers();
+    const drawerEl = document.getElementById('hud-study-drawer');
+    this.populateBodyDom(targetBody);
+    if (drawerEl) {
+      drawerEl.classList.remove('is-switching-out');
+      drawerEl.classList.add('is-switching-in');
+      this.switchInTimerId = window.setTimeout(() => {
+        drawerEl.classList.remove('is-switching-in');
+        this.switchInTimerId = null;
+      }, STUDY_DRAWER_FADE_IN_MS);
+    }
+  }
+
+  private clearSwitchTimers(): void {
+    this.pendingSwitchBody = null;
+    if (this.switchOutTimerId !== null) {
+      window.clearTimeout(this.switchOutTimerId);
+      this.switchOutTimerId = null;
+    }
+    if (this.switchInTimerId !== null) {
+      window.clearTimeout(this.switchInTimerId);
+      this.switchInTimerId = null;
+    }
   }
 
   public updateLiveDistance(body: CelestialBodyInstance | null): void {
-    if (!body) return;
+    if (!body || this.pendingSwitchBody) return;
     const distEl = document.getElementById('hud-target-dist');
     if (distEl) {
       if (body.data.distanceLightYears && body.data.distanceLightYears > 0) {
@@ -346,15 +388,47 @@ export class StudyDrawer {
     const d = body.data;
 
     const drawerEl = document.getElementById('hud-study-drawer');
+    const wasCollapsed = drawerEl ? drawerEl.classList.contains('is-collapsed') : true;
+
+    // Dacă panoul de studiu este deja deschis cu un alt corp ceresc, executăm
+    // tranziția fade-out (suprapusă cu deplasarea camerei către noul obiect) -> fade-in cu noile detalii.
+    if (openDrawer && drawerEl && !wasCollapsed && prevBodyId !== null && prevBodyId !== d.id) {
+      this.clearSwitchTimers();
+      this.pendingSwitchBody = body;
+      drawerEl.classList.remove('is-switching-in');
+      drawerEl.classList.add('is-switching-out');
+      UiSoundEngine.getInstance().playDrawerSwitchTransition(STUDY_DRAWER_FADE_OUT_MS / 1000);
+
+      this.switchOutTimerId = window.setTimeout(() => {
+        this.switchOutTimerId = null;
+        this.pendingSwitchBody = null;
+        this.populateBodyDom(body);
+        drawerEl.scrollTo({ left: 0, top: 0 });
+        drawerEl.classList.remove('is-switching-out');
+        drawerEl.classList.add('is-switching-in');
+
+        this.switchInTimerId = window.setTimeout(() => {
+          drawerEl.classList.remove('is-switching-in');
+          this.switchInTimerId = null;
+        }, STUDY_DRAWER_FADE_IN_MS);
+      }, STUDY_DRAWER_FADE_OUT_MS);
+      return;
+    }
+
+    this.clearSwitchTimers();
     if (openDrawer && drawerEl) {
-      const wasCollapsed = drawerEl.classList.contains('is-collapsed');
-      drawerEl.classList.remove('is-collapsed');
+      drawerEl.classList.remove('is-collapsed', 'is-switching-out', 'is-switching-in');
       if (wasCollapsed) {
         UiSoundEngine.getInstance().playDrawerOpen();
-      } else if (prevBodyId && prevBodyId !== d.id) {
-        UiSoundEngine.getInstance().playSelectBody();
       }
     }
+
+    this.populateBodyDom(body);
+  }
+
+  private populateBodyDom(body: CelestialBodyInstance): void {
+    const d = body.data;
+    const drawerEl = document.getElementById('hud-study-drawer');
 
     const nameEl = document.getElementById('hud-target-name');
     const subtitleEl = document.getElementById('hud-target-subtitle');
