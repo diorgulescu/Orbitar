@@ -83,6 +83,15 @@ export class MockElement {
   public setPointerCapture(): void {}
   public releasePointerCapture(): void {}
 
+  public contains(other: MockElement | null): boolean {
+    let curr = other;
+    while (curr) {
+      if (curr === this) return true;
+      curr = curr.parentElement;
+    }
+    return false;
+  }
+
   public get className(): string {
     return this.classList.toString();
   }
@@ -188,11 +197,14 @@ export class MockElement {
 
   public dispatchEvent(event: Record<string, any>): boolean {
     const type = event.type as string;
+    let propagationStopped = false;
     const payload = {
-      target: this,
+      target: event.target ?? this,
       currentTarget: this,
       preventDefault: () => {},
-      stopPropagation: () => {},
+      stopPropagation: () => {
+        propagationStopped = true;
+      },
       clientX: 640,
       clientY: 400,
       ...event,
@@ -201,6 +213,13 @@ export class MockElement {
     if (set) {
       for (const fn of Array.from(set)) {
         fn(payload);
+      }
+    }
+    if (!propagationStopped && event.bubbles !== false && (type === 'click' || type === 'change')) {
+      if (this.parentElement) {
+        this.parentElement.dispatchEvent({ ...payload, target: payload.target });
+      } else if (this.docRef) {
+        this.docRef.dispatchEvent({ ...payload, target: payload.target });
       }
     }
     return true;

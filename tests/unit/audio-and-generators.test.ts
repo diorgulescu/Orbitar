@@ -1,8 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import { describe, it, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
 import { setupTestDomEnvironment } from '../setup/dom-env';
 import { SpaceAmbientEngine } from '../../src/audio/SpaceAmbientEngine';
+import { UiSoundEngine } from '../../src/audio/UiSoundEngine';
 import {
   normalizeRomanianSpeechText,
   splitIntoSpeechSentences,
@@ -62,6 +65,46 @@ describe('SpaceAmbientEngine (Web Audio API Generative Synthesizer) — Unit Tes
     engine.setDucking(false);
 
     engine.setEnabled(false);
+  });
+});
+
+describe('UiSoundEngine & Custom Cosmic Cursors — Unit Tests', () => {
+  beforeEach(() => {
+    setupTestDomEnvironment();
+  });
+
+  it('sintetizează efecte sonore discrete pentru click, selecție corp, deschidere/închidere casetă de studiu și quiz', () => {
+    const sfx = UiSoundEngine.getInstance();
+    sfx.setEnabled(true);
+    assert.equal(sfx.isEnabled(), true);
+
+    sfx.playClick();
+    sfx.playSelectBody();
+    sfx.playDrawerOpen();
+    sfx.playDrawerClose();
+    sfx.playQuizFeedback(true);
+    sfx.playQuizFeedback(false);
+
+    sfx.installGlobalUiListeners(document);
+    const btnPlayPause = document.getElementById('btn-play-pause');
+    btnPlayPause?.click();
+
+    const btnDrawerClose = document.getElementById('btn-drawer-close');
+    btnDrawerClose?.click();
+
+    sfx.setEnabled(false);
+    assert.equal(sfx.isEnabled(), false);
+    assert.equal(window.localStorage.getItem('orbitar_ui_sfx_enabled'), '0');
+    sfx.setEnabled(true);
+  });
+
+  it('definește cursoare SVG personalizate pentru interfața Orbitar (default, pointer, grab, grabbing)', () => {
+    const cssPath = path.resolve(process.cwd(), 'src/style.css');
+    const css = fs.readFileSync(cssPath, 'utf8');
+    assert.ok(css.includes('--cursor-orbitar-default:'));
+    assert.ok(css.includes('--cursor-orbitar-pointer:'));
+    assert.ok(css.includes('--cursor-orbitar-grab:'));
+    assert.ok(css.includes('--cursor-orbitar-grabbing:'));
   });
 });
 

@@ -2,6 +2,7 @@
 import { CelestialBodyInstance, OrbitalEngine } from '../core/OrbitalEngine';
 import { PlanetMaterialFactory } from '../core/PlanetMaterialFactory';
 import { SpeechManager } from '../audio/SpeechManager';
+import { UiSoundEngine } from '../audio/UiSoundEngine';
 import { AgeTier } from '../types/celestial';
 import { OrbitarLab } from './OrbitarLab';
 
@@ -226,7 +227,11 @@ export class StudyDrawer {
 
     btnClose?.addEventListener('click', () => {
       this.stopSpeech();
+      const wasCollapsed = drawerEl?.classList.contains('is-collapsed') ?? false;
       drawerEl?.classList.add('is-collapsed');
+      if (!wasCollapsed) {
+        UiSoundEngine.getInstance().playDrawerClose();
+      }
     });
 
     btnResetCam?.addEventListener('click', () => {
@@ -336,12 +341,19 @@ export class StudyDrawer {
   }
 
   private renderBody(body: CelestialBodyInstance, openDrawer: boolean): void {
+    const prevBodyId = this.currentBody?.data.id ?? null;
     this.currentBody = body;
     const d = body.data;
 
     const drawerEl = document.getElementById('hud-study-drawer');
     if (openDrawer && drawerEl) {
+      const wasCollapsed = drawerEl.classList.contains('is-collapsed');
       drawerEl.classList.remove('is-collapsed');
+      if (wasCollapsed) {
+        UiSoundEngine.getInstance().playDrawerOpen();
+      } else if (prevBodyId && prevBodyId !== d.id) {
+        UiSoundEngine.getInstance().playSelectBody();
+      }
     }
 
     const nameEl = document.getElementById('hud-target-name');
@@ -494,6 +506,7 @@ export class StudyDrawer {
       btn.textContent = optText;
       btn.addEventListener('click', () => {
         const isCorrect = idx === d.cadet.quiz.correctIndex;
+        UiSoundEngine.getInstance().playQuizFeedback(isCorrect);
         btn.classList.add(isCorrect ? 'is-correct' : 'is-wrong');
         feedbackEl.textContent = isCorrect
           ? `✅ Bravo, Cadet! ${d.cadet.quiz.explanation}`

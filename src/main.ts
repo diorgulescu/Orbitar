@@ -7,6 +7,7 @@ import { SurfaceMarkers } from './core/SurfaceMarkers';
 import { QualityManager } from './core/QualityManager';
 import { PlanetMaterialFactory } from './core/PlanetMaterialFactory';
 import { SpaceAmbientEngine } from './audio/SpaceAmbientEngine';
+import { UiSoundEngine } from './audio/UiSoundEngine';
 import { HeaderHud, LayerFilter, matchesLayerFilter } from './ui/HeaderHud';
 import { StudyDrawer } from './ui/StudyDrawer';
 import { BottomDock } from './ui/BottomDock';
@@ -26,6 +27,7 @@ interface OrbitarGlobalDebug {
   scaleManager: ScaleManager;
   qualityManager: QualityManager;
   ambientEngine: SpaceAmbientEngine;
+  uiSoundEngine: UiSoundEngine;
   orbitalEngine: OrbitalEngine;
   cameraController: CameraController;
   cosmicNavigator: CosmicScaleNavigator;
@@ -72,6 +74,8 @@ async function bootstrapOrbitar(): Promise<void> {
   const sceneManager = new SceneManager(canvasContainer);
   sceneManager.applyQualityProfile(qualityManager.getMode());
   const ambientEngine = SpaceAmbientEngine.getInstance();
+  const uiSoundEngine = UiSoundEngine.getInstance();
+  uiSoundEngine.installGlobalUiListeners(document);
   const scaleManager = new ScaleManager('didactic');
   const orbitalEngine = new OrbitalEngine(sceneManager.scene, scaleManager, new Date());
   const cameraController = new CameraController(
@@ -419,6 +423,7 @@ async function bootstrapOrbitar(): Promise<void> {
     scaleManager,
     qualityManager,
     ambientEngine,
+    uiSoundEngine,
     orbitalEngine,
     cameraController,
     cosmicNavigator,
