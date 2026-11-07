@@ -698,6 +698,51 @@ a:hover {
   border-radius: 4px;
 }
 
+/* Caseta dedicată Cărții PDF: Enciclopedia Cosmică Ilustrată */
+.book-download-banner {
+  background: linear-gradient(145deg, rgba(18, 28, 58, 0.9) 0%, rgba(11, 18, 40, 0.95) 100%);
+  border: 1px solid var(--border-amber);
+  border-radius: 22px;
+  padding: 28px;
+  margin-bottom: 32px;
+  display: grid;
+  grid-template-columns: 1.55fr 1fr;
+  align-items: center;
+  gap: 24px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+}
+
+.book-banner-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.book-icon-badge {
+  background: rgba(255, 183, 3, 0.16);
+  border-color: var(--border-amber);
+}
+
+.book-banner-title {
+  font-size: 1.32rem;
+  font-weight: 800;
+  color: var(--text-main);
+  line-height: 1.25;
+}
+
+.book-banner-desc {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.65;
+}
+
+.book-banner-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 /* Caseta Acordeon Ghid Profesori & Părinți */
 .teacher-guide-box {
   background: linear-gradient(160deg, rgba(13, 23, 50, 0.86) 0%, rgba(9, 15, 34, 0.92) 100%);
@@ -831,6 +876,10 @@ a:hover {
 /* RESPONSIVE DESIGN (Mobil & Tabletă) */
 @media (max-width: 900px) {
   .os-download-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .book-download-banner {
     grid-template-columns: 1fr;
   }
 

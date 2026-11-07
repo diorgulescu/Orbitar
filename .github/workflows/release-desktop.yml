@@ -114,6 +114,10 @@ jobs:
             - **🍎 macOS (MacBook / iMac — Apple Silicon & Intel Universal):** Descarcă imaginea **`.dmg`**. *(Sfat: la prima deschidere, fă Click-Dreapta pe aplicație -> **Open / Deschide**).*
             - **🐧 Linux (Ubuntu / Mint / Debian / Fedora):** Descarcă pachetul **`.deb`**, **`.rpm`** sau varianta portabilă **`.AppImage`**.
 
+            ### 📖 Cartea Didactică „Orbitar — Enciclopedia Cosmică Ilustrată” (PDF & Surse LaTeX):
+            - **📕 `orbitar-carte.pdf` (176 pagini A4, GPLv3):** Enciclopedia ilustrată completă cu toate cele 66 de corpuri cerești, planete și sateliții lor naturali, sonde spațiale, exoplanete, nebuloase și galaxii, gata de citit sau tipărit (*Print-on-Demand*).
+            - **📦 `orbitar-carte-surse-latex.zip`:** Arhiva completă cu fișierele sursă LaTeX (`.tex`), scripturile de generare și ilustrațiile, pentru reconstrucția sau adaptarea liberă a cărții.
+
             ### 👩‍🏫 Sfaturi rapide pentru sala de clasă:
             - Apasă tasta **`F11`** (sau butonul **`⛶ F11`** din bara de sus) pentru proiecție pe tot ecranul la videoproiector sau tablă interactivă.
             - Alege orizontul cosmic din bara de sus (**`☀️ Sistemul Solar`**, **`✨ Stele și exoplanete`** sau **`🌀 Calea Lactee și galaxii`**) ori urcă la manșă în **`🚀 Mod Pilot`** (tasta **`P`**).
@@ -122,3 +126,28 @@ jobs:
           releaseDraft: false
           prerelease: false
           args: ${{ matrix.args }}
+
+      - name: Package and Upload Book PDF & LaTeX Sources Archive to GitHub Release
+        if: matrix.platform == 'ubuntu-22.04'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG_NAME: ${{ steps.sync_ver.outputs.tag }}
+        run: |
+          zip -r -q orbitar-carte-surse-latex.zip \
+            carte/orbitar-carte.tex \
+            carte/capitole \
+            carte/imagini \
+            carte/genereaza-capitole.mjs \
+            carte/genereaza-globuri.mjs \
+            carte/build.sh \
+            carte/Makefile \
+            carte/README.md \
+            carte/LICENSE \
+            public/data \
+            public/textures/hd \
+            public/textures/nasa
+          gh release upload "$TAG_NAME" \
+            carte/orbitar-carte.pdf \
+            orbitar-carte-surse-latex.zip \
+            --clobber

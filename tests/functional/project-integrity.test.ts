@@ -317,5 +317,22 @@ describe('Integritatea Proiectului, Resurse NASA/HD și Conformitate Licență G
         `Lipsește capitolul LaTeX carte/capitole/${ch}`
       );
     }
+
+    const landingHtml = fs.readFileSync(path.resolve(process.cwd(), 'landing/index.html'), 'utf8');
+    assert.ok(
+      landingHtml.includes('Enciclopedia Cosmică Ilustrată') &&
+        landingHtml.includes('https://github.com/diorgulescu/Orbitar/raw/main/carte/orbitar-carte.pdf'),
+      'Landing page-ul principal (landing/index.html) trebuie să prezinte cartea și să ofere link direct către PDF-ul de pe GitHub'
+    );
+
+    const releaseYml = fs.readFileSync(
+      path.resolve(process.cwd(), '.github/workflows/release-desktop.yml'),
+      'utf8'
+    );
+    assert.ok(
+      releaseYml.includes('orbitar-carte.pdf') &&
+        releaseYml.includes('orbitar-carte-surse-latex.zip'),
+      'Workflow-ul de release (.github/workflows/release-desktop.yml) trebuie să atașeze PDF-ul cărții și arhiva cu sursele LaTeX ca artefacte de release'
+    );
   });
 });
