@@ -3,7 +3,7 @@
 [![Licență: GPL v3](https://img.shields.io/badge/Licen%C8%9B%C4%83-GPLv3-00f0ff.svg)](./LICENSE)
 [![Limba: Română](https://img.shields.io/badge/Limba-Rom%C3%A2n%C4%83%20(6--12%20ani)-ffb703.svg)](#)
 [![100% Offline PWA & Desktop](https://img.shields.io/badge/PWA%20%26%20Desktop-100%25%20Offline%20%26%20Zero%20Telemetrie-22c55e.svg)](#)
-[![Teste Automate CI](https://img.shields.io/badge/Teste%20Automate-48%20Unit%20%26%20Functional%20(GitHub%20Actions)-00f0ff.svg)](./.github/workflows/ci-tests.yml) [![Release Orbitar Desktop (Windows, macOS, Linux)](https://github.com/diorgulescu/Orbitar/actions/workflows/release-desktop.yml/badge.svg)](https://github.com/diorgulescu/Orbitar/actions/workflows/release-desktop.yml)
+[![Teste Automate CI](https://img.shields.io/badge/Teste%20Automate-55%20Unit%20%26%20Functional%20(GitHub%20Actions)-00f0ff.svg)](./.github/workflows/ci-tests.yml) [![Release Orbitar Desktop (Windows, macOS, Linux)](https://github.com/diorgulescu/Orbitar/actions/workflows/release-desktop.yml/badge.svg)](https://github.com/diorgulescu/Orbitar/actions/workflows/release-desktop.yml)
 
 **Orbitar** este un planetariu didactic interactiv 3D în limba română, conceput special pentru copiii cu vârste între **6 și 12 ani**, pentru orele de științe de la școală (la videoproiector sau tablă interactivă) și pentru explorare acasă pe tabletă, laptop sau PC.
 
@@ -81,6 +81,12 @@ Proiectul este **100% Open-Source**, licențiat sub **GNU General Public License
      - *Șablonul C („Jurnal de Misiune — Tabelul Comparativ al Planetelor”)*: sinteză cu toate planetele pe o singură pagină + mini-harta de colorat.
      - *Șablonul D („Diplomă de Explorator / Cadet Spațial Orbitar — A4 Landscape”)*: diplomă oficială de Academie Spațială cu bordură decorativă în line-art, numele copilului (sau linie punctată pentru completare cu stiloul), insignele cucerite în Jurnalul de Bord și ștampila oficială *„Ad Astra — Prin Știință către Stele”*.
    - **Export local:** descărcare directă în format `.svg` sau `.png` de înaltă rezoluție.
+
+8. **Cartea Didactică „📖 Orbitar — Enciclopedia Cosmică Ilustrată” (`carte/orbitar-carte.pdf`, LaTeX & PDF sub GPLv3):**
+   - În directorul [`carte/`](./carte/) se află ediția enciclopedică completă a proiectului (**176 de pagini A4**, redactată în **LaTeX** și exportată în [`carte/orbitar-carte.pdf`](./carte/orbitar-carte.pdf)), calibrată tipografic inclusiv pentru servicii *Print-on-Demand* (multiplu de 4 pagini, cu Coperta I, paginile de gardă interioare, caseta tehnică, pagina de titlu, colofonul tipografic și Coperta a IV-a).
+   - Prezintă toate cele **66 de corpuri cerești, sateliți naturali, planete pitice, asteroizi, misiuni spațiale (stații, telescoape, sonde, rovere), stele, exoplanete, nebuloase, găuri negre și galaxii** din **Orbitar**, cu sateliții naturali integrați direct ca subcapitole în cadrul planetei lor gazdă și cu fiecare corp ceresc ilustrat atât prin portretul său sferic 3D, cât și prin planiglobul științific desfășurat sau fotografia oficială NASA / ESA / JWST / Hubble / EHT.
+   - Fiecare obiect cosmic este descris într-un stil enciclopedic narativ fluent (îmbinând explicațiile astrofizice riguroase cu analogiile vizuale), însoțit de o casetă cu repere esențiale și durate de călătorie, structura internă pe straturi sau instrumentele de la bord, istoricul explorării, diagrame vectoriale TikZ, tabelele **Laboratorului Orbitar**, astronavele românești (*Vlaicu-1, Coandă-X, Luceafărul*), cele 66 de întrebări grilă cu barem complet, glosarul astronomic și Jurnalul Astronomic al Cititorului.
+   - Poate fi reconstruită oricând prin comanda `npm run build:book` (sau `./carte/build.sh`); consultați [`carte/README.md`](./carte/README.md) pentru detalii.
 
 ---
 
@@ -177,11 +183,11 @@ Aplicația va porni la adresa `http://localhost:5173/` (sau `http://127.0.0.1:51
 
 ### 3. Rularea suitei de teste automate (Unitare & Funcționale)
 ```bash
-npm test            # 48 de teste în 14 suite (node:test + DOM shim, cross-platform)
+npm test            # 55 de teste în 15 suite (node:test + DOM shim, cross-platform)
 npm run lint        # Lint Biome (correctness/suspicious/security/performance) pe src, tests, scripts, public
 npm run test:smoke  # Smoke test în browser real (Chromium headless via playwright-core, după `npm run build`)
 ```
-Suita execută **48 de teste automate grupate în 14 suite** (`tests/unit/` și `tests/functional/` prin runner-ul cross-platform `scripts/run-tests.mjs`), rulată automat și în **GitHub Actions** (`.github/workflows/ci-tests.yml`, `deploy.yml` și `release-desktop.yml`), împreună cu lint-ul Biome, build-ul de producție și smoke test-ul în browser:
+Suita execută **55 de teste automate grupate în 15 suite** (`tests/unit/` și `tests/functional/` prin runner-ul cross-platform `scripts/run-tests.mjs`), rulată automat și în **GitHub Actions** (`.github/workflows/ci-tests.yml`, `deploy.yml` și `release-desktop.yml`), împreună cu lint-ul Biome, build-ul de producție și smoke test-ul în browser:
 - **`ScaleManager` & `QualityManager`:** transformări de scară Didactică/Reală, detecție hardware HD/Eco și Watchdog FPS;
 - **`OrbitalEngine`, `CosmicScaleNavigator` & `ISSTracker`:** efemeride 3D pentru cele 66 de corpuri, propagare SGP4 (`satellite.js`), ancorarea roverelor marțiene pe suprafața rotitoare a lui Marte, orbita L2 pentru JWST/Euclid, culoare orbitale disjuncte în Scara Didactică, filtrele pe categorii și tranziția 3D între cele 3 orizonturi cosmice (*Sistemul Solar, Stele și exoplanete, Calea Lactee și galaxii*);
 - **`PlanetMaterialFactory` & `ProceduralModels`:** suport Logarithmic Depth Buffer în shaderele GLSL, Radarul Magellan pe Venus, modelele PBR HD (JWST cu 18 segmente hexagonale, ISS, Hubble, Voyager, galaxii spirale, găuri negre și nebuloase) și centurile `THREE.InstancedMesh`;
@@ -190,7 +196,7 @@ Suita execută **48 de teste automate grupate în 14 suite** (`tests/unit/` și 
 - **`SpaceAmbientEngine`, `ColoringSvgGenerator` & `DiplomaGenerator`:** sintetizatorul Web Audio API, planșele SVG alb-negru A4 (inclusiv pentru noile luni, exoplanete, găuri negre și galaxii) și diplomele personalizate;
 - **`LabelProjector`:** proiecția optimizată a etichetelor 2D (doar `translate3d`, fără layout per frame; scrieri DOM doar la schimbare; vizibilitatea pe orizont centralizată);
 - **`SurfaceMarkers`, `CameraController`, `StudyDrawer`, `OrbitarLab`, `HeaderHud`, `BottomDock`, `LightSpeedRuler`, `OrbitarMissions`, `PrintManager`, `LicenseModal` (`UpdateChecker`) & `OnboardingTutorial`:** teste funcționale de integrare UI/DOM/3D, verificarea actualizărilor pe GitHub Releases și tutorialul interactiv la prima pornire;
-- **Integritatea proiectului, Tauri v2 & Conformitate GPLv3:** verificarea antetului `SPDX-License-Identifier: GPL-3.0-or-later` pe toate fișierele sursă, validitatea schemei `src-tauri/tauri.conf.json`, a bazelor de date JSON, prezența celor **24 de fotografii oficiale NASA / ESA / JWST / Hubble / EHT** (`public/textures/nasa/`), a celor **39 de hărți științifice 2K HD** (`public/textures/hd/`) și a celor **132 de fișiere audio neurale** (`public/audio/tts/`).
+- **Integritatea proiectului, Tauri v2, Cartea LaTeX/PDF & Conformitate GPLv3:** verificarea antetului `SPDX-License-Identifier: GPL-3.0-or-later` pe toate fișierele sursă, validitatea schemei `src-tauri/tauri.conf.json`, a bazelor de date JSON, prezența celor **24 de fotografii oficiale NASA / ESA / JWST / Hubble / EHT** (`public/textures/nasa/`), a celor **39 de hărți științifice 2K HD** (`public/textures/hd/`), a celor **132 de fișiere audio neurale** (`public/audio/tts/`) și a surselor LaTeX + PDF-ului compilat din `carte/` (`carte/orbitar-carte.pdf`).
 
 ### 4. Compilarea versiunii de producție (`orbitar.ro` & `planetariu.orbitar.ro`)
 ```bash
@@ -219,6 +225,12 @@ La crearea unui tag de versiune (ex. `v1.0.0`), workflow-ul GitHub Actions `.git
 npm run fetch:hd-textures   # Descarcă/regenerează cele 39 de hărți planetare, ale lunilor și stelare 2K în public/textures/hd/
 npm run fetch:nasa-media    # Descarcă cele 24 de fotografii oficiale NASA / ESA / JWST / Hubble / EHT în public/textures/nasa/
 npm run generate:tts        # Generează cele 132 de fișiere audio neurale în limba română în public/audio/tts/
+```
+
+### 7. Reconstruirea cărții „Orbitar — Enciclopedia Cosmică Ilustrată” (`carte/orbitar-carte.pdf`)
+```bash
+npm run generate:book       # Regenerează sursele LaTeX (carte/orbitar-carte.tex și carte/capitole/*.tex) din JSON-urile din public/data/
+npm run build:book          # Regenerează sursele LaTeX, imaginile 3D sferice și compilează carte/orbitar-carte.pdf (necesită pdflatex)
 ```
 
 ---

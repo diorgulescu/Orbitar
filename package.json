@@ -35,7 +35,8 @@
     "fetch:textures": "bash scripts/fetch-textures.sh",
     "fetch:hd-textures": "bash scripts/fetch-hd-textures.sh",
     "fetch:nasa-media": "bash scripts/fetch-nasa-media.sh",
-    "generate:tts": "node scripts/generate-tts-ro.mjs"
+    "generate:tts": "node scripts/generate-tts-ro.mjs",
+    "build:book": "bash carte/build.sh"
   },
   "dependencies": {
     "astronomy-engine": "^2.1.19",

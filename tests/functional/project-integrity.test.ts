@@ -25,6 +25,7 @@ describe('Integritatea Proiectului, Resurse NASA/HD și Conformitate Licență G
       ...collectFilesRecursively(path.join(root, 'src'), ['.ts', '.css']),
       ...collectFilesRecursively(path.join(root, 'tests'), ['.ts', '.mjs']),
       ...collectFilesRecursively(path.join(root, 'scripts'), ['.sh', '.mjs']),
+      ...collectFilesRecursively(path.join(root, 'carte'), ['.tex', '.sh', '.mjs']),
     ];
 
     assert.ok(files.length >= 30);
@@ -243,5 +244,78 @@ describe('Integritatea Proiectului, Resurse NASA/HD și Conformitate Licență G
         bumpScript.includes('git tag -a'),
       'scripts/bump-version.mjs trebuie să suporte incrementarea versiunii și crearea tag-urilor Git'
     );
+  });
+
+  it('directorul carte/ conține toate fișierele sursă LaTeX, capitolele, README.md, LICENSE și cartea compilată orbitar-carte.pdf sub GPLv3', () => {
+    const carteDir = path.resolve(process.cwd(), 'carte');
+    assert.ok(fs.existsSync(path.join(carteDir, 'orbitar-carte.tex')), 'Lipsește carte/orbitar-carte.tex');
+    assert.ok(fs.existsSync(path.join(carteDir, 'orbitar-carte.pdf')), 'Lipsește carte/orbitar-carte.pdf');
+    assert.ok(fs.existsSync(path.join(carteDir, 'README.md')), 'Lipsește carte/README.md');
+    assert.ok(fs.existsSync(path.join(carteDir, 'LICENSE')), 'Lipsește carte/LICENSE');
+    assert.ok(fs.existsSync(path.join(carteDir, 'build.sh')), 'Lipsește carte/build.sh');
+    assert.ok(fs.existsSync(path.join(carteDir, 'Makefile')), 'Lipsește carte/Makefile');
+    assert.ok(fs.existsSync(path.join(carteDir, 'genereaza-capitole.mjs')), 'Lipsește carte/genereaza-capitole.mjs');
+    assert.ok(fs.existsSync(path.join(carteDir, 'genereaza-globuri.mjs')), 'Lipsește carte/genereaza-globuri.mjs');
+    assert.ok(
+      fs.existsSync(path.join(carteDir, 'imagini/globuri/saturn.jpg')) &&
+        fs.existsSync(path.join(carteDir, 'imagini/globuri/earth.jpg')),
+      'Lipsesc imaginile 3D cu formă de planetă din carte/imagini/globuri/'
+    );
+
+    const mainTex = fs.readFileSync(path.join(carteDir, 'orbitar-carte.tex'), 'utf8');
+    const titlePageMatch = mainTex.match(/\\begin\{titlepage\}([\s\S]*?)\\end\{titlepage\}/);
+    assert.ok(
+      titlePageMatch && !titlePageMatch[1].includes('Dragoș Iorgulescu'),
+      'Coperta cărții (titlepage) nu trebuie să afișeze numele personal ca autor al textelor agregate cu AI'
+    );
+    assert.ok(
+      titlePageMatch &&
+        titlePageMatch[1].includes('Enciclopedia Cosmică Ilustrată') &&
+        !titlePageMatch[1].includes('66 de Corpuri Cerești, Misiuni Spațiale'),
+      'Coperta I trebuie să păstreze doar subtitlul „Enciclopedia Cosmică Ilustrată” în caseta neagră, fără caseta aglomerată cu detalii'
+    );
+    assert.ok(
+      mainTex.includes('Pagina de titlu interioară completă') &&
+        mainTex.includes('COLOFON ȘI NOTĂ TIPOGRAFICĂ') &&
+        mainTex.includes('COPERTA IV (COPERTA-SPATE'),
+      'Cartea trebuie să includă paginile intermediare de interior/final și coperta-spate (Coperta IV) pentru tipar Print-on-Demand'
+    );
+    assert.ok(
+      mainTex.includes('Contribuitori proiect principal Orbitar:') &&
+        mainTex.includes('Dragoș Iorgulescu'),
+      'Caseta tehnică trebuie să menționeze lista de contribuitori pentru proiectul principal Orbitar'
+    );
+
+    const cap01Tex = fs.readFileSync(
+      path.join(carteDir, 'capitole/01-planetele-sistemului-solar.tex'),
+      'utf8'
+    );
+    assert.ok(
+      cap01Tex.includes('imagini/globuri/earth.jpg') &&
+        cap01Tex.includes('Planiglob desfășurat') &&
+        cap01Tex.includes('\\label{sec:body-moon}') &&
+        cap01Tex.includes('\\label{sec:body-titan}'),
+      'Capitolul 1 trebuie să includă atât vederea 3D a planetei, cât și planiglobul desfășurat, plus lunile asociate direct cu planetele lor'
+    );
+
+    const pdfStat = fs.statSync(path.join(carteDir, 'orbitar-carte.pdf'));
+    assert.ok(pdfStat.size > 1_000_000, 'carte/orbitar-carte.pdf trebuie să fie un PDF complet compilat (> 1 MB)');
+
+    const expectedChapters = [
+      '00-introducere.tex',
+      '01-planetele-sistemului-solar.tex',
+      '02-corpuri-ceresti-sistem-solar.tex',
+      '03-misiuni-spatiale.tex',
+      '04-stele-si-exoplanete.tex',
+      '05-nebuloase-si-galaxii.tex',
+      '06-laborator-nave-si-activitati.tex',
+      '07-barem-quiz-si-glosar.tex',
+    ];
+    for (const ch of expectedChapters) {
+      assert.ok(
+        fs.existsSync(path.join(carteDir, 'capitole', ch)),
+        `Lipsește capitolul LaTeX carte/capitole/${ch}`
+      );
+    }
   });
 });

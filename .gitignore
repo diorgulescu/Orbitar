@@ -19,3 +19,15 @@ pnpm-debug.log*
 .DS_Store
 .vscode/
 .idea/
+
+# LaTeX build artifacts in carte/
+carte/*.aux
+carte/*.log
+carte/*.out
+carte/*.toc
+carte/*.lof
+carte/*.lot
+carte/*.fls
+carte/*.fdb_latexmk
+carte/*.synctex.gz
+carte/capitole/*.aux

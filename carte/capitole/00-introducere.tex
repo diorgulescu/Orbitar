@@ -1,0 +1,66 @@
+% SPDX-License-Identifier: GPL-3.0-or-later
+\chapter{Introducere în Universul Orbitar}
+\label{chap:introducere}
+
+\textbf{Orbitar} este un planetariu didactic interactiv 3D în limba română, conceput special pentru copiii cu vârste între \textbf{6 și 12 ani}, pentru orele de științe de la școală (la videoproiector sau tablă interactivă) și pentru explorarea cosmosului acasă. Această carte reunește, într-o formă enciclopedică ilustrată și tipăribilă, toate informațiile științifice, explicațiile pe înțelesul copiilor, analogiile vizuale, curiozitățile, istoricele misiunilor spațiale, laboratoarele interactive și întrebările de verificare din aplicația \textbf{Orbitar}.
+
+\section{Cum este organizată această carte}
+
+Fiecare dintre cele \textbf{66 de corpuri cerești, sateliți naturali, planete pitice, asteroizi, misiuni spațiale, stele, exoplanete, nebuloase și galaxii} din \textbf{Orbitar} este prezentat într-o formă enciclopedică unitară, prietenoasă dar riguroasă științific:
+
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+  \item \textbf{Ilustrații astronomice (glob 3D și planiglob desfășurat / fotografie oficială):} pentru toate corpurile din Sistemul Solar sunt afișate alături atât vederea tridimensională a corpului ceresc, cât și harta sa științifică desfășurată, iar pentru sonde, rovere, exoplanete, nebuloase și galaxii sunt incluse fotografiile oficiale NASA / ESA / JWST / Hubble / EHT.
+  \item \textbf{Caseta cu repere esențiale:} o sinteză structurată sub formă de listă care reunește clasificarea, distanța de referință, raza, masa raportată la Pământ ($M_\oplus$), gravitația de suprafață ($g_\oplus$), perioada orbitală, rotația, temperatura medie, elementele kepleriene, durata călătoriei de pe Pământ (cu lumina, racheta, avionul și mașina) și analogia intuitivă de scară.
+  \item \textbf{Descriere amplă în proză:} text narativ structurat pe trei direcții complementare (\emph{prezentarea generală și profilul astrofizic}, \emph{alcătuirea fizică și structura internă pe straturi} ori \emph{arhitectura tehnică și instrumentele științifice de la bord} în cazul sondelor, telescoapelor și roverelor, respectiv \emph{observațiile astronomice și istoricul explorării}), urmat de o întrebare grilă de verificare.
+\end{itemize}
+
+\section{Cele 3 Orizonturi Cosmice din Orbitar}
+
+Universul este atât de vast încât nicio unitate de măsură unică nu poate descrie comod atât distanța de la Pământ la Stația Spațială Internațională (aproximativ $420\text{ de kilometri}$), cât și distanța până la Galaxia Sombrero ($29{,}3\text{ milioane de ani-lumină}$). De aceea, \textbf{Orbitar} (prin modulul \texttt{CosmicScaleNavigator}) organizează explorarea spațiului pe \textbf{3 Orizonturi Cosmice}:
+
+\begin{center}
+\begin{tikzpicture}[
+  box/.style={rectangle, rounded corners=4pt, draw=orbitarDeepBlue, line width=0.9pt, fill=orbitarCadetBg, text width=4.4cm, minimum height=3.1cm, align=center, font=\small},
+  arrow/.style={-{Stealth[length=3mm, width=2mm]}, line width=1.2pt, color=orbitarAmber}
+]
+  \node[box, fill=orbitarJuniorBg, draw=orbitarAmber] (h1) at (0,0) {
+    \textbf{\color{orbitarDeepBlue}Orizontul 1}\\[2pt]
+    \textbf{Sistemul Solar}\\[4pt]
+    {\footnotesize 46 de corpuri \& misiuni:\\Soarele, 8 planete, 15 luni,\\5 planete pitice, 5 asteroizi,\\2 centuri \& 12 misiuni}\\[3pt]
+    \textbf{\color{orbitarAmber}Scara: km \& UA}
+  };
+
+  \node[box, fill=orbitarCadetBg, draw=orbitarCyanDark] (h2) at (5.4,0) {
+    \textbf{\color{orbitarDeepBlue}Orizontul 2}\\[2pt]
+    \textbf{Stele \& Exoplanete}\\[4pt]
+    {\footnotesize 7 sisteme în vecinătatea\\stelară: Norul lui Oort,\\Proxima b, Sirius A\&B,\\TRAPPIST-1, 55 Cancri e,\\Pleiadele, Betelgeuse}\\[3pt]
+    \textbf{\color{orbitarCyanDark}Scara: 1 -- 640 a.l.}
+  };
+
+  \node[box, fill=orbitarQuizBg, draw=orbitarViolet] (h3) at (10.8,0) {
+    \textbf{\color{orbitarDeepBlue}Orizontul 3}\\[2pt]
+    \textbf{Calea Lactee \& Galaxii}\\[4pt]
+    {\footnotesize 13 obiecte galactice \&\\extragalactice: 6 nebuloase,\\Sagittarius A*, Calea Lactee\\și 5 galaxii exterioare}\\[3pt]
+    \textbf{\color{orbitarViolet}Scara: mii -- mil. a.l.}
+  };
+
+  \draw[arrow] (h1.east) -- (h2.west);
+  \draw[arrow] (h2.east) -- (h3.west);
+\end{tikzpicture}
+\end{center}
+
+\section{Unitățile de măsură ale astronomilor și scara didactică}
+
+Pentru a înțelege cifrele din fișele tehnice ale cărții, iată reperele fundamentale folosite în \textbf{Orbitar}:
+
+\begin{tcolorbox}[orbitardata, title={\textbf{Repere Fundamentale de Distanță, Timp și Gravitație în Orbitar}}]
+\begin{itemize}[leftmargin=1.4em, itemsep=3pt]
+  \item \textbf{Unitatea Astronomică ($1\text{ UA}$):} reprezintă distanța medie dintre Pământ și Soare, egală exact cu $149.597.870{,}7$ kilometri (aproximativ $150\text{ de milioane de kilometri}$). Planeta Mercur se află la $0{,}387\text{ UA}$, Pământul la $1{,}000\text{ UA}$, Jupiter la $5{,}204\text{ UA}$, Neptun la $30{,}07\text{ UA}$, iar planeta pitică Eris la $67{,}78\text{ UA}$.
+  \item \textbf{Viteza Luminii ($1c$):} în vid, lumina și undele radio călătoresc cu $299.792{,}458$ kilometri pe secundă (aproximativ $300.000$ de kilometri pe secundă sau $1.079.252.848{,}8$ kilometri pe oră). O rază de lumină face $1{,}3\text{ secunde}$ de la Lună la Pământ și $8\text{ minute și } 20\text{ de secunde}$ de la Soare la Pământ.
+  \item \textbf{Anul-Lumină (a.l.):} este o unitate de \textbf{distanță} (nu de timp!), egală cu drumul parcurs de o rază de lumină într-un an pământesc întreg: aproximativ $9.460\text{ de miliarde de kilometri}$ ($63.241\text{ UA}$).
+  \item \textbf{Masa și Gravitația raportate la Pământ ($M_\oplus$ și $g_\oplus$):} Pământul are raza medie de $6.371$ de kilometri, accelerația gravitațională $1{,}00\,g_\oplus$ ($9{,}81\text{ m/s}^2$) și masa $1{,}00\,M_\oplus$ ($5{,}97 \times 10^{24}$ kilograme). Dacă o planetă are gravitația $0{,}38 \times g_\oplus$ (cum sunt Mercur și Marte), acolo vei cântări doar $38\%$ din greutatea de pe Pământ și vei putea sări de aproape trei ori mai sus!
+  \item \textbf{Scară Didactică vs. Scară Reală:} în modul \emph{Scară Reală}, proporțiile dintre razele planetelor și distanțele în UA sunt cele fizice exacte (unde planetele par puncte minuscule în imensitatea spațiului). În modul \emph{Scară Didactică}, \textbf{Orbitar} mărește logaritmic corpurile și alocă culoare orbitale disjuncte pentru ca niciun satelit sau inel planetar să nu se intersecteze vizual cu planeta-mamă.
+\end{itemize}
+\end{tcolorbox}
+
+\clearpage

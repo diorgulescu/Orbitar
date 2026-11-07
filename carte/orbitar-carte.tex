@@ -1,0 +1,511 @@
+% SPDX-License-Identifier: GPL-3.0-or-later
+% =============================================================================
+% ORBITAR — ENCICLOPEDIA COSMICĂ ILUSTRATĂ
+% Sistemul Solar, Misiuni Spațiale, Stele, Exoplanete, Nebuloase și Galaxii
+% Carte didactică generată din baza de cunoștințe a planetariului 3D Orbitar
+% Licență: GNU General Public License v3.0 (GPL-3.0-or-later)
+% =============================================================================
+\documentclass[11pt,a4paper,twoside,openany]{book}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[romanian]{babel}
+\usepackage{microtype}
+
+\usepackage[
+  a4paper,
+  top=2.4cm,
+  bottom=2.4cm,
+  inner=2.4cm,
+  outer=2.0cm,
+  headheight=15pt
+]{geometry}
+
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage[most]{tcolorbox}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, calc, decorations.pathmorphing}
+
+\usepackage[
+  colorlinks=true,
+  linkcolor=orbitarDeepBlue,
+  urlcolor=orbitarCyanDark,
+  citecolor=orbitarDeepBlue,
+  pdftitle={Orbitar — Enciclopedia Cosmică Ilustrată},
+  pdfauthor={Proiectul Open-Source Orbitar},
+  pdfsubject={Astronomie didactică: Sistemul Solar, Sonde, Rovere, Exoplanete, Nebuloase și Galaxii},
+  pdfkeywords={Orbitar, Astronomie, Sistemul Solar, Planete, Sonde Spațiale, Exoplanete, Galaxii, GPLv3}
+]{hyperref}
+
+% Definirea paletei cromatice Orbitar (adaptată pentru lizibilitate maximă pe ecran și la tipar)
+\definecolor{orbitarSpaceBg}{HTML}{0B1021}
+\definecolor{orbitarDeepBlue}{HTML}{0F2942}
+\definecolor{orbitarCyan}{HTML}{00F0FF}
+\definecolor{orbitarCyanDark}{HTML}{007799}
+\definecolor{orbitarAmber}{HTML}{D97706}
+\definecolor{amber}{HTML}{FFB703}
+\definecolor{orbitarAmberLight}{HTML}{FEF3C7}
+\definecolor{orbitarJuniorBg}{HTML}{FFFBEB}
+\definecolor{orbitarCadetBg}{HTML}{F0F9FF}
+\definecolor{orbitarDataBg}{HTML}{F8FAFC}
+\definecolor{orbitarQuizBg}{HTML}{F5F3FF}
+\definecolor{orbitarViolet}{HTML}{6D28D9}
+\definecolor{orbitarAccent}{HTML}{1E3A8A}
+\definecolor{orbitarMuted}{HTML}{475569}
+\definecolor{orbitarSuccess}{HTML}{15803D}
+
+% Stiluri tcolorbox pentru casetele didactice
+\tcbset{
+  orbitardata/.style={
+    enhanced,
+    breakable,
+    colback=orbitarDataBg,
+    colframe=orbitarDeepBlue,
+    coltitle=white,
+    fonttitle=\bfseries\small,
+    boxrule=0.8pt,
+    arc=3pt,
+    left=8pt, right=8pt, top=6pt, bottom=6pt
+  },
+  orbitarjunior/.style={
+    enhanced,
+    breakable,
+    colback=orbitarJuniorBg,
+    colframe=orbitarAmber,
+    coltitle=white,
+    fonttitle=\bfseries\small,
+    boxrule=0.9pt,
+    arc=4pt,
+    left=8pt, right=8pt, top=6pt, bottom=6pt
+  },
+  orbitarcadet/.style={
+    enhanced,
+    breakable,
+    colback=orbitarCadetBg,
+    colframe=orbitarCyanDark,
+    coltitle=white,
+    fonttitle=\bfseries\small,
+    boxrule=0.9pt,
+    arc=4pt,
+    left=8pt, right=8pt, top=6pt, bottom=6pt
+  },
+  orbitarquiz/.style={
+    enhanced,
+    breakable,
+    colback=orbitarQuizBg,
+    colframe=orbitarViolet,
+    coltitle=white,
+    fonttitle=\bfseries\small,
+    boxrule=0.8pt,
+    arc=4pt,
+    left=8pt, right=8pt, top=6pt, bottom=6pt
+  },
+  orbitarlightyear/.style={
+    enhanced,
+    breakable,
+    colback=white,
+    colframe=orbitarAccent,
+    coltitle=white,
+    fonttitle=\bfseries\small,
+    boxrule=0.8pt,
+    arc=3pt,
+    left=8pt, right=8pt, top=6pt, bottom=6pt
+  }
+}
+
+% Antet și subsol elegante
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE]{\footnotesize\scshape Orbitar — Enciclopedia Cosmică Ilustrată}
+\fancyhead[RO]{\footnotesize\nouppercase{\leftmark}}
+\fancyfoot[LE,RO]{\footnotesize\textbf{\thepage}}
+\fancyfoot[LO,RE]{\footnotesize\color{orbitarMuted}Licență liberă GNU GPLv3 \quad|\quad \texttt{orbitar.ro}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.2pt}
+
+% Formatarea titlurilor de capitol și secțiune
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries\color{orbitarDeepBlue}}
+  {\filright\normalsize\scshape\color{orbitarCyanDark}Capitolul \thechapter}
+  {6pt}
+  {\titlerule[1.2pt]\vspace{6pt}\filright}
+  [\vspace{4pt}\titlerule]
+
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{orbitarDeepBlue}}
+  {\thesection}{0.8em}{}
+
+\titleformat{\subsection}
+  {\normalfont\large\bfseries\color{orbitarAccent}}
+  {\thesubsection}{0.7em}{}
+
+\setlength{\parskip}{4pt}
+\setlength{\parindent}{0pt}
+
+% Contor și macro pentru alinierea paginilor la multiplu de 4 (tipar Print-on-Demand / Blurb)
+\newcounter{orbitartmp}
+\newcommand{\orbitarPadToModFour}[1]{%
+  \clearpage
+  \loop
+    \setcounter{orbitartmp}{\value{page}}%
+    \divide\value{orbitartmp} by 4\relax
+    \multiply\value{orbitartmp} by 4\relax
+    \setcounter{orbitartmp}{\numexpr\value{page}-\value{orbitartmp}\relax}%
+  \ifnum\value{orbitartmp}=#1\relax
+  \else
+    \thispagestyle{empty}\mbox{}\clearpage
+  \repeat
+}
+
+\begin{document}
+
+% =============================================================================
+% COPERTA I (COPERTA FAȚĂ — PAGINA 1 PDF, RECTO)
+% =============================================================================
+\begin{titlepage}
+\begin{tikzpicture}[remember picture, overlay]
+  % Fundal cosmic închis
+  \fill[orbitarSpaceBg] (current page.south west) rectangle (current page.north east);
+
+  % Inele orbitale decorative în jurul centrului paginii
+  \coordinate (C) at ([yshift=-0.8cm]current page.center);
+  \draw[orbitarCyan!25, line width=0.6pt, dashed] (C) circle (2.0cm);
+  \draw[orbitarCyan!35, line width=0.8pt] (C) circle (3.2cm);
+  \draw[orbitarAmber!40, line width=1.1pt] (C) circle (4.5cm);
+  \draw[orbitarCyan!20, line width=0.6pt, dashed] (C) circle (5.9cm);
+  \draw[white!15, line width=0.4pt] (C) circle (7.3cm);
+
+  % Soarele central
+  \shade[inner color=yellow!90!white, outer color=orange!90!red] (C) circle (1.00cm);
+
+  % Planete simbolice pe orbite
+  \fill[cyan!70!blue] ($(C)+(35:2.0cm)$) circle (0.18cm);
+  \fill[orange!80!red] ($(C)+(145:3.2cm)$) circle (0.22cm);
+  \fill[amber!80!orange] ($(C)+(-30:4.5cm)$) circle (0.42cm);
+  \draw[white!80, line width=1.4pt] ($(C)+(-30:4.5cm)$) ellipse (0.72cm and 0.20cm);
+  \fill[blue!60!cyan] ($(C)+(215:5.9cm)$) circle (0.28cm);
+
+  % Stele pe fundal
+  \foreach \x/\y/\r in {-7/11/1.2, -5/12.5/0.8, 6/11.8/1.4, 7.5/9/1.0, -8/6/1.1, 8/4/0.9, -6/-4/1.3, 7/-5/1.1, -4/-9/0.9, 5/-10/1.2} {
+    \fill[white!85] ($(current page.center)+(\x cm, \y cm)$) circle (\r pt);
+  }
+\end{tikzpicture}
+
+\vspace*{0.6cm}
+\begin{center}
+  {\color{orbitarCyan}\Large\bfseries\scshape Planetariul Didactic Interactiv 3D}\\[0.45cm]
+  {\color{white}\fontsize{40}{46}\selectfont\bfseries ORBITAR}\\[0.55cm]
+  \begin{tcolorbox}[
+    enhanced,
+    width=0.68\textwidth,
+    colback=black!95!orbitarSpaceBg,
+    colframe=orbitarAmber!85!yellow,
+    boxrule=0.9pt,
+    arc=5pt,
+    top=9pt,
+    bottom=9pt,
+    left=12pt,
+    right=12pt
+  ]
+  \centering
+  {\color{amber!90!yellow}\LARGE\bfseries Enciclopedia Cosmică Ilustrată}
+  \end{tcolorbox}
+\end{center}
+
+\vfill
+
+\begin{center}
+  {\color{orbitarCyan!85}\small\scshape Proiect Educațional Open-Source \quad$\bullet$\quad \texttt{orbitar.ro}}
+\end{center}
+\end{titlepage}
+
+% =============================================================================
+% PAGINI INTERMEDIARE DE ÎNCEPUT (FRONT MATTER PENTRU TIPAR / BLURB.COM)
+% =============================================================================
+\makeatletter
+\@mainmatterfalse
+\makeatother
+\pagenumbering{roman}
+\setcounter{page}{2}
+
+% Pagina 2 PDF (ii, Verso): Coperta a II-a / Pagină de gardă preliminară verso
+\thispagestyle{empty}
+\mbox{}
+\clearpage
+
+% Pagina 3 PDF (iii, Recto): Pagina de gardă (Semititlu / Half-Title)
+\thispagestyle{empty}
+\vspace*{6.5cm}
+\begin{center}
+  {\color{orbitarCyanDark}\normalsize\scshape\bfseries Planetariul Didactic Interactiv 3D}\\[0.35cm]
+  {\color{orbitarDeepBlue}\fontsize{30}{36}\selectfont\bfseries ORBITAR}\\[0.35cm]
+  \begin{tikzpicture}
+    \draw[orbitarAmber, line width=1.0pt] (-3.2,0) -- (-0.4,0);
+    \fill[orbitarAmber] (0,0) circle (2.5pt);
+    \draw[orbitarAmber, line width=1.0pt] (0.4,0) -- (3.2,0);
+  \end{tikzpicture}\\[0.3cm]
+  {\color{orbitarMuted}\Large\itshape Enciclopedia Cosmică Ilustrată}
+\end{center}
+\vfill
+\clearpage
+
+% Pagina 4 PDF (iv, Verso): Frontispiciu / Verso pagină de gardă
+\thispagestyle{empty}
+\vspace*{7.5cm}
+\begin{center}
+  \begin{tikzpicture}[scale=0.85]
+    \draw[orbitarCyanDark!35, line width=0.6pt, dashed] (0,0) circle (1.2cm);
+    \draw[orbitarDeepBlue!40, line width=0.8pt] (0,0) circle (2.0cm);
+    \draw[orbitarAmber!60, line width=0.9pt] (0,0) circle (2.8cm);
+    \fill[orbitarAmber] (0,0) circle (0.28cm);
+    \fill[orbitarCyanDark] (35:1.2cm) circle (0.09cm);
+    \fill[orbitarDeepBlue] (150:2.0cm) circle (0.12cm);
+    \fill[orbitarAmber!90!orange] (-40:2.8cm) circle (0.15cm);
+  \end{tikzpicture}\\[0.8cm]
+  {\color{orbitarDeepBlue}\large\itshape „Ad Astra — Prin Știință către Stele!”}\\[0.25cm]
+  {\color{orbitarMuted}\small O călătorie enciclopedică prin cele trei orizonturi ale Universului:\\
+  Sistemul Solar $\bullet$ Stele și Exoplanete $\bullet$ Nebuloase și Galaxii}
+\end{center}
+\vfill
+\clearpage
+
+% Pagina 5 PDF (v, Recto): Pagina de titlu interioară completă (Full Interior Title Page)
+\thispagestyle{empty}
+\vspace*{1.2cm}
+\begin{center}
+  {\color{orbitarCyanDark}\large\bfseries\scshape Planetariul Didactic Interactiv 3D}\\[0.45cm]
+  {\color{orbitarDeepBlue}\fontsize{38}{44}\selectfont\bfseries ORBITAR}\\[0.4cm]
+  {\color{orbitarAmber}\LARGE\bfseries Enciclopedia Cosmică Ilustrată}\\[0.5cm]
+  \begin{tikzpicture}
+    \draw[orbitarDeepBlue, line width=1.2pt] (-5.5,0) -- (5.5,0);
+    \draw[orbitarAmber, line width=0.8pt] (-3.8,-0.12) -- (3.8,-0.12);
+  \end{tikzpicture}\\[0.5cm]
+  {\color{orbitarDeepBlue}\large\bfseries Sistemul Solar $\bullet$ Sateliți Naturali $\bullet$ Planete Pitice și Asteroizi\\[4pt]
+  Misiuni Spațiale, Sonde și Rovere $\bullet$ Stele și Exoplanete $\bullet$ Nebuloase și Galaxii}\\[0.45cm]
+  {\color{orbitarMuted}\normalsize Prezentări enciclopedice detaliate, repere astrofizice esențiale, structură internă,\\
+  istoric al explorării, hărți științifice, Laboratorul Orbitar și 66 de întrebări grilă cu barem}
+\end{center}
+
+\vfill
+
+\begin{center}
+  \begin{tikzpicture}[scale=0.95]
+    \draw[orbitarDeepBlue!25, line width=0.5pt] (0,0) circle (2.4cm);
+    \draw[orbitarCyanDark!45, line width=0.7pt, dashed] (0,0) circle (1.7cm);
+    \draw[orbitarAmber!70, line width=0.9pt] (0,0) circle (1.0cm);
+    \fill[orbitarAmber] (0,0) circle (0.32cm);
+    \fill[orbitarCyanDark] (40:1.0cm) circle (0.10cm);
+    \fill[orbitarDeepBlue] (160:1.7cm) circle (0.14cm);
+    \fill[orbitarAmber!85!red] (-35:2.4cm) circle (0.18cm);
+    \draw[orbitarDeepBlue!70, line width=0.8pt] (-35:2.4cm) ellipse (0.34cm and 0.10cm);
+  \end{tikzpicture}
+\end{center}
+
+\vfill
+
+\begin{center}
+  \begin{tikzpicture}
+    \draw[orbitarDeepBlue!40, line width=0.6pt] (-5.5,0) -- (5.5,0);
+  \end{tikzpicture}\\[0.3cm]
+  {\color{orbitarDeepBlue}\large\bfseries Proiectul Educațional Open-Source Orbitar (Ediția v1.2.9)}\\[4pt]
+  {\color{orbitarMuted}\small Licență liberă GNU General Public License v3.0 (\texttt{GPL-3.0-or-later}) \quad$\bullet$\quad \texttt{https://orbitar.ro}}
+\end{center}
+\vspace*{0.5cm}
+\clearpage
+
+% Pagina 6 PDF (vi, Verso): Caseta tehnică, credite și licența GNU GPLv3
+\thispagestyle{empty}
+\vspace*{0.4cm}
+\begin{tcolorbox}[orbitardata, title={\textbf{Caseta Tehnică a Cărții și Licența Liberă GNU GPLv3}}]
+\textbf{Titlu:} \emph{Orbitar — Enciclopedia Cosmică Ilustrată: Sistemul Solar, Misiuni Spațiale, Exoplanete și Galaxii}\\[4pt]
+\textbf{Baza de cunoștințe și redactare:} Informațiile, explicațiile didactice, analogiile și sintezele din această carte au fost agregate și redactate cu ajutorul inteligenței artificiale (AI) pe baza seturilor de date din aplicația \textbf{Orbitar v1.2.9} (\texttt{public/data/solar-system-ro.json}, \texttt{public/data/missions-ro.json}, \texttt{public/data/deep-space-ro.json}, \texttt{public/data/tle-iss.json} și modulele din \texttt{src/}).\\[4pt]
+\textbf{Contribuitori proiect principal Orbitar:} Dragoș Iorgulescu (\texttt{@diorgulescu}), Google Antigravity (Gemini) \& Mistral Vibe.\\[4pt]
+\textbf{Credite fotografii și hărți științifice:} NASA / JPL-Caltech / ESA / CSA / STScI (Telescoapele Spațiale Hubble, James Webb, Spitzer, GALEX, Euclid) / Event Horizon Telescope (EHT) / Solar Dynamics Observatory (SDO) / Lunar Reconnaissance Orbiter (LRO) / MOLA / MESSENGER / Magellan / Cassini-Huygens / Voyager 1 \& 2 / New Horizons / Dawn / Galileo / Viking / USGS Astrogeology (Public Domain \& CC-BY 4.0), CelestiaContent (GNU GPLv2+) \& Solar System Scope (CC-BY 4.0).\\[6pt]
+\textbf{Licență — GNU General Public License v3.0 (\texttt{GPL-3.0-or-later}):}\\
+Această carte (inclusiv codul sursă \LaTeX{}, scripturile de generare, diagramele vectoriale TikZ și ediția PDF rezultată) este o lucrare educațională liberă: o puteți copia, tipări, distribui în școli sau biblioteci și/sau modifica în conformitate cu termenii \textbf{Licenței Publice Generale GNU (GNU General Public License)} publicate de Free Software Foundation, fie versiunea 3 a Licenței, fie (la alegerea dumneavoastră) orice versiune ulterioară.\\[4pt]
+Această lucrare este distribuită în speranța că va fi utilă elevilor, profesorilor și pasionaților de astronomie, dar \textbf{FĂRĂ NICIO GARANȚIE}, fără chiar garanția implicită de vandabilitate sau potrivire pentru un anumit scop. Consultați fișierul \texttt{LICENSE} din depozitul proiectului sau \url{https://www.gnu.org/licenses/gpl-3.0.html} pentru textul integral al licenței.
+\end{tcolorbox}
+
+\vspace{0.3cm}
+\begin{tcolorbox}[orbitarlightyear, title={\textbf{Specificații Tehnice pentru Tipărire (Print-on-Demand / Blurb.com PDF-to-Book)}}]
+\small
+\textbf{Format și paginare:} A4 ($210 \times 297\text{ mm}$), paginare în oglindă (\texttt{twoside}, margine interioară de legătorie $24\text{ mm}$, margine exterioară $20\text{ mm}$).\\[2pt]
+\textbf{Structură de tipar:} Documentul include Coperta I (față), paginile intermediare de gardă și de titlu la interior, blocul de carte cu capitolele ilustrate, colofonul tipografic, paginile de gardă finale (Coperta a III-a) și Coperta a IV-a (coperta-spate), numărul total de pagini fiind calibrat automat la multiplu de 4.
+\end{tcolorbox}
+\vfill
+\clearpage
+
+% Pagina 7 PDF (vii, Recto): Pagina de dedicație
+\thispagestyle{empty}
+\vspace*{7.0cm}
+\begin{center}
+  {\color{orbitarDeepBlue}\Large\itshape „Ad Astra — Prin Știință către Stele!”}\\[0.5cm]
+  \begin{tikzpicture}
+    \draw[orbitarAmber, line width=0.8pt] (-2.5,0) -- (2.5,0);
+  \end{tikzpicture}\\[0.5cm]
+  \parbox{0.75\textwidth}{\centering\large\color{orbitarMuted}
+  Dedicată tuturor copiilor curioși, elevilor, profesorilor și exploratorilor care privesc cerul înstelat și își pun întrebarea:\\[0.3cm]
+  {\color{orbitarDeepBlue}\bfseries „Ce se află acolo, sus?”}}
+\end{center}
+\vfill
+\clearpage
+
+% Pagina 8 PDF (viii, Verso): Pagină intermediară albă înaintea Cuprinsului
+\thispagestyle{empty}
+\mbox{}
+\clearpage
+
+% Pagina 9 PDF (ix, Recto): Cuprinsul general
+\tableofcontents
+
+% Aliniere la multiplu de 4 pagini în frontmatter înaintea începerii blocului principal (\mainmatter)
+\orbitarPadToModFour{1}
+
+\mainmatter
+\input{capitole/00-introducere}
+\input{capitole/01-planetele-sistemului-solar}
+\input{capitole/02-corpuri-ceresti-sistem-solar}
+\input{capitole/03-misiuni-spatiale}
+\input{capitole/04-stele-si-exoplanete}
+\input{capitole/05-nebuloase-si-galaxii}
+\input{capitole/06-laborator-nave-si-activitati}
+\input{capitole/07-barem-quiz-si-glosar}
+
+% =============================================================================
+% PAGINI INTERMEDIARE DE FINAL ȘI COLOFON (PENTRU TIPAR / BLURB.COM)
+% =============================================================================
+\clearpage
+\thispagestyle{empty}
+\vspace*{0.2cm}
+\begin{center}
+  {\color{orbitarCyanDark}\small\scshape\bfseries Jurnalul Astronomic al Cititorului}\\[0.15cm]
+  {\color{orbitarDeepBlue}\Large\bfseries FIȘĂ DE OBSERVAȚII PE CERUL NOPȚII}\\[0.1cm]
+  {\color{orbitarMuted}\footnotesize Folosește acest tabel pentru a nota propriile tale observații astronomice realizate cu ochiul liber, binoclul, telescopul sau în simulatorul 3D \textbf{Orbitar}.}
+\end{center}
+\vspace{0.15cm}
+
+\begin{tcolorbox}[orbitardata, title={\textbf{Însemnări de teren și jurnal de bord}}]
+\small
+\renewcommand{\arraystretch}{1.85}
+\begin{tabularx}{\textwidth}{@{}p{2.6cm}p{3.6cm}p{3.0cm}X@{}}
+\toprule
+\textbf{Data și ora} & \textbf{Obiectul observat} & \textbf{Instrumentul} & \textbf{Observații (culoare, sateliți, cratere)} \\
+\midrule
+\dotfill & \dotfill & \dotfill & \dotfill \\
+\dotfill & \dotfill & \dotfill & \dotfill \\
+\dotfill & \dotfill & \dotfill & \dotfill \\
+\dotfill & \dotfill & \dotfill & \dotfill \\
+\dotfill & \dotfill & \dotfill & \dotfill \\
+\dotfill & \dotfill & \dotfill & \dotfill \\
+\bottomrule
+\end{tabularx}
+\end{tcolorbox}
+
+\vspace{0.35cm}
+\begin{center}
+  \begin{tikzpicture}
+    \draw[orbitarAmber, line width=1.0pt] (-3.5,0) -- (-0.4,0);
+    \fill[orbitarDeepBlue] (0,0) circle (2.5pt);
+    \draw[orbitarAmber, line width=1.0pt] (0.4,0) -- (3.5,0);
+  \end{tikzpicture}\\[0.25cm]
+  {\color{orbitarDeepBlue}\large\bfseries COLOFON ȘI NOTĂ TIPOGRAFICĂ}
+\end{center}
+\vspace{0.1cm}
+
+\begin{tcolorbox}[orbitarlightyear]
+\footnotesize
+Această ediție a volumului \textbf{Orbitar: Enciclopedia Cosmică Ilustrată (v1.2.9)} a fost generată automat și tehnoredactată computerizat în sistemul tipografic \LaTeX{} (\texttt{pdfLaTeX}), folosind familia de fonturi vectoriale \emph{Latin Modern}, pachetele \texttt{tcolorbox} și \texttt{booktabs}, precum și motorul grafic vectorial \texttt{PGF/TikZ}.\\[4pt]
+\textbf{Reconstrucție din surse și tipărire la cerere (Print-on-Demand / Blurb.com):}\\
+Întregul cod sursă al cărții și al aplicației interactive 3D este disponibil liber în directorul \texttt{carte/} al depozitului oficial. Volumul poate fi recompilat integral prin comanda \texttt{npm run build:book} și este calibrat tipografic (cu pagini de gardă la interior și la final, margini în oglindă și număr total de pagini multiplu de 4) pentru tipărire directă prin servicii de tip \emph{PDF-to-Book} (precum \textbf{Blurb.com}, Lulu sau tipografii digitale educaționale).\\[4pt]
+\textbf{Drepturi de multiplicare pentru școli și biblioteci:}\\
+Sub termenii licenței libere \textbf{GNU General Public License v3.0 (\texttt{GPL-3.0-or-later})}, elevii, profesorii, cluburile de astronomie și bibliotecile au libertatea deplină de a tipări, fotoscana, partaja și utiliza această carte în scop didactic sau personal.
+\end{tcolorbox}
+
+\vfill
+\begin{center}
+  {\color{orbitarMuted}\footnotesize Tipărit sub semnul științei deschise \quad$\bullet$\quad \texttt{https://orbitar.ro}}
+\end{center}
+\clearpage
+
+% Pagină albă de gardă finală (Coperta a III-a / Inside Back Cover) și aliniere automată
+% astfel încât Coperta a IV-a (Coperta-spate) să ocupe ultima pagină (multiplu de 4):
+\orbitarPadToModFour{0}
+
+% =============================================================================
+% COPERTA IV (COPERTA-SPATE — ULTIMA PAGINĂ PDF, VERSO)
+% =============================================================================
+\thispagestyle{empty}
+\begin{tikzpicture}[remember picture, overlay]
+  % Fundal cosmic închis identic cu cel al copertei față
+  \fill[orbitarSpaceBg] (current page.south west) rectangle (current page.north east);
+
+  % Arcuri orbitale subtile în fundal
+  \coordinate (BC) at ([yshift=-1.0cm]current page.center);
+  \draw[orbitarCyan!12, line width=0.5pt, dashed] (BC) circle (3.8cm);
+  \draw[orbitarAmber!16, line width=0.7pt] (BC) circle (5.4cm);
+  \draw[white!8, line width=0.4pt] (BC) circle (7.0cm);
+
+  % Stele discrete pe coperta-spate
+  \foreach \x/\y/\r in {-7/11.5/1.0, 6.5/12/1.2, -8/5/0.9, 7.8/6/1.1, -7.2/-3/1.0, 7.5/-4/0.9, -6/-10/1.1, 5.5/-11/1.0} {
+    \fill[white!80] ($(current page.center)+(\x cm, \y cm)$) circle (\r pt);
+  }
+\end{tikzpicture}
+
+\vspace*{0.8cm}
+\begin{center}
+  {\color{orbitarCyan}\normalsize\bfseries\scshape Planetariul Didactic Interactiv 3D}\\[0.25cm]
+  {\color{white}\fontsize{26}{32}\selectfont\bfseries ORBITAR}\\[0.15cm]
+  {\color{amber!90!yellow}\large\bfseries Enciclopedia Cosmică Ilustrată}
+\end{center}
+
+\vspace{0.5cm}
+\begin{center}
+\begin{tcolorbox}[
+  enhanced,
+  width=0.88\textwidth,
+  colback=black!85!orbitarSpaceBg,
+  colframe=orbitarAmber!80!yellow,
+  boxrule=0.8pt,
+  arc=5pt,
+  coltext=white,
+  top=10pt,
+  bottom=10pt,
+  left=12pt,
+  right=12pt
+]
+\normalsize
+Pornește într-o călătorie științifică și vizuală de la atmosfera incandescentă a Soarelui până la cele mai îndepărtate galaxii observate de Telescopul Spațial James Webb! Născută din baza de cunoștințe a planetariului interactiv 3D \textbf{Orbitar}, această enciclopedie ilustrată aduce Universul mai aproape de tinerii exploratori, elevi, profesori și pasionați de astronomie.\\[8pt]
+\textbf{\color{amber!90!yellow}Ce vei descoperi în paginile acestei cărți:}\\[4pt]
+\begin{itemize}[leftmargin=1.4em, itemsep=3pt, topsep=2pt]
+  \item \textbf{Orizontul 1 (Sistemul Solar):} Soarele, cele 8 planete împreună cu cei 15 sateliți naturali majori, planetele pitice (Pluto, Ceres, Eris, Haumea, Makemake), asteroizii și cometele, ilustrate atât ca globuri 3D, cât și prin planigloburi științifice desfășurate.
+  \item \textbf{Flota Spațială a Omenirii:} 12 misiuni legendare, cuprinzând sonde interplanetare, telescoape spațiale, stații orbitale și rovere marțiene, cu arhitectura lor tehnică explicată pe înțelesul tuturor.
+  \item \textbf{Orizonturile 2 și 3 (Stele, Exoplanete, Nebuloase și Galaxii):} lumi îndepărtate precum \emph{Proxima Centauri b}, sistemul \emph{TRAPPIST-1}, nebuloasele stelare, gaura neagră supermasivă \emph{Sagittarius A*}, Calea Lactee și galaxia Andromeda.
+  \item \textbf{Laboratorul Orbitar și Autoevaluare:} experimente interactive de astrofizică, astronavele românești \emph{Vlaicu-1}, \emph{Coandă-X} și \emph{Luceafărul}, glosar astronomic și 66 de întrebări grilă cu barem complet și explicații.
+\end{itemize}
+\end{tcolorbox}
+\end{center}
+
+\vfill
+
+\begin{center}
+  {\color{white}\normalsize\bfseries Proiect Educațional Open-Source Orbitar}\\[4pt]
+  {\color{white!80}\footnotesize Lucrare liberă publicată sub licența \textbf{GNU General Public License v3.0} (\texttt{GPL-3.0-or-later}).\\
+  Fotografiile și hărțile provin din arhivele NASA, ESA, CSA, STScI (JWST, Hubble), EHT și USGS.}\\[6pt]
+  {\color{orbitarCyan}\small\bfseries \texttt{https://orbitar.ro}}
+\end{center}
+\vspace*{0.4cm}
+
+\end{document}
