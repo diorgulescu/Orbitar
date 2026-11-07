@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-// Versiunea cache-ului este definită o singură dată în ./app-version.js (partajată și de index.html).
-importScripts('./app-version.js');
+// Versiunea cache-ului este sincronizată automat de scripts/bump-version.mjs atât în sw.js, cât și în app-version.js
+const ORBITAR_SW_VERSION = '1.2.9';
+importScripts(`./app-version.js?v=${ORBITAR_SW_VERSION}`);
 
-const CACHE_NAME = self.ORBITAR_CACHE_NAME;
+const CACHE_NAME = self.ORBITAR_CACHE_NAME || `orbitar-pwa-v${ORBITAR_SW_VERSION}`;
 const PRECACHE_ASSETS = [
   './',
   './index.html',
@@ -99,22 +100,21 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Pentru date statice, texturi și audio: Network-First / Cache fallback
+  // Pentru date statice, texturi și audio: Cache-First (fără re-descărcare și scriere pe disc la fiecare cadru/încărcare!)
   event.respondWith(
     caches.match(req).then((cachedResponse) => {
-      const networkFetch = fetch(req)
-        .then((networkResponse) => {
-          if (networkResponse && networkResponse.status === 200) {
-            const responseClone = networkResponse.clone();
-            caches.open(CACHE_NAME).then((cache) => {
-              cache.put(req, responseClone);
-            });
-          }
-          return networkResponse;
-        })
-        .catch(() => cachedResponse);
-
-      return cachedResponse || networkFetch;
+      if (cachedResponse) {
+        return cachedResponse;
+      }
+      return fetch(req).then((networkResponse) => {
+        if (networkResponse && networkResponse.status === 200) {
+          const responseClone = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(req, responseClone);
+          });
+        }
+        return networkResponse;
+      });
     })
   );
 });

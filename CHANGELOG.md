@@ -4,6 +4,22 @@ Toate modificările, îmbunătățirile astronomice, adăugirile didactice și r
 
 ---
 
+## [1.2.9] — 2026-11-07
+
+### Optimizare Safari / WebKit (Eliminarea Freeze-ului la 1 Secundă în Browser) & Invalidare Cache Service Worker
+- **Eliminarea capcanei de cache `immutable` pentru `app-version.js` și actualizarea garantată a Service Worker-ului (`public/.htaccess`, `public/sw.js`, `index.html`, `scripts/bump-version.mjs`)**:
+  - Mutat regula `no-cache, no-store, must-revalidate` la finalul `.htaccess` și inclus `app-version.js` și `manifest.webmanifest` alături de `sw.js` și `index.html`, eliminând directiva `ExpiresByType application/javascript "access plus 1 year"` care bloca `app-version.js` în cache-ul Safari timp de 1 an.
+  - Injectat constanta `ORBITAR_SW_VERSION` direct în `public/sw.js` (`importScripts('./app-version.js?v=' + ORBITAR_SW_VERSION)`) și parametrul `?v=` în `index.html`, actualizate automat prin `scripts/bump-version.mjs`, astfel încât `sw.js` își modifică amprenta binară la fiecare versiune și forțează actualizarea Service Worker-ului în Safari.
+  - Simplificat strategia pentru texturi/audio în `public/sw.js` la *Cache-First* pur, eliminând re-descărcarea și rescrierea redundantă în `CacheStorage` la fiecare citire din cache.
+- **Izolarea GPU a ceasului simulării și eliminarea invalidării `backdrop-filter` la fiecare secundă în Safari (`src/style.css`, `src/main.ts`)**:
+  - Izolat `#hud-sim-date` (`.sim-date-readout`) și `.target-dist-badge` pe propriul strat de compoziție GPU (`display: inline-block; width: 158px; contain: layout style paint; transform: translateZ(0)`), prevenind recalcularea layout-ului Flexbox al barei `.dock-controls-bar` și re-eșantionarea filtrului `-webkit-backdrop-filter` peste canvasul WebGL la fiecare avansare a minutului (`1 min / sec`).
+  - Izolat `#labels-container` cu `contain: strict; transform: translateZ(0)` și eliminat `ResizeObserver`-ul de pe barele HUD în `src/main.ts`.
+- **Raycasting exclusiv pe sferele `hitMesh` și filtrarea corpurilor pe orizontul activ (`src/core/OrbitalEngine.ts`, `src/core/CameraController.ts`)**:
+  - `OrbitalEngine.getRaycastTargets()` returnează acum un array pre-alocat doar cu sferele `hitMesh` (în loc să parcurgă recursiv `visualRoot` cu ~350.000 de triunghiuri la fiecare `pointermove`), iar `CameraController` testează intersecția non-recursiv (`intersectObjects(targets, false)`), sare peste raycast în timpul rotirii camerei și limitează verificarea de hover la 55ms.
+  - `OrbitalEngine.updatePositions()` actualizează la fiecare cadru doar corpurile din orizontul cosmic activ (`this.getBodiesForHorizon(this.activeHorizon)`).
+
+---
+
 ## [1.2.8] — 2026-11-07
 
 ### Proporții Fidele pentru ISS, Telescoape, Sonde și Sateliți & Încadrare Orbitală Fără Perspectivă Forțată

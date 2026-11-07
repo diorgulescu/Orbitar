@@ -141,6 +141,7 @@ export class OrbitalEngine {
   private readonly bodies: Map<string, CelestialBodyInstance> = new Map();
   private allBodiesCache: CelestialBodyInstance[] = [];
   private readonly horizonBodiesCache: Map<CosmicHorizon, CelestialBodyInstance[]> = new Map();
+  private readonly raycastTargetsCache: THREE.Object3D[] = [];
   private readonly belts: InstancedBeltEntry[] = [];
   private beltConfigs: BeltConfig[] = [];
   private elapsedShaderTime = 0;
@@ -711,11 +712,11 @@ export class OrbitalEngine {
       this.beltsGroup.rotation.y += beltStep;
     }
 
-    const astroTime = Astronomy.MakeTime(this.simulationDate);
-    const bodyList =
-      this.allBodiesCache.length > 0 ? this.allBodiesCache : Array.from(this.bodies.values());
+    const astroTime =
+      this.activeHorizon === 'solar' ? Astronomy.MakeTime(this.simulationDate) : null;
+    const bodyList = this.getBodiesForHorizon(this.activeHorizon);
 
-    // 1. Actualizăm corpurile principale heliocentrice (fără parentId)
+    // 1. Actualizăm corpurile principale heliocentrice (fără parentId) din orizontul activ
     for (const instance of bodyList) {
       if (instance.updateShaderTime) {
         instance.updateShaderTime(this.elapsedShaderTime, simDaysDelta);
@@ -743,7 +744,7 @@ export class OrbitalEngine {
         instance.worldPosition.set(0, 0, 0);
         instance.distanceFromSunAu = 0;
         instance.rootGroup.position.set(0, 0, 0);
-      } else if (instance.astroBody) {
+      } else if (instance.astroBody && astroTime) {
         const helio = Astronomy.HelioVector(instance.astroBody, astroTime);
         const posAu = this.eqjToThreeEclipticAu(helio, this.tempPosAu);
         instance.heliocentricAu.copy(posAu);
@@ -959,11 +960,11 @@ export class OrbitalEngine {
   }
 
   public getRaycastTargets(): THREE.Object3D[] {
-    const targets: THREE.Object3D[] = [];
+    this.raycastTargetsCache.length = 0;
     for (const instance of this.getBodiesForHorizon(this.activeHorizon)) {
       if (!instance.rootGroup.visible) continue;
-      targets.push(instance.hitMesh, instance.visualRoot);
+      this.raycastTargetsCache.push(instance.hitMesh);
     }
-    return targets;
+    return this.raycastTargetsCache;
   }
 }

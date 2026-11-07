@@ -27,6 +27,9 @@ export class CameraController {
   private readonly pointerNdc = new THREE.Vector2();
   private readonly pointerDownPos = new THREE.Vector2();
   private pointerDownTime = 0;
+  private lastHoverCheckMs = 0;
+  private lastCursorStyle = '';
+  private readonly tempProjectedVec = new THREE.Vector3();
 
   private trackedBody: CelestialBodyInstance | null = null;
   private readonly lastTrackedWorldPos = new THREE.Vector3();
@@ -366,12 +369,24 @@ export class CameraController {
 
   private handlePointerMove = (event: PointerEvent): void => {
     if (!this.enabled) return;
+    // Dacă utilizatorul ține apăsat butonul mouse-ului (rotație/pan OrbitControls), nu facem raycasting
+    if (event.buttons !== 0) return;
+
+    const nowMs = typeof performance !== 'undefined' ? performance.now() : Date.now();
+    if (nowMs - this.lastHoverCheckMs < 55) return;
+    this.lastHoverCheckMs = nowMs;
+
     const pickedBody = this.pickBodyAtClientCoords(event.clientX, event.clientY);
-    this.domElement.style.cursor = pickedBody ? 'pointer' : 'grab';
+    const nextCursor = pickedBody ? 'var(--cursor-orbitar-pointer)' : 'var(--cursor-orbitar-grab)';
+    if (nextCursor !== this.lastCursorStyle) {
+      this.lastCursorStyle = nextCursor;
+      this.domElement.style.cursor = nextCursor;
+    }
   };
 
   /**
-   * Raycasting 3D combinat cu o zonă de captură generoasă în spațiul ecranului (28px),
+   * Raycasting 3D rapid pe sferele de selecție (`hitMesh`, fără traversarea recursivă a geometriilor HD)
+   * combinat cu o zonă de captură generoasă în spațiul ecranului (28px),
    * astfel încât copiii să poată da click ușor pe orice planetă chiar și de la distanță mare.
    */
   public pickBodyAtClientCoords(clientX: number, clientY: number): CelestialBodyInstance | null {
@@ -383,7 +398,7 @@ export class CameraController {
 
     this.raycaster.setFromCamera(this.pointerNdc, this.camera);
     const targets = this.orbitalEngine.getRaycastTargets();
-    const hits = this.raycaster.intersectObjects(targets, true);
+    const hits = this.raycaster.intersectObjects(targets, false);
 
     if (hits.length > 0) {
       for (const hit of hits) {
@@ -402,15 +417,14 @@ export class CameraController {
     // Fallback generos în spațiul 2D al ecranului (rază 28 pixeli)
     let closestBody: CelestialBodyInstance | null = null;
     let minPixelDist = 28;
-    const projected = new THREE.Vector3();
 
     for (const body of this.orbitalEngine.getBodies()) {
       if (body.data.category === 'rover') continue;
-      projected.copy(body.worldPosition).project(this.camera);
-      if (projected.z < -1 || projected.z > 1) continue;
+      this.tempProjectedVec.copy(body.worldPosition).project(this.camera);
+      if (this.tempProjectedVec.z < -1 || this.tempProjectedVec.z > 1) continue;
 
-      const screenX = ((projected.x + 1) * 0.5) * rect.width + rect.left;
-      const screenY = ((-projected.y + 1) * 0.5) * rect.height + rect.top;
+      const screenX = (this.tempProjectedVec.x + 1) * 0.5 * rect.width + rect.left;
+      const screenY = (-this.tempProjectedVec.y + 1) * 0.5 * rect.height + rect.top;
       const distPx = Math.hypot(clientX - screenX, clientY - screenY);
 
       if (distPx < minPixelDist) {

@@ -421,13 +421,6 @@ async function bootstrapOrbitar(): Promise<void> {
   };
   syncHeaderOffsetCssVar();
   window.addEventListener('resize', syncHeaderOffsetCssVar);
-  if ('ResizeObserver' in window) {
-    const hudRo = new ResizeObserver(() => {
-      syncHeaderOffsetCssVar();
-    });
-    if (hudHeaderEl) hudRo.observe(hudHeaderEl);
-    if (hudBottomDockEl) hudRo.observe(hudBottomDockEl);
-  }
 
   window.__orbitar = {
     sceneManager,

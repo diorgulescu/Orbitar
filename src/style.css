@@ -79,6 +79,8 @@ input[type='checkbox'],
   pointer-events: none;
   z-index: 5;
   overflow: hidden;
+  contain: strict;
+  transform: translateZ(0);
 }
 
 .celestial-label {
@@ -235,13 +237,16 @@ input[type='checkbox'],
 /* Carduri de bază Bento Dark Mode (sticlă mată) */
 .bento-card {
   background: var(--bg-glass);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border: 1px solid var(--border-cyan);
   border-radius: 14px;
   padding: 8px 12px;
   pointer-events: auto;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  contain: layout style;
 }
 
 /* Butoane mari pentru tablete / ecrane tactile */
@@ -780,12 +785,18 @@ input[type='checkbox'],
 }
 
 .target-dist-badge {
+  display: inline-block;
   font-family: var(--font-mono);
   font-size: 0.72rem;
   color: var(--accent-amber);
   margin-left: auto;
+  min-width: 172px;
+  text-align: right;
+  white-space: nowrap;
   font-variant-numeric: tabular-nums;
-  contain: layout style;
+  contain: layout style paint;
+  transform: translateZ(0);
+  will-change: contents;
 }
 
 .drawer-media-card {
@@ -1206,14 +1217,20 @@ input[type='checkbox'],
 }
 
 .sim-date-readout {
+  display: inline-block;
   font-family: var(--font-mono);
   font-size: 0.76rem;
   color: var(--accent-amber);
   font-weight: 700;
-  min-width: 145px;
+  width: 158px;
+  min-width: 158px;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-variant-numeric: tabular-nums;
-  contain: layout style;
+  contain: layout style paint;
+  transform: translateZ(0);
+  will-change: contents;
 }
 
 /* Fereastra modală GPLv3 */

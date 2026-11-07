@@ -55,18 +55,23 @@ export function syncVersionAcrossProject(version, rootDir = ROOT_DIR) {
     fs.writeFileSync(updateCheckerPath, updatedUc, 'utf8');
   }
 
-  // 5. index.html (#about-app-version)
+  // 5. index.html (#about-app-version + ./app-version.js?v=...)
   const indexHtmlPath = path.join(rootDir, 'index.html');
   if (fs.existsSync(indexHtmlPath)) {
     const html = fs.readFileSync(indexHtmlPath, 'utf8');
-    const updatedHtml = html.replace(
-      /(<span id="about-app-version"[^>]*>)Versiune:\s*v[0-9.]+(<\/span>)/,
-      `$1Versiune: v${cleanVer}$2`
-    );
+    const updatedHtml = html
+      .replace(
+        /(<span id="about-app-version"[^>]*>)Versiune:\s*v[0-9.]+(<\/span>)/,
+        `$1Versiune: v${cleanVer}$2`
+      )
+      .replace(
+        /<script src="\.\/app-version\.js(?:\?v=[^"]*)?"><\/script>/,
+        `<script src="./app-version.js?v=${cleanVer}"></script>`
+      );
     fs.writeFileSync(indexHtmlPath, updatedHtml, 'utf8');
   }
 
-  // 6. public/app-version.js (cache PWA)
+  // 6. public/app-version.js (cache PWA) + public/sw.js (ORBITAR_SW_VERSION)
   const appVerJsPath = path.join(rootDir, 'public', 'app-version.js');
   if (fs.existsSync(appVerJsPath)) {
     const appVerJs = fs.readFileSync(appVerJsPath, 'utf8');
@@ -74,7 +79,17 @@ export function syncVersionAcrossProject(version, rootDir = ROOT_DIR) {
       /var ORBITAR_CACHE_NAME = 'orbitar-pwa-v[^']*';/,
       `var ORBITAR_CACHE_NAME = 'orbitar-pwa-v${cleanVer}';`
     );
-    fs.writeFileSync(appVerJsPath, updatedAppVerJs, 'utf8');
+    fs.writeFileSync(appVerJsPath, updatedAppVerJs, { encoding: 'utf8', mode: 0o644 });
+  }
+
+  const swJsPath = path.join(rootDir, 'public', 'sw.js');
+  if (fs.existsSync(swJsPath)) {
+    const swJs = fs.readFileSync(swJsPath, 'utf8');
+    const updatedSwJs = swJs.replace(
+      /const ORBITAR_SW_VERSION = '[^']*';/,
+      `const ORBITAR_SW_VERSION = '${cleanVer}';`
+    );
+    fs.writeFileSync(swJsPath, updatedSwJs, { encoding: 'utf8', mode: 0o644 });
   }
 
   return cleanVer;
