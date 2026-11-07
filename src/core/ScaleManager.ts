@@ -102,12 +102,14 @@ export class ScaleManager {
       return Math.max(exactRadius, 1e-10);
     }
 
-    // Scară Didactică: mărire logaritmică armonioasă cu păstrarea strictă a ierarhiei de mărimi (6–12 ani)
+    // Scară Didactică: păstrează ierarhia fizică fidelă între planete, sateliți și planete pitice,
+    // iar obiectele artificiale (ISS, telescoape, sonde, rovere) sunt păstrate la scară micro
+    // pentru a nu apărea niciodată disproporționate lângă planete.
     if (category === 'star') {
       return radiusKm > 10_000_000 ? 7.8 : 6.2;
     }
     if (category === 'rover') {
-      return 0.06;
+      return 0.0012;
     }
     if (
       category === 'probe' ||
@@ -115,21 +117,39 @@ export class ScaleManager {
       category === 'telescope'
     ) {
       const craftLog = Math.log10(Math.max(radiusKm, 0.001));
-      return 0.16 + Math.max(0, (craftLog + 3.0) / 1.8) * 0.12;
+      return 0.0014 + Math.max(0, (craftLog + 3.0) / 1.8) * 0.0018;
     }
     if (category === 'moon') {
-      const moonLog = Math.log10(Math.max(radiusKm, 5));
-      return 0.18 + Math.max(0, (moonLog - 0.7) / 2.75) * 0.52;
+      if (radiusKm >= 1000) {
+        // Sateliți mari (Luna, Ganymede, Titan, Callisto, Io, Europa, Triton): raport fizic exact față de Pământ (1.65)
+        return 1.65 * (radiusKm / 6371);
+      }
+      if (radiusKm >= 100) {
+        // Sateliți medii (Mimas, Miranda, Enceladus, Charon, Iapetus, Titania)
+        return 0.09 + ((radiusKm - 100) / 900) * 0.24;
+      }
+      // Sateliți mici neregulați (Deimos, Phobos)
+      return 0.018 + (Math.max(radiusKm, 1) / 100) * 0.06;
+    }
+    if (category === 'dwarf') {
+      // Planete pitice (Ceres, Makemake, Haumea, Eris, Pluto): calibrate coerent cu sateliții mari
+      return 0.20 + Math.max(0, (radiusKm - 400) / 800) * 0.24;
     }
     if (category === 'asteroid') {
-      const astLog = Math.log10(Math.max(radiusKm, 0.15));
-      return 0.22 + Math.max(0, (astLog + 0.8) / 3.25) * 0.34;
+      const clampedAst = Math.min(Math.max(radiusKm, 0.1), 300);
+      return 0.025 + Math.pow(clampedAst / 300, 0.45) * 0.16;
+    }
+    if (category === 'terrestrial') {
+      // Planete telurice (Pământ = 1.65, Venus = 1.57, Marte = 0.88, Mercur = 0.63): raport fizic 1:1 între ele
+      return 1.65 * (radiusKm / 6371);
     }
 
-    // Planete și planete pitice
-    const logVal = Math.log10(Math.max(radiusKm, 400));
-    const normalized = (logVal - 2.6) / (4.85 - 2.6);
-    return 0.85 + Math.max(0, normalized) * 2.95;
+    // Gigante gazoase și de gheață (Neptun ≈ 2.27, Uranus ≈ 2.30, Saturn ≈ 3.35, Jupiter ≈ 3.85)
+    const giantNorm = Math.max(
+      0,
+      (Math.log10(Math.max(radiusKm, 20000)) - 4.30) / (4.845 - 4.30)
+    );
+    return 2.05 + giantNorm * 1.80;
   }
 
   /**
@@ -217,20 +237,22 @@ export class ScaleManager {
       return target.multiplyScalar(Math.max(realDist, minOrbit));
     }
 
-    // În Scara Didactică, ordonăm sateliții/stațiile pe inele concentrice clare în jurul planetei-mamă,
-    // calibrate astfel încât să nu atingă nici inelele planetare (ex. Saturn), nici orbitele planetelor vecine.
+    // În Scara Didactică, ISS și Hubble stau pe orbita joasă (LEO) chiar deasupra atmosferei Pământului,
+    // iar sateliții naturali și telescoapele L2 (JWST, Euclid) sunt ordonați pe inele concentrice clare.
     const baseMultiplier =
       category === 'station' || category === 'telescope'
-        ? localOrbitOrder >= 3
-          ? 1.47 + localOrbitOrder * 0.57
-          : 0.88 + localOrbitOrder * 0.57
+        ? localOrbitOrder === 1
+          ? 1.085
+          : localOrbitOrder === 2
+          ? 1.145
+          : 1.47 + localOrbitOrder * 0.57
         : 2.60 + (localOrbitOrder - 1) * 0.56;
     return target.multiplyScalar(parentVisualRadius * baseMultiplier);
   }
 
   /**
    * Returnează raza zonei invizibile de click (raycasting) pentru ca orice corp ceresc sau sondă
-   * să poată fi selectată fără frustrare de către copii, fără a înghiți sateliții vecini în Scara Reală.
+   * să poată fi selectată fără frustrare de către copii, fără a înghiți sateliții vecini.
    */
   public getHitSphereRadius(visualRadius: number, category: CelestialCategory): number {
     if (this.mode === 'real') {
@@ -248,13 +270,16 @@ export class ScaleManager {
     }
     if (category === 'star') return visualRadius * 1.3;
     if (
-      category === 'moon' ||
       category === 'station' ||
       category === 'telescope' ||
+      category === 'probe' ||
       category === 'rover'
     ) {
-      return Math.max(visualRadius * 1.9, 0.85);
+      return Math.max(visualRadius * 2.5, 0.045);
     }
-    return Math.max(visualRadius * 2.2, 2.6);
+    if (category === 'moon') {
+      return Math.max(visualRadius * 1.9, 0.35);
+    }
+    return Math.max(visualRadius * 2.2, 2.2);
   }
 }

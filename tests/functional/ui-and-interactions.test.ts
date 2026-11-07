@@ -103,6 +103,29 @@ describe('UI, CameraController & SurfaceMarkers — Functional Integration Tests
       `Camera pentru JWST nu trebuie să intre în Pământ (distanță: ${camDistToEarthCenter}, rază Pământ: ${earth.visualRadius})`
     );
 
+    // Când selectăm ISS (atât în Scara Didactică, cât și în Scara Reală), camera privește tangențial/în exterior
+    // spre cerul înstelat, fără a suprapune ISS în perspectivă forțată peste discul Pământului
+    const iss = orbitalEngine.getBody('iss')!;
+    for (const mode of ['didactic', 'real'] as const) {
+      scaleManager.setMode(mode);
+      cameraController.focusBody('iss', true);
+      orbitalEngine.updatePositions(0.1);
+      cameraController.update(0.1);
+
+      const camToIss = iss.worldPosition.clone().sub(camera.position).normalize();
+      const earthToIss = iss.worldPosition.clone().sub(earth.worldPosition).normalize();
+      assert.ok(
+        camToIss.dot(earthToIss) > 0.1,
+        `În modul ${mode}, camera trebuie să privească dinspre interior/lateral spre exterior la ISS (fără Pământul pe fundalul direct)`
+      );
+      const distCamToIss = camera.position.distanceTo(iss.worldPosition);
+      assert.ok(
+        Math.abs(distCamToIss - iss.visualRadius * 10.5) < iss.visualRadius * 0.5,
+        `În modul ${mode}, distanța camerei față de ISS trebuie să fie calibrată la ~10.5× raza ISS`
+      );
+    }
+    scaleManager.setMode('didactic');
+
     // Selectăm roverul Perseverance pe Marte și rulăm simularea în timp ce Marte se rotește
     const mars = orbitalEngine.getBody('mars')!;
     cameraController.focusBody('perseverance');

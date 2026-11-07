@@ -32,6 +32,7 @@ export class BottomDock {
   private simDateEl: HTMLElement | null = null;
   private lastFormattedMinuteBucket = Number.NaN;
   private lastRenderedDateText = '';
+  private scaleToastTimer: number | null = null;
 
   constructor(orbitalEngine: OrbitalEngine, scaleManager: ScaleManager) {
     this.orbitalEngine = orbitalEngine;
@@ -118,8 +119,13 @@ export class BottomDock {
     });
 
     btnScale?.addEventListener('click', () => {
-      this.scaleManager.toggleMode();
+      const nextMode = this.scaleManager.toggleMode();
       this.syncScaleButton();
+      this.showScaleToast(
+        nextMode === 'real'
+          ? '📏 Scară Reală activată: proporții și distanțe fizice 1:1'
+          : '🔭 Scară Didactică activată: corpuri mărite pentru explorare'
+      );
     });
 
     this.scaleManager.onChange(() => {
@@ -151,8 +157,22 @@ export class BottomDock {
     if (!btnScale) return;
     const isDidactic = this.scaleManager.getMode() === 'didactic';
     btnScale.textContent = isDidactic ? '🔭 Scară Didactică' : '📏 Scară Reală';
+    btnScale.setAttribute('aria-pressed', String(!isDidactic));
     btnScale.classList.toggle('hud-btn-active-cyan', isDidactic);
     btnScale.classList.toggle('hud-btn-active-amber', !isDidactic);
+  }
+
+  private showScaleToast(message: string): void {
+    const toast = document.getElementById('hud-quality-toast');
+    if (!toast) return;
+    toast.textContent = message;
+    toast.classList.remove('hidden');
+    if (this.scaleToastTimer !== null) {
+      window.clearTimeout(this.scaleToastTimer);
+    }
+    this.scaleToastTimer = window.setTimeout(() => {
+      toast.classList.add('hidden');
+    }, 3200);
   }
 
   public updateDateReadout(): void {

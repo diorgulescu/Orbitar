@@ -41,7 +41,7 @@ describe('ScaleManager — Unit Tests', () => {
     const sm = new ScaleManager('didactic');
 
     assert.equal(sm.scaleRadius(696340, 'star'), 6.2);
-    assert.equal(sm.scaleRadius(0.003, 'rover'), 0.06);
+    assert.equal(sm.scaleRadius(0.003, 'rover'), 0.0012);
 
     const voyagerDidactic = sm.scaleRadius(0.002, 'probe');
     const hubbleDidactic = sm.scaleRadius(0.0066, 'telescope');
@@ -49,7 +49,13 @@ describe('ScaleManager — Unit Tests', () => {
     const issDidactic = sm.scaleRadius(0.055, 'station');
     const deimosDidactic = sm.scaleRadius(6.2, 'moon');
     const phobosDidactic = sm.scaleRadius(11.27, 'moon');
+    const charonDidactic = sm.scaleRadius(606, 'moon');
+    const plutoDidactic = sm.scaleRadius(1188.3, 'dwarf');
     const moonDidactic = sm.scaleRadius(1737.4, 'moon');
+    const mercuryDidactic = sm.scaleRadius(2439.7, 'terrestrial');
+    const ganymedeDidactic = sm.scaleRadius(2631.2, 'moon');
+    const marsDidactic = sm.scaleRadius(3389.5, 'terrestrial');
+    const venusDidactic = sm.scaleRadius(6051.8, 'terrestrial');
     const earthDidactic = sm.scaleRadius(6371, 'terrestrial');
     const jupiterDidactic = sm.scaleRadius(69911, 'gas_giant');
     const astDidactic = sm.scaleRadius(262, 'asteroid');
@@ -58,16 +64,31 @@ describe('ScaleManager — Unit Tests', () => {
       voyagerDidactic < hubbleDidactic &&
         hubbleDidactic < jwstDidactic &&
         jwstDidactic < issDidactic &&
-        issDidactic < moonDidactic,
-      'În Scara Didactică, sondele, telescoapele și ISS respectă ierarhia de mărime și sunt mai mici decât Luna'
+        issDidactic < earthDidactic / 500,
+      'În Scara Didactică, sondele, telescoapele și ISS respectă ierarhia de mărime și sunt la scară micro (>500× mai mici decât Pământul)'
     );
     assert.ok(
-      deimosDidactic < phobosDidactic && phobosDidactic < moonDidactic,
-      'În Scara Didactică, Deimos < Phobos < Luna'
+      deimosDidactic < phobosDidactic &&
+        phobosDidactic < charonDidactic &&
+        charonDidactic < plutoDidactic &&
+        plutoDidactic < moonDidactic &&
+        moonDidactic < mercuryDidactic &&
+        mercuryDidactic < ganymedeDidactic &&
+        ganymedeDidactic < marsDidactic &&
+        marsDidactic < venusDidactic &&
+        venusDidactic < earthDidactic,
+      'În Scara Didactică, ierarhia fizică Deimos < Phobos < Charon < Pluto < Luna < Mercur < Ganymede < Marte < Venus < Pământ este respectată strict'
+    );
+    assert.ok(
+      Math.abs(earthDidactic / moonDidactic - 6371 / 1737.4) < 1e-6,
+      'În Scara Didactică, raportul Pământ / Lună este exact cel fizic (3,667:1)'
+    );
+    assert.ok(
+      Math.abs(earthDidactic / marsDidactic - 6371 / 3389.5) < 1e-6,
+      'În Scara Didactică, raportul Pământ / Marte este exact cel fizic (1,88:1)'
     );
     assert.ok(jupiterDidactic > earthDidactic, 'Jupiter trebuie să fie mai mare decât Pământul');
-    assert.ok(earthDidactic > moonDidactic, 'Pământul trebuie să fie mai mare decât Luna');
-    assert.ok(astDidactic >= 0.45, 'Asteroizii mari au rază didactică vizibilă');
+    assert.ok(astDidactic >= 0.15 && astDidactic < moonDidactic, 'Asteroizii mari au rază didactică proporțională, mai mică decât Luna');
 
     sm.setMode('real');
     const earthReal = sm.scaleRadius(6371, 'terrestrial');
@@ -121,8 +142,8 @@ describe('ScaleManager — Unit Tests', () => {
   it('getHitSphereRadius oferă sfere de selecție adecvate în ambele moduri', () => {
     const sm = new ScaleManager('didactic');
     assert.ok(sm.getHitSphereRadius(6.2, 'star') > 7.5);
-    assert.ok(sm.getHitSphereRadius(1.5, 'terrestrial') >= 2.6);
-    assert.ok(sm.getHitSphereRadius(0.28, 'telescope') >= 0.85);
+    assert.ok(sm.getHitSphereRadius(1.5, 'terrestrial') >= 2.2);
+    assert.ok(sm.getHitSphereRadius(0.0024, 'telescope') >= 0.045);
 
     sm.setMode('real');
     assert.ok(sm.getHitSphereRadius(0.00000004, 'telescope') >= 0.00012);

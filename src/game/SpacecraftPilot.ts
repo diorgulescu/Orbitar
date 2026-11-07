@@ -653,8 +653,8 @@ export class SpacecraftPilot {
     this.lastOriginBody = body;
     this.lastAnchoredBodyPos.copy(body.worldPosition);
 
-    const r = Math.max(body.visualRadius, 0.35);
-    const viewDist = body.data.id === 'sun' ? Math.max(r * 5.2, 14) : Math.max(r * 4.2, 1.8);
+    const r = Math.max(body.visualRadius, 1e-8);
+    const viewDist = body.data.id === 'sun' ? Math.max(r * 5.2, 0.02) : r * 4.5;
 
     const lookTargetBody = lookTowardBodyId ? this.orbitalEngine.getBody(lookTowardBodyId) : null;
 
@@ -835,7 +835,7 @@ export class SpacecraftPilot {
    * Calculează poziția panoramică de oprire în fața emisferei iluminate a corpului țintă.
    */
   private computePanoramicVantageOffset(target: CelestialBodyInstance): THREE.Vector3 {
-    const r = Math.max(target.visualRadius, 0.35);
+    const r = Math.max(target.visualRadius, 1e-8);
     const parent = target.data.parentId
       ? this.orbitalEngine.getBody(target.data.parentId)
       : undefined;
@@ -844,13 +844,13 @@ export class SpacecraftPilot {
       const normal = target.worldPosition.clone().sub(parent.worldPosition);
       if (normal.lengthSq() < 0.00001) normal.set(0, 0.4, 1);
       normal.normalize();
-      return normal.multiplyScalar(Math.max(parent.visualRadius * 1.55, 0.006));
+      return normal.multiplyScalar(Math.max(parent.visualRadius * 1.55, 1e-6));
     }
 
     const viewDist =
       target.data.id === 'sun'
-        ? Math.max(r * 5.2, 14)
-        : Math.max(r * 4.2, 0.005);
+        ? Math.max(r * 5.2, 0.02)
+        : r * 4.5;
 
     const sunToBody = target.worldPosition.clone();
     if (sunToBody.lengthSq() < 0.0001) {

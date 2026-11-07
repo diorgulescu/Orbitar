@@ -68,10 +68,10 @@ export class CameraController {
       this.isTransitioning = false;
     });
 
-    // La schimbarea scării (Didactică <-> Reală), reîncadrăm lin corpul urmărit
+    // La schimbarea scării (Didactică <-> Reală), reîncadrăm imediat corpul urmărit la noua scară
     this.scaleManager.onChange(() => {
       if (this.trackedBody && this.trackedBody.meta.id !== 'sun') {
-        this.focusBody(this.trackedBody.meta.id);
+        this.focusBody(this.trackedBody.meta.id, true);
       } else {
         this.resetToOverview();
       }
@@ -123,7 +123,7 @@ export class CameraController {
   /**
    * Selectează un corp ceresc după ID și inițiază tranziția lină (smooth lerp + urmărire orbitală).
    */
-  public focusBody(bodyId: string): void {
+  public focusBody(bodyId: string, snapImmediately = false): void {
     const body = this.orbitalEngine.getBody(bodyId);
     if (!body) return;
 
@@ -143,9 +143,16 @@ export class CameraController {
       surfaceNormal.normalize();
       const viewDir = surfaceNormal.clone().add(new THREE.Vector3(0, 0.22, 0)).normalize();
       const roverDist = parent.visualRadius * 1.45;
-      this.controls.minDistance = Math.max(parent.visualRadius * 1.15, 1e-9);
+      this.controls.minDistance = Math.max(parent.visualRadius * 1.15, 1e-10);
       this.desiredCameraOffset.copy(viewDir).multiplyScalar(roverDist);
-      this.isTransitioning = true;
+
+      if (snapImmediately) {
+        this.controls.target.copy(body.worldPosition);
+        this.camera.position.copy(body.worldPosition).add(this.desiredCameraOffset);
+        this.isTransitioning = false;
+      } else {
+        this.isTransitioning = true;
+      }
 
       for (const cb of this.selectCallbacks) {
         cb(body);
@@ -163,30 +170,73 @@ export class CameraController {
           ? r * 4.8
           : Math.max(r * 4.8, 12)
         : isSpacecraft
-        ? r * 5.2
+        ? r * 10.5
         : r * 4.5;
 
-    this.controls.minDistance = Math.max(r * 1.25, 1e-9);
+    this.controls.minDistance = Math.max(r * 1.25, 1e-10);
 
-    // Alegem o direcție de privire care să pună în valoare emisfera iluminată de Soare
-    const sunToBody = body.worldPosition.clone();
-    if (sunToBody.lengthSq() < 0.0001) {
-      sunToBody.set(0, 0.45, 1).normalize();
+    let viewDir: THREE.Vector3;
+
+    if (isSpacecraft && parent) {
+      // Pentru stațiile și telescoapele de pe orbita Pământului (ISS, Hubble, JWST, Euclid),
+      // construim o bază ortonormată locală (localRadial, tangent, binormal) și plasăm camera
+      // ușor sub/lateral față de direcția radială locală (privind spre exterior și tangențial la orbită),
+      // astfel încât ISS să NU fie niciodată suprapusă în perspectivă forțată peste discul Pământului!
+      const localRadial = body.worldPosition.clone().sub(parent.worldPosition);
+      if (localRadial.lengthSq() < 1e-16) {
+        localRadial.set(1, 0, 0);
+      } else {
+        localRadial.normalize();
+      }
+      const upRef =
+        Math.abs(localRadial.y) < 0.9
+          ? new THREE.Vector3(0, 1, 0)
+          : new THREE.Vector3(1, 0, 0);
+      const tangent = new THREE.Vector3().crossVectors(upRef, localRadial).normalize();
+      const binormal = new THREE.Vector3().crossVectors(localRadial, tangent).normalize();
+      viewDir = localRadial
+        .clone()
+        .multiplyScalar(-0.26)
+        .addScaledVector(tangent, 0.92)
+        .addScaledVector(binormal, 0.28)
+        .normalize();
     } else {
-      sunToBody.normalize();
+      // Alegem o direcție de privire care să pună în valoare emisfera iluminată de Soare
+      const sunToBody = body.worldPosition.clone();
+      if (sunToBody.lengthSq() < 0.0001) {
+        sunToBody.set(0, 0.45, 1).normalize();
+      } else {
+        sunToBody.normalize();
+      }
+
+      // Direcție lateral-iluminată + ușor deasupra planului eclipticii
+      const sideVec = new THREE.Vector3(-sunToBody.z, 0, sunToBody.x).normalize();
+      viewDir = sunToBody
+        .clone()
+        .multiplyScalar(-0.55)
+        .addScaledVector(sideVec, 0.75)
+        .add(new THREE.Vector3(0, 0.42, 0))
+        .normalize();
     }
 
-    // Direcție lateral-iluminată + ușor deasupra planului eclipticii
-    const sideVec = new THREE.Vector3(-sunToBody.z, 0, sunToBody.x).normalize();
-    const viewDir = sunToBody
-      .clone()
-      .multiplyScalar(-0.55)
-      .addScaledVector(sideVec, 0.75)
-      .add(new THREE.Vector3(0, 0.42, 0))
-      .normalize();
-
     this.desiredCameraOffset.copy(viewDir).multiplyScalar(viewDist);
-    this.isTransitioning = true;
+
+    if (snapImmediately) {
+      this.controls.target.copy(body.worldPosition);
+      this.camera.position.copy(body.worldPosition).add(this.desiredCameraOffset);
+      this.isTransitioning = false;
+    } else {
+      // Dacă facem saltul de la scară planetară/interplanetară către un satelit sau o sondă microscopică,
+      // aducem camera în vecinătatea țintei (3.2× viewDist) pentru o apropiere lină și precisă pe ultimii metri.
+      const currentDist = this.camera.position.distanceTo(body.worldPosition);
+      if (currentDist > viewDist * 80) {
+        this.controls.target.copy(body.worldPosition);
+        this.camera.position
+          .copy(body.worldPosition)
+          .addScaledVector(this.desiredCameraOffset, 3.2);
+      }
+      this.isTransitioning = true;
+    }
 
     for (const cb of this.selectCallbacks) {
       cb(body);
@@ -237,9 +287,10 @@ export class CameraController {
 
     const currentBodyPos = this.trackedBody.worldPosition;
 
-    // 1. Deplasăm camera cu exact vectorul parcurs de planetă pe orbită în acest cadru
+    // 1. Deplasăm atât camera, cât și ținta OrbitControls cu exact vectorul parcurs de corp pe orbită în acest cadru
     this.tempOrbitalDelta.copy(currentBodyPos).sub(this.lastTrackedWorldPos);
     this.camera.position.add(this.tempOrbitalDelta);
+    this.controls.target.add(this.tempOrbitalDelta);
     this.lastTrackedWorldPos.copy(currentBodyPos);
 
     // 2. Interpolare lină (exponential smooth lerp) pentru ținta OrbitControls și poziția camerei

@@ -4,6 +4,19 @@ Toate modificările, îmbunătățirile astronomice, adăugirile didactice și r
 
 ---
 
+## [1.2.8] — 2026-11-07
+
+### Proporții Fidele pentru ISS, Telescoape, Sonde și Sateliți & Încadrare Orbitală Fără Perspectivă Forțată
+- **Eliminarea iluziei de perspectivă forțată la selectarea ISS și Hubble (`CameraController`)**:
+  - La selectarea unui satelit artificial sau telescop (`ISS`, `Hubble`, `JWST`, `Euclid`), `CameraController.focusBody()` construiește o bază ortonormată locală (`localRadial`, `tangent`, `binormal`) raportată la planeta-mamă și poziționează camera la `10.5 × r`, privind tangențial și ușor spre exterior (`+15°` deasupra orizontului local, spre cerul înstelat), astfel încât `ISS` nu mai este niciodată suprapusă în prim-plan peste discul Pământului.
+  - Sincronizat `controls.target.add(this.tempOrbitalDelta)` cu `camera.position.add(this.tempOrbitalDelta)` în `CameraController.update()` și adăugat repoziționare instantanee la comutarea `Scară Didactică <-> Scară Reală`.
+- **Obiecte artificiale la scară micro și ierarhie fizică fidelă în Scara Didactică (`ScaleManager`, `SceneManager`, `SpacecraftPilot`, `BottomDock`)**:
+  - Redus razele vizuale ale obiectelor artificiale (`ISS`, `Hubble`, `JWST`, `Euclid`, sonde, rovere) în **🔭 Scara Didactică** la scară micro (`0.0012` – `0.0031`, de peste 500–1.300× mai mici decât Pământul) și plasat `ISS` (`1.085 × R_Pământ`) și `Hubble` (`1.145 × R_Pământ`) pe orbita joasă LEO chiar deasupra atmosferei terestre.
+  - Calibrat razele planetelor telurice, ale planetelor pitice și ale sateliților în **🔭 Scara Didactică** astfel încât să respecte exact rapoartele fizice (`Pământ / Lună = 3,667:1`, `Pământ / Marte = 1,88:1`, `Deimos < Phobos < Charon < Ceres < Pluto < Luna < Mercur < Ganymede < Marte < Venus < Pământ`).
+  - Coborât `camera.near` la `1e-11` în `SceneManager`, eliminat pragul minim `0.35` din `SpacecraftPilot` și adăugat notificare vizuală la comutarea scării în `BottomDock`.
+
+---
+
 ## [1.2.7] — 2026-11-07
 
 ### Performanță & Fluiditate 60/120 FPS (Eliminare Micro-Freeze Periodic)
