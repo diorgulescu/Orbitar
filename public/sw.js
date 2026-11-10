@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 // Versiunea cache-ului este sincronizată automat de scripts/bump-version.mjs atât în sw.js, cât și în app-version.js
-const ORBITAR_SW_VERSION = '1.3.0';
+const ORBITAR_SW_VERSION = '1.3.1';
 importScripts(`./app-version.js?v=${ORBITAR_SW_VERSION}`);
 
 const CACHE_NAME = self.ORBITAR_CACHE_NAME || `orbitar-pwa-v${ORBITAR_SW_VERSION}`;
