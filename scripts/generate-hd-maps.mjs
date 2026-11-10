@@ -770,9 +770,17 @@ const SCIENTIFIC_MAPS = [
   { file: 'phobos_viking.jpg', type: 'phobos', baseRGB: [122, 104, 92], craters: 65, seed: 1201 },
   { file: 'deimos_viking.jpg', type: 'deimos', baseRGB: [148, 128, 112], craters: 32, seed: 1202 },
   { file: 'mimas_cassini.jpg', type: 'mimas', baseRGB: [204, 208, 214], craters: 95, seed: 1203 },
+  { file: 'tethys_cassini.jpg', type: 'rocky', baseRGB: [224, 222, 216], craters: 95, seed: 1209 },
+  { file: 'dione_cassini.jpg', type: 'rocky', baseRGB: [208, 206, 198], craters: 88, seed: 1210 },
+  { file: 'rhea_cassini.jpg', type: 'rocky', baseRGB: [198, 194, 186], craters: 105, seed: 1211 },
+  { file: 'hyperion_cassini.jpg', type: 'rocky', baseRGB: [182, 168, 152], craters: 130, seed: 1212 },
   { file: 'iapetus_cassini.jpg', type: 'iapetus', baseRGB: [210, 212, 216], craters: 85, seed: 1204 },
+  { file: 'phoebe_cassini.jpg', type: 'rocky', baseRGB: [108, 104, 102], craters: 110, seed: 1213 },
   { file: 'miranda_voyager.jpg', type: 'miranda', baseRGB: [188, 196, 204], craters: 48, seed: 1205 },
+  { file: 'ariel_voyager.jpg', type: 'rocky', baseRGB: [196, 200, 206], craters: 64, seed: 1214 },
+  { file: 'umbriel_voyager.jpg', type: 'rocky', baseRGB: [134, 136, 140], craters: 92, seed: 1215 },
   { file: 'titania_voyager.jpg', type: 'titania', baseRGB: [176, 168, 162], craters: 72, seed: 1206 },
+  { file: 'oberon_voyager.jpg', type: 'rocky', baseRGB: [162, 154, 148], craters: 86, seed: 1216 },
   { file: 'triton_voyager.jpg', type: 'triton', baseRGB: [196, 188, 184], craters: 24, seed: 1207 },
   { file: 'charon_newhorizons.jpg', type: 'charon', baseRGB: [164, 166, 170], craters: 58, seed: 1208 },
 ];
@@ -876,7 +884,7 @@ function triangleWave(t) {
  * pentru noile luni (Phobos, Deimos, Mimas, Miranda, Titania, Triton, Charon), păstrând 100% detaliile fotografice reale.
  */
 function enhanceMoonPhotographicMaps() {
-  // 1. Phobos & Deimos: ridicare fotometrică a expunerii (albedo fizic ~0.07 -> vizibilitate clară în 3D) + nuanța naturală regolitică Mars Express
+  // 1. Phobos, Deimos & Phoebe: ridicare fotometrică a expunerii (albedo fizic ~0.07–0.08 -> vizibilitate clară în 3D)
   const marsMoons = [
     {
       file: 'phobos_viking.jpg',
@@ -892,6 +900,13 @@ function enhanceMoonPhotographicMaps() {
       tint: [1.14, 1.01, 0.87],
       minMean: 105,
       inpaintLowDetail: true,
+    },
+    {
+      file: 'phoebe_cassini.jpg',
+      gamma: 0.68,
+      gain: 1.35,
+      tint: [1.02, 1.01, 1.0],
+      minMean: 85,
     },
   ];
 
@@ -946,7 +961,7 @@ function enhanceMoonPhotographicMaps() {
     writeRgbJpeg2K(filePath, W, H, rgb);
   }
 
-  // 2. Miranda, Titania, Triton, Charon: completarea fără cusătură a emisferei nefotografiate în timpul survolului Voyager 2 / New Horizons
+  // 2. Miranda, Ariel, Umbriel, Titania, Oberon, Triton, Charon: completarea fără cusătură a emisferei nefotografiate în timpul survolului Voyager 2 / New Horizons
   const flybyMoons = [
     {
       file: 'miranda_voyager.jpg',
@@ -959,6 +974,26 @@ function enhanceMoonPhotographicMaps() {
       tint: [0.99, 1.0, 1.02],
     },
     {
+      file: 'ariel_voyager.jpg',
+      srcYMin: 70,
+      srcYMax: 380,
+      srcXMin: 0,
+      srcXMax: W,
+      detailThreshold: 2.1,
+      contrastBoost: 1.32,
+      tint: [1.0, 1.01, 1.03],
+    },
+    {
+      file: 'umbriel_voyager.jpg',
+      srcYMin: 70,
+      srcYMax: 390,
+      srcXMin: 0,
+      srcXMax: W,
+      detailThreshold: 2.0,
+      contrastBoost: 1.34,
+      tint: [0.95, 0.96, 0.98],
+    },
+    {
       file: 'titania_voyager.jpg',
       srcYMin: 65,
       srcYMax: 375,
@@ -967,6 +1002,16 @@ function enhanceMoonPhotographicMaps() {
       detailThreshold: 2.2,
       contrastBoost: 1.28,
       tint: [1.04, 0.99, 0.95],
+    },
+    {
+      file: 'oberon_voyager.jpg',
+      srcYMin: 65,
+      srcYMax: 365,
+      srcXMin: 0,
+      srcXMax: W,
+      detailThreshold: 2.1,
+      contrastBoost: 1.32,
+      tint: [1.03, 0.98, 0.94],
     },
     {
       file: 'triton_voyager.jpg',
@@ -1031,8 +1076,11 @@ function enhanceMoonPhotographicMaps() {
         let g = orig[idx + 1];
         let b = orig[idx + 2];
 
-        if (d < cfg.detailThreshold && y > 160) {
-          const w = Math.max(0, Math.min(1, (cfg.detailThreshold - d) / (cfg.detailThreshold * 0.68)));
+        if (d < cfg.detailThreshold && y > 120) {
+          const yRamp = Math.max(0, Math.min(1, (y - 120) / 100));
+          const w =
+            Math.max(0, Math.min(1, (cfg.detailThreshold - d) / (cfg.detailThreshold * 0.68))) *
+            yRamp;
           const smoothW = w * w * (3 - 2 * w);
 
           // Eșantionăm cu undă triunghiulară liniară (fără puncte staționare de întindere) din regiunea fotografică de înaltă rezoluție

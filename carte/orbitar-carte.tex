@@ -152,6 +152,11 @@
   {\normalfont\large\bfseries\color{orbitarAccent}}
   {\thesubsection}{0.7em}{}
 
+\titleformat{\subsubsection}
+  {\normalfont\normalsize\bfseries\color{orbitarDeepBlue}}
+  {\thesubsubsection}{0.6em}{}
+\titlespacing*{\subsubsection}{0pt}{8pt plus 2pt minus 1pt}{2pt}
+
 \setlength{\parskip}{4pt}
 \setlength{\parindent}{0pt}
 
@@ -296,7 +301,7 @@
   {\color{orbitarDeepBlue}\large\bfseries Sistemul Solar $\bullet$ Sateliți Naturali $\bullet$ Planete Pitice și Asteroizi\\[4pt]
   Misiuni Spațiale, Sonde și Rovere $\bullet$ Stele și Exoplanete $\bullet$ Nebuloase și Galaxii}\\[0.45cm]
   {\color{orbitarMuted}\normalsize Prezentări enciclopedice detaliate, repere astrofizice esențiale, structură internă,\\
-  istoric al explorării, hărți științifice, Laboratorul Orbitar și 66 de întrebări grilă cu barem}
+  istoric al explorării, hărți științifice, Laboratorul Orbitar și 74 de întrebări grilă cu barem}
 \end{center}
 
 \vfill
@@ -320,7 +325,7 @@
   \begin{tikzpicture}
     \draw[orbitarDeepBlue!40, line width=0.6pt] (-5.5,0) -- (5.5,0);
   \end{tikzpicture}\\[0.3cm]
-  {\color{orbitarDeepBlue}\large\bfseries Proiectul Educațional Open-Source Orbitar (Ediția v1.2.9)}\\[4pt]
+  {\color{orbitarDeepBlue}\large\bfseries Proiectul Educațional Open-Source Orbitar (Ediția v1.3.0)}\\[4pt]
   {\color{orbitarMuted}\small Licență liberă GNU General Public License v3.0 (\texttt{GPL-3.0-or-later}) \quad$\bullet$\quad \texttt{https://orbitar.ro}}
 \end{center}
 \vspace*{0.5cm}
@@ -331,7 +336,7 @@
 \vspace*{0.4cm}
 \begin{tcolorbox}[orbitardata, title={\textbf{Caseta Tehnică a Cărții și Licența Liberă GNU GPLv3}}]
 \textbf{Titlu:} \emph{Orbitar — Enciclopedia Cosmică Ilustrată: Sistemul Solar, Misiuni Spațiale, Exoplanete și Galaxii}\\[4pt]
-\textbf{Baza de cunoștințe și redactare:} Informațiile, explicațiile didactice, analogiile și sintezele din această carte au fost agregate și redactate cu ajutorul inteligenței artificiale (AI) pe baza seturilor de date din aplicația \textbf{Orbitar v1.2.9} (\texttt{public/data/solar-system-ro.json}, \texttt{public/data/missions-ro.json}, \texttt{public/data/deep-space-ro.json}, \texttt{public/data/tle-iss.json} și modulele din \texttt{src/}).\\[4pt]
+\textbf{Baza de cunoștințe și redactare:} Informațiile, explicațiile didactice, analogiile și sintezele din această carte au fost agregate și redactate cu ajutorul inteligenței artificiale (AI) pe baza seturilor de date din aplicația \textbf{Orbitar v1.3.0} (\texttt{public/data/solar-system-ro.json}, \texttt{public/data/missions-ro.json}, \texttt{public/data/deep-space-ro.json}, \texttt{public/data/tle-iss.json} și modulele din \texttt{src/}).\\[4pt]
 \textbf{Contribuitori proiect principal Orbitar:} Dragoș Iorgulescu (\texttt{@diorgulescu}), Google Antigravity (Gemini) \& Mistral Vibe.\\[4pt]
 \textbf{Credite fotografii și hărți științifice:} NASA / JPL-Caltech / ESA / CSA / STScI (Telescoapele Spațiale Hubble, James Webb, Spitzer, GALEX, Euclid) / Event Horizon Telescope (EHT) / Solar Dynamics Observatory (SDO) / Lunar Reconnaissance Orbiter (LRO) / MOLA / MESSENGER / Magellan / Cassini-Huygens / Voyager 1 \& 2 / New Horizons / Dawn / Galileo / Viking / USGS Astrogeology (Public Domain \& CC-BY 4.0), CelestiaContent (GNU GPLv2+) \& Solar System Scope (CC-BY 4.0).\\[6pt]
 \textbf{Licență — GNU General Public License v3.0 (\texttt{GPL-3.0-or-later}):}\\
@@ -427,7 +432,7 @@ Această lucrare este distribuită în speranța că va fi utilă elevilor, prof
 
 \begin{tcolorbox}[orbitarlightyear]
 \footnotesize
-Această ediție a volumului \textbf{Orbitar: Enciclopedia Cosmică Ilustrată (v1.2.9)} a fost generată automat și tehnoredactată computerizat în sistemul tipografic \LaTeX{} (\texttt{pdfLaTeX}), folosind familia de fonturi vectoriale \emph{Latin Modern}, pachetele \texttt{tcolorbox} și \texttt{booktabs}, precum și motorul grafic vectorial \texttt{PGF/TikZ}.\\[4pt]
+Această ediție a volumului \textbf{Orbitar: Enciclopedia Cosmică Ilustrată (v1.3.0)} a fost generată automat și tehnoredactată computerizat în sistemul tipografic \LaTeX{} (\texttt{pdfLaTeX}), folosind familia de fonturi vectoriale \emph{Latin Modern}, pachetele \texttt{tcolorbox} și \texttt{booktabs}, precum și motorul grafic vectorial \texttt{PGF/TikZ}.\\[4pt]
 \textbf{Reconstrucție din surse și tipărire la cerere (Print-on-Demand / Blurb.com):}\\
 Întregul cod sursă al cărții și al aplicației interactive 3D este disponibil liber în directorul \texttt{carte/} al depozitului oficial. Volumul poate fi recompilat integral prin comanda \texttt{npm run build:book} și este calibrat tipografic (cu pagini de gardă la interior și la final, margini în oglindă și număr total de pagini multiplu de 4) pentru tipărire directă prin servicii de tip \emph{PDF-to-Book} (precum \textbf{Blurb.com}, Lulu sau tipografii digitale educaționale).\\[4pt]
 \textbf{Drepturi de multiplicare pentru școli și biblioteci:}\\
@@ -490,10 +495,10 @@ Sub termenii licenței libere \textbf{GNU General Public License v3.0 (\texttt{G
 Pornește într-o călătorie științifică și vizuală de la atmosfera incandescentă a Soarelui până la cele mai îndepărtate galaxii observate de Telescopul Spațial James Webb! Născută din baza de cunoștințe a planetariului interactiv 3D \textbf{Orbitar}, această enciclopedie ilustrată aduce Universul mai aproape de tinerii exploratori, elevi, profesori și pasionați de astronomie.\\[8pt]
 \textbf{\color{amber!90!yellow}Ce vei descoperi în paginile acestei cărți:}\\[4pt]
 \begin{itemize}[leftmargin=1.4em, itemsep=3pt, topsep=2pt]
-  \item \textbf{Orizontul 1 (Sistemul Solar):} Soarele, cele 8 planete împreună cu cei 15 sateliți naturali majori, planetele pitice (Pluto, Ceres, Eris, Haumea, Makemake), asteroizii și cometele, ilustrate atât ca globuri 3D, cât și prin planigloburi științifice desfășurate.
+  \item \textbf{Orizontul 1 (Sistemul Solar):} Soarele, cele 8 planete împreună cu cei 23 de sateliți naturali majori, planetele pitice (Pluto, Ceres, Eris, Haumea, Makemake), asteroizii și cometele, ilustrate atât ca globuri 3D, cât și prin planigloburi științifice desfășurate.
   \item \textbf{Flota Spațială a Omenirii:} 12 misiuni legendare, cuprinzând sonde interplanetare, telescoape spațiale, stații orbitale și rovere marțiene, cu arhitectura lor tehnică explicată pe înțelesul tuturor.
   \item \textbf{Orizonturile 2 și 3 (Stele, Exoplanete, Nebuloase și Galaxii):} lumi îndepărtate precum \emph{Proxima Centauri b}, sistemul \emph{TRAPPIST-1}, nebuloasele stelare, gaura neagră supermasivă \emph{Sagittarius A*}, Calea Lactee și galaxia Andromeda.
-  \item \textbf{Laboratorul Orbitar și Autoevaluare:} experimente interactive de astrofizică, astronavele românești \emph{Vlaicu-1}, \emph{Coandă-X} și \emph{Luceafărul}, glosar astronomic și 66 de întrebări grilă cu barem complet și explicații.
+  \item \textbf{Laboratorul Orbitar și Autoevaluare:} experimente interactive de astrofizică, astronavele românești \emph{Vlaicu-1}, \emph{Coandă-X} și \emph{Luceafărul}, glosar astronomic și 74 de întrebări grilă cu barem complet și explicații.
 \end{itemize}
 \end{tcolorbox}
 \end{center}

@@ -60,9 +60,15 @@ export class ColoringSvgGenerator {
       case 'ganymede':
       case 'callisto':
       case 'mimas':
+      case 'tethys':
+      case 'dione':
+      case 'rhea':
       case 'iapetus':
       case 'miranda':
+      case 'ariel':
+      case 'umbriel':
       case 'titania':
+      case 'oberon':
       case 'charon':
       case 'ceres':
       case 'eris':
@@ -82,6 +88,8 @@ export class ColoringSvgGenerator {
       case 'psyche':
       case 'phobos':
       case 'deimos':
+      case 'hyperion':
+      case 'phoebe':
         artwork = this.drawAsteroidLineArt(id);
         break;
       case 'iss':

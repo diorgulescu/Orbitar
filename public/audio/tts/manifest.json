@@ -2,7 +2,7 @@
   "version": "1.1.0",
   "license": "GPL-3.0-or-later",
   "engine": "google-neural-ro",
-  "count": 132,
+  "count": 148,
   "entries": {
     "sun_junior": {
       "bodyId": "sun",
@@ -208,6 +208,54 @@
       "file": "./audio/tts/mimas_cadet.mp3",
       "normalizedText": "Mimas. Luna înghețată a lui Saturn cu craterul gigant Herșăl. Descoperită în 1789 de Uiliam Herșăl, Mimas orbitează Saturn în doar 22 de ore și 36 de minute și curăță gravitațional celebra Diviziune Casini dintre inelele A și B. Craterul Herșăl are 139 kilometri diametru — o treime din diametrul întregului satelit! Istoricul explorării: Fotografiată de Voiager unu/2 și cartografiată la înaltă rezoluție de sonda Casini între 2004 și 2017."
     },
+    "enceladus_junior": {
+      "bodyId": "enceladus",
+      "tier": "junior",
+      "file": "./audio/tts/enceladus_junior.mp3",
+      "normalizedText": "Ențeladus. Luna albă ca zăpada a lui Saturn, cu gheizere cosmice. Ențeladus este un bulgăre strălucitor de gheață proaspătă! La polul său sudic, gheizere uriașe aruncă apă și cristale de gheață direct în spațiu. Analogie: Ențeladus este atât de mic încât ar încăpea cu ușurință deasupra României! Știai că? Cristalele de gheață aruncate de gheizerele lui Ențeladus formează unul dintre inelele lui Saturn (inelul E)!"
+    },
+    "enceladus_cadet": {
+      "bodyId": "enceladus",
+      "tier": "cadet",
+      "file": "./audio/tts/enceladus_cadet.mp3",
+      "normalizedText": "Ențeladus. Luna albă ca zăpada a lui Saturn, cu gheizere cosmice. Ențeladus are cel mai ridicat albedo (reflectivitate) din Sistemul Solar (aproximativ 0 virgulă 99). Sonda Casini a zburat direct prin jeturile sale criovulcanice de la polul sud ( Dungile de Tigru ), detectând apă sărată, molecule organice complexe, hidrogen molecular și silice hidrotermală. Istoricul explorării: Descoperită de Uiliam Herșăl în 1789; gheizerele sale au fost descoperite și analizate chimic de sonda Casini în 2005 până la 2015."
+    },
+    "tethys_junior": {
+      "bodyId": "tethys",
+      "tier": "junior",
+      "file": "./audio/tts/tethys_junior.mp3",
+      "normalizedText": "Tetis. Luna de gheață pură a lui Saturn, cu craterul Odiseus și canionul Ithaca. Tetis este o lună mare și luminoasă a lui Saturn, formată aproape în întregime din gheață curată de apă! Pe ea se află un crater gigant numit Odiseus și o vale imensă de gheață. Analogie: Pentru că este făcută aproape doar din gheață, Tetis este mai ușoară decât apa — dacă ai găsi un ocean destul de mare, Tetis ar pluti pe el ca un cub de gheață! Știai că? Canionul Canionul Itaca de pe Tetis este lung de 2000 kilometri și încinge trei sferturi din întreaga lună ca o centură de gheață!"
+    },
+    "tethys_cadet": {
+      "bodyId": "tethys",
+      "tier": "cadet",
+      "file": "./audio/tts/tethys_cadet.mp3",
+      "normalizedText": "Tetis. Luna de gheață pură a lui Saturn, cu craterul Odiseus și canionul Ithaca. Descoperită de Giovanni Domenico Casini în 1684, Tetis are cea mai scăzută densitate dintre toți sateliții majori din Sistemul Solar (0 virgulă 984 g sau cm³), indicând că este compusă în proporție de peste 93% din gheață de apă și mai puțin de 7% rocă. Istoricul explorării: Fotografiată de Pioneer 11 și Voiager unu/2 și cartografiată la înaltă rezoluție de sonda Casini în timpul survolului apropiat din septembrie 2005."
+    },
+    "dione_junior": {
+      "bodyId": "dione",
+      "tier": "junior",
+      "file": "./audio/tts/dione_junior.mp3",
+      "normalizedText": "Dione. Luna înghețată a lui Saturn, brăzdată de faleze tectonice strălucitoare. Dione este a patra lună ca mărime a lui Saturn! Pe o parte a ei se văd dungi albe și sclipitoare care sunt, de fapt, stânci uriașe de gheață curată! Analogie: Rețeaua de stânci luminoase de pe Dione arată din spațiu ca niște fire subțiri de beteală argintie așezate pe un glob înghețat! Știai că? Două luni mici, Helene și Polideuces, călătoresc pe exact aceeași orbită cu Dione, una în fața ei și cealaltă în urma ei!"
+    },
+    "dione_cadet": {
+      "bodyId": "dione",
+      "tier": "cadet",
+      "file": "./audio/tts/dione_cadet.mp3",
+      "normalizedText": "Dione. Luna înghețată a lui Saturn, brăzdată de faleze tectonice strălucitoare. Descoperită tot de Casini în 1684, Dione are un diametru de 1123 kilometri și o densitate de 1 virgulă 48 g sau cm³ (a treia cea mai mare dintre sateliții lui Saturn, după Titan și Ențeladus), având un nucleu substanțial de silicați și posibil un ocean subteran sub o crustă groasă de gheață. Istoricul explorării: Fotografiată de sondele Voiager și studiată în cinci survoluri apropiate de sonda Casini între 2005 și 2015, care a detectat o exosferă extrem de rarefiată de ioni de oxigen."
+    },
+    "rhea_junior": {
+      "bodyId": "rhea",
+      "tier": "junior",
+      "file": "./audio/tts/rhea_junior.mp3",
+      "normalizedText": "Reea. A doua lună ca mărime a lui Saturn, un corp străvechi de gheață și stâncă. Reea este sora mai mare a lunilor de gheață ale lui Saturn și a doua lună ca mărime a planetei, imediat după uriașul Titan! Analogie: Reea are un diametru de peste 1500 de kilometri — este de aproape trei ori mai lată decât România! Știai că? Sonda Casini a descoperit în jurul lui Reea o atmosferă extrem de subțire care conține oxigen și dioxid de carbon!"
+    },
+    "rhea_cadet": {
+      "bodyId": "rhea",
+      "tier": "cadet",
+      "file": "./audio/tts/rhea_cadet.mp3",
+      "normalizedText": "Reea. A doua lună ca mărime a lui Saturn, un corp străvechi de gheață și stâncă. Descoperită în 1672 de Giovanni Domenico Casini, Reea este al nouălea satelit ca mărime din Sistemul Solar (diametru de 1527 virgulă 6 kilometri). Are o suprafață intens craterizată, împărțită între o emisferă anterioară luminoasă și o emisferă posterioară întunecată, brăzdată de canioane de gheață. Istoricul explorării: Fotografiată de sondele Voiager unu și 2 și explorată îndeaproape de sonda Casini (inclusiv un survol la doar 50 kilometri altitudine în martie 2010)."
+    },
     "titan_junior": {
       "bodyId": "titan",
       "tier": "junior",
@@ -220,17 +268,17 @@
       "file": "./audio/tts/titan_cadet.mp3",
       "normalizedText": "Titan. Satelitul lui Saturn cu atmosferă densă și lacuri de metan. Al doilea satelit ca mărime din Sistemul Solar (mai mare decât Mercur), Titan este singurul satelit cu o atmosferă densă (97% azot, presiune de 1 virgulă 45 ori mai mare decât pe Pământ) și singurul corp în afară de Pământ cu lichid stabil la suprafață. Istoricul explorării: Sonda europeană Hoighens a asolizat pe Titan în ianuarie 2005 (cea mai îndepărtată asolizare din istorie); NASA pregătește drona nucleară Dragonfly."
     },
-    "enceladus_junior": {
-      "bodyId": "enceladus",
+    "hyperion_junior": {
+      "bodyId": "hyperion",
       "tier": "junior",
-      "file": "./audio/tts/enceladus_junior.mp3",
-      "normalizedText": "Ențeladus. Luna albă ca zăpada a lui Saturn, cu gheizere cosmice. Ențeladus este un bulgăre strălucitor de gheață proaspătă! La polul său sudic, gheizere uriașe aruncă apă și cristale de gheață direct în spațiu. Analogie: Ențeladus este atât de mic încât ar încăpea cu ușurință deasupra României! Știai că? Cristalele de gheață aruncate de gheizerele lui Ențeladus formează unul dintre inelele lui Saturn (inelul E)!"
+      "file": "./audio/tts/hyperion_junior.mp3",
+      "normalizedText": "Hiperion. Luna-burete a lui Saturn, cu cratere în formă de fagure și rotație haotică. Hiperion este cea mai ciudată lună a lui Saturn: nu este rotundă și este atât de plină de găuri adânci încât arată exact ca un burete de mare înghețat! Analogie: În timp ce alte luni se rotesc ordonat, Hiperion se rostogolește haotic prin spațiu, așa că pe el nu ai ști niciodată din ce direcție va răsări Saturn mâine! Știai că? Hiperion este mai mult de 40% gol pe dinăuntru, ca o spumă înghețată de apă și praf cosmic!"
     },
-    "enceladus_cadet": {
-      "bodyId": "enceladus",
+    "hyperion_cadet": {
+      "bodyId": "hyperion",
       "tier": "cadet",
-      "file": "./audio/tts/enceladus_cadet.mp3",
-      "normalizedText": "Ențeladus. Luna albă ca zăpada a lui Saturn, cu gheizere cosmice. Ențeladus are cel mai ridicat albedo (reflectivitate) din Sistemul Solar (aproximativ 0 virgulă 99). Sonda Casini a zburat direct prin jeturile sale criovulcanice de la polul sud ( Dungile de Tigru ), detectând apă sărată, molecule organice complexe, hidrogen molecular și silice hidrotermală. Istoricul explorării: Descoperită de Uiliam Herșăl în 1789; gheizerele sale au fost descoperite și analizate chimic de sonda Casini în 2005 până la 2015."
+      "file": "./audio/tts/hyperion_cadet.mp3",
+      "normalizedText": "Hiperion. Luna-burete a lui Saturn, cu cratere în formă de fagure și rotație haotică. Descoperită în 1848 de William și George Bond și independent de Uiliam Lasel, Hiperion (360 ori 266 ori 205 kilometri) este unul dintre cele mai mari corpuri neregulate din Sistemul Solar și primul satelit la care s-a descoperit o rotație complet haotică, cauzată de rezonanța orbitală 4 la 3 cu Titan. Istoricul explorării: Fotografiată în detaliu uimitor de sonda Casini la 26 septembrie 2005, în timpul unui survol apropiat la numai 500 kilometri distanță."
     },
     "iapetus_junior": {
       "bodyId": "iapetus",
@@ -244,6 +292,18 @@
       "file": "./audio/tts/iapetus_cadet.mp3",
       "normalizedText": "Iapetus. Luna bicoloră Yin-Yang a lui Saturn, cu formă de nucă. Descoperită de Giovanni Domenico Casini în 1671, Iapetus este al treilea satelit ca mărime al lui Saturn. El a observat că satelitul este vizibil prin telescop doar pe o parte a orbitei sale, deducând corect că o emisferă este de 10 ori mai întunecată decât cealaltă. Istoricul explorării: Fotografiată de Voiager doi în 1981 și survolată de aproape de sonda Casini în septembrie 2007."
     },
+    "phoebe_junior": {
+      "bodyId": "phoebe",
+      "tier": "junior",
+      "file": "./audio/tts/phoebe_junior.mp3",
+      "normalizedText": "Fibi. Satelitul întunecat capturat din Centura Caipăr, cu orbită retrogradă în jurul lui Saturn. Fibi este un călător misterios de la marginea Sistemului Solar care a fost prins de gravitația lui Saturn! Este negru ca cărbunele la exterior, dar ascunde gheață albă sub praf. Analogie: La fel ca Triton la Neptun, Fibi zboară pe contrasens în jurul lui Saturn, la o distanță uriașă de aproape 13 milioane de kilometri! Știai că? Fibi a fost primul satelit descoperit vreodată cu ajutorul fotografiilor astronomice, în anul 1899, și lasă în urma lui cel mai mare inel de praf al lui Saturn!"
+    },
+    "phoebe_cadet": {
+      "bodyId": "phoebe",
+      "tier": "cadet",
+      "file": "./audio/tts/phoebe_cadet.mp3",
+      "normalizedText": "Fibi. Satelitul întunecat capturat din Centura Caipăr, cu orbită retrogradă în jurul lui Saturn. Descoperită în 1899 de William Henry Pichering pe plăci fotografice, Fibi (diametru mediu 213 kilometri) orbitează retrograd la 12 virgulă 9 milioane de kilometri de Saturn în 550 de zile. Densitatea ridicată (1 virgulă 63 g sau cm³) și compoziția isotopică arată că este un centaur primordial capturat din Centura Caipăr. Istoricul explorării: A fost prima țintă studiată de sonda Casini la sosirea în sistemul lui Saturn, printr-un survol la 2068 kilometri distanță pe 11 iunie 2004."
+    },
     "miranda_junior": {
       "bodyId": "miranda",
       "tier": "junior",
@@ -256,6 +316,30 @@
       "file": "./audio/tts/miranda_cadet.mp3",
       "normalizedText": "Miranda. Luna-puzzle a lui Uranus, cu cea mai înaltă stâncă din Sistemul Solar. Descoperită de Gerard Caipăr în 1948, Miranda este cea mai interioară și mai mică dintre cele cinci luni majore ale lui Uranus. Suprafața ei prezintă cel mai extrem relief tectonic raportat la dimensiunea sa, cu canioane de 12 ori mai adânci decât Marele Canion. Istoricul explorării: Survolată de aproape de sonda Voiager doi la 24 ianuarie 1986, care a transmis singurele imagini detaliate ale suprafeței sale."
     },
+    "ariel_junior": {
+      "bodyId": "ariel",
+      "tier": "junior",
+      "file": "./audio/tts/ariel_junior.mp3",
+      "normalizedText": "Ariel. Cea mai luminoasă lună a lui Uranus, străbătută de văi tectonice și câmpii netede. Ariel este cea mai strălucitoare dintre cele cinci luni mari ale lui Uranus! Suprafața ei este brăzdată de canioane lungi și largi, cu podele netede ca niște autostrăzi de gheață. Analogie: Ariel poartă numele unui spirit jucăuș al aerului din piesa Furtuna de Uiliam Șecspir! Știai că? Telescopul Spațial Geims Ueb a descoperit pe Ariel gheață de dioxid de carbon care pare să fi ieșit chiar din interiorul lunii!"
+    },
+    "ariel_cadet": {
+      "bodyId": "ariel",
+      "tier": "cadet",
+      "file": "./audio/tts/ariel_cadet.mp3",
+      "normalizedText": "Ariel. Cea mai luminoasă lună a lui Uranus, străbătută de văi tectonice și câmpii netede. Descoperită în 1851 de Uiliam Lasel, Ariel are cea mai tânără și mai activă suprafață geologică dintre sateliții lui Uranus (după Miranda), cu un albedo ridicat (0 virgulă 39) și o rețea vastă de grabene tectonice (Canioanele Cacina) și câmpii criovulcanice. Istoricul explorării: Fotografiată de sonda Voiager doi în ianuarie 1986 (de la 127000 kilometri distanță) și analizată spectroscopic de Telescopul Spațial Geims Ueb."
+    },
+    "umbriel_junior": {
+      "bodyId": "umbriel",
+      "tier": "junior",
+      "file": "./audio/tts/umbriel_junior.mp3",
+      "normalizedText": "Umbriel. Luna întunecată a lui Uranus, cu misteriosul inel luminos al craterului Wunda. Umbriel este cea mai întunecată dintre lunile mari ale lui Uranus! Pe suprafața ei cenușie strălucește ca un far un inel alb misterios, aflat în craterul Wunda. Analogie: Inelul alb din craterul Wunda de pe Umbriel arată din spațiu ca o gogoașă glazurată luminoasă așezată chiar lângă ecuatorul unei lumi întunecate! Știai că? Numele ei vine de la Umbriel , un spirit melancolic al umbrelor dintr-un poem de Alexander Pope (și de la cuvântul latin umbra !)."
+    },
+    "umbriel_cadet": {
+      "bodyId": "umbriel",
+      "tier": "cadet",
+      "file": "./audio/tts/umbriel_cadet.mp3",
+      "normalizedText": "Umbriel. Luna întunecată a lui Uranus, cu misteriosul inel luminos al craterului Wunda. Descoperită în 1851 de Uiliam Lasel în aceeași zi cu Ariel, Umbriel are aproape aceeași dimensiune (diametru 1169 kilometri), dar o istorie geologică complet diferită: reflectă doar 16% din lumină (jumătate față de Ariel) și păstrează o suprafață străveche, saturată cu cratere mari de impact. Istoricul explorării: Fotografiată de sonda Voiager doi în ianuarie 1986; este una dintre țintele principale pentru o viitoare sondă orbitală dedicată sistemului Uranus (Uranus Orbiter and Probe)."
+    },
     "titania_junior": {
       "bodyId": "titania",
       "tier": "junior",
@@ -267,6 +351,18 @@
       "tier": "cadet",
       "file": "./audio/tts/titania_cadet.mp3",
       "normalizedText": "Titania. Cea mai mare lună a planetei Uranus, brăzdată de canioane de gheață. Descoperită de Uiliam Herșăl în 1787 (în aceeași noapte cu Oberon), Titania este al optulea satelit ca mărime din Sistemul Solar (diametru de 1578 kilometri). Orbitează în planul ecuatorial înclinat la 98 grade al lui Uranus, având anotimpuri extreme de câte 42 de ani. Istoricul explorării: Fotografiată de sonda Voiager doi în ianuarie 1986; ocultațiile stelare au arătat că poate avea o atmosferă extrem de fină de dioxid de carbon."
+    },
+    "oberon_junior": {
+      "bodyId": "oberon",
+      "tier": "junior",
+      "file": "./audio/tts/oberon_junior.mp3",
+      "normalizedText": "Oberon. Cea mai exterioară lună mare a lui Uranus, cu craterul Hamlet și un munte de 11 kilometri. Oberon este Regele Zânelor și a doua lună ca mărime a lui Uranus! Se rotește cel mai departe de planetă dintre cele cinci luni mari și are cratere cu raze luminoase de gheață. Analogie: La marginea globului lui Oberon, sonda Voiager doi a fotografiat un munte uriaș care se înalță la 11 kilometri deasupra orizontului — mai înalt decât muntele Everest! Știai că? Multe dintre craterele lui Oberon poartă nume de eroi din piesele lui Șecspir: Hamlet, Otelo, Macbet, Lear și Romeo!"
+    },
+    "oberon_cadet": {
+      "bodyId": "oberon",
+      "tier": "cadet",
+      "file": "./audio/tts/oberon_cadet.mp3",
+      "normalizedText": "Oberon. Cea mai exterioară lună mare a lui Uranus, cu craterul Hamlet și un munte de 11 kilometri. Descoperită de Uiliam Herșăl la 11 ianuarie 1787 (în aceeași noapte cu Titania), Oberon este al zecelea satelit ca mărime din Sistemul Solar (diametru de 1522 virgulă 8 kilometri). Alcătuită în proporții egale din gheață de apă și rocă (densitate 1 virgulă 63 g sau cm³), are o suprafață intens craterizată și canioane tectonice (Canionul Momur). Istoricul explorării: Fotografiată de sonda Voiager doi în ianuarie 1986 de la o distanță de 470600 kilometri."
     },
     "triton_junior": {
       "bodyId": "triton",

@@ -644,7 +644,7 @@ const GLOBE_CONFIGS = [
     fresnelStrength: 0.48,
     tiltDeg: 24,
   },
-  //Cei 15 sateliți naturali
+  // Cei 23 de sateliți naturali
   {
     id: 'moon',
     texPath: 'public/textures/hd/moon_lro_albedo.jpg',
@@ -717,11 +717,41 @@ const GLOBE_CONFIGS = [
     specStrength: 0.3,
   },
   {
+    id: 'tethys',
+    texPath: 'public/textures/hd/tethys_cassini.jpg',
+    glowColor: '#e2e8f0',
+    atmoStrength: 0.2,
+    fresnelStrength: 0.15,
+  },
+  {
+    id: 'dione',
+    texPath: 'public/textures/hd/dione_cassini.jpg',
+    glowColor: '#cbd5e1',
+    atmoStrength: 0.18,
+    fresnelStrength: 0.14,
+  },
+  {
+    id: 'rhea',
+    texPath: 'public/textures/hd/rhea_cassini.jpg',
+    glowColor: '#d1d5db',
+    atmoStrength: 0.18,
+    fresnelStrength: 0.12,
+  },
+  {
     id: 'titan',
     texPath: 'public/textures/hd/titan_cassini.jpg',
     glowColor: '#f59e0b',
     atmoStrength: 0.62,
     fresnelStrength: 0.55,
+  },
+  {
+    id: 'hyperion',
+    texPath: 'public/textures/hd/hyperion_cassini.jpg',
+    glowColor: '#d6d3d1',
+    atmoStrength: 0.1,
+    fresnelStrength: 0.06,
+    ellipsoidScale: [0.82, 1.18, 1.0],
+    irregularAmp: 0.08,
   },
   {
     id: 'iapetus',
@@ -732,6 +762,15 @@ const GLOBE_CONFIGS = [
     lonOffsetDeg: 90,
   },
   {
+    id: 'phoebe',
+    texPath: 'public/textures/hd/phoebe_cassini.jpg',
+    glowColor: '#94a3b8',
+    atmoStrength: 0.1,
+    fresnelStrength: 0.06,
+    ellipsoidScale: [0.94, 1.06, 1.0],
+    irregularAmp: 0.05,
+  },
+  {
     id: 'miranda',
     texPath: 'public/textures/hd/miranda_voyager.jpg',
     glowColor: '#cbd5e1',
@@ -739,9 +778,30 @@ const GLOBE_CONFIGS = [
     fresnelStrength: 0.12,
   },
   {
+    id: 'ariel',
+    texPath: 'public/textures/hd/ariel_voyager.jpg',
+    glowColor: '#bae6fd',
+    atmoStrength: 0.2,
+    fresnelStrength: 0.14,
+  },
+  {
+    id: 'umbriel',
+    texPath: 'public/textures/hd/umbriel_voyager.jpg',
+    glowColor: '#94a3b8',
+    atmoStrength: 0.15,
+    fresnelStrength: 0.1,
+  },
+  {
     id: 'titania',
     texPath: 'public/textures/hd/titania_voyager.jpg',
     glowColor: '#d1d5db',
+    atmoStrength: 0.18,
+    fresnelStrength: 0.12,
+  },
+  {
+    id: 'oberon',
+    texPath: 'public/textures/hd/oberon_voyager.jpg',
+    glowColor: '#cbd5e1',
     atmoStrength: 0.18,
     fresnelStrength: 0.12,
   },
@@ -851,7 +911,7 @@ const GLOBE_CONFIGS = [
   },
 ];
 
-console.log('🌍 Generare globuri 3D pentru cele 34 de corpuri din Sistemul Solar...');
+console.log('🌍 Generare globuri 3D pentru cele 42 de corpuri din Sistemul Solar...');
 for (const cfg of GLOBE_CONFIGS) {
   let tex = null;
   if (cfg.texPath) {

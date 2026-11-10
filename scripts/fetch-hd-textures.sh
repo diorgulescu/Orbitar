@@ -107,18 +107,26 @@ fetch_and_convert "europa_galileo.jpg" "$CELESTIA_HIRES/europa.jpg" 2048 || true
 fetch_and_convert "ganymede_galileo.jpg" "$CELESTIA_HIRES/ganymede.jpg" 2048 || true
 fetch_and_convert "callisto_galileo.jpg" "$CELESTIA_HIRES/callisto.jpg" 2048 || true
 
-# 8. Saturn, Inelele RGBA & Sateliți (Cassini: Mimas, Enceladus, Titan, Iapetus)
+# 8. Saturn, Inelele RGBA & Sateliți (Cassini: Mimas, Enceladus, Tethys, Dione, Rhea, Titan, Hyperion, Iapetus, Phoebe)
 fetch_and_convert "saturn_cassini_albedo.jpg" "$CELESTIA_HIRES/saturn.jpg" 2048 || true
 fetch_and_convert "saturn_rings_rgba.png" "$CELESTIA_HIRES/saturn-rings.png" 2048 || true
 fetch_and_convert "mimas_cassini.jpg" "$CELESTIA_HIRES/mimas.jpg" 2048 || fetch_and_convert "mimas_cassini.jpg" "$CELESTIA_MEDRES/mimas.jpg" 2048 || true
-fetch_and_convert "titan_cassini.jpg" "$CELESTIA_HIRES/titan-clouds.jpg" 2048 || true
 fetch_and_convert "enceladus_cassini.jpg" "$CELESTIA_HIRES/enceladus.jpg" 2048 || true
+fetch_and_convert "tethys_cassini.jpg" "$CELESTIA_HIRES/tethys.jpg" 2048 || fetch_and_convert "tethys_cassini.jpg" "$CELESTIA_MEDRES/tethys.jpg" 2048 || true
+fetch_and_convert "dione_cassini.jpg" "$CELESTIA_HIRES/dione.jpg" 2048 || fetch_and_convert "dione_cassini.jpg" "$CELESTIA_MEDRES/dione.jpg" 2048 || true
+fetch_and_convert "rhea_cassini.jpg" "$CELESTIA_HIRES/rhea.jpg" 2048 || fetch_and_convert "rhea_cassini.jpg" "$CELESTIA_MEDRES/rhea.jpg" 2048 || true
+fetch_and_convert "titan_cassini.jpg" "$CELESTIA_HIRES/titan-clouds.jpg" 2048 || true
+fetch_and_convert "hyperion_cassini.jpg" "$CELESTIA_HIRES/hyperion.jpg" 2048 || fetch_and_convert "hyperion_cassini.jpg" "$CELESTIA_MEDRES/hyperion.jpg" 2048 || true
 fetch_and_convert "iapetus_cassini.jpg" "$CELESTIA_HIRES/iapetus.jpg" 2048 || fetch_and_convert "iapetus_cassini.jpg" "$CELESTIA_MEDRES/iapetus.jpg" 2048 || true
+fetch_and_convert "phoebe_cassini.jpg" "$CELESTIA_HIRES/phoebe.jpg" 2048 || fetch_and_convert "phoebe_cassini.jpg" "$CELESTIA_MEDRES/phoebe.jpg" 2048 || true
 
-# 9. Uranus, Neptun & Sateliți (Voyager 2: Miranda, Titania, Triton)
+# 9. Uranus, Neptun & Sateliți (Voyager 2: Miranda, Ariel, Umbriel, Titania, Oberon, Triton)
 fetch_and_convert "uranus_voyager.jpg" "$CELESTIA_HIRES/uranus.jpg" 2048 || true
 fetch_and_convert "miranda_voyager.jpg" "$CELESTIA_HIRES/miranda.jpg" 2048 || fetch_and_convert "miranda_voyager.jpg" "$CELESTIA_MEDRES/miranda.jpg" 2048 || true
+fetch_and_convert "ariel_voyager.jpg" "$CELESTIA_HIRES/ariel.jpg" 2048 || fetch_and_convert "ariel_voyager.jpg" "$CELESTIA_MEDRES/ariel.jpg" 2048 || true
+fetch_and_convert "umbriel_voyager.jpg" "$CELESTIA_HIRES/umbriel.jpg" 2048 || fetch_and_convert "umbriel_voyager.jpg" "$CELESTIA_MEDRES/umbriel.jpg" 2048 || true
 fetch_and_convert "titania_voyager.jpg" "$CELESTIA_HIRES/titania.jpg" 2048 || fetch_and_convert "titania_voyager.jpg" "$CELESTIA_MEDRES/titania.jpg" 2048 || true
+fetch_and_convert "oberon_voyager.jpg" "$CELESTIA_HIRES/oberon.jpg" 2048 || fetch_and_convert "oberon_voyager.jpg" "$CELESTIA_MEDRES/oberon.jpg" 2048 || true
 fetch_and_convert "neptune_voyager.jpg" "$CELESTIA_HIRES/neptune.jpg" 2048 || true
 fetch_and_convert "triton_voyager.jpg" "$CELESTIA_HIRES/triton.jpg" 2048 || fetch_and_convert "triton_voyager.jpg" "$CELESTIA_MEDRES/triton.jpg" 2048 || true
 

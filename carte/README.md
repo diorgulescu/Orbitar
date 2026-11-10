@@ -9,11 +9,11 @@ Acest director (`carte/`) conține codul sursă **LaTeX**, scripturile de sincro
 
 ---
 
-## 📚 Ce conține cartea (`orbitar-carte.pdf` — 176 de pagini A4, calibrată pentru Print-on-Demand)
+## 📚 Ce conține cartea (`orbitar-carte.pdf` — 192 de pagini A4, calibrată pentru Print-on-Demand)
 
-Cartea acoperă toate cele **66 de corpuri cerești, sateliți naturali, planete pitice, asteroizi, misiuni spațiale, stele, exoplanete, nebuloase și galaxii** din **Orbitar**, redactate într-o proză enciclopedică accesibilă și fluentă, însoțite de **casete cu repere astrofizice esențiale**, **globuri 3D randate sferic/elipsoidal cu iluminare și inele** + **hărți științifice (planigloburi desfășurate) și fotografii oficiale NASA / ESA / JWST / Hubble / EHT**, diagrame vectoriale TikZ, tabele astrofizice și **66 de întrebări grilă (Quiz)** cu barem complet.
+Cartea acoperă toate cele **74 de corpuri cerești, sateliți naturali, planete pitice, asteroizi, misiuni spațiale, stele, exoplanete, nebuloase și galaxii** din **Orbitar**, redactate într-o proză enciclopedică accesibilă și fluentă, însoțite de **casete cu repere astrofizice esențiale**, **globuri 3D randate sferic/elipsoidal cu iluminare și inele** + **hărți științifice (planigloburi desfășurate) și fotografii oficiale NASA / ESA / JWST / Hubble / EHT**, diagrame vectoriale TikZ, tabele astrofizice și **74 de întrebări grilă (Quiz)** cu barem complet.
 
-Ediția PDF este structurată conform standardelor editoriale **Print-on-Demand** (precum **Blurb.com PDF-to-Book**), având numărul total de pagini multiplu de 4 ($176 = 44 \times 4\text{ pagini}$) și incluzând:
+Ediția PDF este structurată conform standardelor editoriale **Print-on-Demand** (precum **Blurb.com PDF-to-Book**), având numărul total de pagini multiplu de 4 ($192 = 48 \times 4\text{ pagini}$) și incluzând:
 - **Coperta I (Coperta-față)** aerisită, cu titlul *ORBITAR*, caseta neagră *Enciclopedia Cosmică Ilustrată* și ilustrația sistemului orbital.
 - **Paginile preliminare de interior (*Frontmatter*):** Coperta a II-a interioară albă, Pagina de gardă (*Semititlu*), Frontispiciu ilustrat, Pagina de titlu interioară completă, Caseta tehnică / CIP & Specificații de tipar, Pagina de dedicație, Cuprinsul și pagina intermediară de gardă înainte de Capitolul 1.
 - **Paginile finale și Coperta a IV-a (*Coperta-spate*):** Jurnalul Astronomic al Cititorului (fișă de observații), Colofonul tipografic, paginile de gardă finale (Coperta a III-a interioară albă) și **Coperta a IV-a (Coperta-spate)** complet ilustrată, cu sinopsisul lucrării.
@@ -25,15 +25,15 @@ Ediția PDF este structurată conform standardelor editoriale **Print-on-Demand*
    - Cele **3 Orizonturi Cosmice** din Orbitar (*Sistemul Solar*, *Stele și Exoplanete*, *Calea Lactee și Galaxii*).
    - Unitățile de măsură ale astronomilor ($1\text{ UA}$, viteza luminii $1c$, anul-lumină, masa $M_\oplus$ și gravitația $g_\oplus$) și diferența dintre *Scara Didactică* și *Scara Reală*.
 2. **Capitolul 2 — Steaua Noastră, Planetele și Sateliții Lor Naturali (`capitole/01-planetele-sistemului-solar.tex`):**
-   - Diagrama arhitecturii Sistemului Solar și tabelele sinoptice comparative pentru Soare, cele 8 planete și cei 15 sateliți naturali majori.
+   - Diagrama arhitecturii Sistemului Solar și tabelele sinoptice comparative pentru Soare, cele 8 planete și cei 23 de sateliți naturali majori.
    - Fiecare corp ceresc este ilustrat atât printr-o **vedere 3D cu formă de planetă/glob (inclusiv inelele 3D pentru Saturn și Uranus)**, cât și prin **planiglobul său desfășurat**.
    - Fișe enciclopedice complete pentru **Soare** și cele **8 planete**, fiecare însoțită direct în subsecțiunile sale de **sateliții săi naturali (lunile)**:
      - **Soarele**, **Mercur**, **Venus** (*cu explicația cartografierii sub nori prin Radarul Magellan*),
      - **Pământul** + *Luna (împreună cu reperele istorice ale aselenizărilor Apollo 11, 15 și 17)*,
      - **Marte** + *Phobos și Deimos*,
      - **Jupiter** + *Io, Europa, Ganymede și Callisto*,
-     - **Saturn** + *Mimas, Enceladus, Titan și Iapetus*,
-     - **Uranus** + *Miranda și Titania*,
+     - **Saturn** + *Mimas, Enceladus, Tethys, Dione, Rhea, Titan, Hyperion, Iapetus și Phoebe*,
+     - **Uranus** + *Miranda, Ariel, Umbriel, Titania și Oberon*,
      - **Neptun** + *Triton*.
 3. **Capitolul 3 — Centuri Cosmice, Planete Pitice și Asteroizi (`capitole/02-corpuri-ceresti-sistem-solar.tex`):**
    - **Centura Principală de Asteroizi** ($2{,}15\text{–}3{,}25\text{ UA}$) și **Centura Kuiper** ($30{,}5\text{–}49\text{ UA}$).
@@ -51,11 +51,11 @@ Ediția PDF este structurată conform standardelor editoriale **Print-on-Demand*
    - Fișele complete pentru: *Nebuloasa Orion (M42), Stâlpii Creației din Nebuloasa Vulturului (M16), Nebuloasa Carina (NGC 3372), Nebuloasa Crabului (M1), Nebuloasa Inelul (M57), Nebuloasa Helix (NGC 7293), Gaura Neagră Supermasivă Sagittarius A\*, Calea Lactee, Marele Nor al lui Magellan (LMC), Galaxia Andromeda (M31), Galaxia Triunghiului (M33), Galaxia Vâltoarea (M51) și Galaxia Sombrero (M104)*.
 7. **Capitolul 7 — Laboratorul Orbitar, La Manșa Navei și Misiunile Cadetului (`capitole/06-laborator-nave-si-activitati.tex`):**
    - **La Manșa Navei (Mod Pilot):** cele 3 astronave românești (*Racheta „Vlaicu-1”*, *Nava „Coandă-X”* și *Astronava „Luceafărul”*) și tabelul comparativ al duratelor de zbor în Sistemul Solar și către stele.
-   - **Laboratorul Orbitar:** tabelul complet al greutății și înălțimii săriturii pe toate cele 34 de corpuri din Sistemul Solar (pentru un copil de $35\text{ kg}$ care sare $40\text{ cm}$ pe Pământ) și tabelul vârstei în ani și zile locale (pentru un copil de $10\text{ ani}$).
+   - **Laboratorul Orbitar:** tabelul complet al greutății și înălțimii săriturii pe toate cele 42 de corpuri din Sistemul Solar (pentru un copil de $35\text{ kg}$ care sare $40\text{ cm}$ pe Pământ) și tabelul vârstei în ani și zile locale (pentru un copil de $10\text{ ani}$).
    - **Misiunile Orbitar & Jurnalul de Bord:** cele 6 provocări și insigne oficiale.
    - **Ghidul Fonetic de Pronunție Astronomică în Limba Română.**
-8. **Capitolul 8 — Baremul Complet al celor 66 de Întrebări Quiz și Glosar Astronomic (`capitole/07-barem-quiz-si-glosar.tex`):**
-   - Tabelul centralizat cu toate răspunsurile corecte și explicațiile pentru cele 66 de întrebări grilă.
+8. **Capitolul 8 — Baremul Complet al celor 74 de Întrebări Quiz și Glosar Astronomic (`capitole/07-barem-quiz-si-glosar.tex`):**
+   - Tabelul centralizat cu toate răspunsurile corecte și explicațiile pentru cele 74 de întrebări grilă.
    - Glosarul termenilor astronomici și spațiali.
 
 ---

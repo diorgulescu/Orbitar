@@ -26,12 +26,20 @@ const HD_ALBEDO_MAP: Record<string, string> = {
   callisto: './textures/hd/callisto_galileo.jpg',
   saturn: './textures/hd/saturn_cassini_albedo.jpg',
   mimas: './textures/hd/mimas_cassini.jpg',
-  titan: './textures/hd/titan_cassini.jpg',
   enceladus: './textures/hd/enceladus_cassini.jpg',
+  tethys: './textures/hd/tethys_cassini.jpg',
+  dione: './textures/hd/dione_cassini.jpg',
+  rhea: './textures/hd/rhea_cassini.jpg',
+  titan: './textures/hd/titan_cassini.jpg',
+  hyperion: './textures/hd/hyperion_cassini.jpg',
   iapetus: './textures/hd/iapetus_cassini.jpg',
+  phoebe: './textures/hd/phoebe_cassini.jpg',
   uranus: './textures/hd/uranus_voyager.jpg',
   miranda: './textures/hd/miranda_voyager.jpg',
+  ariel: './textures/hd/ariel_voyager.jpg',
+  umbriel: './textures/hd/umbriel_voyager.jpg',
   titania: './textures/hd/titania_voyager.jpg',
+  oberon: './textures/hd/oberon_voyager.jpg',
   neptune: './textures/hd/neptune_voyager.jpg',
   triton: './textures/hd/triton_voyager.jpg',
   pluto: './textures/hd/pluto_newhorizons.jpg',
@@ -52,9 +60,17 @@ const HD_BUMP_MAP: Record<string, string> = {
   phobos: './textures/hd/phobos_viking.jpg',
   deimos: './textures/hd/deimos_viking.jpg',
   mimas: './textures/hd/mimas_cassini.jpg',
+  tethys: './textures/hd/tethys_cassini.jpg',
+  dione: './textures/hd/dione_cassini.jpg',
+  rhea: './textures/hd/rhea_cassini.jpg',
+  hyperion: './textures/hd/hyperion_cassini.jpg',
   iapetus: './textures/hd/iapetus_cassini.jpg',
+  phoebe: './textures/hd/phoebe_cassini.jpg',
   miranda: './textures/hd/miranda_voyager.jpg',
+  ariel: './textures/hd/ariel_voyager.jpg',
+  umbriel: './textures/hd/umbriel_voyager.jpg',
   titania: './textures/hd/titania_voyager.jpg',
+  oberon: './textures/hd/oberon_voyager.jpg',
   triton: './textures/hd/triton_voyager.jpg',
   pluto: './textures/hd/pluto_newhorizons.jpg',
   charon: './textures/hd/charon_newhorizons.jpg',
@@ -71,9 +87,17 @@ const HD_BUMP_SCALE: Record<string, number> = {
   phobos: 0.06,
   deimos: 0.032,
   mimas: 0.042,
+  tethys: 0.038,
+  dione: 0.036,
+  rhea: 0.038,
+  hyperion: 0.065,
   iapetus: 0.038,
+  phoebe: 0.052,
   miranda: 0.048,
+  ariel: 0.036,
+  umbriel: 0.038,
   titania: 0.035,
+  oberon: 0.038,
   triton: 0.028,
   pluto: 0.035,
   charon: 0.036,
@@ -1104,6 +1128,16 @@ export class PlanetMaterialFactory {
         v.x *= 1.24;
         v.y *= 0.85;
         v.z *= 0.96;
+      } else if (data.id === 'hyperion') {
+        // Proporțiile triaxiale reale ale lui Hyperion (360 × 266 × 205 km)
+        v.x *= 1.3;
+        v.y *= 0.78;
+        v.z *= 0.96;
+      } else if (data.id === 'phoebe') {
+        // Forma aproape sferică neregulată a lui Phoebe (213 × 207 × 203 km)
+        v.x *= 1.05;
+        v.y *= 0.96;
+        v.z *= 1.01;
       } else if (data.id === 'bennu') {
         const eqRidge = 1.0 + 0.25 * Math.pow(Math.max(0, 1.0 - Math.abs(normDir.y) * 1.4), 1.5);
         v.x *= eqRidge;

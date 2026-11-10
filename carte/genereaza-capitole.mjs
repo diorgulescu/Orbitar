@@ -118,6 +118,14 @@ const SPECIFIC_DASH_REPLACEMENTS = [
     'Craterul Herschel are 139 de kilometri în diametru, ceea ce reprezintă o treime din diametrul întregului satelit!',
   ],
   [
+    'Tethys este mai ușoară decât apa — dacă ai găsi un ocean destul de mare, Tethys ar pluti pe el ca un cub de gheață!',
+    'Tethys este mai ușoară decât apa, astfel că dacă ai găsi un ocean destul de mare, Tethys ar pluti pe el ca un cub de gheață!',
+  ],
+  [
+    'Rhea are un diametru de peste 1.500 de kilometri — este de aproape trei ori mai lată decât România!',
+    'Rhea are un diametru de peste 1.500 de kilometri, fiind de aproape trei ori mai lată decât România!',
+  ],
+  [
     'Munții de la ecuatorul lui Iapetus au 20 de kilometri înălțime — mai mult decât dublul vârfului Everest de pe Pământ!',
     'Munții de la ecuatorul lui Iapetus au 20 de kilometri înălțime, depășind de peste două ori înălțimea vârfului Everest de pe Pământ!',
   ],
@@ -128,6 +136,10 @@ const SPECIFIC_DASH_REPLACEMENTS = [
   [
     'poartă numele unui personaj din piesele lui William Shakespeare — Regina Zânelor!',
     'poartă numele unui personaj din piesele lui William Shakespeare, și anume Regina Zânelor!',
+  ],
+  [
+    'un munte uriaș care se înalță la 11 kilometri deasupra orizontului — mai înalt decât muntele Everest!',
+    'un munte uriaș care se înalță la 11 kilometri deasupra orizontului, fiind mai înalt decât muntele Everest!',
   ],
   [
     'Triton este singura lună mare din Sistemul Solar care merge «pe contrasens» — se învârte în jurul lui Neptun în sens invers față de rotația planetei!',
@@ -492,21 +504,53 @@ const IMAGE_BY_ID = {
     path: '../public/textures/hd/enceladus_cassini.jpg',
     caption: 'Gheața pură a lunii Enceladus și fisurile „Dungi de Tigru” de la polul sudic (sonda NASA/ESA Cassini).',
   },
+  tethys: {
+    path: '../public/textures/hd/tethys_cassini.jpg',
+    caption: 'Harta globală a lunii înghețate Tethys, cu uriașul bazin de impact Odysseus și canionul Ithaca Chasma (NASA/ESA Cassini).',
+  },
+  dione: {
+    path: '../public/textures/hd/dione_cassini.jpg',
+    caption: 'Harta globală a lunii Dione și a falezelor luminoase de gheață Padua Chasmata (NASA/ESA Cassini).',
+  },
+  rhea: {
+    path: '../public/textures/hd/rhea_cassini.jpg',
+    caption: 'Suprafața intens craterizată a lunii Rhea, al doilea satelit ca mărime al lui Saturn (NASA/ESA Cassini).',
+  },
   titan: {
     path: '../public/textures/hd/titan_cassini.jpg',
     caption: 'Harta globală a lunii Titan obținută prin străpungerea ceții portocalii de azot și metan de către sonda Cassini.',
+  },
+  hyperion: {
+    path: '../public/textures/hd/hyperion_cassini.jpg',
+    caption: 'Aspectul poros, de „burete cosmic” ciuruit de cratere adânci, al satelitului cu rotație haotică Hyperion (NASA/ESA Cassini).',
   },
   iapetus: {
     path: '../public/textures/hd/iapetus_cassini.jpg',
     caption: 'Contrastul „Yin-Yang” dintre emisfera întunecată (Cassini Regio) și emisfera strălucitoare de gheață a lunii Iapetus (NASA/ESA Cassini).',
   },
+  phoebe: {
+    path: '../public/textures/hd/phoebe_cassini.jpg',
+    caption: 'Harta satelitului retrograd Phoebe (planetozimal capturat din Centura Kuiper) și a craterului Jason (NASA/ESA Cassini).',
+  },
   miranda: {
     path: '../public/textures/hd/miranda_voyager.jpg',
     caption: 'Relieful spectaculos al lunii Miranda, cu stâncile Verona Rupes și regiunile coronae (NASA Voyager 2).',
   },
+  ariel: {
+    path: '../public/textures/hd/ariel_voyager.jpg',
+    caption: 'Harta celei mai luminoase luni a lui Uranus, Ariel, brăzdată de canioanele tectonice Kachina Chasmata (NASA Voyager 2).',
+  },
+  umbriel: {
+    path: '../public/textures/hd/umbriel_voyager.jpg',
+    caption: 'Suprafața întunecată a lunii Umbriel și misteriosul inel luminos al craterului Wunda de la ecuator (NASA Voyager 2).',
+  },
   titania: {
     path: '../public/textures/hd/titania_voyager.jpg',
     caption: 'Harta celei mai mari luni a lui Uranus, Titania, și a canionului tectonic Messina Chasmata (NASA Voyager 2).',
+  },
+  oberon: {
+    path: '../public/textures/hd/oberon_voyager.jpg',
+    caption: 'Harta celei mai exterioare luni mari a lui Uranus, Oberon, cu craterul Hamlet și razele sale de gheață (NASA Voyager 2).',
   },
   triton: {
     path: '../public/textures/hd/triton_voyager.jpg',
@@ -688,8 +732,10 @@ function renderBodySection(body, indexNumber, sectionLevel = 'section', extraEnd
       : `${fmtNum(body.gravityRatio, 3)} $\\times g_\\oplus$ (${fmtNum(body.gravityRatio * 9.81, 2)} m/s$^2$)`;
 
   const orbitText =
-    body.orbitPeriodDays <= 0
+    body.orbitPeriodDays === 0
       ? 'Orbitează centrul Căii Lactee (aproximativ 230 de milioane de ani)'
+      : body.orbitPeriodDays < 0
+      ? `${fmtNum(Math.abs(body.orbitPeriodDays))} zile pământești (Orbită retrogradă!)`
       : body.orbitPeriodDays >= 365.25
       ? `${fmtNum(body.orbitPeriodDays)} zile ($\\approx$ ${fmtNum(body.orbitPeriodDays / 365.25, 2)} ani pământești)`
       : `${fmtNum(body.orbitPeriodDays)} zile pământești`;
@@ -779,7 +825,7 @@ function renderBodySection(body, indexNumber, sectionLevel = 'section', extraEnd
 
   let deepSpaceProse = '';
   if (isDeepSpace) {
-    deepSpaceProse = `\n\n\\medskip\n\\noindent\\textbf{Scara cosmică și călătoria luminii în timp.} La scară astronomică, dimensiunile sale sunt impresionante: ${refineProse(body.sizeComparisonRo || '')} Totodată, privind astăzi spre ${refineProse(body.name)}, observăm practic trecutul îndepărtat al Universului, întrucât lumina sa a călătorit prin spațiu până la noi: ${refineProse(body.lightDepartureHistoryRo || '')}`;
+    deepSpaceProse = `\n\n\\subsubsection*{Scara cosmică și călătoria luminii în timp}\nLa scară astronomică, dimensiunile sale sunt impresionante: ${refineProse(body.sizeComparisonRo || '')} Totodată, privind astăzi spre ${refineProse(body.name)}, observăm practic trecutul îndepărtat al Universului, întrucât lumina sa a călătorit prin spațiu până la noi: ${refineProse(body.lightDepartureHistoryRo || '')}`;
   }
 
   const quiz = body.cadet.quiz;
@@ -809,14 +855,14 @@ ${imageBlock}
 \\end{itemize}
 \\end{tcolorbox}
 
-\\vspace{4pt}
-\\noindent\\textbf{Prezentare generală și profil astrofizic.} ${refineProse(body.cadet.summary)} ${refineProse(body.junior.summary)} ${refineProse(body.junior.analogy)}${deepSpaceProse}
+\\subsubsection*{Prezentare generală și profil astrofizic}
+${refineProse(body.cadet.summary)} ${refineProse(body.junior.summary)} ${refineProse(body.junior.analogy)}${deepSpaceProse}
 
-\\medskip
-\\noindent\\textbf{${structHeading}.} ${structureProse}
+\\subsubsection*{${structHeading}}
+${structureProse}
 
-\\medskip
-\\noindent\\textbf{Observații astronomice și istoricul explorării.} ${refineProse(body.cadet.explorationHistory)} ${refineProse(body.junior.funFact)}
+\\subsubsection*{Observații astronomice și istoricul explorării}
+${refineProse(body.cadet.explorationHistory)} ${refineProse(body.junior.funFact)}
 
 \\vspace{6pt}
 \\begin{tcolorbox}[orbitarquiz, title={\\textbf{Întrebare de verificare \\#${indexNumber}: ${refineProse(body.name)}}}]
@@ -988,6 +1034,11 @@ const mainTex = `% SPDX-License-Identifier: GPL-3.0-or-later
   {\\normalfont\\large\\bfseries\\color{orbitarAccent}}
   {\\thesubsection}{0.7em}{}
 
+\\titleformat{\\subsubsection}
+  {\\normalfont\\normalsize\\bfseries\\color{orbitarDeepBlue}}
+  {\\thesubsubsection}{0.6em}{}
+\\titlespacing*{\\subsubsection}{0pt}{8pt plus 2pt minus 1pt}{2pt}
+
 \\setlength{\\parskip}{4pt}
 \\setlength{\\parindent}{0pt}
 
@@ -1132,7 +1183,7 @@ const mainTex = `% SPDX-License-Identifier: GPL-3.0-or-later
   {\\color{orbitarDeepBlue}\\large\\bfseries Sistemul Solar $\\bullet$ Sateliți Naturali $\\bullet$ Planete Pitice și Asteroizi\\\\[4pt]
   Misiuni Spațiale, Sonde și Rovere $\\bullet$ Stele și Exoplanete $\\bullet$ Nebuloase și Galaxii}\\\\[0.45cm]
   {\\color{orbitarMuted}\\normalsize Prezentări enciclopedice detaliate, repere astrofizice esențiale, structură internă,\\\\
-  istoric al explorării, hărți științifice, Laboratorul Orbitar și 66 de întrebări grilă cu barem}
+  istoric al explorării, hărți științifice, Laboratorul Orbitar și 74 de întrebări grilă cu barem}
 \\end{center}
 
 \\vfill
@@ -1326,10 +1377,10 @@ Sub termenii licenței libere \\textbf{GNU General Public License v3.0 (\\texttt
 Pornește într-o călătorie științifică și vizuală de la atmosfera incandescentă a Soarelui până la cele mai îndepărtate galaxii observate de Telescopul Spațial James Webb! Născută din baza de cunoștințe a planetariului interactiv 3D \\textbf{Orbitar}, această enciclopedie ilustrată aduce Universul mai aproape de tinerii exploratori, elevi, profesori și pasionați de astronomie.\\\\[8pt]
 \\textbf{\\color{amber!90!yellow}Ce vei descoperi în paginile acestei cărți:}\\\\[4pt]
 \\begin{itemize}[leftmargin=1.4em, itemsep=3pt, topsep=2pt]
-  \\item \\textbf{Orizontul 1 (Sistemul Solar):} Soarele, cele 8 planete împreună cu cei 15 sateliți naturali majori, planetele pitice (Pluto, Ceres, Eris, Haumea, Makemake), asteroizii și cometele, ilustrate atât ca globuri 3D, cât și prin planigloburi științifice desfășurate.
+  \\item \\textbf{Orizontul 1 (Sistemul Solar):} Soarele, cele 8 planete împreună cu cei 23 de sateliți naturali majori, planetele pitice (Pluto, Ceres, Eris, Haumea, Makemake), asteroizii și cometele, ilustrate atât ca globuri 3D, cât și prin planigloburi științifice desfășurate.
   \\item \\textbf{Flota Spațială a Omenirii:} 12 misiuni legendare, cuprinzând sonde interplanetare, telescoape spațiale, stații orbitale și rovere marțiene, cu arhitectura lor tehnică explicată pe înțelesul tuturor.
   \\item \\textbf{Orizonturile 2 și 3 (Stele, Exoplanete, Nebuloase și Galaxii):} lumi îndepărtate precum \\emph{Proxima Centauri b}, sistemul \\emph{TRAPPIST-1}, nebuloasele stelare, gaura neagră supermasivă \\emph{Sagittarius A*}, Calea Lactee și galaxia Andromeda.
-  \\item \\textbf{Laboratorul Orbitar și Autoevaluare:} experimente interactive de astrofizică, astronavele românești \\emph{Vlaicu-1}, \\emph{Coandă-X} și \\emph{Luceafărul}, glosar astronomic și 66 de întrebări grilă cu barem complet și explicații.
+  \\item \\textbf{Laboratorul Orbitar și Autoevaluare:} experimente interactive de astrofizică, astronavele românești \\emph{Vlaicu-1}, \\emph{Coandă-X} și \\emph{Luceafărul}, glosar astronomic și 74 de întrebări grilă cu barem complet și explicații.
 \\end{itemize}
 \\end{tcolorbox}
 \\end{center}
@@ -1361,7 +1412,7 @@ const cap00 = `% SPDX-License-Identifier: GPL-3.0-or-later
 
 \\section{Cum este organizată această carte}
 
-Fiecare dintre cele \\textbf{66 de corpuri cerești, sateliți naturali, planete pitice, asteroizi, misiuni spațiale, stele, exoplanete, nebuloase și galaxii} din \\textbf{Orbitar} este prezentat într-o formă enciclopedică unitară, prietenoasă dar riguroasă științific:
+Fiecare dintre cele \\textbf{74 de corpuri cerești, sateliți naturali, planete pitice, asteroizi, misiuni spațiale, stele, exoplanete, nebuloase și galaxii} din \\textbf{Orbitar} este prezentat într-o formă enciclopedică unitară, prietenoasă dar riguroasă științific:
 
 \\begin{itemize}[leftmargin=1.5em, itemsep=4pt]
   \\item \\textbf{Ilustrații astronomice (glob 3D și planiglob desfășurat / fotografie oficială):} pentru toate corpurile din Sistemul Solar sunt afișate alături atât vederea tridimensională a corpului ceresc, cât și harta sa științifică desfășurată, iar pentru sonde, rovere, exoplanete, nebuloase și galaxii sunt incluse fotografiile oficiale NASA / ESA / JWST / Hubble / EHT.
@@ -1381,7 +1432,7 @@ Universul este atât de vast încât nicio unitate de măsură unică nu poate d
   \\node[box, fill=orbitarJuniorBg, draw=orbitarAmber] (h1) at (0,0) {
     \\textbf{\\color{orbitarDeepBlue}Orizontul 1}\\\\[2pt]
     \\textbf{Sistemul Solar}\\\\[4pt]
-    {\\footnotesize 46 de corpuri \\& misiuni:\\\\Soarele, 8 planete, 15 luni,\\\\5 planete pitice, 5 asteroizi,\\\\2 centuri \\& 12 misiuni}\\\\[3pt]
+    {\\footnotesize 54 de corpuri \\& misiuni:\\\\Soarele, 8 planete, 23 de luni,\\\\5 planete pitice, 5 asteroizi,\\\\2 centuri \\& 12 misiuni}\\\\[3pt]
     \\textbf{\\color{orbitarAmber}Scara: km \\& UA}
   };
 
@@ -1452,10 +1503,18 @@ const moonsOrder = [
   'callisto',
   'mimas',
   'enceladus',
+  'tethys',
+  'dione',
+  'rhea',
   'titan',
+  'hyperion',
   'iapetus',
+  'phoebe',
   'miranda',
+  'ariel',
+  'umbriel',
   'titania',
+  'oberon',
   'triton',
   'charon',
 ];
@@ -1494,7 +1553,11 @@ const planetsTableRows = sunAndPlanets
 const moonsTableRows = moonsList
   .map((m) => {
     const pName = PARENT_NAMES_RO[m.parentId] || m.parentId;
-    return `${texEscape(m.name)} & ${texEscape(pName)} & ${fmtNum(m.radiusKm, 1)} & ${fmtNum(m.gravityRatio, 3)} & ${fmtNum(m.orbitPeriodDays, 2)} zile & ${fmtNum(m.meanTempC)}$^\\circ$C \\\\`;
+    const periodLabel =
+      m.orbitPeriodDays < 0
+        ? `${fmtNum(Math.abs(m.orbitPeriodDays), 2)} zile (retrograd)`
+        : `${fmtNum(m.orbitPeriodDays, 2)} zile`;
+    return `${texEscape(m.name)} & ${texEscape(pName)} & ${fmtNum(m.radiusKm, 1)} & ${fmtNum(m.gravityRatio, 3)} & ${periodLabel} & ${fmtNum(m.meanTempC)}$^\\circ$C \\\\`;
   })
   .join('\n');
 
@@ -1527,7 +1590,7 @@ const cap01 = `% SPDX-License-Identifier: GPL-3.0-or-later
 Sistemul nostru Solar s-a format acum aproximativ \\textbf{4,6 miliarde de ani} din prăbușirea gravitațională a unui nor molecular gigant de gaz și praf interstelar. Peste $99{,}86\\%$ din întreaga masă a sistemului s-a concentrat în centru, dând naștere stelei noastre, \\textbf{Soarele}, în timp ce din discul protoplanetar rămas s-au format \\textbf{cele 8 planete majore} și \\textbf{sateliții lor naturali (lunile)}, care sunt prezentate în acest capitol împreună cu planeta în jurul căreia orbitează:
 \\begin{enumerate}[leftmargin=1.6em, itemsep=2pt]
   \\item \\textbf{Planetele Interioare Telurice (Stâncoase):} \\emph{Mercur} și \\emph{Venus} (fără sateliți naturali), \\emph{Pământul} (însoțit de \\emph{Lună}) și \\emph{Marte} (însoțit de sateliții săi capturați \\emph{Phobos} și \\emph{Deimos}).
-  \\item \\textbf{Planetele Exterioare Gigante și Sistemele Lor de Sateliți:} \\emph{Giganții Gazoși}, reprezentați de \\emph{Jupiter} (cu cele 4 luni galileene: \\emph{Io, Europa, Ganymede, Callisto}) și \\emph{Saturn} (cu \\emph{Mimas, Enceladus, Titan, Iapetus}), precum și \\emph{Giganții de Gheață}, reprezentați de \\emph{Uranus} (cu \\emph{Miranda} și \\emph{Titania}) și \\emph{Neptun} (cu satelitul retrograd \\emph{Triton}).
+  \\item \\textbf{Planetele Exterioare Gigante și Sistemele Lor de Sateliți:} \\emph{Giganții Gazoși}, reprezentați de \\emph{Jupiter} (cu cele 4 luni galileene: \\emph{Io, Europa, Ganymede, Callisto}) și \\emph{Saturn} (cu \\emph{Mimas, Enceladus, Tethys, Dione, Rhea, Titan, Hyperion, Iapetus, Phoebe}), precum și \\emph{Giganții de Gheață}, reprezentați de \\emph{Uranus} (cu \\emph{Miranda, Ariel, Umbriel, Titania, Oberon}) și \\emph{Neptun} (cu satelitul retrograd \\emph{Triton}).
 \\end{enumerate}
 
 \\begin{center}
@@ -1604,7 +1667,7 @@ ${planetsTableRows}
 \\begin{table}[H]
 \\centering
 \\small
-\\caption{Tabel sinoptic al celor 15 sateliți naturali majori din Orbitar (asociați cu planetele lor)}
+\\caption{Tabel sinoptic al celor 23 de sateliți naturali majori din Orbitar (asociați cu planetele lor)}
 \\resizebox{\\textwidth}{!}{%
 \\begin{tabular}{@{}llrrrr@{}}
 \\toprule
@@ -2101,8 +2164,8 @@ Tabelul de mai jos prezintă valorile exacte calculate de \\textbf{Laboratorul O
 
 \\begingroup
 \\small
-\\begin{longtable}{@{} >{\\raggedright\\arraybackslash}p{2.9cm} >{\\raggedright\\arraybackslash}p{3.6cm} r r r @{}}
-\\caption{Cât cântărește și cât de sus sare un copil de 35 kg (săritură 40 cm pe Pământ) pe toate cele 34 de corpuri din Sistemul Solar} \\\\
+\\begin{longtable}{@{} >{\\raggedright\\arraybackslash}p{2.5cm} >{\\raggedright\\arraybackslash}p{3.1cm} r r r @{}}
+\\caption{Cât cântărește și cât de sus sare un copil de 35 kg (săritură 40 cm pe Pământ) pe toate cele 50 de corpuri naturale din Sistemul Solar} \\\\
 \\toprule
 \\textbf{Corp ceresc} & \\textbf{Categorie} & \\textbf{Gravitație ($g_\\oplus$)} & \\textbf{Cântarul arată} & \\textbf{Înălțimea săriturii} \\\\
 \\midrule
@@ -2212,7 +2275,7 @@ fs.writeFileSync(path.join(CAPITOLE_DIR, '06-laborator-nave-si-activitati.tex'),
 console.log('Generat: capitole/06-laborator-nave-si-activitati.tex');
 
 // ============================================================================
-// CAPITOLUL 7: BAREMUL COMPLET AL CELOR 66 DE ÎNTREBĂRI QUIZ ȘI GLOSAR
+// CAPITOLUL 7: BAREMUL COMPLET AL CELOR 74 DE ÎNTREBĂRI QUIZ ȘI GLOSAR
 // ============================================================================
 const all66Ordered = [
   ...orderedSolarBodies,
@@ -2232,17 +2295,17 @@ const baremRows = all66Ordered
   .join('\n');
 
 const cap07 = `% SPDX-License-Identifier: GPL-3.0-or-later
-\\chapter{Baremul Complet al celor 66 de Întrebări Quiz și Glosar Astronomic}
+\\chapter{Baremul Complet al celor 74 de Întrebări Quiz și Glosar Astronomic}
 \\label{chap:barem-glosar}
 
-Acest capitol centralizează răspunsurile corecte și explicațiile științifice pentru toate cele \\textbf{66 de întrebări grilă de verificare} din capitolele anterioare, urmate de un \\textbf{Glosar de Termeni Astronomici și Spațiali}.
+Acest capitol centralizează răspunsurile corecte și explicațiile științifice pentru toate cele \\textbf{74 de întrebări grilă de verificare} din capitolele anterioare, urmate de un \\textbf{Glosar de Termeni Astronomici și Spațiali}.
 
-\\section{Baremul celor 66 de Întrebări Grilă de Verificare}
+\\section{Baremul celor 74 de Întrebări Grilă de Verificare}
 
 \\begingroup
 \\small
 \\begin{longtable}{@{}r >{\\raggedright\\arraybackslash}p{2.7cm} >{\\raggedright\\arraybackslash}p{4.8cm} >{\\raggedright\\arraybackslash}p{6.5cm}@{}}
-\\caption{Baremul complet de verificare pentru cele 66 de corpuri cerești, misiuni, exoplanete și galaxii} \\\\
+\\caption{Baremul complet de verificare pentru cele 74 de corpuri cerești, misiuni, exoplanete și galaxii} \\\\
 \\toprule
 \\textbf{\\#} & \\textbf{Obiect Cosmic} & \\textbf{Întrebarea Quiz} & \\textbf{Răspuns Corect \\& Explicație} \\\\
 \\midrule

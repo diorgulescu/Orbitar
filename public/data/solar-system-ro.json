@@ -765,50 +765,6 @@
       }
     },
     {
-      "id": "titan",
-      "name": "Titan",
-      "category": "moon",
-      "subtitle": "Satelitul lui Saturn cu atmosferă densă și lacuri de metan",
-      "color": "#f59e0b",
-      "orbitColor": "#fbbf24",
-      "parentId": "saturn",
-      "localOrbitOrder": 3,
-      "radiusKm": 2574.7,
-      "massEarthRatio": 0.0225,
-      "gravityRatio": 0.138,
-      "orbitPeriodDays": 15.945,
-      "dayLengthHours": 382.68,
-      "meanTempC": -179,
-      "distanceFromSunAU": 9.582,
-      "modelType": "sphere",
-      "junior": {
-        "summary": "Titan este cea mai mare lună a lui Saturn și singura lună învelită într-o atmosferă groasă și portocalie, cu nori, ploi, râuri și mări!",
-        "analogy": "Pe Titan atmosfera e atât de deasă și gravitația atât de mică încât, dacă ți-ai pune aripi pe brațe, ai putea zbura dând din mâini ca o pasăre!",
-        "funFact": "Râurile și lacurile de pe Titan nu sunt din apă, ci din metan și etan lichid, la aproape -180 °C!",
-        "travelTime": {
-          "car": "1.450 de ani",
-          "plane": "160 de ani",
-          "rocket": "7 ani",
-          "light": "1 oră și 11 minute"
-        }
-      },
-      "cadet": {
-        "summary": "Al doilea satelit ca mărime din Sistemul Solar (mai mare decât Mercur), Titan este singurul satelit cu o atmosferă densă (97% azot, presiune de 1,45 ori mai mare decât pe Pământ) și singurul corp în afară de Pământ cu lichid stabil la suprafață.",
-        "structure": [
-          { "name": "Nucleu de silicați hidratati", "description": "Rază de ~2.000 km în centrul satelitului." },
-          { "name": "Ocean subteran de apă și amoniac", "description": "Situat sub o crustă de gheață de apă dură ca roca." },
-          { "name": "Suprafață cu ciclu al metanului și atmosferă de azot", "description": "Mări de hidrocarburi (Kraken Mare, Ligeia Mare), dune organice și ceață fotochimică (toline)." }
-        ],
-        "explorationHistory": "Sonda europeană Huygens a asolizat pe Titan în ianuarie 2005 (cea mai îndepărtată asolizare din istorie); NASA pregătește drona nucleară Dragonfly.",
-        "quiz": {
-          "question": "Din ce sunt formate lacurile și mările de la suprafața lui Titan?",
-          "options": ["Din apă caldă", "Din metan și etan lichid", "Din lavă topită", "Din mercur lichid"],
-          "correctIndex": 1,
-          "explanation": "La temperatura de -179 °C de pe Titan, apa este tare ca piatra, iar metanul și etanul formează nori, ploi, râuri și mări."
-        }
-      }
-    },
-    {
       "id": "enceladus",
       "name": "Enceladus",
       "category": "moon",
@@ -853,6 +809,226 @@
       }
     },
     {
+      "id": "tethys",
+      "name": "Tethys",
+      "category": "moon",
+      "subtitle": "Luna de gheață pură a lui Saturn, cu craterul Odysseus și canionul Ithaca",
+      "color": "#e2e8f0",
+      "orbitColor": "#cbd5e1",
+      "parentId": "saturn",
+      "localOrbitOrder": 3,
+      "radiusKm": 531.1,
+      "massEarthRatio": 0.000103,
+      "gravityRatio": 0.015,
+      "orbitPeriodDays": 1.888,
+      "dayLengthHours": 45.31,
+      "meanTempC": -187,
+      "distanceFromSunAU": 9.582,
+      "modelType": "sphere",
+      "junior": {
+        "summary": "Tethys este o lună mare și luminoasă a lui Saturn, formată aproape în întregime din gheață curată de apă! Pe ea se află un crater gigant numit Odysseus și o vale imensă de gheață.",
+        "analogy": "Pentru că este făcută aproape doar din gheață, Tethys este mai ușoară decât apa — dacă ai găsi un ocean destul de mare, Tethys ar pluti pe el ca un cub de gheață!",
+        "funFact": "Canionul Ithaca Chasma de pe Tethys este lung de 2.000 km și încinge trei sferturi din întreaga lună ca o centură de gheață!",
+        "travelTime": {
+          "car": "1.450 de ani",
+          "plane": "160 de ani",
+          "rocket": "7 ani",
+          "light": "1 oră și 11 minute"
+        }
+      },
+      "cadet": {
+        "summary": "Descoperită de Giovanni Domenico Cassini în 1684, Tethys are cea mai scăzută densitate dintre toți sateliții majori din Sistemul Solar (0,984 g/cm³), indicând că este compusă în proporție de peste 93% din gheață de apă și mai puțin de 7% rocă.",
+        "structure": [
+          { "name": "Interior omogen de gheață de apă", "description": "Densitatea de 0,984 g/cm³ arată că fracțiunea stâncoasă este minimă." },
+          { "name": "Bazinul de impact Odysseus (445 km diametru)", "description": "Un crater colosal lat cât două cincimi din diametrul satelitului, ale cărui margini s-au aplatizat în timp prin relaxarea vâscoasă a gheții." },
+          { "name": "Sistemul tectonic Ithaca Chasma", "description": "O vale ramificată lată de 100 km, adâncă de 3–5 km și lungă de 2.000 km, formată când oceanul intern străvechi al lui Tethys a înghețat și s-a dilatat." }
+        ],
+        "explorationHistory": "Fotografiată de Pioneer 11 și Voyager 1/2 și cartografiată la înaltă rezoluție de sonda Cassini în timpul survolului apropiat din septembrie 2005.",
+        "quiz": {
+          "question": "Din ce material este alcătuită în proporție de peste 93% luna Tethys a lui Saturn?",
+          "options": ["Din fier topit", "Din gheață de apă aproape pură (având o densitate mai mică decât a apei lichide)", "Din gaz metan", "Din bazalt vulcanic negru"],
+          "correctIndex": 1,
+          "explanation": "Cu o densitate medie de 0,984 g/cm³, Tethys este alcătuită aproape exclusiv din gheață de apă, reflectând puternic lumina Soarelui."
+        }
+      }
+    },
+    {
+      "id": "dione",
+      "name": "Dione",
+      "category": "moon",
+      "subtitle": "Luna înghețată a lui Saturn, brăzdată de faleze tectonice strălucitoare",
+      "color": "#d6d3d1",
+      "orbitColor": "#cbd5e1",
+      "parentId": "saturn",
+      "localOrbitOrder": 4,
+      "radiusKm": 561.4,
+      "massEarthRatio": 0.000183,
+      "gravityRatio": 0.024,
+      "orbitPeriodDays": 2.737,
+      "dayLengthHours": 65.69,
+      "meanTempC": -186,
+      "distanceFromSunAU": 9.582,
+      "modelType": "sphere",
+      "junior": {
+        "summary": "Dione este a patra lună ca mărime a lui Saturn! Pe o parte a ei se văd dungi albe și sclipitoare care sunt, de fapt, stânci uriașe de gheață curată!",
+        "analogy": "Rețeaua de stânci luminoase de pe Dione arată din spațiu ca niște fire subțiri de beteală argintie așezate pe un glob înghețat!",
+        "funFact": "Două luni mici, Helene și Polydeuces, călătoresc pe exact aceeași orbită cu Dione, una în fața ei și cealaltă în urma ei!",
+        "travelTime": {
+          "car": "1.450 de ani",
+          "plane": "160 de ani",
+          "rocket": "7 ani",
+          "light": "1 oră și 11 minute"
+        }
+      },
+      "cadet": {
+        "summary": "Descoperită tot de Cassini în 1684, Dione are un diametru de 1.123 km și o densitate de 1,48 g/cm³ (a treia cea mai mare dintre sateliții lui Saturn, după Titan și Enceladus), având un nucleu substanțial de silicați și posibil un ocean subteran sub o crustă groasă de gheață.",
+        "structure": [
+          { "name": "Nucleu stâncos de silicați (~46% din masă)", "description": "Îi conferă o densitate semnificativ mai ridicată decât cea a vecinei Tethys." },
+          { "name": "Posibil ocean subglaciar profund", "description": "Indicat de datele gravimetrice și de topografie ale misiunii Cassini, situat la ~100 km sub suprafață." },
+          { "name": "Falezele tectonice din Padua Chasmata", "description": "Fracturi de gheață luminoase înalte de sute de metri pe emisfera posterioară, cunoscute inițial drept «terenul vălurit» (wispy terrain)." }
+        ],
+        "explorationHistory": "Fotografiată de sondele Voyager și studiată în cinci survoluri apropiate de sonda Cassini între 2005 și 2015, care a detectat o exosferă extrem de rarefiată de ioni de oxigen.",
+        "quiz": {
+          "question": "Ce s-au dovedit a fi în realitate dungile albe luminoase («wispy terrain») de pe satelitul Dione, fotografiate de aproape de sonda Cassini?",
+          "options": ["Nori de ploaie", "Faleze și canioane tectonice abrupte din gheață strălucitoare (precum Padua Chasmata)", "Râuri de lavă", "Dune de nisip galben"],
+          "correctIndex": 1,
+          "explanation": "Imaginile de înaltă rezoluție de la Cassini au arătat că dungile luminoase sunt pereți abrupți de falii tectonice unde gheața curată este expusă la suprafață."
+        }
+      }
+    },
+    {
+      "id": "rhea",
+      "name": "Rhea",
+      "category": "moon",
+      "subtitle": "A doua lună ca mărime a lui Saturn, un corp străvechi de gheață și stâncă",
+      "color": "#cbd5e1",
+      "orbitColor": "#94a3b8",
+      "parentId": "saturn",
+      "localOrbitOrder": 5,
+      "radiusKm": 763.8,
+      "massEarthRatio": 0.000386,
+      "gravityRatio": 0.027,
+      "orbitPeriodDays": 4.518,
+      "dayLengthHours": 108.43,
+      "meanTempC": -197,
+      "distanceFromSunAU": 9.582,
+      "modelType": "sphere",
+      "junior": {
+        "summary": "Rhea este sora mai mare a lunilor de gheață ale lui Saturn și a doua lună ca mărime a planetei, imediat după uriașul Titan!",
+        "analogy": "Rhea are un diametru de peste 1.500 de kilometri — este de aproape trei ori mai lată decât România!",
+        "funFact": "Sonda Cassini a descoperit în jurul lui Rhea o atmosferă extrem de subțire care conține oxigen și dioxid de carbon!",
+        "travelTime": {
+          "car": "1.450 de ani",
+          "plane": "160 de ani",
+          "rocket": "7 ani",
+          "light": "1 oră și 11 minute"
+        }
+      },
+      "cadet": {
+        "summary": "Descoperită în 1672 de Giovanni Domenico Cassini, Rhea este al nouălea satelit ca mărime din Sistemul Solar (diametru de 1.527,6 km). Are o suprafață intens craterizată, împărțită între o emisferă anterioară luminoasă și o emisferă posterioară întunecată, brăzdată de canioane de gheață.",
+        "structure": [
+          { "name": "Interior slab diferențiat (75% gheață, 25% rocă)", "description": "Densitatea medie de 1,236 g/cm³ indică un amestec de gheață de apă și roci silicatice." },
+          { "name": "Bazinele de impact Tirawa și Mamaldi", "description": "Două bazine străvechi uriașe (de 360 km și 480 km diametru) și craterul tânăr Inktomi cu raze strălucitoare de gheață pură." },
+          { "name": "Exosferă fină de oxigen (O₂) și dioxid de carbon (CO₂)", "description": "Eliberată prin radioliza gheții de la suprafață sub acțiunea ionilor din magnetosfera lui Saturn." }
+        ],
+        "explorationHistory": "Fotografiată de sondele Voyager 1 și 2 și explorată îndeaproape de sonda Cassini (inclusiv un survol la doar 50 km altitudine în martie 2010).",
+        "quiz": {
+          "question": "Ce loc ocupă Rhea ca mărime între sateliții planetei Saturn?",
+          "options": ["Este cel mai mic satelit", "Este al doilea satelit ca mărime al lui Saturn, după Titan", "Este mai mare decât Saturn", "Este pe locul zece"],
+          "correctIndex": 1,
+          "explanation": "Cu o rază de 763,8 km (diametru de 1.528 km), Rhea este a doua lună ca mărime a lui Saturn, fiind depășită doar de Titan."
+        }
+      }
+    },
+    {
+      "id": "titan",
+      "name": "Titan",
+      "category": "moon",
+      "subtitle": "Satelitul lui Saturn cu atmosferă densă și lacuri de metan",
+      "color": "#f59e0b",
+      "orbitColor": "#fbbf24",
+      "parentId": "saturn",
+      "localOrbitOrder": 6,
+      "radiusKm": 2574.7,
+      "massEarthRatio": 0.0225,
+      "gravityRatio": 0.138,
+      "orbitPeriodDays": 15.945,
+      "dayLengthHours": 382.68,
+      "meanTempC": -179,
+      "distanceFromSunAU": 9.582,
+      "modelType": "sphere",
+      "junior": {
+        "summary": "Titan este cea mai mare lună a lui Saturn și singura lună învelită într-o atmosferă groasă și portocalie, cu nori, ploi, râuri și mări!",
+        "analogy": "Pe Titan atmosfera e atât de deasă și gravitația atât de mică încât, dacă ți-ai pune aripi pe brațe, ai putea zbura dând din mâini ca o pasăre!",
+        "funFact": "Râurile și lacurile de pe Titan nu sunt din apă, ci din metan și etan lichid, la aproape -180 °C!",
+        "travelTime": {
+          "car": "1.450 de ani",
+          "plane": "160 de ani",
+          "rocket": "7 ani",
+          "light": "1 oră și 11 minute"
+        }
+      },
+      "cadet": {
+        "summary": "Al doilea satelit ca mărime din Sistemul Solar (mai mare decât Mercur), Titan este singurul satelit cu o atmosferă densă (97% azot, presiune de 1,45 ori mai mare decât pe Pământ) și singurul corp în afară de Pământ cu lichid stabil la suprafață.",
+        "structure": [
+          { "name": "Nucleu de silicați hidratati", "description": "Rază de ~2.000 km în centrul satelitului." },
+          { "name": "Ocean subteran de apă și amoniac", "description": "Situat sub o crustă de gheață de apă dură ca roca." },
+          { "name": "Suprafață cu ciclu al metanului și atmosferă de azot", "description": "Mări de hidrocarburi (Kraken Mare, Ligeia Mare), dune organice și ceață fotochimică (toline)." }
+        ],
+        "explorationHistory": "Sonda europeană Huygens a asolizat pe Titan în ianuarie 2005 (cea mai îndepărtată asolizare din istorie); NASA pregătește drona nucleară Dragonfly.",
+        "quiz": {
+          "question": "Din ce sunt formate lacurile și mările de la suprafața lui Titan?",
+          "options": ["Din apă caldă", "Din metan și etan lichid", "Din lavă topită", "Din mercur lichid"],
+          "correctIndex": 1,
+          "explanation": "La temperatura de -179 °C de pe Titan, apa este tare ca piatra, iar metanul și etanul formează nori, ploi, râuri și mări."
+        }
+      }
+    },
+    {
+      "id": "hyperion",
+      "name": "Hyperion",
+      "category": "moon",
+      "subtitle": "Luna-burete a lui Saturn, cu cratere în formă de fagure și rotație haotică",
+      "color": "#d6d3d1",
+      "orbitColor": "#a8a29e",
+      "parentId": "saturn",
+      "localOrbitOrder": 7,
+      "radiusKm": 135.0,
+      "massEarthRatio": 0.00000094,
+      "gravityRatio": 0.002,
+      "orbitPeriodDays": 21.276,
+      "dayLengthHours": 120.0,
+      "meanTempC": -180,
+      "distanceFromSunAU": 9.582,
+      "modelType": "asteroid",
+      "junior": {
+        "summary": "Hyperion este cea mai ciudată lună a lui Saturn: nu este rotundă și este atât de plină de găuri adânci încât arată exact ca un burete de mare înghețat!",
+        "analogy": "În timp ce alte luni se rotesc ordonat, Hyperion se rostogolește haotic prin spațiu, așa că pe el nu ai ști niciodată din ce direcție va răsări Saturn mâine!",
+        "funFact": "Hyperion este mai mult de 40% gol pe dinăuntru, ca o spumă înghețată de apă și praf cosmic!",
+        "travelTime": {
+          "car": "1.450 de ani",
+          "plane": "160 de ani",
+          "rocket": "7 ani",
+          "light": "1 oră și 11 minute"
+        }
+      },
+      "cadet": {
+        "summary": "Descoperită în 1848 de William și George Bond și independent de William Lassell, Hyperion (360 × 266 × 205 km) este unul dintre cele mai mari corpuri neregulate din Sistemul Solar și primul satelit la care s-a descoperit o rotație complet haotică, cauzată de rezonanța orbitală 4:3 cu Titan.",
+        "structure": [
+          { "name": "Structură ultra-poroasă («burete cosmic»)", "description": "Densitate medie de numai 0,544 g/cm³ (jumătate din cea a apei), cu o porozitate internă de peste 40%." },
+          { "name": "Cratere adânci în formă de fagure", "description": "Din cauza porozității mari, meteoriții comprimă gheața la impact fără a arunca mult material în jur, lăsând pereți abrupți și strălucitori." },
+          { "name": "Hidrocarburi întunecate pe fundul craterelor", "description": "Praful bogat în compuși de carbon și cianoacetilenă se adună pe fundul craterelor și absoarbe lumina solară, sublimând gheața." }
+        ],
+        "explorationHistory": "Fotografiată în detaliu uimitor de sonda Cassini la 26 septembrie 2005, în timpul unui survol apropiat la numai 500 km distanță.",
+        "quiz": {
+          "question": "De ce seamănă satelitul Hyperion al lui Saturn cu un burete sau un fagure înghețat?",
+          "options": ["Are o porozitate internă de peste 40%, iar impacturile comprimă gheața în cratere adânci cu margini ascuțite", "A fost săpat de vulcani", "Este făcut din fier greu", "Are oceane calde la suprafață"],
+          "correctIndex": 0,
+          "explanation": "Cu o densitate de doar 0,54 g/cm³, Hyperion este extrem de poros, astfel încât impacturile meteoritice creează cavități adânci prin compresie, fără a le șterge pe cele vecine."
+        }
+      }
+    },
+    {
       "id": "iapetus",
       "name": "Iapetus",
       "category": "moon",
@@ -860,7 +1036,7 @@
       "color": "#e2e8f0",
       "orbitColor": "#cbd5e1",
       "parentId": "saturn",
-      "localOrbitOrder": 4,
+      "localOrbitOrder": 8,
       "radiusKm": 734.5,
       "massEarthRatio": 0.0003,
       "gravityRatio": 0.023,
@@ -893,6 +1069,50 @@
           "options": ["Are o emisferă neagră ca cărbunele și una albă ca zăpada, plus o creastă muntoasă la ecuator", "Este complet verde", "Are trei inele proprii de foc", "Este cel mai fierbinte corp din Sistemul Solar"],
           "correctIndex": 0,
           "explanation": "Iapetus prezintă cel mai dramatic contrast de culoare (albedo) din Sistemul Solar și o creastă ecuatorială care îi dă forma unei nuci."
+        }
+      }
+    },
+    {
+      "id": "phoebe",
+      "name": "Phoebe",
+      "category": "moon",
+      "subtitle": "Satelitul întunecat capturat din Centura Kuiper, cu orbită retrogradă în jurul lui Saturn",
+      "color": "#a8a29e",
+      "orbitColor": "#94a3b8",
+      "parentId": "saturn",
+      "localOrbitOrder": 9,
+      "radiusKm": 106.5,
+      "massEarthRatio": 0.00000139,
+      "gravityRatio": 0.004,
+      "orbitPeriodDays": -550.31,
+      "dayLengthHours": 9.27,
+      "meanTempC": -198,
+      "distanceFromSunAU": 9.582,
+      "modelType": "asteroid",
+      "junior": {
+        "summary": "Phoebe este un călător misterios de la marginea Sistemului Solar care a fost prins de gravitația lui Saturn! Este negru ca cărbunele la exterior, dar ascunde gheață albă sub praf.",
+        "analogy": "La fel ca Triton la Neptun, Phoebe zboară «pe contrasens» în jurul lui Saturn, la o distanță uriașă de aproape 13 milioane de kilometri!",
+        "funFact": "Phoebe a fost primul satelit descoperit vreodată cu ajutorul fotografiilor astronomice, în anul 1899, și lasă în urma lui cel mai mare inel de praf al lui Saturn!",
+        "travelTime": {
+          "car": "1.450 de ani",
+          "plane": "160 de ani",
+          "rocket": "7 ani",
+          "light": "1 oră și 11 minute"
+        }
+      },
+      "cadet": {
+        "summary": "Descoperită în 1899 de William Henry Pickering pe plăci fotografice, Phoebe (diametru mediu 213 km) orbitează retrograd la 12,9 milioane km de Saturn în 550 de zile. Densitatea ridicată (1,63 g/cm³) și compoziția isotopică arată că este un centaur primordial capturat din Centura Kuiper.",
+        "structure": [
+          { "name": "Interior dens de rocă și gheață (1,63 g/cm³)", "description": "Compoziție similară cu cea a lui Pluto și Triton, mult mai bogată în rocă decât lunile interioare ale lui Saturn." },
+          { "name": "Craterul gigant Jason (101 km diametru)", "description": "Impacturile meteoritice au îndepărtat pătura neagră de compuși organici și filosilicați, dezvăluind pereți strălucitori de gheață de apă." },
+          { "name": "Sursa gigantului «Inel Phoebe»", "description": "Micrometeoriții lovesc continuu Phoebe și ridică un inel vast de praf întunecat care cade în spirală și înnegrește emisfera anterioară a lui Iapetus." }
+        ],
+        "explorationHistory": "A fost prima țintă studiată de sonda Cassini la sosirea în sistemul lui Saturn, printr-un survol la 2.068 km distanță pe 11 iunie 2004.",
+        "quiz": {
+          "question": "Care este originea satelitului exterior Phoebe al lui Saturn și ce efect produce praful desprins de pe el?",
+          "options": ["Este un corp capturat din Centura Kuiper, iar praful său întunecat colorează în negru o emisferă a satelitului Iapetus", "Este o bucată din Soare", "Este făcut din gaz hidrogen", "Orbitează în interiorul inelelor principale"],
+          "correctIndex": 0,
+          "explanation": "Orbita retrogradă și compoziția lui Phoebe confirmă că a fost capturat din Centura Kuiper, iar praful din Inelul Phoebe este responsabil pentru emisfera întunecată a lui Iapetus."
         }
       }
     },
@@ -941,6 +1161,94 @@
       }
     },
     {
+      "id": "ariel",
+      "name": "Ariel",
+      "category": "moon",
+      "subtitle": "Cea mai luminoasă lună a lui Uranus, străbătută de văi tectonice și câmpii netede",
+      "color": "#e2e8f0",
+      "orbitColor": "#7dd3fc",
+      "parentId": "uranus",
+      "localOrbitOrder": 2,
+      "radiusKm": 578.9,
+      "massEarthRatio": 0.000209,
+      "gravityRatio": 0.025,
+      "orbitPeriodDays": 2.52,
+      "dayLengthHours": 60.49,
+      "meanTempC": -213,
+      "distanceFromSunAU": 19.218,
+      "modelType": "sphere",
+      "junior": {
+        "summary": "Ariel este cea mai strălucitoare dintre cele cinci luni mari ale lui Uranus! Suprafața ei este brăzdată de canioane lungi și largi, cu podele netede ca niște autostrăzi de gheață.",
+        "analogy": "Ariel poartă numele unui spirit jucăuș al aerului din piesa «Furtuna» de William Shakespeare!",
+        "funFact": "Telescopul Spațial James Webb a descoperit pe Ariel gheață de dioxid de carbon care pare să fi ieșit chiar din interiorul lunii!",
+        "travelTime": {
+          "car": "3.100 de ani",
+          "plane": "345 de ani",
+          "rocket": "8 ani și jumătate",
+          "light": "2 ore și 30 de minute"
+        }
+      },
+      "cadet": {
+        "summary": "Descoperită în 1851 de William Lassell, Ariel are cea mai tânără și mai activă suprafață geologică dintre sateliții lui Uranus (după Miranda), cu un albedo ridicat (0,39) și o rețea vastă de grabene tectonice (Kachina Chasmata) și câmpii criovulcanice.",
+        "structure": [
+          { "name": "Nucleu diferențiat de rocă (~50%) și manta de gheață (~50%)", "description": "Densitate medie de 1,59 g/cm³, cu indicii puternice privind existența unui ocean subteran rezidual." },
+          { "name": "Sistemul de canioane Kachina Chasmata", "description": "Grabene tectonice lungi de peste 620 km și adânci de 5–10 km, ale căror podele au fost netezite de curgeri criovulcanice de gheață de apă și amoniac." },
+          { "name": "Depozite de dioxid de carbon (CO₂) și monoxid de carbon", "description": "Detectate în 2023–2024 de Telescopul James Webb pe emisfera posterioară, sugerând procese de degazare din interior." }
+        ],
+        "explorationHistory": "Fotografiată de sonda Voyager 2 în ianuarie 1986 (de la 127.000 km distanță) și analizată spectroscopic de Telescopul Spațial James Webb.",
+        "quiz": {
+          "question": "Prin ce se distinge suprafața satelitului Ariel față de vecina sa întunecată Umbriel?",
+          "options": ["Ariel este cea mai luminoasă lună a lui Uranus și are o suprafață tânără, tăiată de canioane tectonice (Kachina Chasmata) și câmpii criovulcanice", "Ariel este acoperită cu păduri", "Ariel nu are niciun crater sau vale", "Ariel este făcută din fier lichid"],
+          "correctIndex": 0,
+          "explanation": "Încălzirea mareică din trecut a remodelat suprafața lui Ariel prin falii tectonice și criovulcanism, făcând-o cea mai strălucitoare lună a lui Uranus."
+        }
+      }
+    },
+    {
+      "id": "umbriel",
+      "name": "Umbriel",
+      "category": "moon",
+      "subtitle": "Luna întunecată a lui Uranus, cu misteriosul inel luminos al craterului Wunda",
+      "color": "#94a3b8",
+      "orbitColor": "#38bdf8",
+      "parentId": "uranus",
+      "localOrbitOrder": 3,
+      "radiusKm": 584.7,
+      "massEarthRatio": 0.000213,
+      "gravityRatio": 0.023,
+      "orbitPeriodDays": 4.144,
+      "dayLengthHours": 99.46,
+      "meanTempC": -198,
+      "distanceFromSunAU": 19.218,
+      "modelType": "sphere",
+      "junior": {
+        "summary": "Umbriel este cea mai întunecată dintre lunile mari ale lui Uranus! Pe suprafața ei cenușie strălucește ca un far un inel alb misterios, aflat în craterul Wunda.",
+        "analogy": "Inelul alb din craterul Wunda de pe Umbriel arată din spațiu ca o gogoașă glazurată luminoasă așezată chiar lângă ecuatorul unei lumi întunecate!",
+        "funFact": "Numele ei vine de la «Umbriel», un spirit melancolic al umbrelor dintr-un poem de Alexander Pope (și de la cuvântul latin «umbra»!).",
+        "travelTime": {
+          "car": "3.100 de ani",
+          "plane": "345 de ani",
+          "rocket": "8 ani și jumătate",
+          "light": "2 ore și 30 de minute"
+        }
+      },
+      "cadet": {
+        "summary": "Descoperită în 1851 de William Lassell în aceeași zi cu Ariel, Umbriel are aproape aceeași dimensiune (diametru 1.169 km), dar o istorie geologică complet diferită: reflectă doar 16% din lumină (jumătate față de Ariel) și păstrează o suprafață străveche, saturată cu cratere mari de impact.",
+        "structure": [
+          { "name": "Interior de gheață de apă și rocă (1,39 g/cm³)", "description": "Conține o proporție mai mare de gheață și mai puțină rocă decât Ariel, fără semne de refacere tectonică recentă a scoarței." },
+          { "name": "Suprafață străveche întunecată de toline și carbon", "description": "Acoperită de un strat subțire de material organic întunecat și cratere de până la 210 km diametru (precum Skynd și Vuver)." },
+          { "name": "Craterul Wunda (131 km diametru)", "description": "Adăpostește pe podeaua sa un inel strălucitor lat de ~10 km, format probabil din gheață pură de dioxid de carbon (CO₂) condensată în capcana termică a craterului." }
+        ],
+        "explorationHistory": "Fotografiată de sonda Voyager 2 în ianuarie 1986; este una dintre țintele principale pentru o viitoare sondă orbitală dedicată sistemului Uranus (Uranus Orbiter and Probe).",
+        "quiz": {
+          "question": "Ce detaliu strălucitor iese în evidență pe suprafața foarte întunecată a satelitului Umbriel?",
+          "options": ["Inelul alb luminos de pe podeaua craterului ecuatorial Wunda", "Un vulcan de sulf", "Un ocean de metan lichid", "Un inel planetar ca al lui Saturn"],
+          "correctIndex": 0,
+          "explanation": "Craterul Wunda conține un inel lat și foarte luminos (probabil gheață de dioxid de carbon sau gheață de apă curată expusă la impact), care contrastează puternic cu restul suprafeței întunecate a lui Umbriel."
+        }
+      }
+    },
+    {
       "id": "titania",
       "name": "Titania",
       "category": "moon",
@@ -948,7 +1256,7 @@
       "color": "#cbd5e1",
       "orbitColor": "#7dd3fc",
       "parentId": "uranus",
-      "localOrbitOrder": 2,
+      "localOrbitOrder": 4,
       "radiusKm": 788.4,
       "massEarthRatio": 0.00059,
       "gravityRatio": 0.039,
@@ -981,6 +1289,50 @@
           "options": ["Din mitologia egipteană", "Din operele literare ale lui William Shakespeare și Alexander Pope", "De la numele râurilor din Europa", "De la numele unor rachete"],
           "correctIndex": 1,
           "explanation": "Spre deosebire de celelalte planete ale căror luni poartă nume din mitologia greco-romană, lunile lui Uranus sunt numite după personaje din Shakespeare și Pope."
+        }
+      }
+    },
+    {
+      "id": "oberon",
+      "name": "Oberon",
+      "category": "moon",
+      "subtitle": "Cea mai exterioară lună mare a lui Uranus, cu craterul Hamlet și un munte de 11 km",
+      "color": "#cbd5e1",
+      "orbitColor": "#60a5fa",
+      "parentId": "uranus",
+      "localOrbitOrder": 5,
+      "radiusKm": 761.4,
+      "massEarthRatio": 0.000505,
+      "gravityRatio": 0.035,
+      "orbitPeriodDays": 13.463,
+      "dayLengthHours": 323.12,
+      "meanTempC": -198,
+      "distanceFromSunAU": 19.218,
+      "modelType": "sphere",
+      "junior": {
+        "summary": "Oberon este Regele Zânelor și a doua lună ca mărime a lui Uranus! Se rotește cel mai departe de planetă dintre cele cinci luni mari și are cratere cu raze luminoase de gheață.",
+        "analogy": "La marginea globului lui Oberon, sonda Voyager 2 a fotografiat un munte uriaș care se înalță la 11 kilometri deasupra orizontului — mai înalt decât muntele Everest!",
+        "funFact": "Multe dintre craterele lui Oberon poartă nume de eroi din piesele lui Shakespeare: Hamlet, Othello, Macbeth, Lear și Romeo!",
+        "travelTime": {
+          "car": "3.100 de ani",
+          "plane": "345 de ani",
+          "rocket": "8 ani și jumătate",
+          "light": "2 ore și 30 de minute"
+        }
+      },
+      "cadet": {
+        "summary": "Descoperită de William Herschel la 11 ianuarie 1787 (în aceeași noapte cu Titania), Oberon este al zecelea satelit ca mărime din Sistemul Solar (diametru de 1.522,8 km). Alcătuită în proporții egale din gheață de apă și rocă (densitate 1,63 g/cm³), are o suprafață intens craterizată și canioane tectonice (Mommur Chasma).",
+        "structure": [
+          { "name": "Nucleu stâncos și manta de gheață (50% rocă, 50% gheață)", "description": "Poate păstra la limita dintre nucleu și manta un strat subțire de ocean lichid bogat în amoniac." },
+          { "name": "Craterul Hamlet (206 km diametru) și Othello", "description": "Cratere mari de impact înconjurate de raze luminoase de gheață proaspătă, dar având podeaua acoperită cu material criovulcanic întunecat." },
+          { "name": "Muntele de la limb (~11 km înălțime) și Mommur Chasma", "description": "Un pisc central colosal observat în profil pe marginea discului de Voyager 2 și un canion tectonic lung de 537 km." }
+        ],
+        "explorationHistory": "Fotografiată de sonda Voyager 2 în ianuarie 1986 de la o distanță de 470.600 km.",
+        "quiz": {
+          "question": "Ce formațiune spectaculoasă a observat sonda Voyager 2 ridicându-se pe marginea orizontului (limbul) satelitului Oberon?",
+          "options": ["Un munte de aproximativ 11 km înălțime (probabil piscul central al unui mare bazin de impact)", "Un ocean de apă caldă", "Un inel de praf", "O furtună de nisip"],
+          "correctIndex": 0,
+          "explanation": "În imaginile Voyager 2, pe limbul sud-estic al lui Oberon se profilează un munte înalt de ~11 km, mai înalt decât Everestul de pe Pământ."
         }
       }
     },

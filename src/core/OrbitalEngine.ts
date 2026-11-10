@@ -532,16 +532,33 @@ export class OrbitalEngine {
         .multiplyScalar(0.000023);
     }
 
-    const incl = id === 'triton' ? -0.35 : id === 'iapetus' ? 0.24 : order % 2 === 1 ? 0.08 : -0.14;
+    const incl =
+      id === 'triton'
+        ? -0.35
+        : id === 'phoebe'
+        ? -0.28
+        : id === 'iapetus'
+        ? 0.24
+        : order % 2 === 1
+        ? 0.08
+        : -0.14;
     const moonSemiMajorAu: Record<string, number> = {
       phobos: 0.0000627,
       deimos: 0.0001568,
       mimas: 0.00124,
       enceladus: 0.00159,
+      tethys: 0.00197,
+      dione: 0.00252,
+      rhea: 0.00352,
       titan: 0.00817,
+      hyperion: 0.0099,
       iapetus: 0.0238,
+      phoebe: 0.0866,
       miranda: 0.000868,
-      titania: 0.00291,
+      ariel: 0.001277,
+      umbriel: 0.001778,
+      titania: 0.002914,
+      oberon: 0.003901,
       triton: 0.00237,
       charon: 0.000131,
     };
