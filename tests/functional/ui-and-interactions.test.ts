@@ -413,6 +413,21 @@ describe('UI, CameraController & SurfaceMarkers — Functional Integration Tests
     assert.ok(spokenBriefing.includes('minus 110 grade Celsius'));
     assert.ok(spokenBriefing.includes('Vlaicu unu'));
     cockpitHud.stopCockpitSpeech();
+
+    // La schimbarea orizontului în Modul Pilot, atât #cockpit-arrival-briefing cât și #hud-study-drawer sunt ascunse/colapsate pentru a preveni suprapunerea casetelor
+    briefingEl.classList.remove('is-hidden');
+    document.getElementById('hud-study-drawer')?.classList.remove('is-collapsed');
+    cockpitHud.refreshForHorizon();
+    assert.equal(
+      briefingEl.classList.contains('is-hidden'),
+      true,
+      'Schimbarea orizontului în Modul Pilot trebuie să ascundă caseta anterioară a Calculatorului de Bord'
+    );
+    assert.equal(
+      document.getElementById('hud-study-drawer')?.classList.contains('is-collapsed'),
+      true,
+      'Schimbarea orizontului în Modul Pilot trebuie să mențină Fișa de Studiu colapsată'
+    );
   });
 
   it('Caseta „Despre Orbitar” (Help -> About) afișează versiunea, verifică release-urile pe GitHub și deschide browserul pe Desktop', async () => {

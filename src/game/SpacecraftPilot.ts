@@ -10,6 +10,39 @@ export type BeltHazardZone = 'none' | 'asteroid_belt' | 'kuiper_belt';
 
 export const SPEED_OF_LIGHT_KMH = 1_079_252_848.8;
 export const KM_PER_AU_CONST = 149_597_870.7;
+const MAX_SAFE_DATE_MS = 8_000_000_000_000_000;
+
+/**
+ * Avansează o dată calendaristică cu `durationHours` ore fără a depăși limita
+ * internă ECMAScript a obiectului `Date` (±8,64e15 ms ≈ anul 275.760), prevenind
+ * apariția valorilor `Invalid Date` / `NaN` la călătorii interstelare sau intergalactice.
+ */
+export function computeSafeArrivalDateAndYear(
+  baseDate: Date,
+  durationHours: number,
+  fallbackSimulationDate: Date = new Date()
+): { date: Date; year: number } {
+  const rawBaseMs = baseDate.getTime();
+  const simBaseMs = fallbackSimulationDate.getTime();
+  const validBaseMs = Number.isFinite(rawBaseMs)
+    ? rawBaseMs
+    : Number.isFinite(simBaseMs)
+    ? simBaseMs
+    : Date.now();
+  const safeBaseDate = new Date(validBaseMs);
+  const safeHours = Number.isFinite(durationHours) && durationHours > 0 ? durationHours : 0;
+  const deltaMs = safeHours * 3600 * 1000;
+  const targetMs = validBaseMs + deltaMs;
+
+  if (Number.isFinite(targetMs) && Math.abs(targetMs) <= MAX_SAFE_DATE_MS) {
+    const arrivalDate = new Date(targetMs);
+    return { date: arrivalDate, year: arrivalDate.getFullYear() };
+  }
+
+  const elapsedYears = safeHours / (365.25 * 24);
+  const year = Math.round(safeBaseDate.getFullYear() + elapsedYears);
+  return { date: safeBaseDate, year };
+}
 
 export const ASTEROID_BELT_MIN_AU = 2.1;
 export const ASTEROID_BELT_MAX_AU = 3.3;
@@ -122,6 +155,7 @@ export interface PilotTelemetryState {
   activeBeltZone: BeltHazardZone;
   shieldActive: boolean;
   earthDate: Date;
+  earthYear: number;
   totalDistanceTraveledKm: number;
   lastTripDurationRo: string;
 }
@@ -394,6 +428,8 @@ export class SpacecraftPilot {
 
   // Cronometrul Pământului și distanța parcursă
   private earthDate: Date = new Date();
+  private earthYear: number = new Date().getFullYear();
+  private autopilotStartEarthDate: Date = new Date();
   private totalDistanceTraveledKm = 0;
   private lastTripDurationRo = '0 secunde';
   private lastArrivalReport: ArrivalBriefingReport | null = null;
@@ -435,6 +471,8 @@ export class SpacecraftPilot {
     this.scaleManager = scaleManager;
     this.cameraController = cameraController;
     this.earthDate = new Date(this.orbitalEngine.simulationDate.getTime());
+    this.earthYear = this.earthDate.getFullYear();
+    this.autopilotStartEarthDate = new Date(this.earthDate.getTime());
 
     const { group, material, posAttr } = this.createWarpStarStreaksTunnel();
     this.warpTunnelGroup = group;
@@ -592,6 +630,8 @@ export class SpacecraftPilot {
     if (enable) {
       this.cameraController.setEnabled(false);
       this.earthDate = new Date(this.orbitalEngine.simulationDate.getTime());
+      this.earthYear = this.earthDate.getFullYear();
+      this.autopilotStartEarthDate = new Date(this.earthDate.getTime());
 
       const tracked = this.cameraController.getTrackedBody();
       const earth = this.orbitalEngine.getBody('earth');
@@ -828,6 +868,21 @@ export class SpacecraftPilot {
     this.autopilotTotalDistanceKm = distanceKm;
     this.autopilotTotalDurationHours = durationHours;
 
+    // Dacă ceasul Pământului era invalid sau rămăsese decalat în viitorul îndepărtat după un salt
+    // interstelar/galactic, resincronizăm data de plecare la data curentă a simulării
+    const originIsDeep = Boolean(this.lastOriginBody?.data.distanceLightYears);
+    const targetIsDeep = Boolean(targetBody.data.distanceLightYears);
+    if (
+      !Number.isFinite(this.earthDate.getTime()) ||
+      this.earthYear > 9999 ||
+      originIsDeep ||
+      targetIsDeep
+    ) {
+      this.earthDate = new Date(this.orbitalEngine.simulationDate.getTime());
+      this.earthYear = this.earthDate.getFullYear();
+    }
+    this.autopilotStartEarthDate = new Date(this.earthDate.getTime());
+
     return true;
   }
 
@@ -952,9 +1007,15 @@ export class SpacecraftPilot {
 
     // Avansăm ceasul Pământului și contorul de kilometri proporțional cu progresul zborului
     const stepKm = this.autopilotTotalDistanceKm * deltaProgress;
-    const stepHours = this.autopilotTotalDurationHours * deltaProgress;
     this.totalDistanceTraveledKm += stepKm;
-    this.earthDate = new Date(this.earthDate.getTime() + stepHours * 3600 * 1000);
+    const elapsedHoursSoFar = this.autopilotTotalDurationHours * smoothProgress;
+    const { date: stepDate, year: stepYear } = computeSafeArrivalDateAndYear(
+      this.autopilotStartEarthDate,
+      elapsedHoursSoFar,
+      this.orbitalEngine.simulationDate
+    );
+    this.earthDate = stepDate;
+    this.earthYear = stepYear;
 
     // Vitezometrul afișează viteza nominală a navei în timpul croazierei warp
     const speedEnvelope = Math.sin(Math.min(1, Math.max(0.05, t)) * Math.PI);
@@ -1080,7 +1141,13 @@ export class SpacecraftPilot {
     if (stepKm > 1 && Math.abs(clampedForward) > 0.01) {
       this.totalDistanceTraveledKm += stepKm;
       const stepHours = stepKm / this.currentShip.speedKmh;
-      this.earthDate = new Date(this.earthDate.getTime() + stepHours * 3600 * 1000);
+      const { date: manualDate, year: manualYear } = computeSafeArrivalDateAndYear(
+        this.earthDate,
+        stepHours,
+        this.orbitalEngine.simulationDate
+      );
+      this.earthDate = manualDate;
+      this.earthYear = manualYear;
     }
 
     const speedRatio = Math.min(
@@ -1176,14 +1243,15 @@ export class SpacecraftPilot {
 
     // Dacă recalculăm la schimbarea navei, actualizăm și anul de sosire raportat la data simulării
     const baseDate = this.orbitalEngine.simulationDate;
-    const arrivalDate =
-      overrideDurationHours !== undefined
-        ? new Date(this.earthDate.getTime())
-        : new Date(baseDate.getTime() + durationHours * 3600 * 1000);
-    if (overrideDurationHours === undefined) {
-      this.earthDate = arrivalDate;
-    }
-    const earthYearCalculated = arrivalDate.getFullYear();
+    const refStartDate =
+      overrideDurationHours !== undefined ? this.autopilotStartEarthDate : baseDate;
+    const { date: arrivalDate, year: earthYearCalculated } = computeSafeArrivalDateAndYear(
+      refStartDate,
+      durationHours,
+      baseDate
+    );
+    this.earthDate = arrivalDate;
+    this.earthYear = earthYearCalculated;
 
     const sunDistAu = targetBody.distanceFromSunAu;
     const sunDistMilKm = (sunDistAu * 149.5978707).toFixed(1).replace('.', ',');
@@ -1309,6 +1377,7 @@ export class SpacecraftPilot {
       activeBeltZone: this.activeBeltZone,
       shieldActive: this.shieldActive,
       earthDate: this.earthDate,
+      earthYear: this.earthYear,
       totalDistanceTraveledKm: this.totalDistanceTraveledKm,
       lastTripDurationRo: this.lastTripDurationRo,
     };

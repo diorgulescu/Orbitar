@@ -415,6 +415,11 @@ export class CockpitHUD {
    * Reîmprospătează țintele din selectorul cabinei și modul Motorului Hiperspațial la schimbarea Orizontului Cosmic.
    */
   public refreshForHorizon(): void {
+    if (this.pilot.isActive()) {
+      this.stopCockpitSpeech();
+      document.getElementById('cockpit-arrival-briefing')?.classList.add('is-hidden');
+      document.getElementById('hud-study-drawer')?.classList.add('is-collapsed');
+    }
     this.populateTargetSelectDropdown();
     this.syncShipThemeAndButtons();
   }
@@ -547,6 +552,8 @@ export class CockpitHUD {
     const btnOpenStudy = document.getElementById('btn-briefing-open-study');
     btnOpenStudy?.addEventListener('click', () => {
       if (this.currentArrivalReport) {
+        this.stopCockpitSpeech();
+        document.getElementById('cockpit-arrival-briefing')?.classList.add('is-hidden');
         this.callbacks.onOpenStudySheet(this.currentArrivalReport.body);
       }
     });
@@ -664,11 +671,15 @@ export class CockpitHUD {
   public handleFlyToTarget(bodyId: string): void {
     this.handleSelectTargetOnWindshield(bodyId);
     document.getElementById('cockpit-arrival-briefing')?.classList.add('is-hidden');
+    document.getElementById('hud-study-drawer')?.classList.add('is-collapsed');
     this.pilot.engageAutopilot(bodyId);
   }
 
   private syncVisibility(active: boolean): void {
     this.rootEl?.classList.toggle('is-hidden', !active);
+    if (!active) {
+      document.getElementById('cockpit-arrival-briefing')?.classList.add('is-hidden');
+    }
     const orbitLabelsEl = document.getElementById('labels-container');
     if (orbitLabelsEl) {
       orbitLabelsEl.style.display = active ? 'none' : '';
@@ -733,6 +744,7 @@ export class CockpitHUD {
   public showArrivalBriefing(report: ArrivalBriefingReport): void {
     this.currentArrivalReport = report;
     this.stopCockpitSpeech();
+    document.getElementById('hud-study-drawer')?.classList.add('is-collapsed');
 
     const briefingEl = document.getElementById('cockpit-arrival-briefing');
     const titleEl = document.getElementById('briefing-title');
@@ -822,12 +834,19 @@ export class CockpitHUD {
     const earthDateEl = document.getElementById('cockpit-earth-date');
     const tripElapsedEl = document.getElementById('cockpit-trip-elapsed');
     if (earthDateEl) {
-      const formattedDate = tel.earthDate.toLocaleDateString('ro-RO', {
-        day: '2-digit',
-        month: 'short',
-        year: 'numeric',
-      });
-      earthDateEl.textContent = `${formattedDate} (Anul ${tel.earthDate.getFullYear()})`;
+      const yearVal = Number.isFinite(tel.earthYear)
+        ? tel.earthYear
+        : tel.earthDate.getFullYear();
+      if (yearVal > 9999) {
+        earthDateEl.textContent = `Anul ${yearVal.toLocaleString('ro-RO')}`;
+      } else {
+        const formattedDate = tel.earthDate.toLocaleDateString('ro-RO', {
+          day: '2-digit',
+          month: 'short',
+          year: 'numeric',
+        });
+        earthDateEl.textContent = `${formattedDate} (Anul ${yearVal})`;
+      }
     }
     if (tripElapsedEl) {
       tripElapsedEl.textContent = `Ultimul zbor: ${tel.lastTripDurationRo}`;

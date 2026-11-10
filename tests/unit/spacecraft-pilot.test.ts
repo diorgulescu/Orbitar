@@ -146,4 +146,45 @@ describe('SpacecraftPilot — Cele 3 Nave, Fizica Timpului, Centurile de Asteroi
       `Așteptat "Am ajuns la Lună!", primit: ${moonReport.headlineRo}`
     );
   });
+
+  it('nu produce anul NaN în Cronometrul Pământului după o călătorie în Orizontul Galactic urmată de revenirea pe Pământ cu Vlaicu-1', () => {
+    pilot.setPilotMode(true);
+
+    // 1. Zbor în Orizontul Galactic către Andromeda (2,537 milioane de ani-lumină -> depășește limita ECMAScript Date de ~273.790 ani)
+    pilot.engageAutopilot('andromeda');
+    for (let i = 0; i < 30; i++) {
+      pilot.update(0.2);
+    }
+    assert.ok(
+      Number.isFinite(pilot.getTelemetry().earthDate.getTime()),
+      'earthDate nu trebuie să devină Invalid Date după un zbor intergalactic'
+    );
+    assert.ok(
+      Number.isFinite(pilot.getTelemetry().earthYear),
+      'earthYear trebuie să rămână un număr finit după un zbor intergalactic'
+    );
+
+    // 2. Revenire în Sistemul Solar către Pământ și comutare pe Racheta "Vlaicu-1"
+    orbitalEngine.setActiveHorizon('solar');
+    pilot.selectShip('vlaicu1');
+    pilot.engageAutopilot('earth');
+    for (let i = 0; i < 30; i++) {
+      pilot.update(0.2);
+    }
+
+    const arrivalReport = pilot.getLastArrivalReport();
+    assert.ok(arrivalReport, 'Trebuie să existe un raport de sosire la Pământ');
+    assert.ok(
+      Number.isFinite(arrivalReport.earthYearCalculated) && arrivalReport.earthYearCalculated >= 2026,
+      `earthYearCalculated trebuie să fie un an valid (>= 2026), primit: ${arrivalReport.earthYearCalculated}`
+    );
+    assert.ok(
+      !arrivalReport.earthClockLineRo.includes('NaN'),
+      `earthClockLineRo nu trebuie să conțină NaN: ${arrivalReport.earthClockLineRo}`
+    );
+    assert.ok(
+      !arrivalReport.fullSpeechTextRo.includes('NaN'),
+      `fullSpeechTextRo nu trebuie să conțină NaN: ${arrivalReport.fullSpeechTextRo}`
+    );
+  });
 });

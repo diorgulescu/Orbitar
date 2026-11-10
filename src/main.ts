@@ -277,6 +277,10 @@ async function bootstrapOrbitar(): Promise<void> {
     if (newHorizon !== 'solar') {
       spacecraftPilot.selectShip('luceafarul');
     }
+    if (spacecraftPilot.isActive()) {
+      studyDrawer.stopSpeech();
+      document.getElementById('hud-study-drawer')?.classList.add('is-collapsed');
+    }
     cockpitHud.refreshForHorizon();
     const horizonToast =
       newHorizon === 'interstellar'
@@ -366,7 +370,9 @@ async function bootstrapOrbitar(): Promise<void> {
     }
 
     if (selected) {
-      studyDrawer.showBody(selected);
+      if (!spacecraftPilot.isActive()) {
+        studyDrawer.showBody(selected);
+      }
       lightSpeedRuler.handleBodySelectedInScene(selected);
       orbitarMissions.handleBodySelectedIn3D(selected);
 
