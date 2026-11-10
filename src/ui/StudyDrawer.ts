@@ -367,7 +367,7 @@ export class StudyDrawer {
       }
       if (force || nextDistText !== this.lastDistText) {
         this.lastDistText = nextDistText;
-        distEl.textContent = nextDistText;
+        this.setElementTextInPlace(distEl, nextDistText);
       }
     }
 
@@ -398,20 +398,29 @@ export class StudyDrawer {
 
       if (latEl && (force || nextLat !== this.lastIssLatText)) {
         this.lastIssLatText = nextLat;
-        latEl.textContent = nextLat;
+        this.setElementTextInPlace(latEl, nextLat);
       }
       if (lonEl && (force || nextLon !== this.lastIssLonText)) {
         this.lastIssLonText = nextLon;
-        lonEl.textContent = nextLon;
+        this.setElementTextInPlace(lonEl, nextLon);
       }
       if (altEl && (force || nextAlt !== this.lastIssAltText)) {
         this.lastIssAltText = nextAlt;
-        altEl.textContent = nextAlt;
+        this.setElementTextInPlace(altEl, nextAlt);
       }
       if (velEl && (force || nextVel !== this.lastIssVelText)) {
         this.lastIssVelText = nextVel;
-        velEl.textContent = nextVel;
+        this.setElementTextInPlace(velEl, nextVel);
       }
+    }
+  }
+
+  private setElementTextInPlace(el: HTMLElement, text: string): void {
+    const firstChild = el.firstChild;
+    if (firstChild && firstChild === el.lastChild && firstChild.nodeType === 3) {
+      firstChild.nodeValue = text;
+    } else {
+      el.textContent = text;
     }
   }
 

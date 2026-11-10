@@ -193,7 +193,12 @@ export class BottomDock {
     const nextText = this.dateFormatter.format(simDate);
     if (nextText !== this.lastRenderedDateText) {
       this.lastRenderedDateText = nextText;
-      this.simDateEl.textContent = nextText;
+      const firstChild = this.simDateEl.firstChild;
+      if (firstChild && firstChild === this.simDateEl.lastChild && firstChild.nodeType === 3) {
+        firstChild.nodeValue = nextText;
+      } else {
+        this.simDateEl.textContent = nextText;
+      }
     }
   }
 }

@@ -37,6 +37,8 @@ export class LabelProjector {
   private readonly getTrackedId: () => string | undefined;
   private readonly getLayerFilter: () => LayerFilter;
   private readonly states = new Map<string, LabelState>();
+  private readonly cssRuleStyles = new Map<string, CSSStyleDeclaration>();
+  private cssSheet: CSSStyleSheet | null | undefined = undefined;
   private readonly tempProj = new THREE.Vector3();
 
   constructor(options: LabelProjectorOptions) {
@@ -45,6 +47,50 @@ export class LabelProjector {
     this.getActiveHorizon = options.getActiveHorizon;
     this.getTrackedId = options.getTrackedId;
     this.getLayerFilter = options.getLayerFilter;
+  }
+
+  private getTargetStyle(
+    id: string,
+    labelEl: HTMLButtonElement
+  ): CSSStyleDeclaration | Record<string, string> {
+    if (!labelEl.dataset?.bodyId) {
+      return labelEl.style;
+    }
+    const cached = this.cssRuleStyles.get(id);
+    if (cached) return cached;
+
+    if (this.cssSheet === undefined) {
+      this.cssSheet = null;
+      try {
+        if (typeof document !== 'undefined' && document.head?.appendChild) {
+          const styleEl = document.createElement('style');
+          styleEl.id = 'orbitar-labels-cssom';
+          document.head.appendChild(styleEl);
+          if (styleEl.sheet && typeof styleEl.sheet.insertRule === 'function') {
+            this.cssSheet = styleEl.sheet;
+          }
+        }
+      } catch (_e) {
+        this.cssSheet = null;
+      }
+    }
+
+    if (this.cssSheet && /^[a-z0-9_-]+$/i.test(id)) {
+      try {
+        const idx = this.cssSheet.insertRule(
+          `#labels-container .celestial-label[data-body-id="${id}"] {}`,
+          this.cssSheet.cssRules.length
+        );
+        const rule = this.cssSheet.cssRules[idx] as CSSStyleRule | undefined;
+        if (rule?.style) {
+          this.cssRuleStyles.set(id, rule.style);
+          return rule.style;
+        }
+      } catch (_e) {
+        // Fallback la inline style dacă CSSOM nu este disponibil
+      }
+    }
+    return labelEl.style;
   }
 
   private stateFor(id: string): LabelState {
@@ -106,10 +152,12 @@ export class LabelProjector {
         }
       }
 
+      const targetStyle = this.getTargetStyle(body.data.id, labelEl);
+
       if (!visible) {
         if (state.visible) {
           state.visible = false;
-          labelEl.style.display = 'none';
+          targetStyle.display = 'none';
         }
         continue;
       }
@@ -121,10 +169,10 @@ export class LabelProjector {
         state.visible = true;
         state.x = rx;
         state.y = ry;
-        if (labelEl.style.display !== 'block') {
-          labelEl.style.display = 'block';
+        if (targetStyle.display !== 'block') {
+          targetStyle.display = 'block';
         }
-        labelEl.style.transform = `translate3d(${rx.toFixed(1)}px, ${ry.toFixed(1)}px, 0) translate(-50%, -140%)`;
+        targetStyle.transform = `translate3d(${rx.toFixed(1)}px, ${ry.toFixed(1)}px, 0) translate(-50%, -140%)`;
       }
     }
   }

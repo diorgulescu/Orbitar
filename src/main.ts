@@ -21,6 +21,7 @@ import { CosmicScaleNavigator } from './core/CosmicScaleNavigator';
 import { LabelProjector } from './ui/LabelProjector';
 import { ToolbarControls } from './ui/ToolbarControls';
 import { OnboardingTutorial } from './ui/OnboardingTutorial';
+import { getBuiltAppVersion } from './utils/UpdateChecker';
 
 interface OrbitarGlobalDebug {
   sceneManager: SceneManager;
@@ -520,7 +521,7 @@ if ('serviceWorker' in navigator) {
     }
 
     navigator.serviceWorker
-      .register('./sw.js', { updateViaCache: 'none' })
+      .register(`./sw.js?v=${getBuiltAppVersion()}`, { updateViaCache: 'none' })
       .then((reg) => {
         reg.update().catch(() => {});
       })

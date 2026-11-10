@@ -4,6 +4,25 @@ Toate modificările, îmbunătățirile astronomice, adăugirile didactice și r
 
 ---
 
+## [1.2.11] — 2026-11-10
+
+### Randare CSSOM cu Zero Mutații DOM & Protecție față de Extensiile de Browser în Safari
+- **Proiecția etichetelor 2D prin reguli CSSOM dedicate (`src/ui/LabelProjector.ts`)**:
+  - În loc să modifice atributul HTML inline `style="transform: ..."` pe cele ~40 de butoane `.celestial-label` la fiecare cadru (ceea ce genera ~2.400 de evenimente `MutationRecord` de tip `attributes` pe secundă și declanșa re-scanări periodice la 1000ms în extensiile de Safari), `LabelProjector` actualizează acum `display` și `transform` direct în reguli CSSOM (`CSSStyleRule` în `<style id="orbitar-labels-cssom">`), păstrând arborele DOM 100% static în timpul buclei de randare.
+- **Actualizarea textului ceasului și a telemetriei *in-place* fără mutații `childList` (`src/ui/BottomDock.ts`, `src/ui/StudyDrawer.ts`)**:
+  - Actualizarea `#hud-sim-date`, `#hud-target-dist` și a telemetriei `#iss-lat` / `#iss-lon` / `#iss-alt` / `#iss-vel` modifică acum direct `firstChild.nodeValue` pe nodul `Text` existent (în loc să distrugă și să recreeze nodul copil prin `.textContent`), eliminând complet evenimentele `MutationRecord` de tip `childList`.
+- **Înregistrare Service Worker versionată (`src/main.ts`, `public/sw.js`, `scripts/bump-version.mjs`)**:
+  - Înregistrat `./sw.js?v=<version>` în `src/main.ts`, folosit `fetch(req, { cache: 'no-cache' })` pentru fișierele aplicației în `public/sw.js` și inclus `public/sw.js` în lista de fișiere comise automat de `scripts/bump-version.mjs`.
+
+---
+
+## [1.2.10] — 2026-11-07
+
+### Enciclopedia Cosmică Ilustrată (Carte PDF de 176 Pagini & Surse LaTeX sub GNU GPLv3)
+- **Adăugat directorul `carte/` (`orbitar-carte.pdf` + surse complete XeLaTeX)** cu 7 capitole ilustrate, hărți planetare, quiz-uri și glosar astronomic, plus secțiune dedicată de descărcare pe `orbitar.ro` (`landing/index.html`) și în GitHub Releases.
+
+---
+
 ## [1.2.9] — 2026-11-07
 
 ### Optimizare Safari / WebKit (Eliminarea Freeze-ului la 1 Secundă în Browser) & Invalidare Cache Service Worker

@@ -8,4 +8,4 @@
  * astfel încât handler-ul `activate` să șteargă cache-urile vechi și să reîncarce tab-urile deschise.
  */
 // biome-ignore lint/correctness/noUnusedVariables: variabilă globală intenționată, citită de sw.js (importScripts) și de index.html
-var ORBITAR_CACHE_NAME = 'orbitar-pwa-v1.2.10';
+var ORBITAR_CACHE_NAME = 'orbitar-pwa-v1.2.11';

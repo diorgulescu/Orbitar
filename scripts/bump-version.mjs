@@ -174,6 +174,7 @@ function runCli() {
       'src/utils/UpdateChecker.ts',
       'index.html',
       'public/app-version.js',
+      'public/sw.js',
     ];
     execSync(`git add ${trackedFiles.join(' ')}`, { stdio: 'inherit' });
 
