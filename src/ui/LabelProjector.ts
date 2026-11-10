@@ -84,6 +84,14 @@ export class LabelProjector {
         const rule = this.cssSheet.cssRules[idx] as CSSStyleRule | undefined;
         if (rule?.style) {
           this.cssRuleStyles.set(id, rule.style);
+          try {
+            Object.defineProperty(labelEl, 'style', {
+              get: () => rule.style,
+              configurable: true,
+            });
+          } catch (_e) {
+            // Ignorăm dacă proprietatea style nu poate fi redefinită în mediul de test
+          }
           return rule.style;
         }
       } catch (_e) {
