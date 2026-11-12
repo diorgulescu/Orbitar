@@ -1,0 +1,14 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+[package]
+name = "orbitar-core"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+description = "Nucleul nativ Orbitar: catalog astronomic, efemeride kepleriene f64, Floating Origin, texte didactice în limba română și profilul jucătorului."
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+glam.workspace = true

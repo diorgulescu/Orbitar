@@ -6,7 +6,11 @@ dist/
 dist-landing/
 dist-ssr/
 .test-dist/
+target/
 src-tauri/target/
+game/.godot/
+game/assets/textures/
+*.import
 
 # Local env and logs
 *.local

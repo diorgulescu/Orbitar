@@ -1,0 +1,133 @@
+[gd_scene load_steps=14 format=3 uid="uid://orbitar_player_ship"]
+
+[ext_resource type="Script" path="res://scenes/ships/ship_controller.gd" id="1_ship_ctrl"]
+[ext_resource type="Script" path="res://scripts/ship_camera_rig.gd" id="2_cam_rig"]
+[ext_resource type="Script" path="res://scripts/ship_audio_controller.gd" id="3_audio_ctrl"]
+[ext_resource type="PackedScene" uid="uid://orbitar_cockpit_interior" path="res://scenes/ships/cockpit_interior.tscn" id="4_cockpit_interior"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hull"]
+albedo_color = Color(0.88, 0.91, 0.96, 1)
+metallic = 0.45
+roughness = 0.32
+
+[sub_resource type="PrismMesh" id="PrismMesh_hull"]
+material = SubResource("StandardMaterial3D_hull")
+size = Vector3(1.1, 1.8, 0.42)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wing"]
+albedo_color = Color(0.14, 0.58, 0.88, 1)
+metallic = 0.55
+roughness = 0.28
+emission_enabled = true
+emission = Color(0.0, 0.72, 0.95, 1)
+emission_energy_multiplier = 0.35
+
+[sub_resource type="BoxMesh" id="BoxMesh_wings"]
+material = SubResource("StandardMaterial3D_wing")
+size = Vector3(2.4, 0.08, 0.65)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_canopy"]
+transparency = 1
+albedo_color = Color(0.22, 0.85, 1.0, 0.68)
+metallic = 0.8
+roughness = 0.12
+
+[sub_resource type="SphereMesh" id="SphereMesh_canopy"]
+material = SubResource("StandardMaterial3D_canopy")
+radius = 0.26
+height = 0.45
+
+[sub_resource type="SphereMesh" id="SphereMesh_particle"]
+radius = 0.06
+height = 0.12
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_holo_scan"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+cull_mode = 2
+albedo_color = Color(0.0, 0.94, 1.0, 0.45)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_holo_scan"]
+material = SubResource("StandardMaterial3D_holo_scan")
+top_radius = 1.2
+bottom_radius = 0.4
+height = 0.08
+radial_segments = 32
+
+[node name="PlayerShip" type="Node3D"]
+script = ExtResource("1_ship_ctrl")
+
+[node name="ShipVisualPivot" type="Node3D" parent="."]
+
+[node name="HullMesh" type="MeshInstance3D" parent="ShipVisualPivot"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("PrismMesh_hull")
+
+[node name="WingsMesh" type="MeshInstance3D" parent="ShipVisualPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.04, 0.25)
+mesh = SubResource("BoxMesh_wings")
+
+[node name="CanopyMesh" type="MeshInstance3D" parent="ShipVisualPivot"]
+transform = Transform3D(1, 0, 0, 0, 0.8, 0, 0, 0, 1.45, 0, 0.16, -0.18)
+mesh = SubResource("SphereMesh_canopy")
+
+[node name="BoostParticles" type="CPUParticles3D" parent="ShipVisualPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.95)
+emitting = false
+amount = 48
+lifetime = 0.35
+local_coords = true
+mesh = SubResource("SphereMesh_particle")
+direction = Vector3(0, 0, 1)
+spread = 14.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 6.0
+initial_velocity_max = 12.0
+
+[node name="WarpStreaksEffect" type="MultiMeshInstance3D" parent="."]
+visible = false
+
+[node name="HoloScannerWave" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -2.2)
+visible = false
+mesh = SubResource("CylinderMesh_holo_scan")
+
+[node name="ShipCameraRig" type="Node3D" parent="."]
+script = ExtResource("2_cam_rig")
+
+[node name="ChaseCameraPivot" type="Node3D" parent="ShipCameraRig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+
+[node name="ChaseSpringArm3D" type="SpringArm3D" parent="ShipCameraRig/ChaseCameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, 0, 0, 0)
+spring_length = 4.6
+margin = 0.25
+
+[node name="ChaseCamera3D" type="Camera3D" parent="ShipCameraRig/ChaseCameraPivot/ChaseSpringArm3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.6)
+current = true
+fov = 70.0
+near = 0.1
+far = 250000.0
+
+[node name="CockpitHeadPivot" type="Node3D" parent="ShipCameraRig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.24, -0.42)
+
+[node name="CockpitCamera3D" type="Camera3D" parent="ShipCameraRig/CockpitHeadPivot"]
+fov = 70.0
+near = 0.1
+far = 250000.0
+
+[node name="CockpitInterior" parent="ShipCameraRig" instance=ExtResource("4_cockpit_interior")]
+
+[node name="ShipAudioController" type="Node3D" parent="."]
+script = ExtResource("3_audio_ctrl")
+
+[node name="PhotoCameraPivot" type="Node3D" parent="."]
+
+[node name="PhotoCamera3D" type="Camera3D" parent="PhotoCameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5.2)
+fov = 55.0
+near = 0.1
+far = 250000.0

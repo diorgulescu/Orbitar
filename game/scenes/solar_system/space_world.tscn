@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://orbitar_space_world"]
+
+[ext_resource type="Script" path="res://scenes/solar_system/space_world.gd" id="1_space_world"]
+[ext_resource type="PackedScene" uid="uid://orbitar_player_ship" path="res://scenes/ships/player_ship.tscn" id="2_player_ship"]
+[ext_resource type="PackedScene" uid="uid://orbitar_space_hud" path="res://scenes/ui/space_hud.tscn" id="3_space_hud"]
+
+[sub_resource type="Sky" id="Sky_cosmic"]
+
+[sub_resource type="Environment" id="Environment_cosmic"]
+background_mode = 1
+background_color = Color(0.012, 0.018, 0.042, 1)
+sky = SubResource("Sky_cosmic")
+ambient_light_source = 2
+ambient_light_color = Color(0.18, 0.22, 0.34, 1)
+ambient_light_energy = 0.38
+tonemap_mode = 2
+glow_enabled = true
+glow_intensity = 0.65
+glow_bloom = 0.18
+
+[node name="SpaceWorld" type="Node3D"]
+script = ExtResource("1_space_world")
+
+[node name="OrbitarSpaceCore" type="OrbitarSpaceCore" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_cosmic")
+
+[node name="SunDirectionalLight" type="DirectionalLight3D" parent="."]
+light_color = Color(1, 0.96, 0.88, 1)
+light_energy = 2.1
+shadow_enabled = true
+
+[node name="CelestialBodiesRoot" type="Node3D" parent="."]
+
+[node name="PlayerShip" parent="." instance=ExtResource("2_player_ship")]
+
+[node name="SpaceHud" parent="." instance=ExtResource("3_space_hud")]

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://orbitar_test_bridge"]
+
+[ext_resource type="Script" path="res://scenes/test_bridge.gd" id="1_bridge"]
+
+[node name="TestBridge" type="Node3D"]
+script = ExtResource("1_bridge")
+
+[node name="OrbitarSpaceCore" type="OrbitarSpaceCore" parent="."]

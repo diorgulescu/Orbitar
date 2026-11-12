@@ -1,0 +1,16 @@
+[configuration]
+entry_symbol = "gdext_rust_init"
+compatibility_minimum = "4.3"
+reloadable = true
+
+[libraries]
+macos.debug = "res://../target/debug/liborbitar_gdext.dylib"
+macos.release = "res://../target/release/liborbitar_gdext.dylib"
+macos.debug.arm64 = "res://../target/debug/liborbitar_gdext.dylib"
+macos.release.arm64 = "res://../target/release/liborbitar_gdext.dylib"
+macos.debug.x86_64 = "res://../target/debug/liborbitar_gdext.dylib"
+macos.release.x86_64 = "res://../target/release/liborbitar_gdext.dylib"
+linux.debug.x86_64 = "res://../target/debug/liborbitar_gdext.so"
+linux.release.x86_64 = "res://../target/release/liborbitar_gdext.so"
+windows.debug.x86_64 = "res://../target/debug/orbitar_gdext.dll"
+windows.release.x86_64 = "res://../target/debug/orbitar_gdext.dll"

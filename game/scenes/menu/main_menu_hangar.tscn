@@ -1,0 +1,121 @@
+[gd_scene load_steps=11 format=3 uid="uid://orbitar_main_menu_hangar"]
+
+[ext_resource type="Script" path="res://scenes/menu/main_menu_hangar.gd" id="1_main_menu"]
+
+[sub_resource type="Sky" id="Sky_hangar"]
+
+[sub_resource type="Environment" id="Environment_hangar"]
+background_mode = 1
+background_color = Color(0.015, 0.028, 0.062, 1)
+sky = SubResource("Sky_hangar")
+ambient_light_source = 2
+ambient_light_color = Color(0.24, 0.34, 0.52, 1)
+ambient_light_energy = 0.65
+tonemap_mode = 2
+glow_enabled = true
+glow_intensity = 0.65
+glow_bloom = 0.16
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_floor"]
+albedo_color = Color(0.09, 0.13, 0.21, 1)
+metallic = 0.65
+roughness = 0.38
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_floor"]
+material = SubResource("StandardMaterial3D_floor")
+top_radius = 12.0
+bottom_radius = 12.0
+height = 0.3
+radial_segments = 48
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_platform"]
+albedo_color = Color(0.16, 0.24, 0.36, 1)
+metallic = 0.78
+roughness = 0.26
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_platform"]
+material = SubResource("StandardMaterial3D_platform")
+top_radius = 2.6
+bottom_radius = 2.85
+height = 0.24
+radial_segments = 48
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ring"]
+albedo_color = Color(0.0, 0.94, 1.0, 1)
+emission_enabled = true
+emission = Color(0.0, 0.94, 1.0, 1)
+emission_energy_multiplier = 1.9
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ring"]
+material = SubResource("StandardMaterial3D_ring")
+top_radius = 2.68
+bottom_radius = 2.68
+height = 0.06
+radial_segments = 48
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_window_glass"]
+transparency = 1
+albedo_color = Color(0.22, 0.78, 1.0, 0.06)
+metallic = 0.85
+roughness = 0.08
+
+[sub_resource type="BoxMesh" id="BoxMesh_window_glass"]
+material = SubResource("StandardMaterial3D_window_glass")
+size = Vector3(13.2, 7.6, 0.06)
+
+[node name="MainMenuHangar" type="Node3D"]
+script = ExtResource("1_main_menu")
+
+[node name="OrbitarSpaceCore" type="OrbitarSpaceCore" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_hangar")
+
+[node name="HangarEnvironment3D" type="Node3D" parent="."]
+
+[node name="HangarKeyLight" type="DirectionalLight3D" parent="HangarEnvironment3D"]
+transform = Transform3D(0.866025, -0.353553, 0.353553, 0, 0.707107, 0.707107, -0.5, -0.612372, 0.612372, 4, 6, 4)
+light_color = Color(0.95, 0.98, 1, 1)
+light_energy = 1.85
+shadow_enabled = true
+
+[node name="HangarRimSpotLight" type="SpotLight3D" parent="HangarEnvironment3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 5.2, 0)
+light_color = Color(0.28, 0.86, 1, 1)
+light_energy = 3.2
+spot_range = 10.0
+spot_angle = 44.0
+
+[node name="FloorMesh" type="MeshInstance3D" parent="HangarEnvironment3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+mesh = SubResource("CylinderMesh_floor")
+
+[node name="TurntablePlatform" type="Node3D" parent="HangarEnvironment3D"]
+
+[node name="PlatformDisc" type="MeshInstance3D" parent="HangarEnvironment3D/TurntablePlatform"]
+mesh = SubResource("CylinderMesh_platform")
+
+[node name="PlatformGlowRing" type="MeshInstance3D" parent="HangarEnvironment3D/TurntablePlatform"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+mesh = SubResource("CylinderMesh_ring")
+
+[node name="ShipPreviewPivot" type="Node3D" parent="HangarEnvironment3D/TurntablePlatform"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.92, 0)
+
+[node name="PanoramicWindowVista" type="Node3D" parent="HangarEnvironment3D"]
+
+[node name="PanoramicWindowGlass" type="MeshInstance3D" parent="HangarEnvironment3D/PanoramicWindowVista"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.6, -5.8)
+mesh = SubResource("BoxMesh_window_glass")
+
+[node name="EarthVistaPivot" type="Node3D" parent="HangarEnvironment3D/PanoramicWindowVista"]
+transform = Transform3D(1, 0, 0, 0, 0.920505, -0.390731, 0, 0.390731, 0.920505, 0, 2.2, -16.5)
+
+[node name="MenuCameraRig" type="Node3D" parent="HangarEnvironment3D"]
+
+[node name="MenuCamera" type="Camera3D" parent="HangarEnvironment3D/MenuCameraRig"]
+transform = Transform3D(1, 0, 0, 0, 0.970296, 0.241922, 0, -0.241922, 0.970296, 0, 2.25, 5.6)
+current = true
+fov = 55.0
+
+[node name="MenuUI" type="CanvasLayer" parent="."]

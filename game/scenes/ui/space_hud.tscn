@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://orbitar_space_hud"]
+
+[ext_resource type="Script" path="res://scenes/ui/space_hud.gd" id="1_space_hud"]
+
+[node name="SpaceHud" type="CanvasLayer"]
+script = ExtResource("1_space_hud")
